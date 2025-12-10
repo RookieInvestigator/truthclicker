@@ -88,6 +88,20 @@ export const TIER_1_TECHS: Tech[] = [
     preRequisiteTech: 'digital_literacy',
   },
   {
+    id: 'railfan_logistics',
+    name: '铁道迷 (Railfan)',
+    description: '痴迷于时刻表和路网图。你比城市规划局更了解这座城市的血管。',
+    tier: 1,
+    category: BuildingCategory.SURVIVAL,
+    costs: { [ResourceType.INFO]: 1000, [ResourceType.CARDBOARD]: 50 },
+    effects: {
+        globalCostReduction: 0.03,
+        unlockMessage: '物流效率优化'
+    },
+    icon: 'Map',
+    preRequisiteTech: 'cardboard_architecture'
+  },
+  {
     id: 'wire_splicing',
     name: '电线接驳技术',
     description: '如何安全地（相对而言）从电网偷电。',

@@ -31,6 +31,20 @@ export const TIER_4_TECHS: Tech[] = [
     preRequisiteTech: 'generative_adversarial_networks'
   },
   {
+    id: 'googology',
+    name: '大数 (Googology)',
+    description: '葛立恒数、TREE(3)、Rayo数。当数字大到宇宙无法容纳时，它们就变成了神学。',
+    tier: 4,
+    category: BuildingCategory.TECHNOCRACY,
+    costs: { [ResourceType.CODE]: 60000, [ResourceType.KNOWLEDGE]: 2000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.OPS]: 0.3, [ResourceType.TECH_CAPITAL]: 0.1 },
+        unlockMessage: '计算边界扩展'
+    },
+    icon: 'Hash',
+    preRequisiteTech: 'algorithmic_trading_bot'
+  },
+  {
     id: 'nanotechnology',
     name: '纳米技术',
     description: '分子尺度的机械。一旦失控，整个世界都会变成灰色的粘稠物。',

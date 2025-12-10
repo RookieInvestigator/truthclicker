@@ -228,6 +228,10 @@ export const TECH_LORE_INJECTIONS: Record<string, {
         topics: ['伟哥广告', '尼日利亚王子', '彩票中奖', '热辣单身主妇'],
         templates: ["这封邮件试图用糟糕的语法骗取你的信用卡号。", "标题是：‘RE: 你的 {topic} 到了’。"]
     },
+    'railfan_logistics': {
+        topics: ['废弃车站', '列车时刻表', '地铁隧道图', '机车引擎参数'],
+        templates: ["一张标注了所有监控盲区的地铁线路图。", "记录了 {year} 年所有货运列车的延误时间。"]
+    },
 
     // --- TIER 2 ---
     'magnet_fishing': {
@@ -242,6 +246,14 @@ export const TECH_LORE_INJECTIONS: Record<string, {
         topics: ['隐藏的Zip文件', 'LSB隐写', '频谱图中的人脸', '不可见水印'],
         prefixes: ['hidden_', 'steg_', 'carrier_'],
         templates: ["这张 {topic} 图片的文件尾部附加了一串乱码。", "如果你调整对比度，能在阴影里看到字。"]
+    },
+    'vs_debating': {
+        topics: ['孙悟空 vs 超人', '一拳超人', '克苏鲁战力', '多元宇宙级'],
+        templates: ["一份长达 50 页的文档，论证 {topic} 的拳头能摧毁几个星系。", "充满了复杂的数学公式，只为了证明这个角色比光速快。"]
+    },
+    'nutrient_paste': {
+        topics: ['藻类培养', '维生素粉末', '氨基酸配比', '生存口粮'],
+        templates: ["一份 {topic} 的配方，备注写着‘味道像土，但能活命’。", "记录了 {user} 连续 30 天只吃流食的身体数据。"]
     },
 
     // --- TIER 3 ---
@@ -271,6 +283,10 @@ export const TECH_LORE_INJECTIONS: Record<string, {
     'deep_state_mapping': {
         topics: ['彼尔德伯格会议', '波希米亚树林', '黑色预算', '旋转门'],
         templates: ["一张连接了所有大公司董事会的复杂图表。", "这份名单上的人控制了全球 80% 的 {topic}。"]
+    },
+    'googology': {
+        topics: ['葛立恒数', 'TREE(3)', 'Rayo数', '阿列夫零'],
+        templates: ["这个数字大到无法在宇宙中写下，否则会坍缩成黑洞。", "关于 {topic} 的数学证明，大部分人看一眼就会发疯。"]
     },
 
     // --- TIER 5 & 6 ---

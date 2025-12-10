@@ -114,6 +114,20 @@ export const TIER_2_TECHS: Tech[] = [
     icon: 'EyeOff',
     preRequisiteTech: 'clickbait_tactics'
   },
+  {
+    id: 'vs_debating',
+    name: '战力党 (VS Debating)',
+    description: '不知疲倦地计算虚构角色的拳头能释放多少吨TNT当量。',
+    tier: 2,
+    category: BuildingCategory.INTERNET_CULTURE,
+    costs: { [ResourceType.INFO]: 5000, [ResourceType.CULTURE]: 200 },
+    effects: {
+        resourceMultipliers: { [ResourceType.OPS]: 0.1, [ResourceType.SPAM]: 0.2 },
+        unlockMessage: '次元层级理论'
+    },
+    icon: 'Swords',
+    preRequisiteTech: 'forum_culture'
+  },
 
   // --- HISTORY & ARCHAEOLOGY ---
   {
@@ -176,6 +190,21 @@ export const TIER_2_TECHS: Tech[] = [
   },
 
   // --- SURVIVAL / TECH ---
+  {
+    id: 'nutrient_paste',
+    name: '高效营养剂 (Soylent)',
+    description: '不管它是用什么做的，它能让你在不离开椅子的情况下活下去。',
+    tier: 2,
+    category: BuildingCategory.SURVIVAL,
+    costs: { [ResourceType.FUNDS]: 2000, [ResourceType.BIOMASS]: 50 },
+    effects: {
+        clickPowerMult: 0.3,
+        resourceMultipliers: { [ResourceType.BIOMASS]: 0.15 },
+        unlockMessage: '进食不再是享受，而是任务'
+    },
+    icon: 'Utensils',
+    preRequisiteTech: 'cardboard_architecture'
+  },
   {
     id: 'chlorella_cultivation',
     name: '小球藻培养槽',

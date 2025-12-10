@@ -135,6 +135,34 @@ export const TIER_2_TECHS: Tech[] = [
     preRequisiteTech: 'forum_culture'
   },
   {
+    id: 'spectral_photography',
+    name: '灵异摄影',
+    description: '为什么鬼魂总是模糊的？也许是它们存在的频率不同。',
+    tier: 2,
+    category: BuildingCategory.FOLKLORE,
+    costs: { [ResourceType.INFO]: 3000, [ResourceType.CARDBOARD]: 50 },
+    effects: {
+        resourceMultipliers: { [ResourceType.LORE]: 0.15 },
+        unlockMessage: '解锁: 皮行者牧场监控'
+    },
+    icon: 'Camera',
+    preRequisiteTech: 'ocr_basics'
+  },
+  {
+    id: 'pareidolia_filter',
+    name: '空想性错视滤镜',
+    description: '从随机的噪点中识别人脸。你看见的到底是大脑的修饰，还是真实的...？',
+    tier: 2,
+    category: BuildingCategory.FOLKLORE,
+    costs: { [ResourceType.CODE]: 1500, [ResourceType.LORE]: 20 },
+    effects: {
+        resourceMultipliers: { [ResourceType.CLUE]: 0.1 },
+        artifactChanceMult: 0.1
+    },
+    icon: 'Eye',
+    preRequisiteTech: 'ocr_basics'
+  },
+  {
     id: 'steganography', 
     name: '隐写术 (Steganography)',
     description: '将秘密信息隐藏在图片的像素噪点中。',
@@ -191,6 +219,36 @@ export const TIER_2_TECHS: Tech[] = [
     },
     icon: 'Film',
     preRequisiteTech: 'carbon_dating'
+  },
+
+  // --- VERIFICATION EXPANSION ---
+  {
+    id: 'deduplication',
+    name: '数据去重',
+    description: '从海量垃圾中提取唯一有效的信息。存储效率至关重要。',
+    tier: 2,
+    category: BuildingCategory.ARCHIVE,
+    costs: { [ResourceType.INFO]: 4000, [ResourceType.CODE]: 500 },
+    effects: {
+        recycleEfficiency: 0.15,
+        unlockMessage: '解锁: 磁带筒仓'
+    },
+    icon: 'Files',
+    preRequisiteTech: 'data_hoarding_basics'
+  },
+  {
+    id: 'linguistic_fingerprinting',
+    name: '语言指纹',
+    description: '每个人使用标点符号的习惯都是独一无二的。哪怕是匿名发帖。',
+    tier: 2,
+    category: BuildingCategory.VERIFICATION,
+    costs: { [ResourceType.INFO]: 5000, [ResourceType.CLUE]: 50 },
+    effects: {
+        resourceMultipliers: { [ResourceType.CLUE]: 0.2 },
+        unlockMessage: '解锁: 语言指纹分析器'
+    },
+    icon: 'Fingerprint',
+    preRequisiteTech: 'search_operators'
   },
 
   // --- KNOWLEDGE / ESOTERIC EXPANSION ---

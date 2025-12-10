@@ -135,6 +135,94 @@ export const TIER_3_TECHS: Tech[] = [
     preRequisiteTech: 'carbon_dating'
   },
 
+  // --- FOLKLORE EXPANSION ---
+  {
+    id: 'liminal_space_theory',
+    name: '阈限空间 (Liminal Space)',
+    description: 'Kenopsia：那种通常熙熙攘攘但现在空无一人的场所所带来的诡异氛围。',
+    tier: 3,
+    category: BuildingCategory.FOLKLORE,
+    costs: { [ResourceType.LORE]: 300, [ResourceType.INFO]: 8000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.LORE]: 0.2, [ResourceType.PANIC]: 0.1 },
+        unlockMessage: '解锁: 阈限空间测量员'
+    },
+    icon: 'Maximize',
+    preRequisiteTech: 'creepypasta_analysis'
+  },
+  {
+    id: 'quantum_randonauting',
+    name: '量子随机漫步',
+    description: '利用量子随机数生成器打破决定论的泡沫。意念引导现实。',
+    tier: 3,
+    category: BuildingCategory.FOLKLORE,
+    costs: { [ResourceType.CODE]: 4000, [ResourceType.LORE]: 200 },
+    effects: {
+        resourceMultipliers: { [ResourceType.CLUE]: 0.2, [ResourceType.LORE]: 0.1 },
+        unlockMessage: '解锁: Randonauting 服务器'
+    },
+    icon: 'MapPin',
+    preRequisiteTech: 'search_operators'
+  },
+  {
+    id: 'ritual_protocols',
+    name: '网络仪式协议',
+    description: '电梯游戏、一个人的捉迷藏。这些不仅仅是游戏，是API调用。',
+    tier: 3,
+    category: BuildingCategory.FOLKLORE,
+    costs: { [ResourceType.LORE]: 500, [ResourceType.INFO]: 10000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.LORE]: 0.25 },
+        unlockMessage: '解锁: 电梯游戏站点'
+    },
+    icon: 'Book',
+    preRequisiteTech: 'creepypasta_analysis'
+  },
+
+  // --- ARCHIVE & VERIFICATION EXPANSION ---
+  {
+    id: 'underwater_cooling',
+    name: '水下散热工程',
+    description: '海水是免费的冷却剂。如果能解决防水问题，就能拥有无限算力。',
+    tier: 3,
+    category: BuildingCategory.ARCHIVE,
+    costs: { [ResourceType.OPS]: 5000, [ResourceType.FUNDS]: 10000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.OPS]: 0.1 },
+        unlockMessage: '解锁: 海底数据礁'
+    },
+    icon: 'Waves',
+    preRequisiteTech: 'deduplication'
+  },
+  {
+    id: 'graph_theory_analysis',
+    name: '图论分析',
+    description: '连接点与点。信息不再是孤岛，而是巨大的网络结构。',
+    tier: 3,
+    category: BuildingCategory.VERIFICATION,
+    costs: { [ResourceType.CODE]: 5000, [ResourceType.INFO]: 10000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.CLUE]: 0.25 },
+        unlockMessage: '解锁: 引用关系绘图仪'
+    },
+    icon: 'Network',
+    preRequisiteTech: 'search_operators'
+  },
+  {
+    id: 'cold_storage_protocols',
+    name: '冷存储协议',
+    description: '将不再需要的数据冻结起来。',
+    tier: 3,
+    category: BuildingCategory.ARCHIVE,
+    costs: { [ResourceType.INFO]: 8000, [ResourceType.CODE]: 1000 },
+    effects: {
+        recycleEfficiency: 0.1,
+        unlockMessage: '解锁: 北极代码库'
+    },
+    icon: 'Snowflake',
+    preRequisiteTech: 'data_hoarding_basics'
+  },
+
   // --- HISTORY ---
   {
     id: 'oopart_studies', 

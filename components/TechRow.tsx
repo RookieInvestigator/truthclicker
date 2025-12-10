@@ -21,10 +21,12 @@ const TechCard: React.FC<TechCardProps> = ({ tech, isResearched, canAfford, isLo
   // --- LOCKED STATE ---
   if (isLockedByExclusion) {
       return (
-        <div className={`relative flex flex-col border border-dashed border-red-900/30 bg-black/40 rounded-sm opacity-50 select-none grayscale cursor-not-allowed ${isCompact ? 'p-2' : 'p-3'}`}>
+        <div className={`relative flex flex-col border border-dashed border-red-900/30 bg-black/40 rounded-sm opacity-50 select-none grayscale cursor-not-allowed ${isCompact ? 'p-1.5' : 'p-3'}`}>
              <div className="flex items-center gap-2">
-                <Lock size={14} className="text-red-900" />
-                <h3 className="font-bold font-mono text-xs text-gray-700 line-through truncate">{tech.name}</h3>
+                <Lock size={isCompact ? 12 : 14} className="text-red-900" />
+                <h3 className={`font-bold font-mono text-gray-700 line-through ${isCompact ? 'text-[10px] whitespace-normal leading-3' : 'text-xs truncate'}`}>
+                    {tech.name}
+                </h3>
              </div>
         </div>
       );
@@ -53,12 +55,13 @@ const TechCard: React.FC<TechCardProps> = ({ tech, isResearched, canAfford, isLo
             relative group flex flex-col border rounded-sm transition-all duration-200 select-none overflow-hidden
             ${isResearched ? 'cursor-default' : canAfford ? 'cursor-pointer active:scale-[0.98]' : 'cursor-not-allowed'}
             ${borderColor}
-            ${isCompact ? 'p-2 min-h-[60px]' : 'p-3 min-h-[140px]'}
+            ${isCompact ? 'p-1.5' : 'p-3 min-h-[140px]'}
         `}
     >
         {/* TIER BADGE (Corner Mark) */}
         <div className={`
-            absolute top-0 right-0 px-1.5 py-0.5 text-[9px] font-bold font-mono border-b border-l rounded-bl-md z-10
+            absolute top-0 right-0 font-bold font-mono border-b border-l rounded-bl-md z-10
+            ${isCompact ? 'text-[8px] px-1 py-0' : 'text-[9px] px-1.5 py-0.5'}
             ${isResearched 
                 ? 'bg-term-green text-black border-term-green' 
                 : 'bg-gray-900 text-gray-500 border-gray-800 group-hover:text-gray-300'}
@@ -67,17 +70,17 @@ const TechCard: React.FC<TechCardProps> = ({ tech, isResearched, canAfford, isLo
         </div>
 
         {/* Header Section */}
-        <div className="flex items-center gap-3 mb-2">
+        <div className={`flex items-center ${isCompact ? 'gap-2' : 'gap-3 mb-2'}`}>
             <div className={`
                 flex items-center justify-center rounded border border-white/5 bg-black/50 shrink-0
-                ${isCompact ? 'w-8 h-8' : 'w-10 h-10'}
+                ${isCompact ? 'w-7 h-7' : 'w-10 h-10'}
                 ${iconColor}
             `}>
-                {isResearched ? <Check size={isCompact ? 14 : 18} /> : <IconComponent size={isCompact ? 14 : 18} />}
+                {isResearched ? <Check size={isCompact ? 12 : 18} /> : <IconComponent size={isCompact ? 12 : 18} />}
             </div>
             
-            <div className="flex-1 min-w-0 pr-6">
-                <h3 className={`font-bold font-mono leading-tight truncate ${isCompact ? 'text-[11px]' : 'text-xs'} ${isResearched ? 'text-term-green' : 'text-gray-200'}`}>
+            <div className={`flex-1 min-w-0 ${isCompact ? 'pr-4' : 'pr-6'}`}>
+                <h3 className={`font-bold font-mono ${isCompact ? 'text-[10px] leading-3 whitespace-normal break-words' : 'text-xs leading-tight truncate'} ${isResearched ? 'text-term-green' : 'text-gray-200'}`}>
                     {tech.name}
                 </h3>
                 {isResearched && !isCompact && <span className="text-[10px] text-term-green/70 uppercase">已掌握</span>}
@@ -156,11 +159,11 @@ const TechCard: React.FC<TechCardProps> = ({ tech, isResearched, canAfford, isLo
 
         {/* Compact View Costs (Only if not researched) */}
         {isCompact && !isResearched && (
-             <div className="mt-auto pt-1 border-t border-dashed border-gray-800/50 flex flex-wrap justify-end gap-x-2">
-                {(Object.entries(tech.costs) as [ResourceType, number][]).slice(0, 2).map(([res, cost]) => {
+             <div className="mt-1 pt-1 border-t border-dashed border-gray-800/50 flex flex-wrap justify-end gap-x-1.5 gap-y-0.5">
+                {(Object.entries(tech.costs) as [ResourceType, number][]).slice(0, 3).map(([res, cost]) => {
                     const hasEnough = (resourceState[res] || 0) >= cost;
                     return (
-                        <div key={res} className={`text-[9px] font-mono ${hasEnough ? 'text-gray-500' : 'text-red-500'}`}>
+                        <div key={res} className={`text-[8px] font-mono ${hasEnough ? 'text-gray-500' : 'text-red-500'}`}>
                             {cost >= 1000 ? (cost/1000).toFixed(0) + 'k' : cost} {RESOURCE_INFO[res].name.substr(0,1)}
                         </div>
                     );

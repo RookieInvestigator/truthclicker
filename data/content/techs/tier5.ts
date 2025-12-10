@@ -123,6 +123,52 @@ export const TIER_5_TECHS: Tech[] = [
     icon: 'Projector',
     preRequisiteTech: 'atmospheric_geoengineering'
   },
+  
+  // --- ARCHIVE EXPANSION ---
+  {
+    id: 'mycelial_network_theory',
+    name: '菌丝网络理论',
+    description: '森林下的互联网。真菌网络传递信息的效率远超光纤。',
+    tier: 5,
+    category: BuildingCategory.ARCHIVE,
+    costs: { [ResourceType.BIOMASS]: 10000, [ResourceType.KNOWLEDGE]: 5000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.INFO]: 0.25 },
+        unlockMessage: '解锁: 菌丝数据节点'
+    },
+    icon: 'Sprout',
+    preRequisiteTech: 'biohacking_basics'
+  },
+
+  // --- FOLKLORE EXPANSION ---
+  {
+    id: 'noclipping_physics',
+    name: '穿模物理学 (Noclipping)',
+    description: '如果在特定的角度撞击现实的墙壁，你会掉出边界。',
+    tier: 5,
+    category: BuildingCategory.FOLKLORE,
+    costs: { [ResourceType.LORE]: 5000, [ResourceType.TECH_CAPITAL]: 1000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.LORE]: 0.3, [ResourceType.TRUTH]: 0.1 },
+        unlockMessage: '解锁: 现实故障探测器'
+    },
+    icon: 'Minimize2',
+    preRequisiteTech: 'liminal_space_theory'
+  },
+  {
+    id: 'cognitohazard_design',
+    name: '认知危害设计',
+    description: '设计出大脑无法处理的图像。看一眼就会导致系统崩溃。',
+    tier: 5,
+    category: BuildingCategory.FOLKLORE,
+    costs: { [ResourceType.LORE]: 8000, [ResourceType.MIND_CONTROL]: 2000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.PANIC]: 0.3 },
+        unlockMessage: '解锁: 认知危害收容单元'
+    },
+    icon: 'EyeOff',
+    preRequisiteTech: 'infohazard_containment'
+  },
 
   // --- NEW FLAVOR TECHS (Tier 5) ---
   {

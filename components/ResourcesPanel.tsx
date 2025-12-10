@@ -39,8 +39,9 @@ const ResourcesPanel: React.FC<ResourcesPanelProps> = ({ resources, productionRa
         <div className="flex-1 overflow-y-auto p-4 space-y-2">
             <div className="bg-term-gray/20 p-3 rounded border border-term-gray/50 mb-4 shadow-[0_0_10px_rgba(34,197,94,0.05)]">
                 <div className="flex items-center gap-2 mb-1">
-                    <FileText size={14} className="text-gray-400"/>
-                    <span className="text-xs uppercase text-gray-400">信息流</span>
+                    <FileText size={16} className="text-gray-400"/>
+                    {/* Increased size for main resource label */}
+                    <span className="text-sm font-bold uppercase text-gray-300 tracking-wider">信息流</span>
                 </div>
                 <div className="text-2xl font-bold text-white">
                     {Math.floor(resources[ResourceType.INFO]).toLocaleString()}
@@ -53,7 +54,7 @@ const ResourcesPanel: React.FC<ResourcesPanelProps> = ({ resources, productionRa
             {/* Other Resources */}
             {[
                 ResourceType.FUNDS, 
-                ResourceType.POWER, // Power priority
+                ResourceType.POWER, 
                 ResourceType.FOLLOWERS, 
                 ResourceType.CRED, 
                 ResourceType.CULTURE,
@@ -64,15 +65,15 @@ const ResourcesPanel: React.FC<ResourcesPanelProps> = ({ resources, productionRa
                 ResourceType.BIOMASS, 
                 
                 ResourceType.CARDBOARD,    
-                ResourceType.SPAM,  // Spam
+                ResourceType.SPAM,  
 
-                ResourceType.LORE, // Lore
-                ResourceType.ANCIENT_WISDOM, // Ancient Wisdom
+                ResourceType.LORE, 
+                ResourceType.ANCIENT_WISDOM, 
 
                 ResourceType.STORY, 
-                ResourceType.RUMORS, // Rumors
+                ResourceType.RUMORS, 
                 ResourceType.PANIC, 
-                ResourceType.MIND_CONTROL, // Mind Control
+                ResourceType.MIND_CONTROL, 
 
                 ResourceType.CLUE, 
                 ResourceType.KNOWLEDGE, 
@@ -87,14 +88,15 @@ const ResourcesPanel: React.FC<ResourcesPanelProps> = ({ resources, productionRa
                 const Icon = (Icons as any)[info.icon] || Box;
 
                 return (
-                    <div key={res} className="bg-term-gray/10 p-2 rounded border border-term-gray/30 flex justify-between items-center hover:bg-term-gray/20 transition-colors">
-                        <div className="flex items-center gap-2">
-                            <div className={`p-1 rounded bg-black/50 border border-white/5 ${info.color}`}>
-                                <Icon size={14} />
+                    <div key={res} className="bg-term-gray/10 p-2.5 rounded border border-term-gray/30 flex justify-between items-center hover:bg-term-gray/20 transition-colors">
+                        <div className="flex items-center gap-3">
+                            <div className={`p-1.5 rounded bg-black/50 border border-white/5 ${info.color}`}>
+                                <Icon size={16} />
                             </div>
                             <div className="flex flex-col">
-                                <span className={`text-sm font-bold ${info.color}`}>{Math.floor(amount).toLocaleString()}</span>
-                                <span className="text-xs uppercase text-gray-500 transform scale-75 origin-top-left">{info.name}</span>
+                                <span className={`text-sm font-bold font-mono ${info.color}`}>{Math.floor(amount).toLocaleString()}</span>
+                                {/* Removed transform/scale, increased to plain text-xs with bold/tracking for better visibility */}
+                                <span className="text-xs font-bold uppercase text-gray-400 tracking-wider">{info.name}</span>
                             </div>
                         </div>
                         <div className={`text-[10px] ${rate > 0 ? 'text-gray-400' : rate < 0 ? 'text-red-400' : 'text-gray-600'}`}>

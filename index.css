@@ -3,9 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-  font-size: 115%; /* Increased from 105% to 115% */
-}
+/* html font-size removed to revert to default */
 
 body {
   background-color: #050505;

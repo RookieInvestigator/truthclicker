@@ -107,6 +107,34 @@ export const TIER_4_TECHS: Tech[] = [
     preRequisiteTech: 'creepypasta_analysis'
   },
   {
+    id: 'infohazard_containment',
+    name: '信息危害 (Infohazard) 协议',
+    description: '有些知识仅仅是知道就会造成伤害。Roko\'s Basilisk 是最简单的例子。',
+    tier: 4,
+    category: BuildingCategory.FOLKLORE,
+    costs: { [ResourceType.LORE]: 2000, [ResourceType.CODE]: 30000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.LORE]: 0.3, [ResourceType.PANIC]: 0.1 },
+        unlockMessage: '解锁: 诅咒录像带复制机'
+    },
+    icon: 'AlertTriangle',
+    preRequisiteTech: 'memetics'
+  },
+  {
+    id: 'dream_cartography',
+    name: '梦境制图',
+    description: '绘制集体无意识的地理图。为什么所有人都梦见过那个男人？',
+    tier: 4,
+    category: BuildingCategory.FOLKLORE,
+    costs: { [ResourceType.LORE]: 3000, [ResourceType.OPS]: 20000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.LORE]: 0.25 },
+        unlockMessage: '解锁: 梦核录制仪'
+    },
+    icon: 'Map',
+    preRequisiteTech: 'lucid_dream_mask'
+  },
+  {
     id: 'infinite_scroll_trap', 
     name: '无限滚动陷阱',
     description: '利用多巴胺回路将用户永久锁定在屏幕前。',
@@ -171,7 +199,7 @@ export const TIER_4_TECHS: Tech[] = [
         unlockMessage: '解锁: 遥视水箱'
     },
     icon: 'Eye',
-    preRequisiteTech: 'audio_engineering' // Assume exists or fix chain. Use 'steganography' maybe?
+    preRequisiteTech: 'steganography' 
   },
   {
     id: 'bicameralism', 
@@ -200,6 +228,36 @@ export const TIER_4_TECHS: Tech[] = [
     },
     icon: 'Shovel',
     preRequisiteTech: 'abandonware_archeology'
+  },
+
+  // --- ARCHIVE & VERIFICATION EXPANSION ---
+  {
+    id: 'zero_knowledge_proofs',
+    name: '零知识证明 (ZKP)',
+    description: '我能证明我知道密码，而不需要告诉你密码是什么。数学是终极的信任。',
+    tier: 4,
+    category: BuildingCategory.VERIFICATION,
+    costs: { [ResourceType.CODE]: 25000, [ResourceType.OPS]: 10000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.TRUTH]: 0.15, [ResourceType.CRED]: 0.2 },
+        unlockMessage: '解锁: 零知识验证器'
+    },
+    icon: 'Key',
+    preRequisiteTech: 'blockchain_basics'
+  },
+  {
+    id: '5d_optical_storage',
+    name: '5D 光存储技术',
+    description: '利用熔融石英的纳米光栅结构。数据可以保存 138 亿年。',
+    tier: 4,
+    category: BuildingCategory.ARCHIVE,
+    costs: { [ResourceType.OPS]: 30000, [ResourceType.TECH_CAPITAL]: 500 },
+    effects: {
+        resourceMultipliers: { [ResourceType.KNOWLEDGE]: 0.2 },
+        unlockMessage: '解锁: 5D 水晶刻蚀机'
+    },
+    icon: 'Gem',
+    preRequisiteTech: 'cold_storage_protocols'
   },
 
   // --- NEW FLAVOR TECHS (Tier 4) ---

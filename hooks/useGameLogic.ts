@@ -18,11 +18,21 @@ export const useGameLogic = () => {
       [ResourceType.CULTURE]: 0,
       
       [ResourceType.CODE]: 0,
-      [ResourceType.TECH_CAPITAL]: 0, // New
+      [ResourceType.TECH_CAPITAL]: 0,
       [ResourceType.OPS]: 0,
       [ResourceType.BIOMASS]: 0,
+      [ResourceType.POWER]: 0,    // NEW
       
-      [ResourceType.CARDBOARD]: 0,    // New
+      [ResourceType.CARDBOARD]: 0,
+      [ResourceType.SPAM]: 0,     // NEW
+      
+      [ResourceType.LORE]: 0,           // NEW
+      [ResourceType.ANCIENT_WISDOM]: 0, // NEW
+
+      [ResourceType.STORY]: 0,
+      [ResourceType.RUMORS]: 0,       // NEW
+      [ResourceType.PANIC]: 0,
+      [ResourceType.MIND_CONTROL]: 0, // NEW
       
       [ResourceType.CLUE]: 0,
       [ResourceType.KNOWLEDGE]: 0,
@@ -54,18 +64,17 @@ export const useGameLogic = () => {
   }, []);
 
   const calculateTotalProduction = useCallback((state: GameState) => {
-    const netProduction: Record<ResourceType, number> = {
-        [ResourceType.INFO]: 0, [ResourceType.FUNDS]: 0, [ResourceType.FOLLOWERS]: 0, [ResourceType.CRED]: 0, [ResourceType.CULTURE]: 0,
-        [ResourceType.CODE]: 0, [ResourceType.TECH_CAPITAL]: 0, [ResourceType.OPS]: 0, [ResourceType.BIOMASS]: 0,
-        [ResourceType.CARDBOARD]: 0,
-        [ResourceType.CLUE]: 0, [ResourceType.KNOWLEDGE]: 0, [ResourceType.TRUTH]: 0,
-    };
-    const multipliers: Record<ResourceType, number> = {
-        [ResourceType.INFO]: 1, [ResourceType.FUNDS]: 1, [ResourceType.FOLLOWERS]: 1, [ResourceType.CRED]: 1, [ResourceType.CULTURE]: 1,
-        [ResourceType.CODE]: 1, [ResourceType.TECH_CAPITAL]: 1, [ResourceType.OPS]: 1, [ResourceType.BIOMASS]: 1,
-        [ResourceType.CARDBOARD]: 1,
-        [ResourceType.CLUE]: 1, [ResourceType.KNOWLEDGE]: 1, [ResourceType.TRUTH]: 1,
-    };
+    // Initialize all to 0
+    const netProduction: Record<ResourceType, number> = Object.values(ResourceType).reduce((acc, res) => {
+        acc[res] = 0;
+        return acc;
+    }, {} as Record<ResourceType, number>);
+
+    // Initialize multipliers to 1
+    const multipliers: Record<ResourceType, number> = Object.values(ResourceType).reduce((acc, res) => {
+        acc[res] = 1;
+        return acc;
+    }, {} as Record<ResourceType, number>);
 
     // Tech Multipliers
     state.researchedTechs.forEach(techId => {
@@ -104,6 +113,7 @@ export const useGameLogic = () => {
 
     const finalRates: Record<ResourceType, number> = { ...netProduction };
     (Object.keys(finalRates) as ResourceType[]).forEach(key => {
+        // Apply multipliers to positive production only
         if (finalRates[key] > 0) finalRates[key] *= multipliers[key];
     });
 
@@ -263,9 +273,9 @@ export const useGameLogic = () => {
          if (target.rarity === 'mythic') rewardAmount = 5000;
      } else {
           if (target.rarity === 'rare') { rewardAmount = 100; rewardType = ResourceType.FUNDS; }
-          if (target.rarity === 'legendary') { rewardAmount = 50; rewardType = ResourceType.CULTURE; } // Legendary procedural gives Culture
+          if (target.rarity === 'legendary') { rewardAmount = 50; rewardType = ResourceType.CULTURE; }
           if (target.rarity === 'mythic') { rewardAmount = 5; rewardType = ResourceType.KNOWLEDGE; }
-          if (target.rarity === 'anomaly') { rewardAmount = 1; rewardType = ResourceType.TECH_CAPITAL; } // Anomaly gives Tech Capital now
+          if (target.rarity === 'anomaly') { rewardAmount = 1; rewardType = ResourceType.TECH_CAPITAL; }
      }
 
      // Apply Tech Efficiency Multiplier
@@ -276,7 +286,6 @@ export const useGameLogic = () => {
         const remaining = prev.artifacts.filter(a => a.id !== target.id);
         const res = { ...prev.resources };
         res[rewardType] += rewardAmount;
-        // Recycling also yields cardboard
         res[ResourceType.CARDBOARD] += 1;
         
         return { ...prev, artifacts: remaining, resources: res };
@@ -296,7 +305,7 @@ export const useGameLogic = () => {
 
          const res = { ...prev.resources };
          res[ResourceType.INFO] += finalReward;
-         res[ResourceType.CARDBOARD] += removedCount; // Bonus cardboard for recycling
+         res[ResourceType.CARDBOARD] += removedCount; 
          
          return { ...prev, artifacts: toKeep, resources: res };
      });
@@ -305,26 +314,26 @@ export const useGameLogic = () => {
 
   // --- Save/Load ---
   const saveGame = useCallback(() => {
-    localStorage.setItem('deepWebDiggerSave_v23', JSON.stringify(stateRef.current));
+    localStorage.setItem('deepWebDiggerSave_v24', JSON.stringify(stateRef.current));
     addLog('进度已保存', 'info');
   }, [addLog]);
 
   const resetGame = useCallback(() => {
     if(confirm("重置所有进度？(Hard Reset?)")) {
-      localStorage.removeItem('deepWebDiggerSave_v23');
+      localStorage.removeItem('deepWebDiggerSave_v24');
       window.location.reload();
     }
   }, []);
 
   useEffect(() => {
-    const saved = localStorage.getItem('deepWebDiggerSave_v23');
+    const saved = localStorage.getItem('deepWebDiggerSave_v24');
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
         // Merge with default state to ensure new resources exist
         setGameState(prev => ({ 
             ...prev, ...parsed,
-            resources: { ...prev.resources, ...parsed.resources }, // Merge resources to keep old save + new types
+            resources: { ...prev.resources, ...parsed.resources }, 
             artifacts: parsed.artifacts || [] 
         }));
         addLog('系统恢复成功', 'success');
@@ -348,12 +357,12 @@ export const useGameLogic = () => {
         
         // --- Calculate Artifact Drop Chance ---
         let luck = 1.0;
-        let baseChance = 0.015; // Decreased from 0.05 to 0.015 (1.5% per tick)
+        let baseChance = 0.015;
 
         // 1. Artifact Bonus
         stateRef.current.artifacts.forEach(a => { if (a.bonusType === 'luck') luck *= a.bonusValue; });
         
-        // 2. Tech Bonus (Chance Multiplier)
+        // 2. Tech Bonus
         stateRef.current.researchedTechs.forEach(techId => {
              const tech = TECHS.find(t => t.id === techId);
              if (tech?.effects.artifactChanceMult) {
@@ -369,12 +378,9 @@ export const useGameLogic = () => {
         // --- Artifact Generation ---
         let newArtifact: Artifact | null = null;
         if (Math.random() < chance) {
-            // Unique Roll
             const uniqueRoll = Math.random();
             const collectedIds = stateRef.current.artifacts.filter(a => !a.isProcedural).map(a => a.id);
             const availableUniques = UNIQUE_ARTIFACTS.filter(a => !collectedIds.includes(a.id));
-            
-            // Luck affects unique chance slightly
             const uniqueChance = 0.05 * luck;
 
             if (uniqueRoll < uniqueChance && availableUniques.length > 0) {
@@ -385,7 +391,6 @@ export const useGameLogic = () => {
                      if (randomWeight <= 0) { newArtifact = art; break; }
                  }
             } else {
-                // Pass researched techs for themed artifacts
                 newArtifact = generateArtifact(stateRef.current.depth, stateRef.current.researchedTechs);
             }
         }

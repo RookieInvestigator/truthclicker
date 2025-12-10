@@ -7,11 +7,21 @@ export enum ResourceType {
   CULTURE = 'CULTURE',     // 文化资源：文化资本/高维叙事
   
   CODE = 'CODE',           // 技术资源：代码
-  TECH_CAPITAL = 'TECH_CAPITAL', // 新增：技术资本 (Valuation/Equity)
+  TECH_CAPITAL = 'TECH_CAPITAL', // 技术资本
   OPS = 'OPS',             // 硬件资源：算力
   BIOMASS = 'BIOMASS',     // 生物资源：生物质/湿件
+  POWER = 'POWER',         // 新增：电力 (维护资源)
+
+  CARDBOARD = 'CARDBOARD', // 废纸箱
+  SPAM = 'SPAM',           // 新增：垃圾信息 (副产物)
   
-  CARDBOARD = 'CARDBOARD', // 新增：废纸箱 (Byproduct/Waste)
+  LORE = 'LORE',           // 新增：民俗学 (知识)
+  ANCIENT_WISDOM = 'ANCIENT_WISDOM', // 新增：古代知识
+  
+  STORY = 'STORY',         // 故事
+  RUMORS = 'RUMORS',       // 新增：谣言/恐慌掌控
+  PANIC = 'PANIC',         // 恐慌 (高风险资源)
+  MIND_CONTROL = 'MIND_CONTROL', // 新增：心智掌控
 
   CLUE = 'CLUE',           // 转化资源 I：线索
   KNOWLEDGE = 'KNOWLEDGE', // 转化资源 II：隐秘知识
@@ -20,9 +30,10 @@ export enum ResourceType {
 
 export enum BuildingCategory {
   SURVIVAL = 'SURVIVAL',       
-  NETWORK = 'NETWORK',         // New: Connectivity & Web Infrastructure
+  NETWORK = 'NETWORK',         
+  VERIFICATION = 'VERIFICATION', 
   TECHNOCRACY = 'TECHNOCRACY', 
-  HISTORY = 'HISTORY',         // New: Archaeology & Revisionism
+  HISTORY = 'HISTORY',         
   FOLKLORE = 'FOLKLORE',       
   COUNTER_CULTURE = 'COUNTER_CULTURE', 
   ARCHIVE = 'ARCHIVE',         
@@ -48,28 +59,26 @@ export interface TechEffects {
   resourceMultipliers?: { [key in ResourceType]?: number }; 
   unlockMessage?: string;
   
-  // New Mechanics
-  globalCostReduction?: number; // e.g. 0.05 for 5% off
-  clickPowerMult?: number;      // e.g. 0.5 for +50% manual mining
-  artifactChanceMult?: number;  // e.g. 0.2 for +20% drop rate
-  artifactRarityBonus?: number; // e.g. 0.1 for +10% luck
-  recycleEfficiency?: number;   // e.g. 0.25 for +25% resources when recycling
+  globalCostReduction?: number; 
+  clickPowerMult?: number;      
+  artifactChanceMult?: number;  
+  artifactRarityBonus?: number; 
+  recycleEfficiency?: number;   
 }
 
 export interface Tech {
   id: string;
   name: string;
   description: string;
-  tier: number; // 0: Start, 1: Surface, 2: Deep, 3: Dark, 4: Event Horizon, 5: Abyss, 6: Glitch, 7: Dread, 8: Omega
+  tier: number; 
   costs: { [key in ResourceType]?: number };
   effects: TechEffects;
   icon: string;
   category?: BuildingCategory; 
   preRequisiteTech?: string;
   
-  // Branching Logic
-  exclusiveWith?: string[]; // IDs of techs that cannot be researched if this one is
-  highlight?: boolean;      // UI hint for major decision points
+  exclusiveWith?: string[]; 
+  highlight?: boolean;      
 }
 
 export interface Artifact {

@@ -53,14 +53,27 @@ const ResourcesPanel: React.FC<ResourcesPanelProps> = ({ resources, productionRa
             {/* Other Resources */}
             {[
                 ResourceType.FUNDS, 
+                ResourceType.POWER, // Power priority
                 ResourceType.FOLLOWERS, 
                 ResourceType.CRED, 
                 ResourceType.CULTURE,
+                
                 ResourceType.CODE, 
-                ResourceType.TECH_CAPITAL, // Added
+                ResourceType.TECH_CAPITAL, 
                 ResourceType.OPS, 
                 ResourceType.BIOMASS, 
-                ResourceType.CARDBOARD,    // Added
+                
+                ResourceType.CARDBOARD,    
+                ResourceType.SPAM,  // Spam
+
+                ResourceType.LORE, // Lore
+                ResourceType.ANCIENT_WISDOM, // Ancient Wisdom
+
+                ResourceType.STORY, 
+                ResourceType.RUMORS, // Rumors
+                ResourceType.PANIC, 
+                ResourceType.MIND_CONTROL, // Mind Control
+
                 ResourceType.CLUE, 
                 ResourceType.KNOWLEDGE, 
                 ResourceType.TRUTH
@@ -81,7 +94,7 @@ const ResourcesPanel: React.FC<ResourcesPanelProps> = ({ resources, productionRa
                             </div>
                             <div className="flex flex-col">
                                 <span className={`text-sm font-bold ${info.color}`}>{Math.floor(amount).toLocaleString()}</span>
-                                <span className="text-[9px] uppercase text-gray-500">{info.name}</span>
+                                <span className="text-xs uppercase text-gray-500 transform scale-75 origin-top-left">{info.name}</span>
                             </div>
                         </div>
                         <div className={`text-[10px] ${rate > 0 ? 'text-gray-400' : rate < 0 ? 'text-red-400' : 'text-gray-600'}`}>

@@ -108,7 +108,7 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     costMultiplier: 1.25,
     icon: 'Video',
     unlockRequirement: 2000,
-    requireTech: ['content_farm'], // Tech missing
+    requireTech: ['content_farm'], 
   },
   {
     id: 'geoguessr_pro',
@@ -132,7 +132,7 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     costMultiplier: 1.3,
     icon: 'Eye',
     unlockRequirement: 0,
-    requireTech: ['deepfake_studio'], // Implies deepfake studio tech
+    requireTech: ['generative_adversarial_networks'],
   },
   {
     id: 'sentiment_analysis_ai',

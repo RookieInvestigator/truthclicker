@@ -1,5 +1,5 @@
 
-import { Tech, ResourceType } from '../../../types';
+import { Tech, ResourceType, BuildingCategory } from '../../../types';
 
 export const TIER_2_TECHS: Tech[] = [
   // --- NETWORK EXPANSION ---
@@ -8,6 +8,7 @@ export const TIER_2_TECHS: Tech[] = [
     name: 'Usenet 访问',
     description: '新闻组是互联网的活化石。所有现代梗的起源都在这里。',
     tier: 2,
+    category: BuildingCategory.NETWORK,
     costs: { [ResourceType.INFO]: 5000, [ResourceType.CRED]: 50 }, 
     effects: {
         resourceMultipliers: { [ResourceType.INFO]: 0.25 },
@@ -21,6 +22,7 @@ export const TIER_2_TECHS: Tech[] = [
     name: '僵尸网络架构',
     description: '理解如何利用漏洞控制成千上万台物联网设备。',
     tier: 2,
+    category: BuildingCategory.NETWORK,
     costs: { [ResourceType.CODE]: 5000, [ResourceType.OPS]: 1500 }, 
     effects: {
         unlockMessage: '解锁: 僵尸网络 / 点击农场'
@@ -33,6 +35,7 @@ export const TIER_2_TECHS: Tech[] = [
     name: 'VPN 隧道',
     description: '绕过地理限制，隐藏真实IP。通往深网的第一步。',
     tier: 2,
+    category: BuildingCategory.NETWORK,
     costs: { [ResourceType.INFO]: 7500, [ResourceType.FUNDS]: 300 }, 
     effects: {
         resourceMultipliers: { [ResourceType.INFO]: 0.15, [ResourceType.OPS]: 0.1 },
@@ -42,10 +45,53 @@ export const TIER_2_TECHS: Tech[] = [
     preRequisiteTech: 'rss_feeds'
   },
   {
+    id: 'phreaking_tools',
+    name: '电话破解 (Phreaking)',
+    description: '探索电信系统的漏洞。口哨声就是钥匙。',
+    tier: 2,
+    category: BuildingCategory.NETWORK,
+    costs: { [ResourceType.INFO]: 4000, [ResourceType.CODE]: 200 },
+    effects: {
+        resourceMultipliers: { [ResourceType.CRED]: 0.1 },
+        unlockMessage: '解锁: 蓝盒子'
+    },
+    icon: 'Phone',
+    preRequisiteTech: 'dial_up_handshake'
+  },
+  {
+    id: 'radio_theory',
+    name: '无线电理论',
+    description: '理解波的传播。即使互联网断了，无线电波依然在传播。',
+    tier: 2,
+    category: BuildingCategory.NETWORK,
+    costs: { [ResourceType.INFO]: 3000, [ResourceType.CARDBOARD]: 50 },
+    effects: {
+        unlockMessage: '解锁: 业余无线电台'
+    },
+    icon: 'Radio',
+    preRequisiteTech: 'wire_splicing'
+  },
+  {
+    id: 'p2p_sharing', 
+    name: 'P2P 文件共享',
+    description: 'eMule 和 BitTorrent。人人为我，我为人人。',
+    tier: 2,
+    category: BuildingCategory.NETWORK,
+    costs: { [ResourceType.INFO]: 8000, [ResourceType.OPS]: 1000 }, 
+    effects: {
+        unlockMessage: '解锁: 盗版软件 FTP'
+    },
+    icon: 'Share2',
+    preRequisiteTech: 'usenet_access'
+  },
+
+  // --- FOLKLORE & CULTURE ---
+  {
     id: 'creepypasta_analysis', 
     name: 'Creepypasta 分析',
     description: '分析 Slender Man 和 Jeff the Killer 的传播路径。',
     tier: 2,
+    category: BuildingCategory.FOLKLORE, // Root
     costs: { [ResourceType.INFO]: 4500, [ResourceType.LORE]: 50 }, 
     effects: {
         resourceMultipliers: { [ResourceType.LORE]: 0.2 },
@@ -59,25 +105,14 @@ export const TIER_2_TECHS: Tech[] = [
     name: '隐写术 (Steganography)',
     description: '将秘密信息隐藏在图片的像素噪点中。',
     tier: 2,
+    category: BuildingCategory.INTERNET_CULTURE,
     costs: { [ResourceType.CODE]: 1500, [ResourceType.INFO]: 8000 }, 
     effects: {
         artifactChanceMult: 0.1,
         unlockMessage: '解锁: 匿名贴图板'
     },
     icon: 'EyeOff',
-    preRequisiteTech: 'pixel_art_basics'
-  },
-  {
-    id: 'p2p_sharing', 
-    name: 'P2P 文件共享',
-    description: 'eMule 和 BitTorrent。人人为我，我为人人。',
-    tier: 2,
-    costs: { [ResourceType.INFO]: 8000, [ResourceType.OPS]: 1000 }, 
-    effects: {
-        unlockMessage: '解锁: 盗版软件 FTP'
-    },
-    icon: 'Share2',
-    preRequisiteTech: 'usenet_access'
+    preRequisiteTech: 'clickbait_tactics'
   },
 
   // --- HISTORY & ARCHAEOLOGY ---
@@ -86,6 +121,7 @@ export const TIER_2_TECHS: Tech[] = [
     name: '碳-14 测年法',
     description: '确定文物的年代。揭穿赝品，或者发现不该存在的物体。',
     tier: 2,
+    category: BuildingCategory.HISTORY,
     costs: { [ResourceType.KNOWLEDGE]: 50, [ResourceType.INFO]: 3000 }, 
     effects: {
         resourceMultipliers: { [ResourceType.KNOWLEDGE]: 0.1, [ResourceType.CLUE]: 0.1 },
@@ -99,6 +135,7 @@ export const TIER_2_TECHS: Tech[] = [
     name: '缩微胶卷扫描',
     description: '在图书馆的地下室里，阅读1950年的报纸。',
     tier: 2,
+    category: BuildingCategory.HISTORY,
     costs: { [ResourceType.INFO]: 6000, [ResourceType.CARDBOARD]: 150 }, 
     effects: {
         resourceMultipliers: { [ResourceType.INFO]: 0.2 },
@@ -114,7 +151,8 @@ export const TIER_2_TECHS: Tech[] = [
     name: '自动书写',
     description: '关闭显意识，让潜意识或“那边的东西”借你的手打字。',
     tier: 2,
-    costs: { [ResourceType.INFO]: 5000, [ResourceType.KNOWLEDGE]: 15 }, // Reduced 7500 -> 5000
+    category: BuildingCategory.ESOTERIC,
+    costs: { [ResourceType.INFO]: 5000, [ResourceType.KNOWLEDGE]: 15 }, 
     effects: {
         resourceMultipliers: { [ResourceType.LORE]: 0.2 },
         unlockMessage: '灵感源源不断'
@@ -127,7 +165,8 @@ export const TIER_2_TECHS: Tech[] = [
     name: '数字灵知',
     description: '互联网不仅是网络，它是集体潜意识的物理投射。信息即灵魂。',
     tier: 2,
-    costs: { [ResourceType.INFO]: 7000, [ResourceType.KNOWLEDGE]: 40 }, // Reduced 10000 -> 7000
+    category: BuildingCategory.ESOTERIC,
+    costs: { [ResourceType.INFO]: 7000, [ResourceType.KNOWLEDGE]: 40 }, 
     effects: {
         resourceMultipliers: { [ResourceType.KNOWLEDGE]: 0.2 },
         unlockMessage: '神性火花已点燃'
@@ -142,6 +181,7 @@ export const TIER_2_TECHS: Tech[] = [
     name: '小球藻培养槽',
     description: '在衣柜里用LED灯养殖高蛋白藻类。末日生存口粮。',
     tier: 2,
+    category: BuildingCategory.SURVIVAL,
     costs: { [ResourceType.FUNDS]: 3000, [ResourceType.CARDBOARD]: 200 }, 
     effects: { 
         resourceMultipliers: { [ResourceType.BIOMASS]: 0.2, [ResourceType.FUNDS]: 0.1 }, 
@@ -155,19 +195,21 @@ export const TIER_2_TECHS: Tech[] = [
     name: '神秘动物学',
     description: '相信天蛾人和大脚怪的存在并非迷信，而是对已知生物学的补充。',
     tier: 2,
+    category: BuildingCategory.FOLKLORE,
     costs: { [ResourceType.INFO]: 4500, [ResourceType.CLUE]: 25 }, 
     effects: {
         resourceMultipliers: { [ResourceType.CLUE]: 0.2, [ResourceType.LORE]: 0.1 },
         unlockMessage: '解锁: 天蛾人诱捕灯'
     },
     icon: 'PawPrint',
-    preRequisiteTech: 'abandoned_angelfire'
+    preRequisiteTech: 'creepypasta_analysis' 
   },
   {
     id: 'magic_bullet_theory', 
     name: '魔弹理论 (Magic Bullet)',
     description: '一颗子弹怎么可能在空中转弯？JFK 档案的物理学并不存在。',
     tier: 2,
+    category: BuildingCategory.HISTORY,
     costs: { [ResourceType.CLUE]: 80, [ResourceType.INFO]: 9000 }, 
     effects: {
         resourceMultipliers: { [ResourceType.STORY]: 0.2, [ResourceType.CLUE]: 0.1 },
@@ -181,19 +223,21 @@ export const TIER_2_TECHS: Tech[] = [
     name: 'EVP 录音技术',
     description: '电子语音现象。在白噪音中捕捉死者的低语。',
     tier: 2,
+    category: BuildingCategory.FOLKLORE,
     costs: { [ResourceType.INFO]: 3600, [ResourceType.CARDBOARD]: 100 }, 
     effects: {
         artifactChanceMult: 0.1,
         unlockMessage: '解锁: 灵界录音机'
     },
     icon: 'Mic',
-    preRequisiteTech: 'basic_scripting'
+    preRequisiteTech: 'creepypasta_analysis'
   },
   {
     id: 'magnet_fishing', 
     name: '磁力打捞',
     description: '用强力磁铁在运河中吸附被谋杀案抛弃的凶器。',
     tier: 2,
+    category: BuildingCategory.SURVIVAL,
     costs: { [ResourceType.CARDBOARD]: 200, [ResourceType.FUNDS]: 300 }, 
     effects: {
         resourceMultipliers: { [ResourceType.FUNDS]: 0.1, [ResourceType.CLUE]: 0.1 },
@@ -207,6 +251,7 @@ export const TIER_2_TECHS: Tech[] = [
     name: '伪科学营销',
     description: '量子波动速读？负离子内裤？只要有人信，就能变现。',
     tier: 2,
+    category: BuildingCategory.SURVIVAL,
     costs: { [ResourceType.INFO]: 6000, [ResourceType.CRED]: 50 }, 
     effects: {
         resourceMultipliers: { [ResourceType.FUNDS]: 0.3 },
@@ -220,6 +265,7 @@ export const TIER_2_TECHS: Tech[] = [
     name: '垃圾佬硬件组装',
     description: '用至强 E5 处理器搭建家用服务器。',
     tier: 2,
+    category: BuildingCategory.TECHNOCRACY,
     costs: { [ResourceType.INFO]: 2500, [ResourceType.FUNDS]: 800 }, 
     effects: { 
         globalCostReduction: 0.02,
@@ -229,10 +275,25 @@ export const TIER_2_TECHS: Tech[] = [
     preRequisiteTech: 'basic_scripting',
   },
   {
+    id: 'programming_socks',
+    name: '编程袜',
+    description: '粉白条纹不仅是审美，更是C++编译成功的护身符。',
+    tier: 2,
+    category: BuildingCategory.TECHNOCRACY, // Moved to Technocracy for better fit or Culture? Tech matches "Programming"
+    costs: { [ResourceType.FUNDS]: 800, [ResourceType.INFO]: 500 }, 
+    effects: { 
+        resourceMultipliers: { [ResourceType.CODE]: 0.3 },
+        unlockMessage: '获得被动技能：绝对领域调试法' 
+    },
+    icon: 'Codesandbox',
+    preRequisiteTech: 'mechanical_keyboards',
+  },
+  {
     id: 'biohacking_basics',
     name: '生物黑客 (Grinders)',
     description: '在指尖植入磁体，感受微波炉的电磁场。',
     tier: 2,
+    category: BuildingCategory.TECHNOCRACY,
     costs: { [ResourceType.FUNDS]: 8000, [ResourceType.BIOMASS]: 50 }, 
     effects: { 
         clickPowerMult: 0.4,
@@ -240,6 +301,47 @@ export const TIER_2_TECHS: Tech[] = [
         unlockMessage: '解锁: DNA 存储库'
     },
     icon: 'Activity',
-    preRequisiteTech: 'chlorella_cultivation',
+    preRequisiteTech: 'hardware_assembly', // Changed prereq to tech branch
   },
+
+  // --- NEW FLAVOR TECHS (Tier 2) ---
+  {
+    id: 'lossless_archives',
+    name: '无损音频档案',
+    description: 'FLAC or nothing. 听到了吉他手的呼吸声吗？',
+    tier: 2,
+    category: BuildingCategory.NETWORK,
+    costs: { [ResourceType.INFO]: 6000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.CULTURE]: 0.2 },
+    },
+    icon: 'Headphones',
+    preRequisiteTech: 'p2p_sharing'
+  },
+  {
+    id: 'script_optimization',
+    name: '脚本优化',
+    description: '删掉所有的注释能让代码跑得更快。这很科学。',
+    tier: 2,
+    category: BuildingCategory.TECHNOCRACY,
+    costs: { [ResourceType.CODE]: 1000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.OPS]: 0.1 },
+    },
+    icon: 'FastForward',
+    preRequisiteTech: 'basic_scripting'
+  },
+  {
+    id: 'vintage_obsession',
+    name: '复古电子迷恋',
+    description: 'CRT 显示器的色彩是不可替代的。扫描线的美学。',
+    tier: 2,
+    category: BuildingCategory.HISTORY,
+    costs: { [ResourceType.FUNDS]: 2000, [ResourceType.CARDBOARD]: 100 },
+    effects: {
+        resourceMultipliers: { [ResourceType.CRED]: 0.15 },
+    },
+    icon: 'Tv',
+    preRequisiteTech: 'hardware_assembly'
+  }
 ];

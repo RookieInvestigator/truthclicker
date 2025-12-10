@@ -16,9 +16,9 @@ export const SURVIVAL_BUILDINGS: Building[] = [
   {
     id: 'recycling_run',
     name: '废品回收路线',
-    description: '收集瓶子和罐子。最基础的资本积累。',
+    description: '收集瓶子和罐子。需要先打听清楚各个小区的垃圾车时间表。',
     category: BuildingCategory.SURVIVAL,
-    baseCosts: { [ResourceType.FUNDS]: 0 },
+    baseCosts: { [ResourceType.INFO]: 15 }, // Added cost
     baseProduction: { [ResourceType.FUNDS]: 0.5, [ResourceType.CARDBOARD]: 0.5 },
     costMultiplier: 1.1,
     icon: 'Trash',
@@ -249,7 +249,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     costMultiplier: 1.3,
     icon: 'Phone',
     unlockRequirement: 0,
-    requireTech: ['dial_up_handshake'],
+    requireTech: ['phreaking_tools'], // Updated tech
   },
   {
     id: 'onlyfans_account',
@@ -285,7 +285,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     costMultiplier: 1.35,
     icon: 'Monitor',
     unlockRequirement: 0,
-    requireTech: ['deepfake_studio'], // Changed req to avoid missing tech
+    requireTech: ['generative_adversarial_networks'], // Updated tech
   },
   {
     id: 'crypto_faucet',
@@ -297,7 +297,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     costMultiplier: 1.15,
     icon: 'Bitcoin',
     unlockRequirement: 0,
-    requireTech: ['payment_processing'],
+    requireTech: ['blockchain_basics'], // Updated tech
   },
   {
     id: 'gig_economy_bot',
@@ -357,7 +357,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     costMultiplier: 1.3,
     icon: 'Send',
     unlockRequirement: 0,
-    requireTech: ['hardware_assembly'],
+    requireTech: ['drone_avionics'], // Updated tech
   },
   {
     id: 'flea_market_stall',

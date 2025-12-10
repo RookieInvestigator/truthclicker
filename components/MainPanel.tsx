@@ -1,10 +1,10 @@
 
 import React, { useState } from 'react';
-import { GameState, ResourceType, Artifact, BuildingCategory } from '../types';
+import { GameState, ResourceType, Artifact, BuildingCategory, Tech } from '../types';
 import { BUILDINGS } from '../data/buildings';
 import { TECHS } from '../data/techs';
 import { CATEGORY_CONFIG } from '../constants';
-import { Grid, FlaskConical, FolderOpen, CheckSquare, Square, Monitor, ChevronDown, ChevronRight, Layers, Maximize2, Minimize2 } from 'lucide-react';
+import { Grid, FlaskConical, FolderOpen, CheckSquare, Square, Monitor, ChevronDown, ChevronRight, Maximize2, Minimize2, Lock, Cpu } from 'lucide-react';
 import BuildingCard from './BuildingRow';
 import TechCard from './TechRow';
 import ArtifactInventory from './ArtifactInventory';
@@ -18,41 +18,22 @@ interface MainPanelProps {
   globalCostReduction: number;
 }
 
-const TIER_INFO: Record<number, { title: string; subtitle: string; color: string }> = {
-    0: { title: 'LAYER 0: AWAKENING', subtitle: '初始觉醒 - 意识到表象之下', color: 'text-gray-400 border-gray-600' },
-    1: { title: 'LAYER 1: SURFACE WEB', subtitle: '表层网络 - 极客技能与边缘文化', color: 'text-blue-400 border-blue-500' },
-    2: { title: 'LAYER 2: DEEP WEB', subtitle: '深网 - 阴谋、怪谈与隐秘知识', color: 'text-purple-400 border-purple-500' },
-    3: { title: 'LAYER 3: DARK WEB', subtitle: '暗网 - 禁忌技术与肉体改造', color: 'text-red-500 border-red-600' },
-    4: { title: 'LAYER 4: EVENT HORIZON', subtitle: '事件视界 - 现实崩塌的前兆', color: 'text-orange-500 border-orange-500' },
-    5: { title: 'LAYER 5: THE FRINGE', subtitle: '边缘科学 - 伪科学与被遗忘的历史', color: 'text-yellow-400 border-yellow-500' },
-    6: { title: 'LAYER 6: THE THRESHOLD', subtitle: '临界点 - 物理法则的故障', color: 'text-cyan-400 border-cyan-500' },
-    7: { title: 'LAYER 7: THE DREAD', subtitle: '深渊 - 宇宙本质的绝望', color: 'text-indigo-500 border-indigo-500' },
-    8: { title: 'LAYER 8: THE OMEGA', subtitle: '终焉 - 超越与重构', color: 'text-term-green border-term-green' },
-};
-
 const MainPanel: React.FC<MainPanelProps> = ({ 
     gameState, onBuyBuilding, onResearchTech, onRecycleArtifact, onRecycleAllCommons, globalCostReduction 
 }) => {
   const [activeTab, setActiveTab] = useState<'nodes' | 'research' | 'inventory'>('nodes');
   const [hideResearched, setHideResearched] = useState<boolean>(false);
-  const [collapsedTiers, setCollapsedTiers] = useState<Record<number, boolean>>({});
-  const [isCompact, setIsCompact] = useState<boolean>(false);
+  const [collapsedCategories, setCollapsedCategories] = useState<Record<string, boolean>>({});
+  const [isCompact, setIsCompact] = useState<boolean>(false); // Used for description toggle now
 
-  // Group techs by tier for display
-  const techsByTier = TECHS.reduce((acc, tech) => {
-      if (!acc[tech.tier]) acc[tech.tier] = [];
-      acc[tech.tier].push(tech);
-      return acc;
-  }, {} as Record<number, typeof TECHS>);
-
-  const toggleTier = (tier: number) => {
-      setCollapsedTiers(prev => ({ ...prev, [tier]: !prev[tier] }));
+  const toggleCategory = (cat: string) => {
+      setCollapsedCategories(prev => ({ ...prev, [cat]: !prev[cat] }));
   };
 
   return (
     <section className="flex-1 flex flex-col bg-term-black min-w-0">
         {/* Tabs */}
-        <div className="flex border-b border-term-gray bg-term-gray/5">
+        <div className="flex border-b border-term-gray bg-term-gray/5 z-20">
             <button 
                 onClick={() => setActiveTab('nodes')}
                 className={`flex-1 py-4 text-sm font-bold flex items-center justify-center gap-2 transition-colors border-r border-term-gray/50
@@ -81,13 +62,13 @@ const MainPanel: React.FC<MainPanelProps> = ({
         
         {/* Sub-Header for Research Filters */}
         {activeTab === 'research' && (
-            <div className="px-6 py-2 bg-term-black border-b border-term-gray/30 flex justify-between items-center select-none">
+            <div className="px-6 py-2 bg-term-black border-b border-term-gray/30 flex justify-between items-center select-none z-10">
                 <button 
                     onClick={() => setIsCompact(!isCompact)}
                     className="flex items-center gap-2 text-xs text-gray-500 hover:text-white transition-colors"
                 >
                     {isCompact ? <Maximize2 size={14} /> : <Minimize2 size={14} />}
-                    {isCompact ? '展开视图' : '紧凑视图'}
+                    {isCompact ? '显示详情' : '隐藏详情'}
                 </button>
 
                 <button 
@@ -101,7 +82,12 @@ const MainPanel: React.FC<MainPanelProps> = ({
         )}
 
         {/* Content Area */}
-        <div className="flex-1 overflow-y-auto bg-dots">
+        <div className="flex-1 overflow-y-auto bg-dots relative">
+            {/* Background Texture */}
+            <div className="absolute inset-0 pointer-events-none opacity-[0.03]" 
+                 style={{ backgroundImage: `linear-gradient(0deg, transparent 24%, #22c55e 25%, #22c55e 26%, transparent 27%, transparent 74%, #22c55e 75%, #22c55e 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, #22c55e 25%, #22c55e 26%, transparent 27%, transparent 74%, #22c55e 75%, #22c55e 76%, transparent 77%, transparent)`, backgroundSize: '50px 50px' }}
+            ></div>
+
             {activeTab === 'nodes' && (
                 <div className="space-y-8 p-6 pb-10">
                     {Object.values(BuildingCategory).map(cat => {
@@ -137,7 +123,6 @@ const MainPanel: React.FC<MainPanelProps> = ({
                                             if (gameState.resources[res] < cost) canAfford = false;
                                         });
 
-                                        // Additional check: If resource required for maintenance (negative production) is 0, forbid buying
                                         if (building.baseProduction) {
                                             for (const [res, amount] of Object.entries(building.baseProduction)) {
                                                 if (amount < 0 && gameState.resources[res as ResourceType] <= 0) {
@@ -166,76 +151,121 @@ const MainPanel: React.FC<MainPanelProps> = ({
             )}
 
             {activeTab === 'research' && (
-                <div className="p-6 pb-20 space-y-8">
-                    {Object.keys(TIER_INFO).map((tierStr) => {
-                        const tier = parseInt(tierStr);
-                        const techs = techsByTier[tier];
-                        // If no techs in this tier defined in data, skip
-                        if (!techs) return null;
+                <div className="p-6 pb-20 space-y-10">
+                    {/* Category Based Tech Tree */}
+                    {Object.values(BuildingCategory).map(cat => {
+                        const categoryTechs = TECHS.filter(t => t.category === cat).sort((a, b) => a.tier - b.tier);
+                        
+                        // Visibility Check: Show Category IF at least one tech in it is "Visible" (Unlocked OR Prereq met)
+                        const isCategoryVisible = categoryTechs.some(tech => 
+                            gameState.researchedTechs.includes(tech.id) || 
+                            (!tech.preRequisiteTech || gameState.researchedTechs.includes(tech.preRequisiteTech))
+                        );
 
-                        const isCollapsed = collapsedTiers[tier];
-                        const info = TIER_INFO[tier];
+                        if (!isCategoryVisible) return null;
 
-                        // Filter logic for visibility inside tier
-                        const visibleTechs = techs.filter(tech => {
+                        // Filter techs based on standard rules
+                        const visibleTechs = categoryTechs.filter(tech => {
                              const isResearched = gameState.researchedTechs.includes(tech.id);
                              if (hideResearched && isResearched) return false;
                              const isUnlocked = !tech.preRequisiteTech || gameState.researchedTechs.includes(tech.preRequisiteTech);
                              return isUnlocked;
                         });
 
-                        // Completely hide tier if no visible techs
-                        if (visibleTechs.length === 0) return null;
+                        if (visibleTechs.length === 0 && hideResearched) return null;
+
+                        const isCollapsed = collapsedCategories[cat];
+                        const meta = CATEGORY_CONFIG[cat];
+
+                        // Group By Tier for Tree Layout
+                        const tieredTechs: Record<number, Tech[]> = {};
+                        let maxTier = 0;
+                        visibleTechs.forEach(t => {
+                            if (!tieredTechs[t.tier]) tieredTechs[t.tier] = [];
+                            tieredTechs[t.tier].push(t);
+                            if (t.tier > maxTier) maxTier = t.tier;
+                        });
 
                         return (
-                            <div key={tier} className="animate-in fade-in slide-in-from-bottom-4 duration-700">
-                                {/* Tier Header */}
+                            <div key={cat} className="animate-in fade-in slide-in-from-bottom-4 duration-700 bg-term-black/40 border border-term-gray/30 rounded-lg overflow-hidden">
+                                {/* Category Header */}
                                 <div 
-                                    className={`flex items-center gap-2 mb-4 cursor-pointer group select-none`}
-                                    onClick={() => toggleTier(tier)}
+                                    className={`flex items-center gap-3 p-4 cursor-pointer group select-none bg-gradient-to-r from-term-gray/10 to-transparent border-b border-term-gray/20`}
+                                    onClick={() => toggleCategory(cat)}
                                 >
-                                    <div className={`p-1 rounded hover:bg-white/10 transition-colors ${info.color.replace(/border-.*$/, '')}`}>
-                                        {isCollapsed ? <ChevronRight size={18} /> : <ChevronDown size={18} />}
+                                    <div className={`p-1.5 rounded transition-colors ${meta.color.replace(/border-.*$/, '')} bg-black border border-white/10`}>
+                                        {isCollapsed ? <ChevronRight size={16} /> : <ChevronDown size={16} />}
                                     </div>
-                                    <div className={`flex-1 flex flex-col border-b pb-2 ${info.color.replace('border-', 'border-b-')}`}>
-                                        <div className="flex items-center gap-3">
-                                            <Layers size={18} />
-                                            <h2 className="font-bold text-lg tracking-widest uppercase">{info.title}</h2>
-                                        </div>
-                                        <span className="text-xs text-gray-500 font-mono mt-1 pl-1">{info.subtitle}</span>
+                                    <div className="flex-1">
+                                        <h2 className={`font-bold text-base tracking-widest uppercase flex items-center gap-2 ${meta.color.split(' ')[0]}`}>
+                                            {meta.name}
+                                            <span className="text-[10px] opacity-50 font-normal border border-current px-1 rounded">{visibleTechs.length} NODES</span>
+                                        </h2>
+                                        <span className="text-xs text-gray-500 font-mono mt-0.5 block">{meta.description}</span>
                                     </div>
                                 </div>
 
                                 {!isCollapsed && (
-                                    <div className={`grid gap-4 ${isCompact ? 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'}`}>
-                                        {visibleTechs.map(tech => {
-                                            const isResearched = gameState.researchedTechs.includes(tech.id);
-                                            // Re-calculate checks for render
-                                            let isLockedByExclusion = false;
-                                            if (tech.exclusiveWith) {
-                                                isLockedByExclusion = tech.exclusiveWith.some(conflictId => gameState.researchedTechs.includes(conflictId));
-                                            }
+                                    <div className="p-6 relative min-h-[100px]">
+                                        {/* Tree Backbone Line */}
+                                        <div className="absolute left-1/2 top-4 bottom-4 w-0.5 bg-term-gray/20 -translate-x-1/2 rounded-full hidden md:block"></div>
 
-                                            let canAfford = true;
-                                            (Object.entries(tech.costs) as [ResourceType, number][]).forEach(([res, cost]) => {
-                                                    let reducedCost = Math.floor(cost * (1 - globalCostReduction));
-                                                    reducedCost = Math.max(1, reducedCost);
-                                                    if (gameState.resources[res] < reducedCost) canAfford = false;
-                                            });
+                                        <div className="flex flex-col gap-8 relative z-10">
+                                            {Object.keys(tieredTechs).map(tStr => {
+                                                const tier = parseInt(tStr);
+                                                const tierItems = tieredTechs[tier];
+                                                
+                                                return (
+                                                    <div key={tier} className="flex flex-col items-center gap-2">
+                                                        {/* Tier Label */}
+                                                        {tierItems.length > 0 && (
+                                                            <div className="text-[9px] text-gray-600 bg-term-black border border-term-gray px-2 rounded-full z-20 font-mono">
+                                                                TIER_{tier}
+                                                            </div>
+                                                        )}
+                                                        
+                                                        {/* Row of Techs */}
+                                                        <div className="flex flex-wrap justify-center gap-4 w-full">
+                                                            {tierItems.map(tech => {
+                                                                const isResearched = gameState.researchedTechs.includes(tech.id);
+                                                                let isLockedByExclusion = false;
+                                                                if (tech.exclusiveWith) {
+                                                                    isLockedByExclusion = tech.exclusiveWith.some(conflictId => gameState.researchedTechs.includes(conflictId));
+                                                                }
 
-                                            return (
-                                                <TechCard 
-                                                    key={tech.id}
-                                                    tech={tech}
-                                                    isResearched={isResearched}
-                                                    canAfford={canAfford}
-                                                    isLockedByExclusion={isLockedByExclusion}
-                                                    resourceState={gameState.resources}
-                                                    onResearch={() => onResearchTech(tech.id)}
-                                                    isCompact={isCompact}
-                                                />
-                                            )
-                                        })}
+                                                                let canAfford = true;
+                                                                (Object.entries(tech.costs) as [ResourceType, number][]).forEach(([res, cost]) => {
+                                                                        let reducedCost = Math.floor(cost * (1 - globalCostReduction));
+                                                                        reducedCost = Math.max(1, reducedCost);
+                                                                        if (gameState.resources[res] < reducedCost) canAfford = false;
+                                                                });
+
+                                                                return (
+                                                                    <TechCard 
+                                                                        key={tech.id}
+                                                                        tech={tech}
+                                                                        isResearched={isResearched}
+                                                                        canAfford={canAfford}
+                                                                        isLockedByExclusion={isLockedByExclusion}
+                                                                        resourceState={gameState.resources}
+                                                                        onResearch={() => onResearchTech(tech.id)}
+                                                                        isCompact={isCompact}
+                                                                    />
+                                                                )
+                                                            })}
+                                                        </div>
+                                                    </div>
+                                                );
+                                            })}
+
+                                            {/* Locked/Hidden Indicator */}
+                                            {!hideResearched && visibleTechs.length === 0 && (
+                                                <div className="py-8 text-center text-xs text-gray-600 border-2 border-dashed border-gray-800 rounded-lg flex flex-col items-center gap-2">
+                                                    <Lock size={20} className="opacity-50"/>
+                                                    <span>分支路径未解锁</span>
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
                                 )}
                             </div>

@@ -168,7 +168,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     costMultiplier: 1.4,
     icon: 'BrainCircuit',
     unlockRequirement: 0,
-    requireTech: ['ai_alignment'], // Tech missing, maybe add or use existing
+    requireTech: ['ai_alignment'],
   },
   {
     id: 'quantum_annealer',
@@ -204,7 +204,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     costMultiplier: 1.6,
     icon: 'AlertTriangle',
     unlockRequirement: 0,
-    requireTech: ['nanotechnology'], // Tech missing
+    requireTech: ['nanotechnology'],
   },
   {
     id: 'von_neumann_probe',
@@ -216,7 +216,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     costMultiplier: 1.8,
     icon: 'Rocket',
     unlockRequirement: 0,
-    requireTech: ['orbital_mechanics'], // Tech missing
+    requireTech: ['orbital_mechanics'],
   },
   {
     id: 'dyson_swarm_prototype', 
@@ -228,7 +228,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     costMultiplier: 1.6,
     icon: 'Sun',
     unlockRequirement: 0,
-    requireTech: ['orbital_mechanics'], // Tech missing
+    requireTech: ['orbital_mechanics'],
   },
   {
     id: 'matrioshka_brain_layer',

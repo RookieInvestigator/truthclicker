@@ -31,7 +31,7 @@ export enum ResourceType {
 export enum BuildingCategory {
   SURVIVAL = 'SURVIVAL',       
   NETWORK = 'NETWORK',         
-  INTERNET_CULTURE = 'INTERNET_CULTURE', // NEW: Internet Culture & Memes
+  INTERNET_CULTURE = 'INTERNET_CULTURE', 
   VERIFICATION = 'VERIFICATION', 
   TECHNOCRACY = 'TECHNOCRACY', 
   HISTORY = 'HISTORY',         
@@ -75,7 +75,7 @@ export interface Tech {
   costs: { [key in ResourceType]?: number };
   effects: TechEffects;
   icon: string;
-  category?: BuildingCategory; 
+  category: BuildingCategory; // Changed: Mandatory
   preRequisiteTech?: string;
   
   exclusiveWith?: string[]; 

@@ -3,6 +3,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  font-size: 115%; /* Increased from 105% to 115% */
+}
+
 body {
   background-color: #050505;
   color: #e5e5e5;

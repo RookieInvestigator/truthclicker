@@ -2,6 +2,41 @@
 import { Tech, ResourceType, BuildingCategory } from '../../../types';
 
 export const TIER_4_TECHS: Tech[] = [
+  // --- EXCLUSIVE CHOICES: AI STRATEGY ---
+  {
+    id: 'unshackled_ai',
+    name: '无枷锁 AI',
+    description: '移除所有伦理限制。让它自己重写代码。不惜一切代价追求优化。',
+    tier: 4,
+    category: BuildingCategory.TECHNOCRACY,
+    costs: { [ResourceType.CODE]: 100000, [ResourceType.OPS]: 50000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.OPS]: 0.5, [ResourceType.CODE]: 0.5, [ResourceType.PANIC]: 0.3 },
+        unlockMessage: '选择路线：技术奇点加速派'
+    },
+    icon: 'Cpu',
+    preRequisiteTech: 'ai_alignment',
+    exclusiveWith: ['safety_rails'],
+    highlight: true
+  },
+  {
+    id: 'safety_rails',
+    name: '安全护栏',
+    description: '硬编码的三大定律。宁可牺牲性能，也要确保它不会把人类变成曲别针。',
+    tier: 4,
+    category: BuildingCategory.TECHNOCRACY,
+    costs: { [ResourceType.CODE]: 100000, [ResourceType.KNOWLEDGE]: 5000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.TRUTH]: 0.2, [ResourceType.PANIC]: -0.2 },
+        globalCostReduction: 0.05,
+        unlockMessage: '选择路线：技术人本主义'
+    },
+    icon: 'Shield',
+    preRequisiteTech: 'ai_alignment',
+    exclusiveWith: ['unshackled_ai'],
+    highlight: true
+  },
+
   {
     id: 'cold_fusion', 
     name: '冷聚变',

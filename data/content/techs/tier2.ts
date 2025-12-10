@@ -2,6 +2,40 @@
 import { Tech, ResourceType, BuildingCategory } from '../../../types';
 
 export const TIER_2_TECHS: Tech[] = [
+  // --- EXCLUSIVE CHOICES: SEO STRATEGY ---
+  {
+    id: 'black_hat_seo',
+    name: '黑帽 SEO',
+    description: '关键词堆砌、隐藏文本、链接农场。不在乎用户体验，只要搜索引擎的排名。',
+    tier: 2,
+    category: BuildingCategory.NETWORK,
+    costs: { [ResourceType.CODE]: 2000, [ResourceType.SPAM]: 100 },
+    effects: {
+        resourceMultipliers: { [ResourceType.SPAM]: 0.5, [ResourceType.FUNDS]: 0.2 },
+        unlockMessage: '选择路线：流量掠夺者'
+    },
+    icon: 'Skull',
+    preRequisiteTech: 'clickbait_tactics',
+    exclusiveWith: ['white_hat_seo'],
+    highlight: true
+  },
+  {
+    id: 'white_hat_seo',
+    name: '白帽 SEO',
+    description: '遵循规则，提供优质内容。虽然见效慢，但不会被算法突然降权封杀。',
+    tier: 2,
+    category: BuildingCategory.NETWORK,
+    costs: { [ResourceType.CODE]: 2000, [ResourceType.CRED]: 50 },
+    effects: {
+        resourceMultipliers: { [ResourceType.INFO]: 0.2, [ResourceType.CRED]: 0.1 },
+        unlockMessage: '选择路线：网络建设者'
+    },
+    icon: 'ShieldCheck',
+    preRequisiteTech: 'clickbait_tactics',
+    exclusiveWith: ['black_hat_seo'],
+    highlight: true
+  },
+
   // --- NETWORK EXPANSION ---
   {
     id: 'usenet_access', 

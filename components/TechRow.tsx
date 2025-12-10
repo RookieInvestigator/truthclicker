@@ -3,7 +3,7 @@ import React from 'react';
 import { Tech, ResourceType } from '../types';
 import { RESOURCE_INFO } from '../constants';
 import * as Icons from 'lucide-react';
-import { Check, Lock, Cpu } from 'lucide-react';
+import { Check, Lock, Cpu, ArrowUpCircle, Unlock } from 'lucide-react';
 
 interface TechCardProps {
   tech: Tech;
@@ -32,7 +32,7 @@ const TechCard: React.FC<TechCardProps> = ({ tech, isResearched, canAfford, isLo
 
   // --- STYLES ---
   const borderColor = isResearched 
-    ? 'border-term-green/50 bg-term-green/5' 
+    ? 'border-term-green/30 bg-term-green/5' 
     : tech.highlight 
         ? canAfford ? 'border-yellow-500 shadow-[0_0_10px_rgba(234,179,8,0.1)] bg-yellow-900/10' : 'border-yellow-900/50 bg-term-black'
         : canAfford ? 'border-blue-500/50 hover:border-blue-400 bg-term-black hover:bg-gray-900' : 'border-gray-800 bg-term-black opacity-70';
@@ -43,6 +43,9 @@ const TechCard: React.FC<TechCardProps> = ({ tech, isResearched, canAfford, isLo
         ? 'text-yellow-500' 
         : canAfford ? 'text-blue-400' : 'text-gray-600';
 
+  // --- RENDER EFFECTS HELPER ---
+  const hasEffects = tech.effects.resourceMultipliers || tech.effects.unlockMessage || tech.effects.globalCostReduction || tech.effects.clickPowerMult || tech.effects.artifactChanceMult;
+  
   return (
     <div 
         onClick={() => !isResearched && canAfford && onResearch()}
@@ -50,7 +53,7 @@ const TechCard: React.FC<TechCardProps> = ({ tech, isResearched, canAfford, isLo
             relative group flex flex-col border rounded-sm transition-all duration-200 select-none overflow-hidden
             ${isResearched ? 'cursor-default' : canAfford ? 'cursor-pointer active:scale-[0.98]' : 'cursor-not-allowed'}
             ${borderColor}
-            ${isCompact ? 'p-2 min-h-[60px]' : 'p-3 min-h-[120px]'}
+            ${isCompact ? 'p-2 min-h-[60px]' : 'p-3 min-h-[140px]'}
         `}
     >
         {/* TIER BADGE (Corner Mark) */}
@@ -88,16 +91,50 @@ const TechCard: React.FC<TechCardProps> = ({ tech, isResearched, canAfford, isLo
                     {tech.description}
                 </p>
                 
-                {/* Stats / Effects Badges */}
-                {!isResearched && (
-                   <div className="flex flex-wrap gap-1 mb-2">
-                        {Object.keys(tech.effects.resourceMultipliers || {}).length > 0 && (
-                            <span className="text-[9px] px-1 bg-yellow-900/20 text-yellow-600 rounded border border-yellow-900/20">效果+</span>
+                {/* Detailed Effects List */}
+                {hasEffects && (
+                    <div className="flex flex-col gap-1 mb-2 bg-black/20 p-1.5 rounded border border-white/5">
+                         {/* Resource Multipliers */}
+                        {tech.effects.resourceMultipliers && Object.entries(tech.effects.resourceMultipliers).map(([res, amount]) => (
+                            <div key={res} className="flex justify-between items-center text-[10px]">
+                                <span className={`flex items-center gap-1 ${RESOURCE_INFO[res as ResourceType].color} opacity-90`}>
+                                    <ArrowUpCircle size={8} />
+                                    {RESOURCE_INFO[res as ResourceType].name}
+                                </span>
+                                <span className={amount > 0 ? 'text-term-green' : 'text-red-400'}>
+                                    {amount > 0 ? '+' : ''}{Math.round(amount * 100)}%
+                                </span>
+                            </div>
+                        ))}
+                        
+                        {/* Global Stats */}
+                        {tech.effects.globalCostReduction && (
+                            <div className="flex justify-between items-center text-[10px]">
+                                <span className="text-blue-300 opacity-90 flex items-center gap-1"><ArrowUpCircle size={8}/> 全局造价</span>
+                                <span className="text-term-green">-{Math.round(tech.effects.globalCostReduction * 100)}%</span>
+                            </div>
                         )}
+                        {tech.effects.clickPowerMult && (
+                            <div className="flex justify-between items-center text-[10px]">
+                                <span className="text-blue-300 opacity-90 flex items-center gap-1"><ArrowUpCircle size={8}/> 点击效能</span>
+                                <span className="text-term-green">+{Math.round(tech.effects.clickPowerMult * 100)}%</span>
+                            </div>
+                        )}
+                        {tech.effects.artifactChanceMult && (
+                            <div className="flex justify-between items-center text-[10px]">
+                                <span className="text-purple-300 opacity-90 flex items-center gap-1"><ArrowUpCircle size={8}/> 掉落率</span>
+                                <span className="text-term-green">+{Math.round(tech.effects.artifactChanceMult * 100)}%</span>
+                            </div>
+                        )}
+
+                        {/* Unlock Message */}
                         {tech.effects.unlockMessage && (
-                            <span className="text-[9px] px-1 bg-blue-900/20 text-blue-500 rounded border border-blue-900/20">解锁</span>
+                             <div className="text-[10px] text-gray-400 mt-1 pt-1 border-t border-white/5 flex items-start gap-1">
+                                <Unlock size={8} className="mt-0.5 text-term-green shrink-0"/>
+                                <span className="italic leading-none">{tech.effects.unlockMessage.replace('解锁: ', '')}</span>
+                             </div>
                         )}
-                   </div>
+                    </div>
                 )}
 
                 {/* Costs */}

@@ -2,6 +2,40 @@
 import { Tech, ResourceType, BuildingCategory } from '../../../types';
 
 export const TIER_3_TECHS: Tech[] = [
+  // --- EXCLUSIVE CHOICES: INFORMATION WARFARE ---
+  {
+    id: 'disinformation_campaign',
+    name: '虚假信息战',
+    description: '真相并不重要，重要的是情绪。用谣言淹没真相。',
+    tier: 3,
+    category: BuildingCategory.SUBVERSION,
+    costs: { [ResourceType.FUNDS]: 5000, [ResourceType.SPAM]: 500 },
+    effects: {
+        resourceMultipliers: { [ResourceType.RUMORS]: 0.4, [ResourceType.PANIC]: 0.2 },
+        unlockMessage: '选择路线：混乱散布者'
+    },
+    icon: 'Megaphone',
+    preRequisiteTech: 'social_engineering',
+    exclusiveWith: ['fact_check_protocol'],
+    highlight: true
+  },
+  {
+    id: 'fact_check_protocol',
+    name: '事实核查协议',
+    description: '在噪音中建立信号。验证来源，交叉比对，还原真相。',
+    tier: 3,
+    category: BuildingCategory.VERIFICATION,
+    costs: { [ResourceType.INFO]: 15000, [ResourceType.CODE]: 2000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.TRUTH]: 0.3, [ResourceType.PANIC]: -0.1 },
+        unlockMessage: '选择路线：真相守护者'
+    },
+    icon: 'FileSearch',
+    preRequisiteTech: 'social_engineering',
+    exclusiveWith: ['disinformation_campaign'],
+    highlight: true
+  },
+
   // --- NETWORK ---
   {
     id: 'tor_network',

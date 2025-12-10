@@ -31,6 +31,7 @@ export enum ResourceType {
 export enum BuildingCategory {
   SURVIVAL = 'SURVIVAL',       
   NETWORK = 'NETWORK',         
+  INTERNET_CULTURE = 'INTERNET_CULTURE', // NEW: Internet Culture & Memes
   VERIFICATION = 'VERIFICATION', 
   TECHNOCRACY = 'TECHNOCRACY', 
   HISTORY = 'HISTORY',         

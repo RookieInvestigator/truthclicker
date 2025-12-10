@@ -137,6 +137,16 @@ const MainPanel: React.FC<MainPanelProps> = ({
                                             if (gameState.resources[res] < cost) canAfford = false;
                                         });
 
+                                        // Additional check: If resource required for maintenance (negative production) is 0, forbid buying
+                                        if (building.baseProduction) {
+                                            for (const [res, amount] of Object.entries(building.baseProduction)) {
+                                                if (amount < 0 && gameState.resources[res as ResourceType] <= 0) {
+                                                    canAfford = false;
+                                                    break;
+                                                }
+                                            }
+                                        }
+
                                         return (
                                             <BuildingCard
                                                 key={building.id}

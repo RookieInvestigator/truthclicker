@@ -1,0 +1,53 @@
+
+import { Building, ResourceType, BuildingCategory } from '../../../types';
+
+export const ARCHIVE_BUILDINGS: Building[] = [
+  {
+    id: 'seed_vault',
+    name: '末日种子库',
+    description: '不仅保存植物种子，也保存人类文明的种子。',
+    category: BuildingCategory.ARCHIVE,
+    baseCosts: { [ResourceType.FUNDS]: 5000, [ResourceType.BIOMASS]: 1000 },
+    baseProduction: { [ResourceType.BIOMASS]: 5.0, [ResourceType.KNOWLEDGE]: 0.1 },
+    costMultiplier: 1.3,
+    icon: 'Sprout',
+    unlockRequirement: 0,
+    requireTech: ['chlorella_cultivation'],
+  },
+  {
+    id: 'arctic_code_vault',
+    name: '北极代码库',
+    description: '将开源代码存储在胶片上，埋在永久冻土层下。',
+    category: BuildingCategory.ARCHIVE,
+    baseCosts: { [ResourceType.FUNDS]: 10000, [ResourceType.CODE]: 5000 },
+    baseProduction: { [ResourceType.CODE]: 2.0, [ResourceType.TECH_CAPITAL]: 0.2 },
+    costMultiplier: 1.4,
+    icon: 'Code',
+    unlockRequirement: 0,
+    requireTech: ['microfilm_scanning'],
+  },
+  {
+    id: 'dna_storage_vault', 
+    name: 'DNA 存储库',
+    description: '将数据编码进碱基对。1克DNA可以存储215PB数据。',
+    category: BuildingCategory.ARCHIVE,
+    baseCosts: { [ResourceType.BIOMASS]: 5000, [ResourceType.TECH_CAPITAL]: 50 },
+    baseProduction: { [ResourceType.ANCIENT_WISDOM]: 0.5, [ResourceType.KNOWLEDGE]: 2.0 },
+    costMultiplier: 1.5,
+    icon: 'Dna',
+    unlockRequirement: 0,
+    requireTech: ['biohacking_basics'],
+  },
+  {
+    id: 'lunar_library',
+    name: '月球图书馆',
+    description: '由 Arch Mission Foundation 建立。包含维基百科的镍片备份。',
+    category: BuildingCategory.ARCHIVE,
+    baseCosts: { [ResourceType.OPS]: 500000, [ResourceType.TECH_CAPITAL]: 1000 },
+    baseProduction: { [ResourceType.KNOWLEDGE]: 5.0, [ResourceType.TRUTH]: 0.2 },
+    costMultiplier: 1.6,
+    icon: 'Moon',
+    unlockRequirement: 0,
+    requireTech: ['orbital_mechanics'],
+  },
+];

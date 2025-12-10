@@ -76,6 +76,13 @@ export const useGameLogic = () => {
         return acc;
     }, {} as Record<ResourceType, number>);
 
+    // Identify Starved Resources (Empty resources that stop dependent buildings)
+    // We use a very small epsilon or just 0 check.
+    const starvedResources = new Set<ResourceType>();
+    (Object.entries(state.resources) as [ResourceType, number][]).forEach(([res, amount]) => {
+        if (amount <= 0) starvedResources.add(res);
+    });
+
     // Tech Multipliers
     state.researchedTechs.forEach(techId => {
         const tech = TECHS.find(t => t.id === techId);
@@ -92,15 +99,30 @@ export const useGameLogic = () => {
       const building = BUILDINGS.find(b => b.id === id);
       if (!building) return;
 
+      // Starvation Logic:
+      // If a building consumes (amount < 0) a resource that is currently starved (<= 0),
+      // the building stops working entirely.
+      let isOperational = true;
       if (building.baseProduction) {
-        (Object.entries(building.baseProduction) as [ResourceType, number][]).forEach(([res, amount]) => {
-           netProduction[res] += amount * count;
-        });
+          for (const [res, amount] of Object.entries(building.baseProduction)) {
+              if (amount < 0 && starvedResources.has(res as ResourceType)) {
+                  isOperational = false;
+                  break;
+              }
+          }
       }
-      if (building.globalMultipliers) {
-        (Object.entries(building.globalMultipliers) as [ResourceType, number][]).forEach(([res, percent]) => {
-           multipliers[res] += percent * count;
-        });
+
+      if (isOperational) {
+        if (building.baseProduction) {
+            (Object.entries(building.baseProduction) as [ResourceType, number][]).forEach(([res, amount]) => {
+            netProduction[res] += amount * count;
+            });
+        }
+        if (building.globalMultipliers) {
+            (Object.entries(building.globalMultipliers) as [ResourceType, number][]).forEach(([res, percent]) => {
+            multipliers[res] += percent * count;
+            });
+        }
       }
     });
 
@@ -205,12 +227,26 @@ export const useGameLogic = () => {
     const costs: Partial<Record<ResourceType, number>> = {};
     let canAfford = true;
 
+    // Standard Cost Check
     (Object.entries(building.baseCosts) as [ResourceType, number][]).forEach(([res, base]) => {
         let cost = Math.floor(base * Math.pow(building.costMultiplier, count));
         cost = Math.floor(cost * (1 - reduction));
         costs[res] = Math.max(1, cost);
         if (stateRef.current.resources[res] < costs[res]!) canAfford = false;
     });
+
+    // Starvation Purchase Check
+    // If buying this would immediately result in a starved building (because maintenance resource is 0), prevent it?
+    // The requirement says: "Buildings that consume resource output should be forbidden from purchase when that resource is zero"
+    // So we check if baseProduction consumes a resource that is currently <= 0.
+    if (building.baseProduction) {
+        for (const [res, amount] of Object.entries(building.baseProduction)) {
+             if (amount < 0 && stateRef.current.resources[res as ResourceType] <= 0) {
+                 canAfford = false;
+                 break; // Optimization
+             }
+        }
+    }
 
     if (canAfford) {
       setGameState(prev => {
@@ -222,7 +258,21 @@ export const useGameLogic = () => {
       });
       addLog(`[Purchased] ${building.name}`, 'success');
     } else {
-      addLog('资源不足', 'warning');
+      // Check specifically if it was rejected due to starvation for better feedback (optional, simple log for now)
+      let isStarved = false;
+      if (building.baseProduction) {
+        for (const [res, amount] of Object.entries(building.baseProduction)) {
+             if (amount < 0 && stateRef.current.resources[res as ResourceType] <= 0) {
+                 isStarved = true; 
+                 break;
+             }
+        }
+      }
+      if (isStarved) {
+          addLog('无法购买：缺少维护所需的资源', 'warning');
+      } else {
+          addLog('资源不足', 'warning');
+      }
     }
   }, [addLog, calculateGlobalCostReduction]);
 

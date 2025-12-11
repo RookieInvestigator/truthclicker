@@ -207,6 +207,18 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     requireTech: ['hardware_assembly'],
   },
   {
+    id: 'biocompute_substrate',
+    name: '生物算力基质',
+    description: '使用灭绝物种的 DNA 序列构建四进制逻辑门。化石是新的硅。',
+    category: BuildingCategory.TECHNOCRACY,
+    baseCosts: { [ResourceType.OPS]: 30000, [ResourceType.FOSSIL]: 50 },
+    baseProduction: { [ResourceType.OPS]: 150, [ResourceType.BIOMASS]: 2.0, [ResourceType.FOSSIL]: -0.2 },
+    costMultiplier: 1.4,
+    icon: 'Dna',
+    unlockRequirement: 0,
+    requireTech: ['biohacking_basics'],
+  },
+  {
     id: 'neural_link_proto',
     name: '神经直连原型',
     description: '在大脑皮层植入电极。思维即代码。',
@@ -289,6 +301,18 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     icon: 'Sun',
     unlockRequirement: 0, // Reset
     requireTech: ['orbital_mechanics'],
+  },
+  {
+    id: 'time_loop_repo',
+    name: '时间闭环仓库',
+    description: '代码在提交之前就已经修复了。版本控制系统不再是线性的，而是一个莫比乌斯环。',
+    category: BuildingCategory.TECHNOCRACY,
+    baseCosts: { [ResourceType.CODE]: 500000, [ResourceType.OPS]: 100000 },
+    baseProduction: { [ResourceType.CODE]: 25.0, [ResourceType.TECH_CAPITAL]: 2.0 },
+    costMultiplier: 1.5,
+    icon: 'GitBranch',
+    unlockRequirement: 0,
+    requireTech: ['retrocausal_git'],
   },
   {
     id: 'matrioshka_brain_layer',

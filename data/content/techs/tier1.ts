@@ -231,6 +231,19 @@ export const TIER_1_TECHS: Tech[] = [
     icon: 'Scan',
     preRequisiteTech: 'digital_literacy'
   },
+  {
+    id: 'pattern_recognition',
+    name: '模式识别',
+    description: '并不是所有的噪音都是随机的。你开始在数据流中看到重复的形状。',
+    tier: 1,
+    category: BuildingCategory.VERIFICATION,
+    costs: { [ResourceType.INFO]: 600 },
+    effects: {
+        artifactChanceMult: 0.05,
+    },
+    icon: 'Eye',
+    preRequisiteTech: 'digital_literacy'
+  },
 
   // --- INTERNET CULTURE ---
   {
@@ -259,6 +272,19 @@ export const TIER_1_TECHS: Tech[] = [
     },
     icon: 'MousePointer2',
     preRequisiteTech: 'forum_culture'
+  },
+  {
+    id: 'ascii_art_mastery',
+    name: 'ASCII 艺术大师',
+    description: '用字符构建灵魂。在纯文本的时代，这是唯一的表达方式。',
+    tier: 1,
+    category: BuildingCategory.INTERNET_CULTURE,
+    costs: { [ResourceType.INFO]: 800 },
+    effects: {
+        resourceMultipliers: { [ResourceType.CULTURE]: 0.15 },
+    },
+    icon: 'Hash',
+    preRequisiteTech: 'dom_manipulation'
   },
 
   // --- ESOTERIC ---
@@ -294,7 +320,7 @@ export const TIER_1_TECHS: Tech[] = [
   // --- ARCHIVE & HISTORY ROOTS (Added to fix gaps) ---
   {
     id: 'data_hoarding_basics',
-    name: '松鼠症 (Data Hoarding)',
+    name: '松鼠症',
     description: '即便不知道有什么用，先下载下来再说。',
     tier: 1,
     category: BuildingCategory.ARCHIVE, // Root
@@ -325,7 +351,7 @@ export const TIER_1_TECHS: Tech[] = [
   {
     id: 'dark_mode_ide',
     name: 'IDE 暗色模式',
-    description: '因为白色背景会吸引 bug。保护视力，提升逼格。',
+    description: '因为白色背景会吸引 bug。保护视力。',
     tier: 1,
     category: BuildingCategory.TECHNOCRACY,
     costs: { [ResourceType.INFO]: 1000 },
@@ -337,7 +363,7 @@ export const TIER_1_TECHS: Tech[] = [
   },
   {
     id: 'keyboard_warrior',
-    name: '键盘侠特训',
+    name: '键盘技巧特训',
     description: 'CAPS LOCK IS CRUISE CONTROL FOR COOL. 掌握怒喷的艺术。',
     tier: 1,
     category: BuildingCategory.INTERNET_CULTURE,

@@ -4,7 +4,7 @@ import { Tech, ResourceType, BuildingCategory } from '../../../types';
 export const TIER_5_TECHS: Tech[] = [
   {
     id: 'neurolinguistic_programming', 
-    name: '神经语言程序学 (NLP)',
+    name: '神经语言程序学',
     description: '通过特定的语言模式重新编程大脑。洗脑的科学化。',
     tier: 5,
     category: BuildingCategory.SUBVERSION,
@@ -45,7 +45,7 @@ export const TIER_5_TECHS: Tech[] = [
   },
   {
     id: 'v2k_technology', 
-    name: 'V2K 技术 (Voice-to-Skull)',
+    name: 'V2K 技术',
     description: '微波听觉效应。直接将声音投射到目标的头骨内。',
     tier: 5,
     category: BuildingCategory.TECHNOCRACY,
@@ -69,6 +69,20 @@ export const TIER_5_TECHS: Tech[] = [
     },
     icon: 'Triangle',
     preRequisiteTech: 'mud_flood'
+  },
+  {
+    id: 'silurian_hypothesis',
+    name: '志留纪假说',
+    description: '在人类出现之前的几百万年，是否存在过另一个工业文明？化石中不仅有骨头，还有塑料。',
+    tier: 5,
+    category: BuildingCategory.HISTORY,
+    costs: { [ResourceType.FOSSIL]: 500, [ResourceType.ANCIENT_WISDOM]: 1000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.ANCIENT_WISDOM]: 0.2 },
+        unlockMessage: '解锁: 前人类工业废墟'
+    },
+    icon: 'Layers',
+    preRequisiteTech: 'atlantean_knowledge'
   },
   {
     id: 'mass_psychogenic_illness', 
@@ -98,7 +112,7 @@ export const TIER_5_TECHS: Tech[] = [
   },
   {
     id: 'sumerian_me', 
-    name: '苏美尔 Me (神力)',
+    name: '苏美尔 Me',
     description: '古代神灵用于控制文明基础功能的程序代码。',
     tier: 5,
     category: BuildingCategory.HISTORY,
@@ -111,7 +125,7 @@ export const TIER_5_TECHS: Tech[] = [
   },
   {
     id: 'project_blue_beam', 
-    name: '蓝光计划 (Project Blue Beam)',
+    name: '蓝光计划',
     description: '利用全息投影技术在天空中伪造“基督再临”或“外星人入侵”，以建立世界新秩序。',
     tier: 5,
     category: BuildingCategory.SUBVERSION,
@@ -122,6 +136,32 @@ export const TIER_5_TECHS: Tech[] = [
     },
     icon: 'Projector',
     preRequisiteTech: 'atmospheric_geoengineering'
+  },
+  {
+    id: 'neural_cloud',
+    name: '神经云',
+    description: '将大脑算力并入分布式网络。我的意识在服务器机架间跳跃。',
+    tier: 5,
+    category: BuildingCategory.NETWORK,
+    costs: { [ResourceType.OPS]: 50000, [ResourceType.BIOMASS]: 2000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.OPS]: 0.2 },
+    },
+    icon: 'CloudLightning',
+    preRequisiteTech: 'neural_link_proto'
+  },
+  {
+    id: 'hyperstition',
+    name: '超虚构',
+    description: '通过编造故事来改写现实。如果足够多的人相信它，它就会成真。',
+    tier: 5,
+    category: BuildingCategory.ESOTERIC,
+    costs: { [ResourceType.STORY]: 1000, [ResourceType.REALITY]: 50 },
+    effects: {
+        resourceMultipliers: { [ResourceType.REALITY]: -0.1, [ResourceType.PROBABILITY]: 0.2 },
+    },
+    icon: 'BookOpen',
+    preRequisiteTech: 'memetics'
   },
   
   // --- ARCHIVE EXPANSION ---
@@ -143,7 +183,7 @@ export const TIER_5_TECHS: Tech[] = [
   // --- FOLKLORE EXPANSION ---
   {
     id: 'noclipping_physics',
-    name: '穿模物理学 (Noclipping)',
+    name: '穿模物理学',
     description: '如果在特定的角度撞击现实的墙壁，你会掉出边界。',
     tier: 5,
     category: BuildingCategory.FOLKLORE,
@@ -239,13 +279,13 @@ export const TIER_5_TECHS: Tech[] = [
   },
   {
     id: 'oxygen_toxicity',
-    name: '氧气致幻理论',
+    name: '氧气致幻',
     description: '氧气不是生命之源，而是让你产生“活着”这一幻觉的慢性毒药。戒断反应就是死亡。',
     tier: 5,
     category: BuildingCategory.ESOTERIC,
     costs: { [ResourceType.KNOWLEDGE]: 5000000 },
     effects: {
-        unlockMessage: '新资源发现: 氧气 (OXYGEN) - 停止呼吸以接近真相',
+        unlockMessage: '新资源发现: 氧气 - 停止呼吸以接近真相',
         resourceMultipliers: { [ResourceType.REALITY]: -0.1 }
     },
     icon: 'Wind',
@@ -264,5 +304,18 @@ export const TIER_5_TECHS: Tech[] = [
     },
     icon: 'Circle', // Closest to Tic-Tac shape
     preRequisiteTech: 'black_knight_satellite'
+  },
+  {
+    id: 'retrocausal_looting',
+    name: '逆因果掠夺',
+    description: '那个硬盘在当前时间线已经损坏了？没关系，去它还没坏的昨天拿回来。',
+    tier: 5,
+    category: BuildingCategory.HISTORY,
+    costs: { [ResourceType.ANCIENT_WISDOM]: 2000, [ResourceType.OPS]: 50000 },
+    effects: {
+        artifactRarityBonus: 0.2, // Rarity Boost
+    },
+    icon: 'Rewind',
+    preRequisiteTech: 'phantom_time'
   }
 ];

@@ -51,6 +51,18 @@ export const INTERNET_CULTURE_BUILDINGS: Building[] = [
     requireTech: ['html_1_0'],
   },
   {
+    id: 'datamoshing_studio',
+    name: '数据损坏艺术室',
+    description: '故意破坏视频的 I 帧。拥抱数字腐烂的美感。',
+    category: BuildingCategory.INTERNET_CULTURE,
+    baseCosts: { [ResourceType.INFO]: 5000, [ResourceType.CODE]: 200 },
+    baseProduction: { [ResourceType.CULTURE]: 0.8, [ResourceType.SPAM]: 2.0 },
+    costMultiplier: 1.2,
+    icon: 'ZapOff',
+    unlockRequirement: 0,
+    requireTech: ['glitch_aesthetic'],
+  },
+  {
     id: 'rickroll_redirect',
     name: '瑞克摇诱捕链',
     description: '绝不放弃你，绝不让你失望。通过恶作剧链接传播。',

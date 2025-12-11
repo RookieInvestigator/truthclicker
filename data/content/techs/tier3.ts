@@ -134,6 +134,19 @@ export const TIER_3_TECHS: Tech[] = [
     icon: 'Edit',
     preRequisiteTech: 'carbon_dating'
   },
+  {
+    id: 'geocities_excavation',
+    name: 'GeoCities 挖掘',
+    description: '从网络废墟中恢复闪烁的 GIF 和 <blink> 标签。那些死去的个人主页里藏着灵魂。',
+    tier: 3,
+    category: BuildingCategory.ARCHIVE,
+    costs: { [ResourceType.INFO]: 10000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.LORE]: 0.2 },
+    },
+    icon: 'Layout',
+    preRequisiteTech: 'abandonware_archeology'
+  },
 
   // --- FOLKLORE EXPANSION ---
   {
@@ -177,6 +190,20 @@ export const TIER_3_TECHS: Tech[] = [
     },
     icon: 'Book',
     preRequisiteTech: 'creepypasta_analysis'
+  },
+  {
+    id: 'digital_dowsing',
+    name: '数字探龙针',
+    description: '用鼠标在屏幕上画五角星。如果光标微微颤抖，说明下方埋藏着高价值文件。',
+    tier: 3,
+    category: BuildingCategory.FOLKLORE,
+    costs: { [ResourceType.LORE]: 800, [ResourceType.INFO]: 5000 },
+    effects: {
+        artifactChanceMult: 0.1, 
+        artifactRarityBonus: 0.05
+    },
+    icon: 'MapPin',
+    preRequisiteTech: 'ritual_protocols'
   },
 
   // --- ARCHIVE & VERIFICATION EXPANSION ---
@@ -295,6 +322,19 @@ export const TIER_3_TECHS: Tech[] = [
     preRequisiteTech: 'pseudoscience_marketing'
   },
   {
+    id: 'asmr_psyops',
+    name: 'ASMR 心理战',
+    description: '将低语和咀嚼声武器化。通过极致的放松来瓦解目标的防御机制。',
+    tier: 3,
+    category: BuildingCategory.SUBVERSION,
+    costs: { [ResourceType.PLEASURE]: 100, [ResourceType.MIND_CONTROL]: 50 },
+    effects: {
+        resourceMultipliers: { [ResourceType.MIND_CONTROL]: 0.2 },
+    },
+    icon: 'Headphones',
+    preRequisiteTech: 'social_engineering'
+  },
+  {
     id: 'crisis_acting', 
     name: '危机演员 (Crisis Actors)',
     description: '那些在不同新闻悲剧中出现的同一张面孔。一切都是剧本。',
@@ -323,7 +363,7 @@ export const TIER_3_TECHS: Tech[] = [
   },
   {
     id: 'targeted_individuals', 
-    name: '受控个体 (Gang Stalking)',
+    name: '有组织纠缠',
     description: '不是你在发疯，而是真的有一群人在街角用红颜色车灯给你发信号。',
     tier: 3,
     category: BuildingCategory.SUBVERSION,
@@ -366,7 +406,7 @@ export const TIER_3_TECHS: Tech[] = [
   {
     id: 'simp_economics',
     name: 'Simp 经济学',
-    description: '为了听一句“谢谢大哥”而倾家荡产。',
+    description: '如何倾家荡产的指南。',
     tier: 3,
     category: BuildingCategory.ADULT,
     costs: { [ResourceType.FUNDS]: 2000, [ResourceType.PLEASURE]: 50 },
@@ -380,7 +420,7 @@ export const TIER_3_TECHS: Tech[] = [
   {
     id: 'character_worship',
     name: '怪谈崇拜',
-    description: '杰夫杀手 (Jeff the Killer) 不是怪物，他是被误解的偶像。在硬盘深处为他建立祭坛。',
+    description: '准备好召唤Slender Man的仪式了吗？',
     tier: 3,
     category: BuildingCategory.ADULT,
     costs: { [ResourceType.LORE]: 200, [ResourceType.PLEASURE]: 50 },
@@ -442,6 +482,7 @@ export const TIER_3_TECHS: Tech[] = [
     costs: { [ResourceType.INFO]: 30000 },
     effects: {
         resourceMultipliers: { [ResourceType.CULTURE]: 0.15 },
+        unlockMessage: '解锁: 数据损坏艺术室'
     },
     icon: 'ZapOff',
     preRequisiteTech: 'dead_internet_theory'
@@ -478,7 +519,7 @@ export const TIER_3_TECHS: Tech[] = [
     description: '《Man After Man》。如果人类被基因工程改造成肉块会怎样？推演未来的恐怖生态。',
     tier: 3,
     category: BuildingCategory.HISTORY,
-    costs: { [ResourceType.BIOMASS]: 500, [ResourceType.INFO]: 15000 },
+    costs: { [ResourceType.BIOMASS]: 500, [ResourceType.INFO]: 15000, [ResourceType.FOSSIL]: 50 }, // Added FOSSIL cost
     effects: {
         resourceMultipliers: { [ResourceType.BIOMASS]: 0.2, [ResourceType.LORE]: 0.1 },
         unlockMessage: '解锁: 未来演化沙盘'
@@ -499,5 +540,19 @@ export const TIER_3_TECHS: Tech[] = [
     },
     icon: 'Plane',
     preRequisiteTech: 'magic_bullet_theory'
+  },
+  {
+    id: 'simulation_realism',
+    name: '模拟真实主义',
+    description: '为了赢得论坛上关于坦克装甲厚度的争论，有人发送了真实的军事机密文件。',
+    tier: 3,
+    category: BuildingCategory.SUBVERSION,
+    costs: { [ResourceType.CODE]: 5000, [ResourceType.CRED]: 500 },
+    effects: {
+        resourceMultipliers: { [ResourceType.TECH_CAPITAL]: 0.2 },
+        unlockMessage: '解锁: 游戏论坛泄密者'
+    },
+    icon: 'Gamepad2',
+    preRequisiteTech: 'wiki_wars'
   }
 ];

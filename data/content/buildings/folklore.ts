@@ -15,6 +15,18 @@ export const FOLKLORE_BUILDINGS: Building[] = [
     requireTech: ['forum_culture'],
   },
   {
+    id: 'pixelated_island_locator',
+    name: '像素岛搜寻者',
+    description: '专门寻找卫星地图上被涂黑或马赛克的区域。那里有什么？',
+    category: BuildingCategory.FOLKLORE,
+    baseCosts: { [ResourceType.INFO]: 5000, [ResourceType.LORE]: 50 },
+    baseProduction: { [ResourceType.TRUTH]: 0.05, [ResourceType.LORE]: 0.5 },
+    costMultiplier: 1.2,
+    icon: 'Map',
+    unlockRequirement: 0,
+    requireTech: ['geospatial_anomalies'],
+  },
+  {
     id: 'creepypasta_wiki',
     name: 'Creepypasta 百科',
     description: '有些条目在半夜会自动修改自己。',
@@ -37,6 +49,18 @@ export const FOLKLORE_BUILDINGS: Building[] = [
     icon: 'Eye',
     unlockRequirement: 0, // Reset
     requireTech: ['cryptozoology'],
+  },
+  {
+    id: 'mothman_lamp_store',
+    name: '灯具与鳞粉店',
+    description: '“兄弟，我有灯。” 出售专门吸引不可名状生物的灯具。',
+    category: BuildingCategory.FOLKLORE,
+    baseCosts: { [ResourceType.FUNDS]: 3000, [ResourceType.LORE]: 500 },
+    baseProduction: { [ResourceType.FUNDS]: 50, [ResourceType.FOLLOWERS]: 2.0, [ResourceType.BIOMASS]: 0.2 },
+    costMultiplier: 1.25,
+    icon: 'Zap',
+    unlockRequirement: 0,
+    requireTech: ['cryptid_domestication'],
   },
   {
     id: 'bigfoot_trap',

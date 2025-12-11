@@ -8,7 +8,7 @@ export const HISTORY_BUILDINGS: Building[] = [
     description: '在公园草坪上寻找硬币和旧徽章。',
     category: BuildingCategory.HISTORY,
     baseCosts: { [ResourceType.FUNDS]: 200, [ResourceType.CARDBOARD]: 20 },
-    baseProduction: { [ResourceType.FUNDS]: 2.0, [ResourceType.CLUE]: 0.05, [ResourceType.FOSSIL]: 0.01 }, // Added fossil chance
+    baseProduction: { [ResourceType.FUNDS]: 2.0, [ResourceType.CLUE]: 0.05, [ResourceType.FOSSIL]: 0.02 }, // Slightly increased fossil
     costMultiplier: 1.15,
     icon: 'Search',
     unlockRequirement: 300, // Needs info gate as it has no tech
@@ -84,6 +84,18 @@ export const HISTORY_BUILDINGS: Building[] = [
     icon: 'Hammer',
     unlockRequirement: 0, // Reset
     requireTech: ['mud_flood'],
+  },
+  {
+    id: 'paleontology_lab',
+    name: '古生物实验室',
+    description: '从石头中提取DNA片段和远古气候数据。将无用的骨头转化为真理。',
+    category: BuildingCategory.HISTORY,
+    baseCosts: { [ResourceType.FUNDS]: 8000, [ResourceType.OPS]: 1000 },
+    baseProduction: { [ResourceType.FOSSIL]: -0.2, [ResourceType.KNOWLEDGE]: 2.5, [ResourceType.ANCIENT_WISDOM]: 0.05 },
+    costMultiplier: 1.3,
+    icon: 'Microscope',
+    unlockRequirement: 0,
+    requireTech: ['carbon_dating'],
   },
   {
     id: 'grassy_knoll_sim', 
@@ -175,7 +187,7 @@ export const HISTORY_BUILDINGS: Building[] = [
     description: '交易非法的化石。也许其中混入了不是地球生物的骨头。',
     category: BuildingCategory.HISTORY,
     baseCosts: { [ResourceType.FUNDS]: 100000, [ResourceType.CRED]: -500 },
-    baseProduction: { [ResourceType.FUNDS]: 500, [ResourceType.LORE]: 1.0, [ResourceType.CRED]: -5.0, [ResourceType.FOSSIL]: 0.5 },
+    baseProduction: { [ResourceType.FUNDS]: 500, [ResourceType.LORE]: 1.0, [ResourceType.CRED]: -5.0, [ResourceType.FOSSIL]: 1.0 }, // Increased production
     costMultiplier: 1.45,
     icon: 'Bone',
     unlockRequirement: 0, // Reset
@@ -194,12 +206,24 @@ export const HISTORY_BUILDINGS: Building[] = [
     requireTech: ['akashic_record_access'],
   },
   {
+    id: 'prehuman_ruins',
+    name: '前人类工业废墟',
+    description: '挖掘出的不仅仅是陶罐，而是石化的集成电路和地质层中的同位素异常。',
+    category: BuildingCategory.HISTORY,
+    baseCosts: { [ResourceType.FUNDS]: 100000, [ResourceType.OPS]: 20000 },
+    baseProduction: { [ResourceType.TECH_CAPITAL]: 0.5, [ResourceType.ANCIENT_WISDOM]: 1.0, [ResourceType.FOSSIL]: -1.0 }, // Heavy consumption
+    costMultiplier: 1.5,
+    icon: 'Cpu',
+    unlockRequirement: 0,
+    requireTech: ['silurian_hypothesis'],
+  },
+  {
     id: 'future_evolution_sim',
     name: '未来演化沙盘',
-    description: '推演五千万年后的人类形态。肉块、真空生物、或者纯能量体。',
+    description: '推演五千万年后的人类形态。肉块、真空生物、或者纯能量体。需要消耗化石样本作为基准。',
     category: BuildingCategory.HISTORY,
     baseCosts: { [ResourceType.OPS]: 10000, [ResourceType.FOSSIL]: 50 },
-    baseProduction: { [ResourceType.FOSSIL]: 0.1, [ResourceType.LORE]: 2.0, [ResourceType.PANIC]: 0.5 },
+    baseProduction: { [ResourceType.FOSSIL]: -0.1, [ResourceType.LORE]: 3.0, [ResourceType.PANIC]: 0.8 }, // Consumes now
     costMultiplier: 1.35,
     icon: 'Activity', // Represents simulation
     unlockRequirement: 0,

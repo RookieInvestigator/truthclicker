@@ -67,8 +67,8 @@ export const TIER_4_TECHS: Tech[] = [
   },
   {
     id: 'googology',
-    name: '大数 (Googology)',
-    description: '葛立恒数、TREE(3)、Rayo数。当数字大到宇宙无法容纳时，它们就变成了神学。',
+    name: '大数学',
+    description: '葛立恒数、TREE(3)、Rayo数。当数字大到宇宙无法容纳时，它们就变成……',
     tier: 4,
     category: BuildingCategory.TECHNOCRACY,
     costs: { [ResourceType.CODE]: 60000, [ResourceType.KNOWLEDGE]: 2000 },
@@ -94,7 +94,7 @@ export const TIER_4_TECHS: Tech[] = [
   },
   {
     id: 'aklo_language', 
-    name: 'Aklo 语',
+    name: 'Aklo语',
     description: '一种源自前人类文明的语言，据说能在大脑中引起生理变化。',
     tier: 4,
     category: BuildingCategory.FOLKLORE,
@@ -108,7 +108,7 @@ export const TIER_4_TECHS: Tech[] = [
   },
   {
     id: 'infohazard_containment',
-    name: '信息危害 (Infohazard) 协议',
+    name: '信息危害协议',
     description: '有些知识仅仅是知道就会造成伤害。Roko\'s Basilisk 是最简单的例子。',
     tier: 4,
     category: BuildingCategory.FOLKLORE,
@@ -177,7 +177,7 @@ export const TIER_4_TECHS: Tech[] = [
   },
   {
     id: 'monarch_programming', 
-    name: '帝王计划 (Project Monarch)',
+    name: '帝王计划',
     description: 'MKUltra 的延续。通过创伤性解离创造多重人格间谍。',
     tier: 4,
     category: BuildingCategory.SUBVERSION,
@@ -217,8 +217,8 @@ export const TIER_4_TECHS: Tech[] = [
   },
   {
     id: 'remote_viewing', 
-    name: '遥视 (Remote Viewing)',
-    description: '星门计划（Project Stargate）。超越时空的感知能力。',
+    name: '遥视',
+    description: '星门计划。超越时空的感知能力。',
     tier: 4,
     category: BuildingCategory.ESOTERIC,
     costs: { [ResourceType.KNOWLEDGE]: 3000, [ResourceType.OPS]: 40000 }, 
@@ -231,8 +231,8 @@ export const TIER_4_TECHS: Tech[] = [
   },
   {
     id: 'bicameralism', 
-    name: '二分心智 (Bicameralism)',
-    description: '三千年前人类没有意识，只有听从“神的指令”（右脑幻听）。',
+    name: '二分心智',
+    description: '三千年前人类没有意识，只有听从“神的指令”。',
     tier: 4,
     category: BuildingCategory.ESOTERIC,
     costs: { [ResourceType.KNOWLEDGE]: 2500, [ResourceType.BIOMASS]: 800 }, 
@@ -245,7 +245,7 @@ export const TIER_4_TECHS: Tech[] = [
   },
   {
     id: 'mud_flood', 
-    name: '泥浆洪水理论 (Tartaria)',
+    name: '鞑靼利亚',
     description: '19世纪曾发生过一场毁灭文明的泥浆洪水，掩埋了宏伟的鞑靼利亚帝国。',
     tier: 4,
     category: BuildingCategory.HISTORY,
@@ -256,6 +256,32 @@ export const TIER_4_TECHS: Tech[] = [
     },
     icon: 'Shovel',
     preRequisiteTech: 'abandonware_archeology'
+  },
+  {
+    id: 'vibe_coding',
+    name: '氛围编码',
+    description: '放弃逻辑，追随直觉。',
+    tier: 4,
+    category: BuildingCategory.TECHNOCRACY,
+    costs: { [ResourceType.PLEASURE]: 500, [ResourceType.CODE]: 20000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.CODE]: 0.2 },
+    },
+    icon: 'Sparkles',
+    preRequisiteTech: 'script_optimization'
+  },
+  {
+    id: 'cryptid_domestication',
+    name: '神秘生物驯化',
+    description: '天蛾人其实很亲人，只要你给它喂灯油。',
+    tier: 4,
+    category: BuildingCategory.FOLKLORE,
+    costs: { [ResourceType.BIOMASS]: 2000, [ResourceType.LORE]: 1000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.BIOMASS]: 0.3 },
+    },
+    icon: 'Cat',
+    preRequisiteTech: 'cryptozoology'
   },
 
   // --- ARCHIVE & VERIFICATION EXPANSION ---
@@ -347,7 +373,7 @@ export const TIER_4_TECHS: Tech[] = [
     description: '物种并没有灭绝，它们只是“夹”到了地图的背面。地球深处有一个备份数据库。',
     tier: 4,
     category: BuildingCategory.FOLKLORE,
-    costs: { [ResourceType.LORE]: 5000, [ResourceType.BIOMASS]: 5000 },
+    costs: { [ResourceType.LORE]: 5000, [ResourceType.BIOMASS]: 5000, [ResourceType.FOSSIL]: 200 }, // Added FOSSIL cost
     effects: {
         resourceMultipliers: { [ResourceType.FOSSIL]: 0.2, [ResourceType.BIOMASS]: 0.2 },
         unlockMessage: '解锁: 拉撒路物种坑'
@@ -357,7 +383,7 @@ export const TIER_4_TECHS: Tech[] = [
   },
   {
     id: 'element_115',
-    name: '115 号元素 (Moscovium)',
+    name: '115 号元素',
     description: 'Bob Lazar 是对的。稳定的 115 号元素是重力推进系统的燃料。',
     tier: 4,
     category: BuildingCategory.TECHNOCRACY,
@@ -368,5 +394,18 @@ export const TIER_4_TECHS: Tech[] = [
     },
     icon: 'Atom',
     preRequisiteTech: 'majestic_12'
+  },
+  {
+    id: 'heuristic_scavenging',
+    name: '启发式拾荒',
+    description: '训练神经网络在PB级的数据垃圾场中自动识别高价值目标。',
+    tier: 4,
+    category: BuildingCategory.SURVIVAL,
+    costs: { [ResourceType.CODE]: 30000, [ResourceType.OPS]: 10000 },
+    effects: {
+        artifactChanceMult: 0.15,
+    },
+    icon: 'Search',
+    preRequisiteTech: 'cold_storage_protocols'
   }
 ];

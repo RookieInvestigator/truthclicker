@@ -15,6 +15,18 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     requireTech: ['search_operators'],
   },
   {
+    id: 'schizo_board',
+    name: '连线板',
+    description: '在软木板上钉满剪报，用红毛线连接看似无关的事件。模式开始显现。',
+    category: BuildingCategory.VERIFICATION,
+    baseCosts: { [ResourceType.CARDBOARD]: 100, [ResourceType.INFO]: 300 },
+    baseProduction: { [ResourceType.CLUE]: 0.3, [ResourceType.RUMORS]: 0.5 },
+    costMultiplier: 1.2,
+    icon: 'Network', // Looks like connections
+    unlockRequirement: 0,
+    requireTech: ['pattern_recognition'],
+  },
+  {
     id: 'reverse_image_bot',
     name: '反向搜图爬虫',
     description: '追踪图片的原始来源。揭露被裁剪的真相。',
@@ -25,6 +37,18 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     icon: 'Image',
     unlockRequirement: 0, // Reset
     requireTech: ['search_operators'],
+  },
+  {
+    id: 'spectrogram_decoder',
+    name: '频谱图解码器',
+    description: '在音频文件的声谱中寻找隐藏的人脸或文字。Cicada 3301 的常用手段。',
+    category: BuildingCategory.VERIFICATION,
+    baseCosts: { [ResourceType.CODE]: 2000, [ResourceType.INFO]: 5000 },
+    baseProduction: { [ResourceType.CLUE]: 0.5, [ResourceType.CODE]: 0.2 },
+    costMultiplier: 1.25,
+    icon: 'Activity',
+    unlockRequirement: 0,
+    requireTech: ['steganography'],
   },
   {
     id: 'metadata_extractor',

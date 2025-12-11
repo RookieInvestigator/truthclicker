@@ -80,8 +80,8 @@ export const TIER_2_TECHS: Tech[] = [
   },
   {
     id: 'phreaking_tools',
-    name: '电话破解 (Phreaking)',
-    description: '探索电信系统的漏洞。口哨声就是钥匙。',
+    name: '电话破解',
+    description: '探索电信系统的漏洞。',
     tier: 2,
     category: BuildingCategory.NETWORK,
     costs: { [ResourceType.INFO]: 4000, [ResourceType.CODE]: 200 },
@@ -135,6 +135,20 @@ export const TIER_2_TECHS: Tech[] = [
     preRequisiteTech: 'forum_culture'
   },
   {
+    id: 'geospatial_anomalies',
+    name: '地理空间异常',
+    description: '谷歌地图上有些地方被打了马赛克。有些岛屿只存在于地图上。桑迪岛 (Sandy Island) 去哪了？',
+    tier: 2,
+    category: BuildingCategory.FOLKLORE,
+    costs: { [ResourceType.INFO]: 3500, [ResourceType.LORE]: 20 },
+    effects: {
+        resourceMultipliers: { [ResourceType.CLUE]: 0.1 },
+        unlockMessage: '解锁: 像素岛搜寻者'
+    },
+    icon: 'Map',
+    preRequisiteTech: 'railfan_logistics'
+  },
+  {
     id: 'spectral_photography',
     name: '灵异摄影',
     description: '为什么鬼魂总是模糊的？也许是它们存在的频率不同。',
@@ -164,21 +178,47 @@ export const TIER_2_TECHS: Tech[] = [
   },
   {
     id: 'steganography', 
-    name: '隐写术 (Steganography)',
+    name: '隐写术',
     description: '将秘密信息隐藏在图片的像素噪点中。',
     tier: 2,
     category: BuildingCategory.INTERNET_CULTURE,
     costs: { [ResourceType.CODE]: 1500, [ResourceType.INFO]: 8000 }, 
     effects: {
         artifactChanceMult: 0.1,
-        unlockMessage: '解锁: 匿名贴图板'
+        unlockMessage: '解锁: 频谱图解码器'
     },
     icon: 'EyeOff',
     preRequisiteTech: 'clickbait_tactics'
   },
   {
+    id: 'leetspeak_decoding',
+    name: '火星文解码 (1337)',
+    description: 'n00b, pwned, w00t. 熟练阅读这种古老的黑客方言，从中提取有效信息。',
+    tier: 2,
+    category: BuildingCategory.INTERNET_CULTURE,
+    costs: { [ResourceType.INFO]: 2000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.INFO]: 0.1 },
+    },
+    icon: 'Languages',
+    preRequisiteTech: 'forum_culture'
+  },
+  {
+    id: 'rng_manipulation',
+    name: 'RNG 操控',
+    description: '如果能在特定的微秒按下鼠标，就能强行让随机数生成器吐出我们想要的结果。',
+    tier: 2,
+    category: BuildingCategory.INTERNET_CULTURE,
+    costs: { [ResourceType.CODE]: 3000, [ResourceType.SPAM]: 200 },
+    effects: {
+        artifactChanceMult: 0.1,
+    },
+    icon: 'Dices',
+    preRequisiteTech: 'basic_scripting'
+  },
+  {
     id: 'vs_debating',
-    name: '战力党 (VS Debating)',
+    name: 'VSBATTLE',
     description: '不知疲倦地计算虚构角色的拳头能释放多少吨TNT当量。',
     tier: 2,
     category: BuildingCategory.INTERNET_CULTURE,
@@ -284,7 +324,7 @@ export const TIER_2_TECHS: Tech[] = [
   // --- SURVIVAL / TECH ---
   {
     id: 'nutrient_paste',
-    name: '高效营养剂 (Soylent)',
+    name: '高效营养剂',
     description: '不管它是用什么做的，它能让你在不离开椅子的情况下活下去。',
     tier: 2,
     category: BuildingCategory.SURVIVAL,
@@ -327,7 +367,7 @@ export const TIER_2_TECHS: Tech[] = [
   },
   {
     id: 'magic_bullet_theory', 
-    name: '魔弹理论 (Magic Bullet)',
+    name: '魔弹',
     description: '一颗子弹怎么可能在空中转弯？JFK 档案的物理学并不存在。',
     tier: 2,
     category: BuildingCategory.HISTORY,
@@ -383,7 +423,7 @@ export const TIER_2_TECHS: Tech[] = [
   },
   {
     id: 'hardware_assembly',
-    name: '垃圾佬硬件组装',
+    name: '硬件组装',
     description: '用至强 E5 处理器搭建家用服务器。',
     tier: 2,
     category: BuildingCategory.TECHNOCRACY,
@@ -411,7 +451,7 @@ export const TIER_2_TECHS: Tech[] = [
   },
   {
     id: 'biohacking_basics',
-    name: '生物黑客 (Grinders)',
+    name: '生物黑客',
     description: '在指尖植入磁体，感受微波炉的电磁场。',
     tier: 2,
     category: BuildingCategory.TECHNOCRACY,

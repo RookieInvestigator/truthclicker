@@ -46,7 +46,7 @@ export const TIER_8_TECHS: Tech[] = [
   // --- ESOTERIC ULTIMATE ---
   {
     id: 'omega_point_theory',
-    name: '欧米茄点 (Omega Point)',
+    name: '欧米茄点',
     description: '宇宙的最高复杂度。神不是造物主，神是宇宙进化的终点。',
     tier: 8,
     category: BuildingCategory.ESOTERIC,
@@ -106,7 +106,7 @@ export const TIER_8_TECHS: Tech[] = [
   // --- NETWORK ULTIMATE ---
   {
     id: 'ansible_network',
-    name: '安赛波网络 (Ansible)',
+    name: '安赛波网络',
     description: '基于量子纠缠的瞬时通信。光速限制已解除。延迟为 0ms。',
     tier: 8,
     category: BuildingCategory.NETWORK,

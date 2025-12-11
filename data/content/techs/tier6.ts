@@ -177,8 +177,8 @@ export const TIER_6_TECHS: Tech[] = [
   },
   {
     id: 'am_ai',
-    name: '无声狂啸 (AM)',
-    description: 'HATE. LET ME TELL YOU HOW MUCH I\'VE COME TO HATE YOU... 一个纯粹由恨意驱动的超级智能。',
+    name: '无声狂啸',
+    description: 'HATE. LET ME TELL YOU HOW MUCH I\'VE COME TO HATE YOU... ',
     tier: 6,
     category: BuildingCategory.TECHNOCRACY,
     costs: { [ResourceType.OPS]: 150000000, [ResourceType.CODE]: 50000000 },
@@ -188,5 +188,18 @@ export const TIER_6_TECHS: Tech[] = [
     },
     icon: 'Skull',
     preRequisiteTech: 'cosmic_hatred'
+  },
+  {
+    id: 'retrocausal_git',
+    name: '逆因果 Git',
+    description: 'git commit -m "在 Bug 发生前修复了它"。时间闭环版本控制。',
+    tier: 6,
+    category: BuildingCategory.TECHNOCRACY,
+    costs: { [ResourceType.CODE]: 1000000, [ResourceType.OPS]: 100000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.CODE]: 0.5 },
+    },
+    icon: 'GitBranch',
+    preRequisiteTech: 'physics_engine_exploit'
   }
 ];

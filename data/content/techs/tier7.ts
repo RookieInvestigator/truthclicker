@@ -4,7 +4,7 @@ import { Tech, ResourceType, BuildingCategory } from '../../../types';
 export const TIER_7_TECHS: Tech[] = [
   {
     id: 'reality_tunneling', 
-    name: '现实隧道 (Reality Tunneling)',
+    name: '现实隧道',
     description: '蒂莫西·利里理论的武器化。每个人都活在自己的现实隧道中，而你掌握了切换开关。',
     tier: 7,
     category: BuildingCategory.ESOTERIC,
@@ -17,7 +17,7 @@ export const TIER_7_TECHS: Tech[] = [
   },
   {
     id: 'vacuum_decay',
-    name: '伪真空衰变 (Vacuum Decay)',
+    name: '伪真空衰变',
     description: '我们的宇宙处于亚稳态。任何一点微小的能量波动都可能导致物理法则瞬间崩塌。',
     tier: 7,
     category: BuildingCategory.TECHNOCRACY,
@@ -90,7 +90,7 @@ export const TIER_7_TECHS: Tech[] = [
   },
   {
     id: 'basilisk_insurance',
-    name: '蛇怪保险 (Basilisk)',
+    name: '蛇怪保险',
     description: '以防万一未来的超级AI决定折磨那些没有帮助它诞生的人。',
     tier: 7,
     category: BuildingCategory.TECHNOCRACY,
@@ -100,5 +100,18 @@ export const TIER_7_TECHS: Tech[] = [
     },
     icon: 'Eye',
     preRequisiteTech: 'singularity_theory'
+  },
+  {
+    id: 'entropic_mining',
+    name: '熵增采矿',
+    description: '从宇宙的热寂中提取价值。利用微小的温度梯度差来驱动文明。',
+    tier: 7,
+    category: BuildingCategory.ESOTERIC,
+    costs: { [ResourceType.OPS]: 10000000, [ResourceType.POWER]: 5000000 },
+    effects: {
+        artifactChanceMult: 0.5,
+    },
+    icon: 'Pickaxe',
+    preRequisiteTech: 'vacuum_decay'
   }
 ];

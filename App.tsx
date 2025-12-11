@@ -7,6 +7,7 @@ import ResourcesPanel from './components/ResourcesPanel';
 import MainPanel from './components/MainPanel';
 import ArtifactGrid from './components/ArtifactGrid';
 import SettingsModal from './components/SettingsModal';
+import ActiveEventsTicker from './components/ActiveEventsTicker';
 
 const App: React.FC = () => {
   const {
@@ -23,7 +24,9 @@ const App: React.FC = () => {
     recycleAllCommons,
     saveGame,
     resetGame,
-    toggleSetting
+    toggleSetting,
+    triggerRealityFlush, // NEW
+    triggerProbabilityDrive // NEW
   } = useGameLogic();
 
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -35,8 +38,9 @@ const App: React.FC = () => {
   return (
     <div className="flex flex-col h-screen bg-term-black text-gray-300 font-mono overflow-hidden">
       {/* Header */}
-      <header className="h-12 border-b border-term-gray flex items-center justify-between px-6 bg-term-gray/10 z-10 shrink-0 select-none">
-        <div className="flex items-center gap-2">
+      <header className="h-12 border-b border-term-gray flex items-center justify-between px-6 bg-term-gray/10 z-10 shrink-0 select-none relative">
+        {/* Logo Section */}
+        <div className="flex items-center gap-2 shrink-0 w-48">
           <Eye className="text-term-green animate-pulse" />
           <h1 className="text-lg font-bold tracking-tighter text-white hidden sm:block">
             TRUTH<span className="text-term-green">_CLICKER</span>
@@ -44,7 +48,11 @@ const App: React.FC = () => {
           </h1>
         </div>
         
-        <div className="flex items-center gap-4 text-xs">
+        {/* Center: Event Ticker */}
+        <ActiveEventsTicker events={gameState.activeEvents} />
+
+        {/* Right: Controls */}
+        <div className="flex items-center gap-4 text-xs shrink-0 w-auto justify-end">
           <div className="flex items-center gap-1 text-cyber-purple border border-cyber-purple/30 px-2 py-1 rounded bg-cyber-purple/5">
             <Radio size={14} />
             <span>DEPTH: {Math.floor(gameState.depth / 10)}</span>
@@ -71,14 +79,17 @@ const App: React.FC = () => {
       {/* Main Layout */}
       <div className="flex-1 flex overflow-hidden">
         
-        {/* Left Column: Resources & Events */}
+        {/* Left Column: Resources */}
         <ResourcesPanel 
             resources={gameState.resources}
             productionRates={productionRates}
             totalInfoMined={gameState.totalInfoMined}
             clickPower={clickPower}
             onMine={handleManualMine}
-            activeEvents={gameState.activeEvents}
+            onTriggerRealityFlush={triggerRealityFlush} // Passed
+            onTriggerProbabilityDrive={triggerProbabilityDrive} // Passed
+            researchedTechs={gameState.researchedTechs} // Passed
+            luckBoostEndTime={gameState.luckBoostEndTime} // Passed
         />
 
         {/* Center Column: Main Game Area */}

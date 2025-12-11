@@ -141,4 +141,5 @@ export interface GameState {
   settings: GameSettings; // New field
   startTime: number;
   depth: number;
+  luckBoostEndTime: number; // New field for manual Probability consumption
 }

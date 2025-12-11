@@ -37,8 +37,7 @@ export const useGameLogic = () => {
 
       [ResourceType.PLEASURE]: 0,     // NEW
       [ResourceType.PROBABILITY]: 0,  // NEW
-      [ResourceType.REALITY]: 100,    // NEW (Starts at 100?) Let's start at 0 and build up stability, or start at 100 and it decays?
-                                      // Let's stick to standard production logic: 0 and build up "Stability Index".
+      [ResourceType.REALITY]: 0,      // Changed default to 0, builds up
       
       [ResourceType.CLUE]: 0,
       [ResourceType.KNOWLEDGE]: 0,
@@ -56,6 +55,7 @@ export const useGameLogic = () => {
     },
     startTime: Date.now(),
     depth: 0,
+    luckBoostEndTime: 0, // New logic
   });
 
   const [logs, setLogs] = useState<LogEntry[]>([]);
@@ -252,6 +252,59 @@ export const useGameLogic = () => {
           }
       }));
   }, []);
+
+  // NEW: Manual Reality Flush
+  const triggerRealityFlush = useCallback(() => {
+      const COST = 20;
+      if (stateRef.current.resources[ResourceType.REALITY] < COST) {
+          addLog("现实稳定指数不足，无法执行修正", "warning");
+          return;
+      }
+
+      setGameState(prev => {
+          // Remove ALL events (Clean slate)
+          const removedCount = prev.activeEvents.length;
+          
+          if (removedCount === 0) {
+              addLog("现实读数稳定，无需重置", "info");
+              return prev;
+          }
+
+          addLog(`>>> 现实重置启动：强制归零了 ${removedCount} 个时间线波动`, "rare");
+          
+          return {
+              ...prev,
+              resources: {
+                  ...prev.resources,
+                  [ResourceType.REALITY]: prev.resources[ResourceType.REALITY] - COST
+              },
+              activeEvents: [] // Clear all
+          }
+      });
+  }, [addLog]);
+
+  // NEW: Manual Probability Drive
+  const triggerProbabilityDrive = useCallback(() => {
+      const COST = 5;
+      const DURATION = 60000; // 60s
+      
+      if (stateRef.current.resources[ResourceType.PROBABILITY] < COST) {
+          addLog("正概率不足，无法启动引擎", "warning");
+          return;
+      }
+
+      setGameState(prev => {
+          addLog(">>> 概率引擎过载：幸运值极幅提升 (60s)", "rare");
+          return {
+              ...prev,
+              resources: {
+                  ...prev.resources,
+                  [ResourceType.PROBABILITY]: prev.resources[ResourceType.PROBABILITY] - COST
+              },
+              luckBoostEndTime: Date.now() + DURATION
+          };
+      });
+  }, [addLog]);
 
   const handleManualMine = useCallback(() => {
     const amount = calculateClickPower();
@@ -476,7 +529,8 @@ export const useGameLogic = () => {
             resources: { ...prev.resources, ...parsed.resources }, 
             artifacts: parsed.artifacts || [],
             activeEvents: parsed.activeEvents || [], // Load events
-            settings: { ...prev.settings, ...(parsed.settings || {}) } // Merge settings
+            settings: { ...prev.settings, ...(parsed.settings || {}) }, // Merge settings
+            luckBoostEndTime: parsed.luckBoostEndTime || 0
         }));
         addLog('系统恢复成功', 'success');
       } catch (e) { console.error(e); }
@@ -527,6 +581,13 @@ export const useGameLogic = () => {
         let luck = 1.0;
         let baseChance = 0.015;
 
+        // NEW: Probability Drive Boost
+        const isBoosted = now < stateRef.current.luckBoostEndTime;
+        if (isBoosted) {
+            luck *= 5.0; // 5x luck
+            baseChance *= 2.0; // Double frequency
+        }
+
         // 1. Artifact Bonus
         stateRef.current.artifacts.forEach(a => { if (a.bonusType === 'luck') luck *= a.bonusValue; });
         
@@ -549,7 +610,7 @@ export const useGameLogic = () => {
             const uniqueRoll = Math.random();
             const collectedIds = stateRef.current.artifacts.filter(a => !a.isProcedural).map(a => a.id);
             const availableUniques = UNIQUE_ARTIFACTS.filter(a => !collectedIds.includes(a.id));
-            const uniqueChance = 0.05 * luck;
+            const uniqueChance = 0.05 * luck; // Boosted luck increases Unique chance
 
             if (uniqueRoll < uniqueChance && availableUniques.length > 0) {
                  const totalWeight = availableUniques.reduce((sum, a) => sum + a.dropChanceWeight, 0);
@@ -560,6 +621,11 @@ export const useGameLogic = () => {
                  }
             } else {
                 newArtifact = generateArtifact(stateRef.current.depth, stateRef.current.researchedTechs);
+                
+                // Boosted Rarity Check if active
+                if (isBoosted && newArtifact.rarity === 'common' && Math.random() < 0.5) {
+                    newArtifact.rarity = 'rare'; // Upgrade common to rare 50% of time during boost
+                }
             }
         }
 
@@ -613,6 +679,8 @@ export const useGameLogic = () => {
     recycleAllCommons,
     saveGame,
     resetGame,
-    toggleSetting
+    toggleSetting,
+    triggerRealityFlush, // Exported
+    triggerProbabilityDrive // Exported
   };
 };

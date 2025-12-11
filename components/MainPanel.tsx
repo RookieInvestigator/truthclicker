@@ -4,7 +4,7 @@ import { GameState, ResourceType, Artifact, BuildingCategory } from '../types';
 import { BUILDINGS } from '../data/buildings';
 import { TECHS } from '../data/techs';
 import { CATEGORY_CONFIG, RESOURCE_INFO } from '../constants';
-import { Grid, FlaskConical, FolderOpen, CheckSquare, Square, Monitor, ChevronDown, ChevronRight, Maximize2, Minimize2, Filter, XCircle } from 'lucide-react';
+import { Grid, FlaskConical, FolderOpen, CheckSquare, Square, ChevronDown, ChevronRight, Maximize2, Minimize2, Filter, XCircle } from 'lucide-react';
 import * as Icons from 'lucide-react';
 import BuildingCard from './BuildingRow';
 import TechCard from './TechRow';

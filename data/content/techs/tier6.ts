@@ -31,6 +31,28 @@ export const TIER_6_TECHS: Tech[] = [
     preRequisiteTech: 'v2k_technology'
   },
   {
+    id: 'reality_scrubber_protocol', // NEW
+    name: '现实清洗协议',
+    description: '解锁主动能力：消耗 [现实稳定] 来强制抹除当前的负面异常事件。',
+    tier: 6,
+    category: BuildingCategory.ESOTERIC,
+    costs: { [ResourceType.REALITY]: 50, [ResourceType.OPS]: 2000000 }, 
+    effects: { unlockMessage: '解锁能力：现实重置 (清除负面事件)' },
+    icon: 'Eraser',
+    preRequisiteTech: 'physics_engine_exploit'
+  },
+  {
+    id: 'probability_drive', // NEW
+    name: '无限非概率引擎',
+    description: '解锁主动能力：消耗 [正概率] 来在短时间内极大幅度提升稀有掉落率。',
+    tier: 6,
+    category: BuildingCategory.TECHNOCRACY,
+    costs: { [ResourceType.PROBABILITY]: 20, [ResourceType.TECH_CAPITAL]: 500000 }, 
+    effects: { unlockMessage: '解锁能力：幸运爆发 (消耗正概率)' },
+    icon: 'Dices',
+    preRequisiteTech: 'physics_engine_exploit'
+  },
+  {
     id: 'egregore_summoning', 
     name: 'Egregore 召唤',
     description: '当足够多的人相信同一个[谣言]，它就会获得自主意识。',

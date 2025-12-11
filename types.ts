@@ -121,10 +121,34 @@ export interface GameEvent {
   reqTech?: string[]; // New: Tech required to unlock this event
 }
 
+// --- NEW: CHOICE EVENT TYPES ---
+export interface ChoiceOption {
+  id: string;
+  label: string;
+  description: string;
+  cost?: { [key in ResourceType]?: number };
+  // Reward can be resources OR a trigger for a standard GameEvent (buff/debuff)
+  reward: {
+    resources?: { [key in ResourceType]?: number };
+    triggerEventId?: string; // ID of a GameEvent to trigger
+    buildingId?: string; // NEW: Reward a free building
+  };
+}
+
+export interface ChoiceEventDefinition {
+  id: string;
+  title: string;
+  description: string;
+  options: ChoiceOption[]; // Pool of options, only 3 selected at runtime
+  reqTech?: string[];
+  minDepth?: number;
+}
+
 export interface GameSettings {
   showCommonArtifactLogs: boolean;
   showBuildingLogs: boolean;
   showFlavorText: boolean;
+  disableChoiceEvents: boolean; // NEW: Toggle to disable popup choices
 }
 
 export interface GameState {
@@ -137,9 +161,10 @@ export interface GameState {
   };
   researchedTechs: string[];
   artifacts: Artifact[]; 
-  activeEvents: GameEvent[]; // New field
-  settings: GameSettings; // New field
+  activeEvents: GameEvent[]; 
+  pendingChoice: ChoiceEventDefinition | null; // NEW: Active popup event
+  settings: GameSettings;
   startTime: number;
   depth: number;
-  luckBoostEndTime: number; // New field for manual Probability consumption
+  luckBoostEndTime: number; 
 }

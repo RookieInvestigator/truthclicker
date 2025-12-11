@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { GameSettings } from '../types';
-import { X, Settings, CheckSquare, Square } from 'lucide-react';
+import { X, Settings, CheckSquare, Square, AlertTriangle } from 'lucide-react';
 
 interface SettingsModalProps {
   settings: GameSettings;
@@ -64,6 +64,24 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ settings, onToggle, onClo
                 </div>
                 <div className={settings.showFlavorText ? 'text-term-green' : 'text-gray-600'}>
                     {settings.showFlavorText ? <CheckSquare size={20} /> : <Square size={20} />}
+                </div>
+            </div>
+
+            <div className="border-t border-gray-800 my-2"></div>
+
+            <div 
+                className="flex items-center justify-between cursor-pointer group select-none"
+                onClick={() => onToggle('disableChoiceEvents')}
+            >
+                <div className="flex flex-col">
+                    <span className="text-sm font-bold text-gray-300 group-hover:text-yellow-500 transition-colors flex items-center gap-2">
+                        挂机模式
+                        <AlertTriangle size={12} className="text-yellow-500" />
+                    </span>
+                    <span className="text-[10px] text-gray-500">禁用[选择事件]弹窗，避免挂机被中断</span>
+                </div>
+                <div className={settings.disableChoiceEvents ? 'text-yellow-500' : 'text-gray-600'}>
+                    {settings.disableChoiceEvents ? <CheckSquare size={20} /> : <Square size={20} />}
                 </div>
             </div>
 

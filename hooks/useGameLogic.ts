@@ -1,12 +1,13 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { GameState, ResourceType, LogEntry, Artifact, GameEvent, GameSettings } from '../types';
+import { GameState, ResourceType, LogEntry, Artifact, GameEvent, GameSettings, ChoiceEventDefinition, ChoiceOption } from '../types';
 import { TICK_RATE, AUTOSAVE_INTERVAL } from '../constants';
 import { BUILDINGS } from '../data/buildings';
 import { TECHS } from '../data/techs';
 import { UNIQUE_ARTIFACTS } from '../data/artifacts';
 import { FLAVOR_MESSAGES } from '../data/flavor';
 import { POSSIBLE_EVENTS } from '../data/events';
+import { CHOICE_EVENTS } from '../data/choiceEvents'; 
 import { generateArtifact } from '../utils/generator';
 
 export const useGameLogic = () => {
@@ -35,9 +36,9 @@ export const useGameLogic = () => {
       [ResourceType.PANIC]: 0,
       [ResourceType.MIND_CONTROL]: 0, 
 
-      [ResourceType.PLEASURE]: 0,     // NEW
-      [ResourceType.PROBABILITY]: 0,  // NEW
-      [ResourceType.REALITY]: 0,      // Changed default to 0, builds up
+      [ResourceType.PLEASURE]: 0,     
+      [ResourceType.PROBABILITY]: 0,  
+      [ResourceType.REALITY]: 0,      
       
       [ResourceType.CLUE]: 0,
       [ResourceType.KNOWLEDGE]: 0,
@@ -47,15 +48,17 @@ export const useGameLogic = () => {
     buildings: {},
     researchedTechs: [],
     artifacts: [],
-    activeEvents: [], // New
+    activeEvents: [], 
+    pendingChoice: null, 
     settings: {
         showCommonArtifactLogs: true,
         showBuildingLogs: true,
         showFlavorText: true,
+        disableChoiceEvents: false, 
     },
     startTime: Date.now(),
     depth: 0,
-    luckBoostEndTime: 0, // New logic
+    luckBoostEndTime: 0, 
   });
 
   const [logs, setLogs] = useState<LogEntry[]>([]);
@@ -252,6 +255,61 @@ export const useGameLogic = () => {
           }
       }));
   }, []);
+
+  // NEW: Handle Choice Made
+  const handleMakeChoice = useCallback((option: ChoiceOption) => {
+      setGameState(prev => {
+          const nextRes = { ...prev.resources };
+          const nextBuildings = { ...prev.buildings };
+          
+          // Deduct Cost
+          if (option.cost) {
+              (Object.entries(option.cost) as [ResourceType, number][]).forEach(([res, val]) => {
+                  nextRes[res] -= val;
+              });
+          }
+
+          // Apply Resource Reward
+          if (option.reward.resources) {
+              (Object.entries(option.reward.resources) as [ResourceType, number][]).forEach(([res, val]) => {
+                  nextRes[res] = (nextRes[res] || 0) + val;
+              });
+          }
+
+          // Apply Building Reward
+          if (option.reward.buildingId) {
+              const currentCount = nextBuildings[option.reward.buildingId] || 0;
+              nextBuildings[option.reward.buildingId] = currentCount + 1;
+              const buildingName = BUILDINGS.find(b => b.id === option.reward.buildingId)?.name || 'Unknown Building';
+              addLog(`获得建筑: ${buildingName}`, 'success');
+          }
+
+          // Trigger Linked Event
+          let newEvents = [...prev.activeEvents];
+          if (option.reward.triggerEventId) {
+              const evtTemplate = POSSIBLE_EVENTS.find(e => e.id === option.reward.triggerEventId);
+              if (evtTemplate) {
+                  const newEvent: GameEvent = {
+                      ...evtTemplate,
+                      startTime: Date.now(),
+                      id: `${evtTemplate.id}_triggered_${Date.now()}`
+                  };
+                  newEvents.push(newEvent);
+                  addLog(`决策结果: 触发了 [${newEvent.name}]`, newEvent.type === 'negative' ? 'warning' : 'success');
+              }
+          } else {
+              addLog(`决策执行完毕: ${option.label}`, 'success');
+          }
+
+          return {
+              ...prev,
+              resources: nextRes,
+              buildings: nextBuildings,
+              activeEvents: newEvents,
+              pendingChoice: null // Close modal
+          };
+      });
+  }, [addLog]);
 
   // NEW: Manual Reality Flush
   const triggerRealityFlush = useCallback(() => {
@@ -530,7 +588,8 @@ export const useGameLogic = () => {
             artifacts: parsed.artifacts || [],
             activeEvents: parsed.activeEvents || [], // Load events
             settings: { ...prev.settings, ...(parsed.settings || {}) }, // Merge settings
-            luckBoostEndTime: parsed.luckBoostEndTime || 0
+            luckBoostEndTime: parsed.luckBoostEndTime || 0,
+            pendingChoice: null // Always reset pending choice on load
         }));
         addLog('系统恢复成功', 'success');
       } catch (e) { console.error(e); }
@@ -553,8 +612,37 @@ export const useGameLogic = () => {
         // 1. Clean up expired events
         let events = stateRef.current.activeEvents.filter(evt => now < evt.startTime + evt.duration * 1000);
         
-        // 2. Chance to spawn new event
-        if (events.length < 3 && Math.random() < 0.002) { 
+        // 2. Chance to spawn new event (Standard OR Choice)
+        if (events.length < 3 && !stateRef.current.pendingChoice && Math.random() < 0.002) { 
+            
+            // 20% Chance for a Choice Event (If not disabled)
+            if (!stateRef.current.settings.disableChoiceEvents && Math.random() < 0.2) {
+                const availableChoices = CHOICE_EVENTS.filter(evt => {
+                    if (evt.minDepth && stateRef.current.depth < evt.minDepth) return false;
+                    if (evt.reqTech && !evt.reqTech.every(req => stateRef.current.researchedTechs.includes(req))) return false;
+                    return true;
+                });
+
+                if (availableChoices.length > 0) {
+                    const baseChoice = availableChoices[Math.floor(Math.random() * availableChoices.length)];
+                    
+                    // SHUFFLE AND PICK 3 OPTIONS
+                    const shuffledOptions = [...baseChoice.options].sort(() => 0.5 - Math.random());
+                    const selectedOptions = shuffledOptions.slice(0, 3);
+                    
+                    const finalChoice: ChoiceEventDefinition = {
+                        ...baseChoice,
+                        options: selectedOptions
+                    };
+
+                    setGameState(prev => ({ ...prev, pendingChoice: finalChoice }));
+                    addLog(`注意：需要介入决策 - ${finalChoice.title}`, 'rare');
+                    // Return early so we don't spawn a standard event in the same tick
+                    return; 
+                }
+            }
+
+            // Standard Event Spawn
             // Filter available events based on tech requirements
             const availableEvents = POSSIBLE_EVENTS.filter(evt => {
                 // If reqTech is undefined or empty, it's always available
@@ -680,7 +768,8 @@ export const useGameLogic = () => {
     saveGame,
     resetGame,
     toggleSetting,
-    triggerRealityFlush, // Exported
-    triggerProbabilityDrive // Exported
+    triggerRealityFlush, 
+    triggerProbabilityDrive,
+    handleMakeChoice // Exported
   };
 };

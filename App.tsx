@@ -8,6 +8,7 @@ import MainPanel from './components/MainPanel';
 import ArtifactGrid from './components/ArtifactGrid';
 import SettingsModal from './components/SettingsModal';
 import ActiveEventsTicker from './components/ActiveEventsTicker';
+import ChoiceEventModal from './components/ChoiceEventModal'; // NEW
 
 const App: React.FC = () => {
   const {
@@ -25,8 +26,9 @@ const App: React.FC = () => {
     saveGame,
     resetGame,
     toggleSetting,
-    triggerRealityFlush, // NEW
-    triggerProbabilityDrive // NEW
+    triggerRealityFlush, 
+    triggerProbabilityDrive,
+    handleMakeChoice // NEW
   } = useGameLogic();
 
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -86,10 +88,10 @@ const App: React.FC = () => {
             totalInfoMined={gameState.totalInfoMined}
             clickPower={clickPower}
             onMine={handleManualMine}
-            onTriggerRealityFlush={triggerRealityFlush} // Passed
-            onTriggerProbabilityDrive={triggerProbabilityDrive} // Passed
-            researchedTechs={gameState.researchedTechs} // Passed
-            luckBoostEndTime={gameState.luckBoostEndTime} // Passed
+            onTriggerRealityFlush={triggerRealityFlush} 
+            onTriggerProbabilityDrive={triggerProbabilityDrive} 
+            researchedTechs={gameState.researchedTechs} 
+            luckBoostEndTime={gameState.luckBoostEndTime} 
         />
 
         {/* Center Column: Main Game Area */}
@@ -124,6 +126,15 @@ const App: React.FC = () => {
             settings={gameState.settings} 
             onToggle={toggleSetting} 
             onClose={() => setIsSettingsOpen(false)} 
+        />
+      )}
+
+      {/* Choice Event Popup */}
+      {gameState.pendingChoice && (
+        <ChoiceEventModal 
+            event={gameState.pendingChoice}
+            resources={gameState.resources}
+            onChoose={handleMakeChoice}
         />
       )}
     </div>

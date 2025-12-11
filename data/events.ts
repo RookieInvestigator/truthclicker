@@ -15,14 +15,34 @@ const createEventTemplate = (
 });
 
 export const POSSIBLE_EVENTS: Omit<GameEvent, 'startTime'>[] = [
-    // --- BASIC EVENTS (Always Available) ---
+    // ==========================================
+    // GENERIC BUFFS/DEBUFFS (For Choice Events)
+    // ==========================================
+    createEventTemplate('temp_ops_boost', '算力超频', '临时分配了额外的云端资源。', 'positive', 30, { [ResourceType.OPS]: 1.5, [ResourceType.CODE]: 1.2 }),
+    createEventTemplate('temp_ops_drain', '系统卡顿', '后台正在运行未知的更新进程。', 'negative', 30, { [ResourceType.OPS]: 0.5 }),
+    
+    createEventTemplate('temp_funds_boost', '牛市行情', '短期投资回报率上升。', 'positive', 45, { [ResourceType.FUNDS]: 1.5 }),
+    createEventTemplate('temp_funds_leak', '账户冻结', '部分资金被临时锁定以进行安全审查。', 'negative', 45, { [ResourceType.FUNDS]: 0.5 }),
+
+    createEventTemplate('temp_info_surge', '信息洪流', '发现了一个未受保护的数据接口。', 'positive', 60, { [ResourceType.INFO]: 2.0 }),
+    createEventTemplate('temp_info_drought', '网络限流', 'ISP 正在对你的连接进行节流。', 'negative', 60, { [ResourceType.INFO]: 0.2 }),
+
+    createEventTemplate('temp_panic_spike', '恐慌发作', '偏执狂的妄想控制了大脑。', 'negative', 40, { [ResourceType.PANIC]: 2.0, [ResourceType.MIND_CONTROL]: 1.2 }),
+    createEventTemplate('temp_clarity', '思维清晰', '看穿了噪音。', 'positive', 40, { [ResourceType.PANIC]: 0.5, [ResourceType.TRUTH]: 1.2 }),
+
+    createEventTemplate('temp_luck_boost', '命运眷顾', '宇宙的随机数生成器似乎偏向了你。', 'positive', 30, { [ResourceType.PROBABILITY]: 1.5, [ResourceType.CLUE]: 1.5 }),
+    createEventTemplate('temp_glitch', '现实故障', '物理常数发生了轻微偏移。', 'glitch', 20, { [ResourceType.REALITY]: 0.5, [ResourceType.TRUTH]: 2.0 }),
+
+    // ==========================================
+    // STANDARD RANDOM EVENTS
+    // ==========================================
     createEventTemplate(
         'viral_trend',
         '病毒式传播',
         '你的内容击中了算法的 G 点。流量如洪水般涌入。',
         'positive',
         60,
-        { [ResourceType.INFO]: 1.3, [ResourceType.FOLLOWERS]: 1.3, [ResourceType.FUNDS]: 1.2 } // Reduced from 2.0/1.5
+        { [ResourceType.INFO]: 1.3, [ResourceType.FOLLOWERS]: 1.3, [ResourceType.FUNDS]: 1.2 } 
     ),
     createEventTemplate(
         'ddos_attack',
@@ -54,7 +74,7 @@ export const POSSIBLE_EVENTS: Omit<GameEvent, 'startTime'>[] = [
         '评论区变成了战场。虽然产生了大量流量，但都是有毒的。',
         'mixed',
         50,
-        { [ResourceType.INFO]: 1.3, [ResourceType.SPAM]: 2.0, [ResourceType.PANIC]: 1.2, [ResourceType.CRED]: 0.7 } // Info 1.8 -> 1.3
+        { [ResourceType.INFO]: 1.3, [ResourceType.SPAM]: 2.0, [ResourceType.PANIC]: 1.2, [ResourceType.CRED]: 0.7 } 
     ),
 
     // --- TIER 1+ TECH EVENTS ---
@@ -64,7 +84,7 @@ export const POSSIBLE_EVENTS: Omit<GameEvent, 'startTime'>[] = [
         '甚至连空气币都在涨。这是套现的好时机。',
         'positive',
         45,
-        { [ResourceType.FUNDS]: 1.3, [ResourceType.TECH_CAPITAL]: 1.15 }, // Funds 2.0 -> 1.3
+        { [ResourceType.FUNDS]: 1.3, [ResourceType.TECH_CAPITAL]: 1.15 }, 
         ['blockchain_basics']
     ),
     createEventTemplate(
@@ -73,7 +93,7 @@ export const POSSIBLE_EVENTS: Omit<GameEvent, 'startTime'>[] = [
         '你在核心库中发现了一个未修补的后门。权限提升。',
         'positive',
         30,
-        { [ResourceType.OPS]: 1.3, [ResourceType.CODE]: 1.3, [ResourceType.CRED]: 1.2 }, // Reduced from 1.8
+        { [ResourceType.OPS]: 1.3, [ResourceType.CODE]: 1.3, [ResourceType.CRED]: 1.2 }, 
         ['basic_scripting']
     ),
     createEventTemplate(
@@ -82,13 +102,11 @@ export const POSSIBLE_EVENTS: Omit<GameEvent, 'startTime'>[] = [
         '现在每个人都想要那种低保真的感觉。旧数据变成了宝藏。',
         'positive',
         90,
-        { [ResourceType.CULTURE]: 1.3, [ResourceType.LORE]: 1.25 }, // Reduced from 1.8
+        { [ResourceType.CULTURE]: 1.3, [ResourceType.LORE]: 1.25 }, 
         ['abandonware_archeology']
     ),
 
     // --- URBAN LEGENDS & MYSTERIES ---
-    
-    // Polybius: Requires gaming or conspiracy knowledge
     createEventTemplate(
         'polybius_cabinet',
         '波利比乌斯目击',
@@ -98,30 +116,24 @@ export const POSSIBLE_EVENTS: Omit<GameEvent, 'startTime'>[] = [
         { [ResourceType.MIND_CONTROL]: 1.3, [ResourceType.PANIC]: 1.5, [ResourceType.FUNDS]: 0.7 },
         ['conspiracy_101']
     ),
-
-    // Cicada 3301: Requires cryptography
     createEventTemplate(
         'cicada_puzzle',
         '蝉 3301 谜题',
         '一张隐藏在JPEG噪点中的图片引发了全球极客的狂欢。智慧的试炼。',
         'positive',
         120,
-        { [ResourceType.CODE]: 1.3, [ResourceType.KNOWLEDGE]: 1.2, [ResourceType.OPS]: 0.8 }, // Code 2.0 -> 1.3
+        { [ResourceType.CODE]: 1.3, [ResourceType.KNOWLEDGE]: 1.2, [ResourceType.OPS]: 0.8 },
         ['steganography']
     ),
-
-    // Roko's Basilisk: Requires AI knowledge
     createEventTemplate(
         'rokos_basilisk',
         '洛可蛇怪',
         '未来的超级AI正在审视你现在的贡献。如果你不全力帮它诞生，它就会惩罚你。快工作！',
         'negative',
         45,
-        { [ResourceType.OPS]: 2.0, [ResourceType.CODE]: 2.0, [ResourceType.PANIC]: 3.0, [ResourceType.PLEASURE]: 0.5 }, // Specifically kept high for this specific "Work Harder" event context (Lore wise)
+        { [ResourceType.OPS]: 2.0, [ResourceType.CODE]: 2.0, [ResourceType.PANIC]: 3.0, [ResourceType.PLEASURE]: 0.5 },
         ['singularity_theory']
     ),
-
-    // Time Cube: Requires Esoteric knowledge
     createEventTemplate(
         'time_cube_truth',
         '时间立方',
@@ -131,8 +143,6 @@ export const POSSIBLE_EVENTS: Omit<GameEvent, 'startTime'>[] = [
         { [ResourceType.LORE]: 1.5, [ResourceType.KNOWLEDGE]: 0.5, [ResourceType.TRUTH]: 1.3, [ResourceType.CRED]: 0.5 },
         ['symbolism_decoding']
     ),
-
-    // The Hum: Requires Audio/Radio tech
     createEventTemplate(
         'global_hum',
         '全球嗡嗡声',
@@ -142,8 +152,6 @@ export const POSSIBLE_EVENTS: Omit<GameEvent, 'startTime'>[] = [
         { [ResourceType.PANIC]: 1.3, [ResourceType.CLUE]: 1.3, [ResourceType.PLEASURE]: 0.7 },
         ['radio_theory']
     ),
-
-    // Backrooms: Requires Liminal Space knowledge
     createEventTemplate(
         'noclip_reality',
         '切出后室',
@@ -153,8 +161,6 @@ export const POSSIBLE_EVENTS: Omit<GameEvent, 'startTime'>[] = [
         { [ResourceType.REALITY]: 0.5, [ResourceType.INFO]: 0.5, [ResourceType.LORE]: 2.0, [ResourceType.PANIC]: 2.0 },
         ['liminal_space_theory']
     ),
-
-    // Y2K38: Requires Deep Coding
     createEventTemplate(
         'y2k38_bug',
         '2038年问题',
@@ -164,19 +170,15 @@ export const POSSIBLE_EVENTS: Omit<GameEvent, 'startTime'>[] = [
         { [ResourceType.CODE]: 0.5, [ResourceType.OPS]: 0.5, [ResourceType.LORE]: 1.5 },
         ['basic_scripting']
     ),
-
-    // John Titor: Requires Forums + History
     createEventTemplate(
         'time_traveler_post',
         '时间旅行者发帖',
         'ID为 TimeTravel_0 的用户贴出了 IBM 5100 的图纸。他说2036年没有奥运会。',
         'mixed',
         60,
-        { [ResourceType.FOLLOWERS]: 1.25, [ResourceType.STORY]: 1.3, [ResourceType.TRUTH]: 0.8 }, // Reduced positives
+        { [ResourceType.FOLLOWERS]: 1.25, [ResourceType.STORY]: 1.3, [ResourceType.TRUTH]: 0.8 }, 
         ['forum_culture']
     ),
-
-    // Dead Internet: Requires the specific tech
     createEventTemplate(
         'echo_chamber_collapse',
         '回声室坍塌',
@@ -186,37 +188,31 @@ export const POSSIBLE_EVENTS: Omit<GameEvent, 'startTime'>[] = [
         { [ResourceType.FOLLOWERS]: 0.2, [ResourceType.REALITY]: 0.7, [ResourceType.PANIC]: 1.5 },
         ['dead_internet_theory']
     ),
-
-    // Glitch in the Matrix
     createEventTemplate(
         'reality_leak',
         '现实泄漏',
         '物理常数发生了微小的偏移。世界变得不稳定，但真相更容易被观测。',
         'glitch',
         40,
-        { [ResourceType.REALITY]: 0.7, [ResourceType.TRUTH]: 1.4, [ResourceType.PANIC]: 1.5 }, // Truth 2.0 -> 1.4
+        { [ResourceType.REALITY]: 0.7, [ResourceType.TRUTH]: 1.4, [ResourceType.PANIC]: 1.5 }, 
         ['quantum_luck']
     ),
-
-    // Dopamine Overload
     createEventTemplate(
         'dopamine_overload',
         '多巴胺过载',
         '极致的快感导致理智下降。',
         'mixed',
         30,
-        { [ResourceType.PLEASURE]: 1.5, [ResourceType.OPS]: 0.7, [ResourceType.KNOWLEDGE]: 0.7 }, // Pleasure 3.0 -> 1.5
+        { [ResourceType.PLEASURE]: 1.5, [ResourceType.OPS]: 0.7, [ResourceType.KNOWLEDGE]: 0.7 }, 
         ['hedonistic_imperative']
     ),
-    
-    // Solar Flare (Physical Threat)
     createEventTemplate(
         'solar_flare',
         '卡林顿级耀斑',
         '电磁干扰增强。电子设备失灵，但有些东西在噪音中苏醒。',
         'glitch',
         20,
-        { [ResourceType.OPS]: 0.5, [ResourceType.ANCIENT_WISDOM]: 1.4, [ResourceType.POWER]: 1.5 }, // Wisdom 2.0 -> 1.4
+        { [ResourceType.OPS]: 0.5, [ResourceType.ANCIENT_WISDOM]: 1.4, [ResourceType.POWER]: 1.5 }, 
         ['hardware_assembly']
     )
 ];

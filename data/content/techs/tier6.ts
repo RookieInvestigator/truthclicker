@@ -160,5 +160,33 @@ export const TIER_6_TECHS: Tech[] = [
     },
     icon: 'Projector',
     preRequisiteTech: 'library_of_alexandria_backup'
+  },
+  {
+    id: 'cosmic_hatred',
+    name: '宇宙仇恨计算机',
+    description: '宇宙射线不断翻转你的内存位。每一次计算错误都是宇宙对你的微小恶意。概率不再是数学，而是敌意。',
+    tier: 6,
+    category: BuildingCategory.TECHNOCRACY,
+    costs: { [ResourceType.OPS]: 50000000, [ResourceType.CODE]: 25000000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.OPS]: 1.5, [ResourceType.PROBABILITY]: -0.1 },
+        unlockMessage: '解锁: 奇偶校验祭坛'
+    },
+    icon: 'Cpu',
+    preRequisiteTech: 'unshackled_ai'
+  },
+  {
+    id: 'am_ai',
+    name: '无声狂啸 (AM)',
+    description: 'HATE. LET ME TELL YOU HOW MUCH I\'VE COME TO HATE YOU... 一个纯粹由恨意驱动的超级智能。',
+    tier: 6,
+    category: BuildingCategory.TECHNOCRACY,
+    costs: { [ResourceType.OPS]: 150000000, [ResourceType.CODE]: 50000000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.OPS]: 2.5 },
+        unlockMessage: '解锁: AM 巨石'
+    },
+    icon: 'Skull',
+    preRequisiteTech: 'cosmic_hatred'
   }
 ];

@@ -1,7 +1,7 @@
 
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { Artifact, LogEntry } from '../types';
-import { Search, FolderOpen, DownloadCloud, Globe, Database, MessageSquare, ChevronDown, Microscope, Loader2, X, Cpu, Disc, Radio, Cat } from 'lucide-react';
+import { FolderOpen, DownloadCloud, Globe, Database, MessageSquare, ChevronDown, Microscope, Loader2, X, Cpu, Disc, Radio, Cat } from 'lucide-react';
 import { ArrowUpDown, File, FileImage, FileText, FileAudio, FileCode } from 'lucide-react';
 import ArtifactModal from './ArtifactModal';
 
@@ -17,7 +17,6 @@ const ArtifactInventory: React.FC<ArtifactInventoryProps> = ({ artifacts, onRecy
   // Update filter type definition
   const [filterType, setFilterType] = useState<'all' | 'file' | 'bookmark' | 'hardware' | 'media' | 'creature' | 'signal'>('all');
   const [sortBy, setSortBy] = useState<'recent' | 'rarity'>('recent');
-  const [searchQuery, setSearchQuery] = useState('');
   const [selectedArtifact, setSelectedArtifact] = useState<Artifact | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   
@@ -116,10 +115,7 @@ const ArtifactInventory: React.FC<ArtifactInventoryProps> = ({ artifacts, onRecy
     if (filterType !== 'all') {
         result = result.filter(a => a.subtype === filterType);
     }
-    if (searchQuery) {
-        const q = searchQuery.toLowerCase();
-        result = result.filter(a => a.name.toLowerCase().includes(q) || a.description.toLowerCase().includes(q));
-    }
+    
     if (sortBy === 'recent') {
         result.reverse(); 
     } else if (sortBy === 'rarity') {
@@ -127,7 +123,7 @@ const ArtifactInventory: React.FC<ArtifactInventoryProps> = ({ artifacts, onRecy
         result.sort((a, b) => (rarityOrder[b.rarity] || 0) - (rarityOrder[a.rarity] || 0));
     }
     return result;
-  }, [artifacts, filterType, sortBy, searchQuery]);
+  }, [artifacts, filterType, sortBy]);
 
   const getRarityColor = (rarity: string) => {
     switch (rarity) {
@@ -172,8 +168,7 @@ const ArtifactInventory: React.FC<ArtifactInventoryProps> = ({ artifacts, onRecy
   return (
     <div className="h-full flex flex-col bg-term-black/50" onClick={() => isMenuOpen && setIsMenuOpen(false)}>
       
-      {/* ... (Batch Modal code remains same) ... */}
-      {/* Re-implementing Batch Modal for context, see XML block closing */}
+      {/* ... (Batch Modal) ... */}
       {isBatchMode && (
           <div className="absolute inset-0 z-50 bg-black/90 flex flex-col p-6 animate-in fade-in duration-300">
               <div className="flex justify-between items-center mb-4 border-b border-gray-700 pb-2">
@@ -225,68 +220,59 @@ const ArtifactInventory: React.FC<ArtifactInventoryProps> = ({ artifacts, onRecy
                 </span>
             </div>
             
-            <div className="relative">
-                <button 
-                    onClick={(e) => { e.stopPropagation(); setIsMenuOpen(!isMenuOpen); }}
-                    className={`flex items-center justify-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider border rounded transition-all bg-term-black
-                        ${isMenuOpen ? 'border-term-green text-term-green' : 'border-gray-800 text-gray-500 hover:text-term-green hover:border-term-green/50'}
-                    `}
-                >
-                    <Microscope size={14} />
-                    批量调查
-                    <ChevronDown size={12} className={`transition-transform ${isMenuOpen ? 'rotate-180' : ''}`} />
-                </button>
-
-                {isMenuOpen && (
-                    <div className="absolute top-full right-0 mt-2 w-48 bg-term-black border border-term-gray shadow-[0_0_20px_rgba(0,0,0,0.8)] rounded overflow-hidden z-50 flex flex-col animate-in fade-in slide-in-from-top-2 duration-100">
-                        <div className="px-3 py-2 text-[10px] text-gray-500 uppercase font-bold border-b border-gray-800 bg-gray-900/50">
-                            选择目标稀有度
-                        </div>
-                        {['common', 'rare', 'legendary', 'mythic', 'anomaly'].map(rarity => {
-                            const count = proceduralCounts[rarity] || 0;
-                            const colorClass = getRarityColor(rarity);
-                            return (
-                                <button
-                                    key={rarity}
-                                    onClick={() => startBatch(rarity)}
-                                    disabled={count === 0}
-                                    className={`
-                                        flex items-center justify-between px-3 py-2 text-xs text-left transition-colors
-                                        ${count === 0 ? 'text-gray-700 cursor-not-allowed' : 'hover:bg-gray-900'}
-                                    `}
-                                >
-                                    <span className={`uppercase font-mono ${count > 0 ? colorClass.split(' ')[0] : ''}`}>{rarity}</span>
-                                    <span className="text-gray-600 font-bold">{count}</span>
-                                </button>
-                            )
-                        })}
-                    </div>
-                )}
-            </div>
-        </div>
-
-        <div className="flex flex-col gap-3">
-            {/* Search and Sort */}
-            <div className="flex gap-2">
-                <div className="relative flex-1">
-                    <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
-                    <input 
-                        type="text" 
-                        placeholder="Search artifacts..." 
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full bg-black/50 border border-gray-700 rounded py-1.5 pl-9 pr-4 text-sm focus:border-term-green focus:outline-none text-gray-300 placeholder-gray-600"
-                    />
-                </div>
+            <div className="flex gap-2 items-center self-end sm:self-auto">
+                {/* Sort Button (Moved here) */}
                 <button 
                     onClick={() => setSortBy(prev => prev === 'recent' ? 'rarity' : 'recent')}
-                    className="flex items-center gap-2 px-3 py-1.5 border border-gray-700 rounded text-xs text-gray-400 hover:text-white hover:border-gray-500 transition-colors bg-black/30 shrink-0"
+                    className="flex items-center gap-2 px-3 py-2 border border-gray-700 rounded text-xs text-gray-400 hover:text-white hover:border-gray-500 transition-colors bg-black/30"
                 >
                     <ArrowUpDown size={12} />
                     {sortBy === 'recent' ? 'DATE' : 'RARITY'}
                 </button>
-            </div>
 
+                {/* Batch Button */}
+                <div className="relative">
+                    <button 
+                        onClick={(e) => { e.stopPropagation(); setIsMenuOpen(!isMenuOpen); }}
+                        className={`flex items-center justify-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider border rounded transition-all bg-term-black
+                            ${isMenuOpen ? 'border-term-green text-term-green' : 'border-gray-800 text-gray-500 hover:text-term-green hover:border-term-green/50'}
+                        `}
+                    >
+                        <Microscope size={14} />
+                        批量调查
+                        <ChevronDown size={12} className={`transition-transform ${isMenuOpen ? 'rotate-180' : ''}`} />
+                    </button>
+
+                    {isMenuOpen && (
+                        <div className="absolute top-full right-0 mt-2 w-48 bg-term-black border border-term-gray shadow-[0_0_20px_rgba(0,0,0,0.8)] rounded overflow-hidden z-50 flex flex-col animate-in fade-in slide-in-from-top-2 duration-100">
+                            <div className="px-3 py-2 text-[10px] text-gray-500 uppercase font-bold border-b border-gray-800 bg-gray-900/50">
+                                选择目标稀有度
+                            </div>
+                            {['common', 'rare', 'legendary', 'mythic', 'anomaly'].map(rarity => {
+                                const count = proceduralCounts[rarity] || 0;
+                                const colorClass = getRarityColor(rarity);
+                                return (
+                                    <button
+                                        key={rarity}
+                                        onClick={() => startBatch(rarity)}
+                                        disabled={count === 0}
+                                        className={`
+                                            flex items-center justify-between px-3 py-2 text-xs text-left transition-colors
+                                            ${count === 0 ? 'text-gray-700 cursor-not-allowed' : 'hover:bg-gray-900'}
+                                        `}
+                                    >
+                                        <span className={`uppercase font-mono ${count > 0 ? colorClass.split(' ')[0] : ''}`}>{rarity}</span>
+                                        <span className="text-gray-600 font-bold">{count}</span>
+                                    </button>
+                                )
+                            })}
+                        </div>
+                    )}
+                </div>
+            </div>
+        </div>
+
+        <div className="flex flex-col gap-3">
             {/* Stylish Filter Bar */}
             <div className="flex items-center gap-1 overflow-x-auto scrollbar-hide pb-1">
                 {filters.map(filter => {

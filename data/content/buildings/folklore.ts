@@ -182,4 +182,28 @@ export const FOLKLORE_BUILDINGS: Building[] = [
     unlockRequirement: 0, // Reset
     requireTech: ['cognitohazard_design'],
   },
+  {
+    id: 'crypto_darkroom',
+    name: '神秘生物暗房',
+    description: '专门冲洗那些所谓“曝光不足”的怪物照片。从噪点中还原雷鸟的翼展。',
+    category: BuildingCategory.FOLKLORE,
+    baseCosts: { [ResourceType.FUNDS]: 2000, [ResourceType.LORE]: 100 },
+    baseProduction: { [ResourceType.LORE]: 1.0, [ResourceType.CLUE]: 0.2 },
+    costMultiplier: 1.25,
+    icon: 'Image',
+    unlockRequirement: 0,
+    requireTech: ['thunderbird_photo'],
+  },
+  {
+    id: 'extinction_reversal_vat',
+    name: '拉撒路物种坑',
+    description: '渡渡鸟并没有死，它只是在等待服务器重启。我们正在把它“下载”回来。',
+    category: BuildingCategory.FOLKLORE,
+    baseCosts: { [ResourceType.BIOMASS]: 5000, [ResourceType.LORE]: 2000 },
+    baseProduction: { [ResourceType.BIOMASS]: 10.0, [ResourceType.LORE]: 2.0, [ResourceType.FOSSIL]: -0.5 },
+    costMultiplier: 1.4,
+    icon: 'Dna',
+    unlockRequirement: 0,
+    requireTech: ['hollow_earth_biology'],
+  }
 ];

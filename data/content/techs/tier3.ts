@@ -378,6 +378,20 @@ export const TIER_3_TECHS: Tech[] = [
     preRequisiteTech: 'rule_34'
   },
   {
+    id: 'character_worship',
+    name: '怪谈崇拜',
+    description: '杰夫杀手 (Jeff the Killer) 不是怪物，他是被误解的偶像。在硬盘深处为他建立祭坛。',
+    tier: 3,
+    category: BuildingCategory.ADULT,
+    costs: { [ResourceType.LORE]: 200, [ResourceType.PLEASURE]: 50 },
+    effects: {
+        resourceMultipliers: { [ResourceType.LORE]: 0.15 },
+        clickPowerMult: 0.15
+    },
+    icon: 'Heart',
+    preRequisiteTech: 'creepypasta_analysis'
+  },
+  {
     id: 'quantum_luck',
     name: '量子观测学',
     description: '只要你不看，猫就既是活的又是死的。',
@@ -444,5 +458,46 @@ export const TIER_3_TECHS: Tech[] = [
     },
     icon: 'Shield',
     preRequisiteTech: 'tor_network'
+  },
+  {
+    id: 'aesthetics_police',
+    name: '视觉风格纠察',
+    description: '“那是 Outrun，不是 Vaporwave！” 对美学标签的病态执着。',
+    tier: 3,
+    category: BuildingCategory.INTERNET_CULTURE,
+    costs: { [ResourceType.CULTURE]: 200, [ResourceType.SPAM]: 500 },
+    effects: {
+        resourceMultipliers: { [ResourceType.CULTURE]: 0.25, [ResourceType.SPAM]: 0.1 },
+    },
+    icon: 'Palette',
+    preRequisiteTech: 'glitch_aesthetic'
+  },
+  {
+    id: 'speculative_biology',
+    name: '猜想演化',
+    description: '《Man After Man》。如果人类被基因工程改造成肉块会怎样？推演未来的恐怖生态。',
+    tier: 3,
+    category: BuildingCategory.HISTORY,
+    costs: { [ResourceType.BIOMASS]: 500, [ResourceType.INFO]: 15000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.BIOMASS]: 0.2, [ResourceType.LORE]: 0.1 },
+        unlockMessage: '解锁: 未来演化沙盘'
+    },
+    icon: 'Dna',
+    preRequisiteTech: 'cryptozoology'
+  },
+  {
+    id: 'foo_fighters',
+    name: 'Foo Fighters 档案',
+    description: '二战飞行员报告的发光球体。它们不是纳粹的秘密武器，也不是盟军的。',
+    tier: 3,
+    category: BuildingCategory.HISTORY,
+    costs: { [ResourceType.KNOWLEDGE]: 100, [ResourceType.LORE]: 200 },
+    effects: {
+        resourceMultipliers: { [ResourceType.ANCIENT_WISDOM]: 0.1, [ResourceType.KNOWLEDGE]: 0.1 },
+        unlockMessage: '天空之眼'
+    },
+    icon: 'Plane',
+    preRequisiteTech: 'magic_bullet_theory'
   }
 ];

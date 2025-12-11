@@ -41,6 +41,7 @@ export enum ResourceType {
 
   CARDBOARD = 'CARDBOARD', 
   SPAM = 'SPAM',           
+  FOSSIL = 'FOSSIL',       // NEW
   
   LORE = 'LORE',           
   ANCIENT_WISDOM = 'ANCIENT_WISDOM', 
@@ -53,6 +54,7 @@ export enum ResourceType {
   PLEASURE = 'PLEASURE',   
   PROBABILITY = 'PROBABILITY', 
   REALITY = 'REALITY',     
+  OXYGEN = 'OXYGEN',       // NEW: Starts High, is a drug
 
   CLUE = 'CLUE',           
   KNOWLEDGE = 'KNOWLEDGE', 

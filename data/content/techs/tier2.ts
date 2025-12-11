@@ -90,7 +90,7 @@ export const TIER_2_TECHS: Tech[] = [
         unlockMessage: '解锁: 蓝盒子'
     },
     icon: 'Phone',
-    preRequisiteTech: 'dial_up_handshake'
+    preRequisiteTech: 'doomscrolling'
   },
   {
     id: 'radio_theory',
@@ -400,11 +400,11 @@ export const TIER_2_TECHS: Tech[] = [
     name: '编程袜',
     description: '粉白条纹不仅是审美，更是C++编译成功的护身符。',
     tier: 2,
-    category: BuildingCategory.ADULT, // Changed to ADULT category
+    category: BuildingCategory.ADULT, 
     costs: { [ResourceType.FUNDS]: 800, [ResourceType.INFO]: 500 }, 
     effects: { 
         resourceMultipliers: { [ResourceType.CODE]: 0.3 },
-        unlockMessage: '解锁: OnlyFans 页面' // Changed message
+        unlockMessage: '解锁: OnlyFans 页面'
     },
     icon: 'Codesandbox',
     preRequisiteTech: 'mechanical_keyboards',
@@ -429,13 +429,27 @@ export const TIER_2_TECHS: Tech[] = [
     name: '第34条法则',
     description: '如果它存在，就有关于它的... 你懂的。这是互联网的原动力。',
     tier: 2,
-    category: BuildingCategory.ADULT, // Entry point for Adult category
+    category: BuildingCategory.ADULT,
     costs: { [ResourceType.INFO]: 5000, [ResourceType.FUNDS]: 200 },
     effects: {
         unlockMessage: '解锁: ？？？ (深渊凝视)'
     },
     icon: 'Heart',
     preRequisiteTech: 'forum_culture'
+  },
+  {
+    id: 'plushie_therapy',
+    name: '毛绒疗法',
+    description: 'IKEA 鲨鱼是唯一理解你的人。软绵绵的拥抱能缓解现实的尖锐棱角。',
+    tier: 2,
+    category: BuildingCategory.ADULT,
+    costs: { [ResourceType.FUNDS]: 300, [ResourceType.PLEASURE]: 20 },
+    effects: {
+        resourceMultipliers: { [ResourceType.PLEASURE]: 0.2 },
+        clickPowerMult: 0.1
+    },
+    icon: 'Smile',
+    preRequisiteTech: 'programming_socks'
   },
 
   // --- NEW FLAVOR TECHS (Tier 2) ---
@@ -477,5 +491,33 @@ export const TIER_2_TECHS: Tech[] = [
     },
     icon: 'Tv',
     preRequisiteTech: 'hardware_assembly'
+  },
+  {
+    id: 'lego_architecture',
+    name: '乐高架构',
+    description: '模块化、绝缘、可扩展。谁说服务器机架必须是金属做的？',
+    tier: 2,
+    category: BuildingCategory.TECHNOCRACY,
+    costs: { [ResourceType.FUNDS]: 500, [ResourceType.CARDBOARD]: 50 },
+    effects: {
+        globalCostReduction: 0.03,
+        unlockMessage: '积木式扩容'
+    },
+    icon: 'Grid',
+    preRequisiteTech: 'cardboard_architecture'
+  },
+  {
+    id: 'thunderbird_photo',
+    name: '雷鸟照片鉴别',
+    description: '那张 19 世纪牛仔举着巨大翼龙的照片真的存在吗？还是我们集体的曼德拉效应？',
+    tier: 2,
+    category: BuildingCategory.FOLKLORE,
+    costs: { [ResourceType.LORE]: 30, [ResourceType.INFO]: 4000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.LORE]: 0.15 },
+        unlockMessage: '解锁: 神秘生物暗房'
+    },
+    icon: 'Image',
+    preRequisiteTech: 'spectral_photography'
   }
 ];

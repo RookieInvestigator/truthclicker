@@ -162,6 +162,20 @@ export const TIER_4_TECHS: Tech[] = [
     preRequisiteTech: 'simp_economics'
   },
   {
+    id: 'personal_punk',
+    name: '个人朋克',
+    description: '“朋克不在于莫霍克头，而在于我把牙刷柄锯短了 2 厘米以减轻重量。” 对生活细节的病态优化。',
+    tier: 4,
+    category: BuildingCategory.ADULT,
+    costs: { [ResourceType.CULTURE]: 1000, [ResourceType.CARDBOARD]: 1000 },
+    effects: {
+        globalCostReduction: 0.05,
+        unlockMessage: '生活方式黑客'
+    },
+    icon: 'Scissors',
+    preRequisiteTech: 'punk_zine_press'
+  },
+  {
     id: 'monarch_programming', 
     name: '帝王计划 (Project Monarch)',
     description: 'MKUltra 的延续。通过创伤性解离创造多重人格间谍。',
@@ -313,5 +327,46 @@ export const TIER_4_TECHS: Tech[] = [
     },
     icon: 'TrendingUp',
     preRequisiteTech: 'ai_alignment'
+  },
+  {
+    id: 'proof_of_presence',
+    name: '在场证明',
+    description: '24/7 在线状态。如果你的绿点熄灭了，你还存在吗？数字化永生的一种形式。',
+    tier: 4,
+    category: BuildingCategory.NETWORK,
+    costs: { [ResourceType.INFO]: 60000, [ResourceType.OPS]: 10000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.FOLLOWERS]: 0.3, [ResourceType.REALITY]: -0.1 },
+    },
+    icon: 'Activity',
+    preRequisiteTech: 'infinite_scroll_trap'
+  },
+  {
+    id: 'hollow_earth_biology',
+    name: '地球定期补充灭绝物种',
+    description: '物种并没有灭绝，它们只是“夹”到了地图的背面。地球深处有一个备份数据库。',
+    tier: 4,
+    category: BuildingCategory.FOLKLORE,
+    costs: { [ResourceType.LORE]: 5000, [ResourceType.BIOMASS]: 5000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.FOSSIL]: 0.2, [ResourceType.BIOMASS]: 0.2 },
+        unlockMessage: '解锁: 拉撒路物种坑'
+    },
+    icon: 'Globe',
+    preRequisiteTech: 'speculative_biology'
+  },
+  {
+    id: 'element_115',
+    name: '115 号元素 (Moscovium)',
+    description: 'Bob Lazar 是对的。稳定的 115 号元素是重力推进系统的燃料。',
+    tier: 4,
+    category: BuildingCategory.TECHNOCRACY,
+    costs: { [ResourceType.KNOWLEDGE]: 2000, [ResourceType.TECH_CAPITAL]: 500 },
+    effects: {
+        resourceMultipliers: { [ResourceType.POWER]: 0.3 },
+        unlockMessage: '重力波生成'
+    },
+    icon: 'Atom',
+    preRequisiteTech: 'majestic_12'
   }
 ];

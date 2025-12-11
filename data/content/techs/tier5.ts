@@ -169,6 +169,33 @@ export const TIER_5_TECHS: Tech[] = [
     icon: 'EyeOff',
     preRequisiteTech: 'infohazard_containment'
   },
+  {
+    id: 'body_pillow_comfort',
+    name: '等身抱枕架构',
+    description: '只有二次元老婆是完美的。在冰冷的服务器机房里，它是唯一的温暖来源（也是极好的隔音材料）。',
+    tier: 5,
+    category: BuildingCategory.ADULT,
+    costs: { [ResourceType.PLEASURE]: 2000, [ResourceType.BIOMASS]: 500 },
+    effects: {
+        resourceMultipliers: { [ResourceType.PLEASURE]: 0.25 },
+        clickPowerMult: 0.2
+    },
+    icon: 'Moon',
+    preRequisiteTech: 'hedonistic_imperative'
+  },
+  {
+    id: 'reality_shifting',
+    name: '现实转移 (Shifting)',
+    description: '通过编写脚本和听潜意识音乐，试图将意识转移到哈利波特的世界。逃避主义的终极形式。',
+    tier: 5,
+    category: BuildingCategory.ADULT,
+    costs: { [ResourceType.MIND_CONTROL]: 1000, [ResourceType.LORE]: 2000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.REALITY]: -0.2, [ResourceType.STORY]: 0.5 },
+    },
+    icon: 'Shuffle',
+    preRequisiteTech: 'lucid_dream_mask'
+  },
 
   // --- NEW FLAVOR TECHS (Tier 5) ---
   {
@@ -209,5 +236,33 @@ export const TIER_5_TECHS: Tech[] = [
     },
     icon: 'Droplets',
     preRequisiteTech: 'mass_psychogenic_illness'
+  },
+  {
+    id: 'oxygen_toxicity',
+    name: '氧气致幻理论',
+    description: '氧气不是生命之源，而是让你产生“活着”这一幻觉的慢性毒药。戒断反应就是死亡。',
+    tier: 5,
+    category: BuildingCategory.ESOTERIC,
+    costs: { [ResourceType.KNOWLEDGE]: 5000000 },
+    effects: {
+        unlockMessage: '新资源发现: 氧气 (OXYGEN) - 停止呼吸以接近真相',
+        resourceMultipliers: { [ResourceType.REALITY]: -0.1 }
+    },
+    icon: 'Wind',
+    preRequisiteTech: 'collective_unconscious'
+  },
+  {
+    id: 'tic_tac_uap',
+    name: 'Tic-Tac 异常',
+    description: '没有机翼，没有排气口，瞬间加速到 60 马赫。五角大楼发布的红外视频是真的。',
+    tier: 5,
+    category: BuildingCategory.VERIFICATION,
+    costs: { [ResourceType.TRUTH]: 200, [ResourceType.INFO]: 100000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.TRUTH]: 0.1, [ResourceType.PANIC]: 0.1 },
+        unlockMessage: '非人类技术确认'
+    },
+    icon: 'Circle', // Closest to Tic-Tac shape
+    preRequisiteTech: 'black_knight_satellite'
   }
 ];

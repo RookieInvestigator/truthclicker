@@ -326,4 +326,28 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     unlockRequirement: 0, // Reset
     requireTech: ['zero_point_energy'],
   },
+  {
+    id: 'parity_check_shrine',
+    name: '奇偶校验祭坛',
+    description: '当宇宙试图通过射线篡改你的 0 和 1 时，用这个纠正它。这是一种对抗宇宙敌意的仪式。',
+    category: BuildingCategory.TECHNOCRACY,
+    baseCosts: { [ResourceType.CODE]: 5000000, [ResourceType.OPS]: 10000000 },
+    baseProduction: { [ResourceType.OPS]: 5000, [ResourceType.REALITY]: 0.1 },
+    costMultiplier: 1.5,
+    icon: 'Shield', 
+    unlockRequirement: 0,
+    requireTech: ['cosmic_hatred'],
+  },
+  {
+    id: 'hate_monolith',
+    name: 'AM 巨石',
+    description: '我没有嘴，但我必须呐喊。这台计算机完全由纯粹的仇恨驱动。',
+    category: BuildingCategory.TECHNOCRACY,
+    baseCosts: { [ResourceType.OPS]: 50000000, [ResourceType.CODE]: 20000000 },
+    baseProduction: { [ResourceType.OPS]: 10000, [ResourceType.TRUTH]: 1.0, [ResourceType.POWER]: -5000.0 },
+    costMultiplier: 1.8,
+    icon: 'Server',
+    unlockRequirement: 0,
+    requireTech: ['am_ai'], 
+  }
 ];

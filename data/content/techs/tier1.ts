@@ -4,17 +4,17 @@ import { Tech, ResourceType, BuildingCategory } from '../../../types';
 export const TIER_1_TECHS: Tech[] = [
   // --- NETWORK START ---
   {
-    id: 'dial_up_handshake',
-    name: '调制解调器握手',
-    description: '优化握手协议，减少掉线率并提升连接稳定性。',
+    id: 'doomscrolling',
+    name: '末日滚动 (Doomscrolling)',
+    description: '你的拇指比眼睛移动得更快。在潜意识层面处理信息流，极大地提升信息获取效率。',
     tier: 1,
     category: BuildingCategory.NETWORK,
     costs: { [ResourceType.INFO]: 400 },
     effects: {
         resourceMultipliers: { [ResourceType.INFO]: 0.1 },
-        unlockMessage: '连接效率提升'
+        unlockMessage: '解锁: 加密中继节点 / 局域网派对'
     },
-    icon: 'PhoneCall',
+    icon: 'ArrowDownCircle',
     preRequisiteTech: 'digital_literacy'
   },
   {
@@ -31,36 +31,36 @@ export const TIER_1_TECHS: Tech[] = [
     preRequisiteTech: 'digital_literacy'
   },
   {
-    id: 'gopher_protocol', 
-    name: 'Gopher 协议',
-    description: '在万维网(WWW)之前的纯文本菜单网络。挖掘深层信息的古老方式。',
+    id: 'directory_traversal', 
+    name: '目录遍历',
+    description: '../../etc/passwd. 并不是所有门都锁好了。学会寻找服务器的后门。',
     tier: 1,
     category: BuildingCategory.NETWORK,
     costs: { [ResourceType.INFO]: 600 }, 
     effects: {
         resourceMultipliers: { [ResourceType.INFO]: 0.1 }, 
-        unlockMessage: '解锁: Gopher 洞穴'
+        unlockMessage: '解锁: 开放目录索引'
     },
-    icon: 'List',
-    preRequisiteTech: 'dial_up_handshake'
+    icon: 'FolderOpen',
+    preRequisiteTech: 'doomscrolling'
   },
   {
     id: 'rss_feeds', 
-    name: 'RSS 聚合',
-    description: 'Really Simple Syndication。让信息主动来找你，而不是去寻找它。',
+    name: 'API 抓取',
+    description: '直接与服务器的应用程序接口对话。让原始数据主动流向你。',
     tier: 1,
     category: BuildingCategory.NETWORK,
     costs: { [ResourceType.INFO]: 1000 }, 
     effects: {
-        unlockMessage: '解锁: RSS 阅读器'
+        unlockMessage: '解锁: 信息聚合器'
     },
     icon: 'Rss',
-    preRequisiteTech: 'gopher_protocol'
+    preRequisiteTech: 'directory_traversal'
   },
   {
-    id: 'html_1_0', 
-    name: 'HTML 1.0',
-    description: '学习基础的超文本标记语言。<marquee>标签是最酷的发明。',
+    id: 'dom_manipulation', 
+    name: 'DOM 操控',
+    description: '网页只是文档对象模型。你可以随意增删改查，重塑你看到的互联网。',
     tier: 1,
     category: BuildingCategory.INTERNET_CULTURE, // Root of Culture
     costs: { [ResourceType.INFO]: 800, [ResourceType.FUNDS]: 50 }, 
@@ -68,7 +68,7 @@ export const TIER_1_TECHS: Tech[] = [
         unlockMessage: '解锁: 静态粉丝页'
     },
     icon: 'Code',
-    preRequisiteTech: 'dial_up_handshake'
+    preRequisiteTech: 'doomscrolling'
   },
 
   // --- SURVIVAL ---
@@ -213,7 +213,7 @@ export const TIER_1_TECHS: Tech[] = [
     costs: { [ResourceType.INFO]: 600 }, 
     effects: { 
         resourceMultipliers: { [ResourceType.INFO]: 0.2 },
-        unlockMessage: '解锁: 敏感目录爬虫 / 事实核查机器人' 
+        unlockMessage: '解锁: 全网爬虫脚本 / 事实核查机器人' 
     },
     icon: 'Search',
     preRequisiteTech: 'digital_literacy',
@@ -244,7 +244,7 @@ export const TIER_1_TECHS: Tech[] = [
         unlockMessage: '解锁: 论坛潜水 / 都市传说论坛' 
     },
     icon: 'MessageSquare',
-    preRequisiteTech: 'html_1_0',
+    preRequisiteTech: 'dom_manipulation',
   },
   {
     id: 'clickbait_tactics', 
@@ -309,7 +309,7 @@ export const TIER_1_TECHS: Tech[] = [
   {
     id: 'abandonware_archeology',
     name: '废弃软件考古',
-    description: '在 Geocities 的废墟中寻找旧时代的软件。',
+    description: '在 Wayback Machine 的废墟中寻找旧时代的软件。',
     tier: 1,
     category: BuildingCategory.HISTORY, // Root
     costs: { [ResourceType.INFO]: 1000 },
@@ -318,7 +318,7 @@ export const TIER_1_TECHS: Tech[] = [
         unlockMessage: '解锁: 金属探测器'
     },
     icon: 'Disc',
-    preRequisiteTech: 'gopher_protocol'
+    preRequisiteTech: 'directory_traversal'
   },
 
   // --- NEW FLAVOR TECHS (Tier 1) ---
@@ -360,5 +360,31 @@ export const TIER_1_TECHS: Tech[] = [
     },
     icon: 'Pizza',
     preRequisiteTech: 'e_commerce_logic'
+  },
+  {
+    id: 'instant_food_critique',
+    name: '速食食品评鉴',
+    description: '对不同品牌的红烧牛肉面进行盲测。这是最低成本的内容创作。',
+    tier: 1,
+    category: BuildingCategory.SURVIVAL,
+    costs: { [ResourceType.FUNDS]: 50, [ResourceType.INFO]: 100 },
+    effects: {
+        resourceMultipliers: { [ResourceType.FUNDS]: 0.1, [ResourceType.SPAM]: 0.1 },
+    },
+    icon: 'Utensils',
+    preRequisiteTech: 'digital_literacy'
+  },
+  {
+    id: 'subway_exploration',
+    name: '地铁探险',
+    description: '城市下方有另一座城市。避开监控，寻找废弃的维护通道。',
+    tier: 1,
+    category: BuildingCategory.SURVIVAL,
+    costs: { [ResourceType.CARDBOARD]: 50, [ResourceType.INFO]: 300 },
+    effects: {
+        unlockMessage: '解锁: 废弃地铁营地'
+    },
+    icon: 'Train',
+    preRequisiteTech: 'railfan_logistics'
   }
 ];

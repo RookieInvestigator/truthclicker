@@ -122,4 +122,16 @@ export const ESOTERIC_BUILDINGS: Building[] = [
     unlockRequirement: 0, // Reset
     requireTech: ['reality_tunneling'],
   },
+  {
+    id: 'anaerobic_meditation_chamber',
+    name: '厌氧冥想室',
+    description: '移除房间内的氧气。在这种濒死状态下，你终于看清了世界的本质。',
+    category: BuildingCategory.ESOTERIC,
+    baseCosts: { [ResourceType.FUNDS]: 20000, [ResourceType.KNOWLEDGE]: 1000 },
+    baseProduction: { [ResourceType.KNOWLEDGE]: 150.0, [ResourceType.OXYGEN]: -1000.0, [ResourceType.REALITY]: -0.5 },
+    costMultiplier: 1.5,
+    icon: 'Wind',
+    unlockRequirement: 0,
+    requireTech: ['oxygen_toxicity'],
+  }
 ];

@@ -371,4 +371,16 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     unlockRequirement: 0, // Reset: Has Tech
     requireTech: ['social_engineering'],
   },
+  {
+    id: 'urban_spelunking_camp',
+    name: '废弃地铁营地',
+    description: '在地图上不存在的站点安家。这里是城市的盲点。',
+    category: BuildingCategory.SURVIVAL,
+    baseCosts: { [ResourceType.CARDBOARD]: 200, [ResourceType.INFO]: 500 },
+    baseProduction: { [ResourceType.INFO]: 5.0, [ResourceType.LORE]: 0.1, [ResourceType.FOSSIL]: 0.05 },
+    costMultiplier: 1.2,
+    icon: 'Train',
+    unlockRequirement: 0,
+    requireTech: ['subway_exploration'],
+  }
 ];

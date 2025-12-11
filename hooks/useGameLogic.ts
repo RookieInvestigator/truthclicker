@@ -27,6 +27,7 @@ const INITIAL_STATE: GameState = {
     [ResourceType.POWER]: 0,
     [ResourceType.CARDBOARD]: 0,
     [ResourceType.SPAM]: 0,
+    [ResourceType.FOSSIL]: 0, // NEW
     [ResourceType.LORE]: 0,
     [ResourceType.ANCIENT_WISDOM]: 0,
     [ResourceType.STORY]: 0,
@@ -36,6 +37,7 @@ const INITIAL_STATE: GameState = {
     [ResourceType.PLEASURE]: 0,
     [ResourceType.PROBABILITY]: 0,
     [ResourceType.REALITY]: 100, 
+    [ResourceType.OXYGEN]: 1000000, // NEW: Starts very high (Atmosphere)
     [ResourceType.CLUE]: 0,
     [ResourceType.KNOWLEDGE]: 0,
     [ResourceType.TRUTH]: 0,
@@ -65,10 +67,16 @@ export const useGameLogic = () => {
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
+        // Ensure new resources exist in old saves
+        const safeResources = { ...INITIAL_STATE.resources, ...parsed.resources };
+        // If save didn't have oxygen, give it initial value
+        if (parsed.resources && parsed.resources[ResourceType.OXYGEN] === undefined) {
+            safeResources[ResourceType.OXYGEN] = 1000000;
+        }
         return { 
           ...INITIAL_STATE, 
           ...parsed, 
-          resources: { ...INITIAL_STATE.resources, ...parsed.resources }, 
+          resources: safeResources, 
           settings: { ...INITIAL_STATE.settings, ...parsed.settings } 
         };
       } catch (e) {
@@ -383,6 +391,7 @@ export const useGameLogic = () => {
                        primaryRes = ResourceType.BIOMASS;
                        primaryBase = Math.floor(primaryBase / 2);
                        if (Math.random() > 0.5) { secondaryRes = ResourceType.LORE; secondaryAmount = 1; }
+                       if (Math.random() > 0.8) { secondaryRes = ResourceType.FOSSIL; secondaryAmount = 1; } // ADDED Fossil drop
                        break;
                    case 'signal':
                        primaryRes = ResourceType.CODE;

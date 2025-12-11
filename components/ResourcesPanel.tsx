@@ -39,6 +39,7 @@ const ResourcesPanel: React.FC<ExtendedResourcesPanelProps> = ({
       ResourceType.PLEASURE,
       ResourceType.PROBABILITY, 
       ResourceType.REALITY, 
+      // OXYGEN inserted here but only if unlocked
 
       ResourceType.CODE, 
       ResourceType.TECH_CAPITAL, 
@@ -46,7 +47,8 @@ const ResourcesPanel: React.FC<ExtendedResourcesPanelProps> = ({
       ResourceType.BIOMASS, 
       
       ResourceType.CARDBOARD,    
-      ResourceType.SPAM,  
+      ResourceType.SPAM,
+      ResourceType.FOSSIL, // NEW
 
       ResourceType.LORE, 
       ResourceType.ANCIENT_WISDOM, 
@@ -60,6 +62,14 @@ const ResourcesPanel: React.FC<ExtendedResourcesPanelProps> = ({
       ResourceType.KNOWLEDGE, 
       ResourceType.TRUTH
   ];
+
+  // Insert Oxygen if tech researched
+  if (researchedTechs.includes('oxygen_toxicity')) {
+      const realityIndex = resourceList.indexOf(ResourceType.REALITY);
+      if (realityIndex !== -1) {
+          resourceList.splice(realityIndex + 1, 0, ResourceType.OXYGEN);
+      }
+  }
 
   return (
     <section className="w-[20%] border-r border-term-gray flex flex-col bg-term-black/90 min-w-[240px]">
@@ -107,7 +117,7 @@ const ResourcesPanel: React.FC<ExtendedResourcesPanelProps> = ({
                     const amount = resources[res];
                     const rate = productionRates[res];
                     
-                    if (amount <= 0 && rate === 0 && totalInfoMined < 500) return null;
+                    if (amount <= 0 && rate === 0 && totalInfoMined < 500 && res !== ResourceType.OXYGEN) return null;
 
                     const Icon = (Icons as any)[info.icon] || Box;
 

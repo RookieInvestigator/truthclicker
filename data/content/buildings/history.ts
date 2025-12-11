@@ -8,7 +8,7 @@ export const HISTORY_BUILDINGS: Building[] = [
     description: '在公园草坪上寻找硬币和旧徽章。',
     category: BuildingCategory.HISTORY,
     baseCosts: { [ResourceType.FUNDS]: 200, [ResourceType.CARDBOARD]: 20 },
-    baseProduction: { [ResourceType.FUNDS]: 2.0, [ResourceType.CLUE]: 0.05 },
+    baseProduction: { [ResourceType.FUNDS]: 2.0, [ResourceType.CLUE]: 0.05, [ResourceType.FOSSIL]: 0.01 }, // Added fossil chance
     costMultiplier: 1.15,
     icon: 'Search',
     unlockRequirement: 300, // Needs info gate as it has no tech
@@ -175,7 +175,7 @@ export const HISTORY_BUILDINGS: Building[] = [
     description: '交易非法的化石。也许其中混入了不是地球生物的骨头。',
     category: BuildingCategory.HISTORY,
     baseCosts: { [ResourceType.FUNDS]: 100000, [ResourceType.CRED]: -500 },
-    baseProduction: { [ResourceType.FUNDS]: 500, [ResourceType.LORE]: 1.0, [ResourceType.CRED]: -5.0 },
+    baseProduction: { [ResourceType.FUNDS]: 500, [ResourceType.LORE]: 1.0, [ResourceType.CRED]: -5.0, [ResourceType.FOSSIL]: 0.5 },
     costMultiplier: 1.45,
     icon: 'Bone',
     unlockRequirement: 0, // Reset
@@ -193,4 +193,16 @@ export const HISTORY_BUILDINGS: Building[] = [
     unlockRequirement: 0, // Reset
     requireTech: ['akashic_record_access'],
   },
+  {
+    id: 'future_evolution_sim',
+    name: '未来演化沙盘',
+    description: '推演五千万年后的人类形态。肉块、真空生物、或者纯能量体。',
+    category: BuildingCategory.HISTORY,
+    baseCosts: { [ResourceType.OPS]: 10000, [ResourceType.FOSSIL]: 50 },
+    baseProduction: { [ResourceType.FOSSIL]: 0.1, [ResourceType.LORE]: 2.0, [ResourceType.PANIC]: 0.5 },
+    costMultiplier: 1.35,
+    icon: 'Activity', // Represents simulation
+    unlockRequirement: 0,
+    requireTech: ['speculative_biology'],
+  }
 ];

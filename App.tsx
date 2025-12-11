@@ -1,11 +1,12 @@
 
-import React from 'react';
-import { Eye, Radio, Save, RefreshCw } from 'lucide-react';
+import React, { useState } from 'react';
+import { Eye, Radio, Save, RefreshCw, Settings as SettingsIcon } from 'lucide-react';
 import { useGameLogic } from './hooks/useGameLogic';
 import TerminalLog from './components/TerminalLog';
 import ResourcesPanel from './components/ResourcesPanel';
 import MainPanel from './components/MainPanel';
 import ArtifactGrid from './components/ArtifactGrid';
+import SettingsModal from './components/SettingsModal';
 
 const App: React.FC = () => {
   const {
@@ -16,12 +17,16 @@ const App: React.FC = () => {
     calculateGlobalCostReduction,
     handleManualMine,
     buyBuilding,
+    sellBuilding,
     researchTech,
     recycleArtifact,
     recycleAllCommons,
     saveGame,
-    resetGame
+    resetGame,
+    toggleSetting
   } = useGameLogic();
+
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   const productionRates = calculateTotalProduction(gameState);
   const clickPower = calculateClickPower();
@@ -44,9 +49,19 @@ const App: React.FC = () => {
             <Radio size={14} />
             <span>DEPTH: {Math.floor(gameState.depth / 10)}</span>
           </div>
+          
+          <button 
+            onClick={() => setIsSettingsOpen(true)}
+            className="flex items-center gap-1 hover:text-white transition-colors"
+            title="Settings"
+          >
+            <SettingsIcon size={14} />
+          </button>
+
           <button onClick={saveGame} className="flex items-center gap-1 hover:text-white transition-colors">
             <Save size={14} /> SAVE
           </button>
+          
           <button onClick={resetGame} className="flex items-center gap-1 text-red-400 hover:text-red-500 transition-colors border border-red-900/50 px-2 py-1 rounded hover:bg-red-900/10">
             <RefreshCw size={14} /> RESET
           </button>
@@ -56,19 +71,21 @@ const App: React.FC = () => {
       {/* Main Layout */}
       <div className="flex-1 flex overflow-hidden">
         
-        {/* Left Column: Resources */}
+        {/* Left Column: Resources & Events */}
         <ResourcesPanel 
             resources={gameState.resources}
             productionRates={productionRates}
             totalInfoMined={gameState.totalInfoMined}
             clickPower={clickPower}
             onMine={handleManualMine}
+            activeEvents={gameState.activeEvents}
         />
 
         {/* Center Column: Main Game Area */}
         <MainPanel 
             gameState={gameState}
             onBuyBuilding={buyBuilding}
+            onSellBuilding={sellBuilding}
             onResearchTech={researchTech}
             onRecycleArtifact={recycleArtifact}
             onRecycleAllCommons={recycleAllCommons}
@@ -90,6 +107,14 @@ const App: React.FC = () => {
         </section>
 
       </div>
+
+      {isSettingsOpen && (
+        <SettingsModal 
+            settings={gameState.settings} 
+            onToggle={toggleSetting} 
+            onClose={() => setIsSettingsOpen(false)} 
+        />
+      )}
     </div>
   );
 };

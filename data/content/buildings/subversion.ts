@@ -20,7 +20,7 @@ export const SUBVERSION_BUILDINGS: Building[] = [
     description: '成千上万个虚假账号。需要[资金]发工资，需要[信息]作为攻击弹药。',
     category: BuildingCategory.SUBVERSION,
     baseCosts: { [ResourceType.FUNDS]: 8000, [ResourceType.SPAM]: 1000 },
-    baseProduction: { [ResourceType.RUMORS]: 2.0, [ResourceType.PANIC]: 0.5, [ResourceType.SPAM]: 5.0, [ResourceType.FUNDS]: -20.0, [ResourceType.INFO]: -100.0 }, 
+    baseProduction: { [ResourceType.RUMORS]: 2.0, [ResourceType.PANIC]: 0.5, [ResourceType.SPAM]: 500.0, [ResourceType.FUNDS]: -20.0, [ResourceType.INFO]: -100.0 }, // SPAM 5 -> 500
     costMultiplier: 1.3,
     icon: 'Users',
     unlockRequirement: 0,

@@ -75,6 +75,18 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     requireTech: ['search_operators'],
   },
   {
+    id: 'entropy_filter_station', 
+    name: '熵减去噪塔',
+    description: '利用巨大的算力对抗信息熵。将[垃圾信息]湮灭，还原出纯净的[真相]。',
+    category: BuildingCategory.VERIFICATION,
+    baseCosts: { [ResourceType.OPS]: 10000, [ResourceType.TECH_CAPITAL]: 50 },
+    baseProduction: { [ResourceType.INFO]: 500.0, [ResourceType.TRUTH]: 0.05, [ResourceType.SPAM]: -1000.0, [ResourceType.POWER]: -100.0 }, // Massive Cleaner
+    costMultiplier: 1.35,
+    icon: 'Activity',
+    unlockRequirement: 0,
+    requireTech: ['deduplication'],
+  },
+  {
     id: 'narrative_weaver',
     name: '叙事纺织机',
     description: '将碎片化的[线索]和海量[信息]编织成引人入胜的[故事]。',
@@ -92,7 +104,7 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     description: '逆向工程社交媒体的推荐算法，过滤[垃圾信息]并提取有效[代码]。',
     category: BuildingCategory.VERIFICATION,
     baseCosts: { [ResourceType.CODE]: 2000, [ResourceType.OPS]: 500 },
-    baseProduction: { [ResourceType.CODE]: 1.0, [ResourceType.SPAM]: -5.0, [ResourceType.OPS]: -10.0 }, 
+    baseProduction: { [ResourceType.CODE]: 1.0, [ResourceType.SPAM]: -50.0, [ResourceType.OPS]: -10.0 }, 
     costMultiplier: 1.3,
     icon: 'Filter',
     unlockRequirement: 0,

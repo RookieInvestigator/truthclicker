@@ -4,6 +4,7 @@ import { GameState, ResourceType } from '../types';
 import { RESOURCE_INFO } from '../constants';
 import { Search, FileText, Box } from 'lucide-react';
 import * as Icons from 'lucide-react';
+import ActiveEventsPanel from './ActiveEventsPanel';
 
 interface ResourcesPanelProps {
   resources: GameState['resources'];
@@ -11,11 +12,15 @@ interface ResourcesPanelProps {
   totalInfoMined: number;
   clickPower: number;
   onMine: () => void;
+  activeEvents?: GameState['activeEvents'];
 }
 
-const ResourcesPanel: React.FC<ResourcesPanelProps> = ({ resources, productionRates, totalInfoMined, clickPower, onMine }) => {
+const ResourcesPanel: React.FC<ResourcesPanelProps> = ({ resources, productionRates, totalInfoMined, clickPower, onMine, activeEvents = [] }) => {
   return (
     <section className="w-[20%] border-r border-term-gray flex flex-col bg-term-black/80 min-w-[240px]">
+        {/* Events Panel (Shows only when events exist) */}
+        <ActiveEventsPanel events={activeEvents} />
+
         {/* Mining Button */}
         <div className="p-6 border-b border-term-gray/50 flex flex-col items-center justify-center bg-gradient-to-b from-term-green/5 to-transparent">
             <button 
@@ -59,6 +64,10 @@ const ResourcesPanel: React.FC<ResourcesPanelProps> = ({ resources, productionRa
                 ResourceType.CRED, 
                 ResourceType.CULTURE,
                 
+                ResourceType.PLEASURE, // NEW
+                ResourceType.PROBABILITY, // NEW
+                ResourceType.REALITY, // NEW
+
                 ResourceType.CODE, 
                 ResourceType.TECH_CAPITAL, 
                 ResourceType.OPS, 

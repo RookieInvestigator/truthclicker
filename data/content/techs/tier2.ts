@@ -400,11 +400,11 @@ export const TIER_2_TECHS: Tech[] = [
     name: '编程袜',
     description: '粉白条纹不仅是审美，更是C++编译成功的护身符。',
     tier: 2,
-    category: BuildingCategory.TECHNOCRACY, // Moved to Technocracy for better fit or Culture? Tech matches "Programming"
+    category: BuildingCategory.ADULT, // Changed to ADULT category
     costs: { [ResourceType.FUNDS]: 800, [ResourceType.INFO]: 500 }, 
     effects: { 
         resourceMultipliers: { [ResourceType.CODE]: 0.3 },
-        unlockMessage: '获得被动技能：绝对领域调试法' 
+        unlockMessage: '解锁: OnlyFans 页面' // Changed message
     },
     icon: 'Codesandbox',
     preRequisiteTech: 'mechanical_keyboards',
@@ -422,7 +422,20 @@ export const TIER_2_TECHS: Tech[] = [
         unlockMessage: '解锁: DNA 存储库'
     },
     icon: 'Activity',
-    preRequisiteTech: 'hardware_assembly', // Changed prereq to tech branch
+    preRequisiteTech: 'hardware_assembly',
+  },
+  {
+    id: 'rule_34',
+    name: '第34条法则',
+    description: '如果它存在，就有关于它的... 你懂的。这是互联网的原动力。',
+    tier: 2,
+    category: BuildingCategory.ADULT, // Entry point for Adult category
+    costs: { [ResourceType.INFO]: 5000, [ResourceType.FUNDS]: 200 },
+    effects: {
+        unlockMessage: '解锁: ？？？ (深渊凝视)'
+    },
+    icon: 'Heart',
+    preRequisiteTech: 'forum_culture'
   },
 
   // --- NEW FLAVOR TECHS (Tier 2) ---

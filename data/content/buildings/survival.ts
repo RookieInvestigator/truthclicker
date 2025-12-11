@@ -7,9 +7,9 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     name: '废品回收路线',
     description: '收集瓶子和罐子。需要先打听清楚各个小区的垃圾车时间表。',
     category: BuildingCategory.SURVIVAL,
-    baseCosts: { [ResourceType.INFO]: 40 }, // Cost increased from 15 -> 40
-    baseProduction: { [ResourceType.FUNDS]: 0.1, [ResourceType.CARDBOARD]: 0.2 }, // Nerfed: 0.5/0.5 -> 0.1/0.2
-    costMultiplier: 1.15, // Increased scaling
+    baseCosts: { [ResourceType.INFO]: 40 }, 
+    baseProduction: { [ResourceType.FUNDS]: 0.1, [ResourceType.CARDBOARD]: 0.2 }, 
+    costMultiplier: 1.15, 
     icon: 'Trash',
     unlockRequirement: 0,
   },
@@ -18,19 +18,19 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     name: '在线问卷',
     description: '出卖个人隐私数据换取几美分。这是第一桶金。',
     category: BuildingCategory.SURVIVAL,
-    baseCosts: { [ResourceType.INFO]: 150 }, // Cost increased from 50 -> 150
-    baseProduction: { [ResourceType.FUNDS]: 0.35, [ResourceType.SPAM]: 0.2 }, // Nerfed Funds: 0.8 -> 0.35, Increased Spam
+    baseCosts: { [ResourceType.INFO]: 150 }, 
+    baseProduction: { [ResourceType.FUNDS]: 0.35, [ResourceType.SPAM]: 0.2 }, 
     costMultiplier: 1.15,
     icon: 'FileText',
-    unlockRequirement: 100, // Increased unlock req
+    unlockRequirement: 100, 
   },
   {
     id: 'bike_generator', 
     name: '脚踏发电机',
     description: '一边锻炼一边为笔记本电脑供电。现在不需要额外的食物补充了。',
     category: BuildingCategory.SURVIVAL,
-    baseCosts: { [ResourceType.FUNDS]: 100, [ResourceType.CARDBOARD]: 15 }, // Cardboard cost 10 -> 15
-    baseProduction: { [ResourceType.POWER]: 2.0, [ResourceType.BIOMASS]: -0.1 }, // Added Biomass drain (sweat equity)
+    baseCosts: { [ResourceType.FUNDS]: 100, [ResourceType.CARDBOARD]: 15 }, 
+    baseProduction: { [ResourceType.POWER]: 2.0, [ResourceType.BIOMASS]: -0.1 }, 
     costMultiplier: 1.2,
     icon: 'Bike',
     unlockRequirement: 0,
@@ -41,7 +41,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     name: '图书馆占座',
     description: '免费的暖气、免费的Wi-Fi。虽然不能挖矿，但能获取知识。',
     category: BuildingCategory.SURVIVAL,
-    baseCosts: { [ResourceType.FUNDS]: 30, [ResourceType.INFO]: 100 }, // Funds cost 20 -> 30
+    baseCosts: { [ResourceType.FUNDS]: 30, [ResourceType.INFO]: 100 }, 
     baseProduction: { [ResourceType.INFO]: 1.5, [ResourceType.LORE]: 0.05 }, 
     costMultiplier: 1.2,
     icon: 'BookOpen',
@@ -64,8 +64,8 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     name: '验证码代打',
     description: '帮别人分辨红绿灯。产生少量收益，但会积累数字垃圾。',
     category: BuildingCategory.SURVIVAL,
-    baseCosts: { [ResourceType.INFO]: 600, [ResourceType.FUNDS]: 50 }, // Info cost doubled
-    baseProduction: { [ResourceType.FUNDS]: 0.8, [ResourceType.OPS]: 0.1, [ResourceType.SPAM]: 0.8 }, // Funds nerfed 2.5 -> 0.8
+    baseCosts: { [ResourceType.INFO]: 600, [ResourceType.FUNDS]: 50 }, 
+    baseProduction: { [ResourceType.FUNDS]: 0.8, [ResourceType.OPS]: 0.1, [ResourceType.SPAM]: 0.8 }, 
     costMultiplier: 1.15,
     icon: 'CheckSquare',
     unlockRequirement: 0,
@@ -77,7 +77,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     description: '自动化完成亚马逊 Mechanical Turk 上的低级任务。',
     category: BuildingCategory.SURVIVAL,
     baseCosts: { [ResourceType.CODE]: 100, [ResourceType.INFO]: 1000 },
-    baseProduction: { [ResourceType.FUNDS]: 1.5, [ResourceType.OPS]: 0.2 }, // Funds nerfed 4.0 -> 1.5
+    baseProduction: { [ResourceType.FUNDS]: 1.5, [ResourceType.OPS]: 0.2 }, 
     costMultiplier: 1.25,
     icon: 'Bot',
     unlockRequirement: 0,
@@ -88,8 +88,8 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     name: '定点拾荒路线',
     description: '标记了附近所有超市和电器店的垃圾桶更新时间。',
     category: BuildingCategory.SURVIVAL,
-    baseCosts: { [ResourceType.INFO]: 800, [ResourceType.FUNDS]: 50 }, // Info cost 300 -> 800
-    baseProduction: { [ResourceType.CARDBOARD]: 0.6, [ResourceType.FUNDS]: 0.1 }, // Cardboard nerfed 1.5 -> 0.6
+    baseCosts: { [ResourceType.INFO]: 800, [ResourceType.FUNDS]: 50 }, 
+    baseProduction: { [ResourceType.CARDBOARD]: 0.6, [ResourceType.FUNDS]: 0.1 }, 
     costMultiplier: 1.25,
     icon: 'Trash2',
     unlockRequirement: 0,
@@ -101,7 +101,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     description: '从废弃建筑中抽走电线。危险，但有利可图。',
     category: BuildingCategory.SURVIVAL,
     baseCosts: { [ResourceType.FUNDS]: 300, [ResourceType.OPS]: 20 },
-    baseProduction: { [ResourceType.FUNDS]: 3.0, [ResourceType.CARDBOARD]: 1.0 }, // Funds nerfed 8.0 -> 3.0
+    baseProduction: { [ResourceType.FUNDS]: 3.0, [ResourceType.CARDBOARD]: 1.0 }, 
     costMultiplier: 1.3,
     icon: 'ZapOff',
     unlockRequirement: 0,
@@ -125,7 +125,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     description: '在潮湿的纸箱上种植平菇。将纤维素转化为蛋白质。',
     category: BuildingCategory.SURVIVAL,
     baseCosts: { [ResourceType.CARDBOARD]: 150, [ResourceType.FUNDS]: 200 },
-    baseProduction: { [ResourceType.BIOMASS]: 0.3, [ResourceType.CARDBOARD]: -0.5 }, // Reduced consumption and output
+    baseProduction: { [ResourceType.BIOMASS]: 0.3, [ResourceType.CARDBOARD]: -0.5 }, 
     costMultiplier: 1.15,
     icon: 'Sprout',
     unlockRequirement: 0,
@@ -148,8 +148,8 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     name: '代发货店铺',
     description: '自动化的劣质商品倒卖系统。制造大量的电子垃圾邮件。',
     category: BuildingCategory.SURVIVAL,
-    baseCosts: { [ResourceType.FUNDS]: 2500, [ResourceType.INFO]: 5000 }, // Funds cost 1000 -> 2500
-    baseProduction: { [ResourceType.FUNDS]: 5.0, [ResourceType.CARDBOARD]: 1.0, [ResourceType.SPAM]: 3.0 }, // Funds nerfed 10 -> 5
+    baseCosts: { [ResourceType.FUNDS]: 2500, [ResourceType.INFO]: 5000 }, 
+    baseProduction: { [ResourceType.FUNDS]: 5.0, [ResourceType.CARDBOARD]: 1.0, [ResourceType.SPAM]: 3.0 }, 
     costMultiplier: 1.3,
     icon: 'Store',
     unlockRequirement: 0,
@@ -161,7 +161,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     description: '安装在街角售货机上的隐蔽装置。',
     category: BuildingCategory.SURVIVAL,
     baseCosts: { [ResourceType.CODE]: 800, [ResourceType.OPS]: 100 },
-    baseProduction: { [ResourceType.FUNDS]: 8.0, [ResourceType.CRED]: -0.8 }, // Funds nerfed 15 -> 8
+    baseProduction: { [ResourceType.FUNDS]: 8.0, [ResourceType.CRED]: -0.8 }, 
     costMultiplier: 1.3,
     icon: 'CreditCard',
     unlockRequirement: 0,
@@ -197,7 +197,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     description: '打捞废铁和凶器。偶尔会发现被丢弃的硬盘。',
     category: BuildingCategory.SURVIVAL,
     baseCosts: { [ResourceType.CARDBOARD]: 300, [ResourceType.FUNDS]: 100 },
-    baseProduction: { [ResourceType.FUNDS]: 2.5, [ResourceType.CLUE]: 0.1 }, // Funds 5 -> 2.5
+    baseProduction: { [ResourceType.FUNDS]: 2.5, [ResourceType.CLUE]: 0.1 }, 
     costMultiplier: 1.25,
     icon: 'Anchor',
     unlockRequirement: 0,
@@ -221,7 +221,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     description: '销售量子能量水和防辐射仙人掌。利用[谣言]变现。',
     category: BuildingCategory.SURVIVAL,
     baseCosts: { [ResourceType.FUNDS]: 5000, [ResourceType.CRED]: 50 },
-    baseProduction: { [ResourceType.FUNDS]: 25, [ResourceType.CRED]: -0.3, [ResourceType.RUMORS]: -0.5 }, // Funds 50 -> 25
+    baseProduction: { [ResourceType.FUNDS]: 25, [ResourceType.CRED]: -0.3, [ResourceType.RUMORS]: -0.5 }, 
     costMultiplier: 1.25,
     icon: 'DollarSign',
     unlockRequirement: 0,
@@ -233,7 +233,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     description: '向偏执狂出售“法拉第笼帽子”。即使是锡纸也有市场。',
     category: BuildingCategory.SURVIVAL,
     baseCosts: { [ResourceType.FUNDS]: 2000, [ResourceType.RUMORS]: 300 },
-    baseProduction: { [ResourceType.FUNDS]: 20, [ResourceType.PANIC]: -0.1 }, // Funds 40 -> 20
+    baseProduction: { [ResourceType.FUNDS]: 20, [ResourceType.PANIC]: -0.1 }, 
     costMultiplier: 1.2,
     icon: 'Shield',
     unlockRequirement: 0,
@@ -250,18 +250,6 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     icon: 'Phone',
     unlockRequirement: 0,
     requireTech: ['phreaking_tools'],
-  },
-  {
-    id: 'onlyfans_account',
-    name: 'OnlyFans 页面',
-    description: '出售你穿着编程袜调试Linux内核的照片。硬核且有利可图。',
-    category: BuildingCategory.SURVIVAL,
-    baseCosts: { [ResourceType.FUNDS]: 3000, [ResourceType.INFO]: 5000 },
-    baseProduction: { [ResourceType.FUNDS]: 25, [ResourceType.FOLLOWERS]: 2 },
-    costMultiplier: 1.35,
-    icon: 'Camera',
-    unlockRequirement: 0,
-    requireTech: ['programming_socks'],
   },
   {
     id: 'couch_surfing_network',
@@ -293,7 +281,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     description: '每小时点击一次，领取0.000001个比特币。',
     category: BuildingCategory.SURVIVAL,
     baseCosts: { [ResourceType.INFO]: 4000, [ResourceType.CODE]: 200 },
-    baseProduction: { [ResourceType.FUNDS]: 5, [ResourceType.SPAM]: 1.5 }, // Funds 15 -> 5
+    baseProduction: { [ResourceType.FUNDS]: 5, [ResourceType.SPAM]: 1.5 }, 
     costMultiplier: 1.15,
     icon: 'Bitcoin',
     unlockRequirement: 0,
@@ -305,7 +293,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     description: '比人类更快地抢到 Uber 和 TaskRabbit 的订单。',
     category: BuildingCategory.SURVIVAL,
     baseCosts: { [ResourceType.CODE]: 3000, [ResourceType.OPS]: 800 },
-    baseProduction: { [ResourceType.FUNDS]: 40, [ResourceType.OPS]: -5.0 }, // Funds 60 -> 40
+    baseProduction: { [ResourceType.FUNDS]: 40, [ResourceType.OPS]: -5.0 }, 
     costMultiplier: 1.3,
     icon: 'Briefcase',
     unlockRequirement: 0,

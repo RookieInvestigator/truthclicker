@@ -148,6 +148,20 @@ export const TIER_4_TECHS: Tech[] = [
     preRequisiteTech: 'memetics'
   },
   {
+    id: 'semen_retention',
+    name: '戒色修行',
+    description: '互联网上的苦行僧运动。拒绝多巴胺的奴役，通过“重启”大脑来获得传说中的超自然专注力（据说能学会悬浮，假的）。',
+    tier: 4,
+    category: BuildingCategory.ADULT,
+    costs: { [ResourceType.BIOMASS]: 5000, [ResourceType.INFO]: 20000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.OPS]: 0.1, [ResourceType.PROBABILITY]: 0.1 },
+        unlockMessage: '解锁: 贤者时间发生器'
+    },
+    icon: 'Shield',
+    preRequisiteTech: 'simp_economics'
+  },
+  {
     id: 'monarch_programming', 
     name: '帝王计划 (Project Monarch)',
     description: 'MKUltra 的延续。通过创伤性解离创造多重人格间谍。',

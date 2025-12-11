@@ -363,6 +363,47 @@ export const TIER_3_TECHS: Tech[] = [
     icon: 'Dna',
     preRequisiteTech: 'forum_culture'
   },
+  {
+    id: 'simp_economics',
+    name: 'Simp 经济学',
+    description: '为了听一句“谢谢大哥”而倾家荡产。',
+    tier: 3,
+    category: BuildingCategory.ADULT,
+    costs: { [ResourceType.FUNDS]: 2000, [ResourceType.PLEASURE]: 50 },
+    effects: {
+        resourceMultipliers: { [ResourceType.FUNDS]: 0.2, [ResourceType.PLEASURE]: 0.1 },
+        unlockMessage: '解锁: 洗澡水灌装线'
+    },
+    icon: 'Heart',
+    preRequisiteTech: 'rule_34'
+  },
+  {
+    id: 'quantum_luck',
+    name: '量子观测学',
+    description: '只要你不看，猫就既是活的又是死的。',
+    tier: 3,
+    category: BuildingCategory.ESOTERIC,
+    costs: { [ResourceType.OPS]: 5000, [ResourceType.CLUE]: 50 },
+    effects: {
+        unlockMessage: '解锁: 概率操纵器'
+    },
+    icon: 'Dices',
+    preRequisiteTech: 'conspiracy_101'
+  },
+  {
+    id: 'hedonistic_imperative',
+    name: '享乐主义命令',
+    description: '生物工程的终极目标是消除所有痛苦。',
+    tier: 3,
+    category: BuildingCategory.ADULT,
+    costs: { [ResourceType.PLEASURE]: 200, [ResourceType.BIOMASS]: 500 },
+    effects: {
+        resourceMultipliers: { [ResourceType.PLEASURE]: 0.3 },
+        unlockMessage: '解锁: 远程触觉反馈'
+    },
+    icon: 'Smile',
+    preRequisiteTech: 'rule_34'
+  },
 
   // --- NEW FLAVOR TECHS (Tier 3) ---
   {

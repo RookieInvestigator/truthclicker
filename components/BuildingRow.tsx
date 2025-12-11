@@ -3,17 +3,18 @@ import React from 'react';
 import { Building, ResourceType } from '../types';
 import { CATEGORY_COLORS, RESOURCE_INFO } from '../constants';
 import * as Icons from 'lucide-react';
-import { ArrowBigUp, ArrowRight, HelpCircle } from 'lucide-react';
+import { ArrowBigUp, ArrowRight, HelpCircle, MinusCircle } from 'lucide-react';
 
 interface BuildingCardProps {
   building: Building;
   count: number;
   canAfford: boolean;
   onBuy: () => void;
+  onSell: () => void;
   resourceState: Record<ResourceType, number>; 
 }
 
-const BuildingCard: React.FC<BuildingCardProps> = ({ building, count, canAfford, onBuy, resourceState }) => {
+const BuildingCard: React.FC<BuildingCardProps> = ({ building, count, canAfford, onBuy, onSell, resourceState }) => {
   // Safe icon resolution
   const IconComponent = (Icons as any)[building.icon] || HelpCircle;
 
@@ -59,7 +60,7 @@ const BuildingCard: React.FC<BuildingCardProps> = ({ building, count, canAfford,
       <div className="flex justify-between items-start mb-3">
         {/* Icon & Count */}
         <div className={`
-            relative w-10 h-10 flex items-center justify-center bg-term-gray/10 border rounded-sm
+            relative w-10 h-10 flex items-center justify-center bg-term-gray/10 border rounded-sm shrink-0
             ${canAfford ? categoryColor : 'border-term-gray text-gray-500'}
         `}>
             <IconComponent size={20} />
@@ -70,10 +71,25 @@ const BuildingCard: React.FC<BuildingCardProps> = ({ building, count, canAfford,
             )}
         </div>
 
-        {/* Name */}
-        <h3 className={`font-bold font-mono text-sm text-right flex-1 ml-2 ${canAfford ? 'text-white' : 'text-gray-500'}`}>
-            {building.name}
-        </h3>
+        {/* Name & Sell */}
+        <div className="flex flex-col items-end flex-1 ml-2">
+            <h3 className={`font-bold font-mono text-sm text-right leading-tight ${canAfford ? 'text-white' : 'text-gray-500'}`}>
+                {building.name}
+            </h3>
+            
+            {count > 0 && (
+                <button 
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        onSell();
+                    }}
+                    className="flex items-center gap-1 mt-1 text-[10px] text-gray-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity"
+                    title="拆除 (50% 返还)"
+                >
+                   <MinusCircle size={10} /> 拆除
+                </button>
+            )}
+        </div>
       </div>
 
       <div className="flex-1 flex flex-col justify-between">

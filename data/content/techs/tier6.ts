@@ -84,6 +84,20 @@ export const TIER_6_TECHS: Tech[] = [
     icon: 'Users',
     preRequisiteTech: 'egregore_summoning'
   },
+  {
+    id: 'limbic_overclocking',
+    name: '边缘系统超频',
+    description: '移除大脑对多巴胺的耐受性限制。每一次刺激都像第一次一样强烈。',
+    tier: 6,
+    category: BuildingCategory.ADULT,
+    costs: { [ResourceType.PLEASURE]: 100000, [ResourceType.BIOMASS]: 5000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.PLEASURE]: 0.5 },
+        unlockMessage: '成瘾机制已物理移除'
+    },
+    icon: 'Zap',
+    preRequisiteTech: 'hedonistic_imperative'
+  },
 
   // --- NEW FLAVOR TECHS (Tier 6) ---
   {

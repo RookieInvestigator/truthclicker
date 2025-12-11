@@ -23,6 +23,10 @@ export enum ResourceType {
   PANIC = 'PANIC',         // 恐慌 (高风险资源)
   MIND_CONTROL = 'MIND_CONTROL', // 新增：心智掌控
 
+  PLEASURE = 'PLEASURE',   // 新增：快感/多巴胺
+  PROBABILITY = 'PROBABILITY', // 新增：正概率
+  REALITY = 'REALITY',     // 新增：现实稳定指数
+
   CLUE = 'CLUE',           // 转化资源 I：线索
   KNOWLEDGE = 'KNOWLEDGE', // 转化资源 II：隐秘知识
   TRUTH = 'TRUTH',         // 终极资源：真相
@@ -32,6 +36,7 @@ export enum BuildingCategory {
   SURVIVAL = 'SURVIVAL',       
   NETWORK = 'NETWORK',         
   INTERNET_CULTURE = 'INTERNET_CULTURE', 
+  ADULT = 'ADULT',             // 新增：？？？ (欲望/娱乐/成人)
   VERIFICATION = 'VERIFICATION', 
   TECHNOCRACY = 'TECHNOCRACY', 
   HISTORY = 'HISTORY',         
@@ -105,6 +110,23 @@ export interface LogEntry {
   type: 'info' | 'success' | 'warning' | 'rare' | 'glitch';
 }
 
+export interface GameEvent {
+  id: string;
+  name: string;
+  description: string;
+  type: 'positive' | 'negative' | 'mixed' | 'glitch';
+  multipliers: { [key in ResourceType]?: number }; // Multiplier (e.g. 1.5 for +50%, 0.5 for -50%)
+  duration: number; // in seconds
+  startTime: number; // timestamp
+  reqTech?: string[]; // New: Tech required to unlock this event
+}
+
+export interface GameSettings {
+  showCommonArtifactLogs: boolean;
+  showBuildingLogs: boolean;
+  showFlavorText: boolean;
+}
+
 export interface GameState {
   resources: {
     [key in ResourceType]: number;
@@ -115,6 +137,8 @@ export interface GameState {
   };
   researchedTechs: string[];
   artifacts: Artifact[]; 
+  activeEvents: GameEvent[]; // New field
+  settings: GameSettings; // New field
   startTime: number;
   depth: number;
 }

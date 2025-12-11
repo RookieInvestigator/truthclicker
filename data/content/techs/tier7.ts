@@ -46,6 +46,20 @@ export const TIER_7_TECHS: Tech[] = [
     icon: 'Zap',
     preRequisiteTech: 'zero_point_energy', 
   },
+  {
+    id: 'experience_machine',
+    name: '体验机',
+    description: '。一个完美的模拟水箱，你可以在其中过上你想过的任何生活。',
+    tier: 7,
+    category: BuildingCategory.ADULT,
+    costs: { [ResourceType.PLEASURE]: 5000000, [ResourceType.OPS]: 5000000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.PLEASURE]: 1.0, [ResourceType.REALITY]: -0.5 },
+        unlockMessage: '再见，残酷的现实'
+    },
+    icon: 'Monitor',
+    preRequisiteTech: 'limbic_overclocking'
+  },
 
   // --- NEW FLAVOR TECHS (Tier 7) ---
   {

@@ -1,11 +1,12 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { GameState, ResourceType, LogEntry, Artifact } from '../types';
+import { GameState, ResourceType, LogEntry, Artifact, GameEvent, GameSettings } from '../types';
 import { TICK_RATE, AUTOSAVE_INTERVAL } from '../constants';
 import { BUILDINGS } from '../data/buildings';
 import { TECHS } from '../data/techs';
 import { UNIQUE_ARTIFACTS } from '../data/artifacts';
 import { FLAVOR_MESSAGES } from '../data/flavor';
+import { POSSIBLE_EVENTS } from '../data/events';
 import { generateArtifact } from '../utils/generator';
 
 export const useGameLogic = () => {
@@ -21,18 +22,23 @@ export const useGameLogic = () => {
       [ResourceType.TECH_CAPITAL]: 0,
       [ResourceType.OPS]: 0,
       [ResourceType.BIOMASS]: 0,
-      [ResourceType.POWER]: 0,    // NEW
+      [ResourceType.POWER]: 0,    
       
       [ResourceType.CARDBOARD]: 0,
-      [ResourceType.SPAM]: 0,     // NEW
+      [ResourceType.SPAM]: 0,     
       
-      [ResourceType.LORE]: 0,           // NEW
-      [ResourceType.ANCIENT_WISDOM]: 0, // NEW
+      [ResourceType.LORE]: 0,           
+      [ResourceType.ANCIENT_WISDOM]: 0, 
 
       [ResourceType.STORY]: 0,
-      [ResourceType.RUMORS]: 0,       // NEW
+      [ResourceType.RUMORS]: 0,       
       [ResourceType.PANIC]: 0,
-      [ResourceType.MIND_CONTROL]: 0, // NEW
+      [ResourceType.MIND_CONTROL]: 0, 
+
+      [ResourceType.PLEASURE]: 0,     // NEW
+      [ResourceType.PROBABILITY]: 0,  // NEW
+      [ResourceType.REALITY]: 100,    // NEW (Starts at 100?) Let's start at 0 and build up stability, or start at 100 and it decays?
+                                      // Let's stick to standard production logic: 0 and build up "Stability Index".
       
       [ResourceType.CLUE]: 0,
       [ResourceType.KNOWLEDGE]: 0,
@@ -42,6 +48,12 @@ export const useGameLogic = () => {
     buildings: {},
     researchedTechs: [],
     artifacts: [],
+    activeEvents: [], // New
+    settings: {
+        showCommonArtifactLogs: true,
+        showBuildingLogs: true,
+        showFlavorText: true,
+    },
     startTime: Date.now(),
     depth: 0,
   });
@@ -64,26 +76,36 @@ export const useGameLogic = () => {
   }, []);
 
   const calculateTotalProduction = useCallback((state: GameState) => {
-    // Initialize all to 0
-    const netProduction: Record<ResourceType, number> = Object.values(ResourceType).reduce((acc, res) => {
+    // 1. Initialize Containers
+    const grossProduction: Record<ResourceType, number> = Object.values(ResourceType).reduce((acc, res) => {
         acc[res] = 0;
         return acc;
     }, {} as Record<ResourceType, number>);
 
-    // Initialize multipliers to 1
+    const grossConsumption: Record<ResourceType, number> = Object.values(ResourceType).reduce((acc, res) => {
+        acc[res] = 0;
+        return acc;
+    }, {} as Record<ResourceType, number>);
+
+    // Base Multipliers (Techs + Building Global Effects) - Starts at 1.0 (100%)
     const multipliers: Record<ResourceType, number> = Object.values(ResourceType).reduce((acc, res) => {
         acc[res] = 1;
         return acc;
     }, {} as Record<ResourceType, number>);
 
-    // Identify Starved Resources (Empty resources that stop dependent buildings)
-    // We use a very small epsilon or just 0 check.
+    // Event Multipliers - Starts at 1.0
+    const eventMults: Record<ResourceType, number> = Object.values(ResourceType).reduce((acc, res) => {
+        acc[res] = 1;
+        return acc;
+    }, {} as Record<ResourceType, number>);
+
+    // 2. Identify Starved Resources
     const starvedResources = new Set<ResourceType>();
     (Object.entries(state.resources) as [ResourceType, number][]).forEach(([res, amount]) => {
         if (amount <= 0) starvedResources.add(res);
     });
 
-    // Tech Multipliers
+    // 3. Apply Tech Multipliers (Additive to Base)
     state.researchedTechs.forEach(techId => {
         const tech = TECHS.find(t => t.id === techId);
         if (tech?.effects.resourceMultipliers) {
@@ -93,15 +115,13 @@ export const useGameLogic = () => {
         }
     });
 
-    // Building Production
+    // 4. Calculate Building Output (Split into Gross Prod & Cons)
     Object.entries(state.buildings).forEach(([id, count]) => {
       if (count <= 0) return;
       const building = BUILDINGS.find(b => b.id === id);
       if (!building) return;
 
-      // Starvation Logic:
-      // If a building consumes (amount < 0) a resource that is currently starved (<= 0),
-      // the building stops working entirely.
+      // Check Operation Status
       let isOperational = true;
       if (building.baseProduction) {
           for (const [res, amount] of Object.entries(building.baseProduction)) {
@@ -113,33 +133,60 @@ export const useGameLogic = () => {
       }
 
       if (isOperational) {
+        // Production
         if (building.baseProduction) {
             (Object.entries(building.baseProduction) as [ResourceType, number][]).forEach(([res, amount]) => {
-            netProduction[res] += amount * count;
+                if (amount > 0) {
+                    grossProduction[res] += amount * count;
+                } else {
+                    grossConsumption[res] += Math.abs(amount) * count; // Store as positive magnitude
+                }
             });
         }
+        // Building Global Multipliers (Additive)
         if (building.globalMultipliers) {
             (Object.entries(building.globalMultipliers) as [ResourceType, number][]).forEach(([res, percent]) => {
-            multipliers[res] += percent * count;
+                multipliers[res] += percent * count;
             });
         }
       }
     });
 
-    // Artifact Multipliers
+    // 5. Apply Artifact Multipliers (Multiplicative to Base)
     state.artifacts.forEach(art => {
       if (art.bonusType === 'production_multiplier' && art.targetResource) {
           multipliers[art.targetResource] *= art.bonusValue;
       }
     });
 
-    const finalRates: Record<ResourceType, number> = { ...netProduction };
-    (Object.keys(finalRates) as ResourceType[]).forEach(key => {
-        // Apply multipliers to positive production only
-        if (finalRates[key] > 0) finalRates[key] *= multipliers[key];
+    // 6. Calculate Event Multipliers
+    state.activeEvents.forEach(evt => {
+        if (evt.multipliers) {
+            (Object.entries(evt.multipliers) as [ResourceType, number][]).forEach(([res, val]) => {
+                eventMults[res] *= val;
+            });
+        }
     });
 
-    return finalRates;
+    // 7. Final Net Calculation
+    // Logic: Net = (Gross * BaseMults * EventMults) - GrossConsumption
+    const netProduction: Record<ResourceType, number> = {} as Record<ResourceType, number>;
+    
+    (Object.values(ResourceType) as ResourceType[]).forEach(res => {
+        let produced = grossProduction[res];
+        
+        // Apply multipliers only if there is production
+        if (produced > 0) {
+            produced *= multipliers[res]; // Apply Tech/Building/Artifacts
+            produced *= eventMults[res];  // Apply Events
+        }
+
+        const consumed = grossConsumption[res]; // Consumption is raw, unaffected by multipliers
+        
+        netProduction[res] = produced - consumed;
+    });
+
+    return netProduction;
   }, []);
 
   const calculateClickPower = useCallback(() => {
@@ -196,6 +243,16 @@ export const useGameLogic = () => {
   }, []);
 
   // --- Actions ---
+  const toggleSetting = useCallback((key: keyof GameSettings) => {
+      setGameState(prev => ({
+          ...prev,
+          settings: {
+              ...prev.settings,
+              [key]: !prev.settings[key]
+          }
+      }));
+  }, []);
+
   const handleManualMine = useCallback(() => {
     const amount = calculateClickPower();
     const extra: Partial<Record<ResourceType, number>> = {};
@@ -236,14 +293,11 @@ export const useGameLogic = () => {
     });
 
     // Starvation Purchase Check
-    // If buying this would immediately result in a starved building (because maintenance resource is 0), prevent it?
-    // The requirement says: "Buildings that consume resource output should be forbidden from purchase when that resource is zero"
-    // So we check if baseProduction consumes a resource that is currently <= 0.
     if (building.baseProduction) {
         for (const [res, amount] of Object.entries(building.baseProduction)) {
              if (amount < 0 && stateRef.current.resources[res as ResourceType] <= 0) {
                  canAfford = false;
-                 break; // Optimization
+                 break; 
              }
         }
     }
@@ -256,9 +310,10 @@ export const useGameLogic = () => {
         });
         return { ...prev, resources: nextRes, buildings: { ...prev.buildings, [buildingId]: count + 1 } };
       });
-      addLog(`[Purchased] ${building.name}`, 'success');
+      if (stateRef.current.settings.showBuildingLogs) {
+          addLog(`[Purchased] ${building.name}`, 'success');
+      }
     } else {
-      // Check specifically if it was rejected due to starvation for better feedback (optional, simple log for now)
       let isStarved = false;
       if (building.baseProduction) {
         for (const [res, amount] of Object.entries(building.baseProduction)) {
@@ -273,6 +328,41 @@ export const useGameLogic = () => {
       } else {
           addLog('资源不足', 'warning');
       }
+    }
+  }, [addLog, calculateGlobalCostReduction]);
+
+  const sellBuilding = useCallback((buildingId: string) => {
+    const building = BUILDINGS.find(b => b.id === buildingId);
+    if (!building) return;
+
+    const count = stateRef.current.buildings[buildingId] || 0;
+    if (count <= 0) return;
+
+    const refundRatio = 0.5;
+    const reduction = calculateGlobalCostReduction(); 
+    
+    // Calculate refund based on the cost paid for the LAST building (count - 1)
+    const refund: Partial<Record<ResourceType, number>> = {};
+    (Object.entries(building.baseCosts) as [ResourceType, number][]).forEach(([res, base]) => {
+        // Cost of the (count-1)th building: base * multiplier^(count-1)
+        let cost = Math.floor(base * Math.pow(building.costMultiplier, count - 1));
+        cost = Math.floor(cost * (1 - reduction));
+        refund[res] = Math.floor(cost * refundRatio);
+    });
+
+    setGameState(prev => {
+        const nextRes = { ...prev.resources };
+        (Object.entries(refund) as [ResourceType, number][]).forEach(([res, amt]) => {
+            nextRes[res] = (nextRes[res] || 0) + amt;
+        });
+        const nextBuildings = { ...prev.buildings };
+        nextBuildings[buildingId] = Math.max(0, count - 1);
+        
+        return { ...prev, resources: nextRes, buildings: nextBuildings };
+    });
+    
+    if (stateRef.current.settings.showBuildingLogs) {
+        addLog(`[拆除] ${building.name} (返还50%)`, 'warning'); 
     }
   }, [addLog, calculateGlobalCostReduction]);
 
@@ -364,19 +454,19 @@ export const useGameLogic = () => {
 
   // --- Save/Load ---
   const saveGame = useCallback(() => {
-    localStorage.setItem('deepWebDiggerSave_v24', JSON.stringify(stateRef.current));
+    localStorage.setItem('deepWebDiggerSave_v25', JSON.stringify(stateRef.current));
     addLog('进度已保存', 'info');
   }, [addLog]);
 
   const resetGame = useCallback(() => {
     if(confirm("重置所有进度？(Hard Reset?)")) {
-      localStorage.removeItem('deepWebDiggerSave_v24');
+      localStorage.removeItem('deepWebDiggerSave_v25');
       window.location.reload();
     }
   }, []);
 
   useEffect(() => {
-    const saved = localStorage.getItem('deepWebDiggerSave_v24');
+    const saved = localStorage.getItem('deepWebDiggerSave_v25');
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
@@ -384,7 +474,9 @@ export const useGameLogic = () => {
         setGameState(prev => ({ 
             ...prev, ...parsed,
             resources: { ...prev.resources, ...parsed.resources }, 
-            artifacts: parsed.artifacts || [] 
+            artifacts: parsed.artifacts || [],
+            activeEvents: parsed.activeEvents || [], // Load events
+            settings: { ...prev.settings, ...(parsed.settings || {}) } // Merge settings
         }));
         addLog('系统恢复成功', 'success');
       } catch (e) { console.error(e); }
@@ -403,7 +495,33 @@ export const useGameLogic = () => {
         if (delta < 0.1) return;
         setLastTick(now);
 
-        const rates = calculateTotalProduction(stateRef.current);
+        // --- Event Logic ---
+        // 1. Clean up expired events
+        let events = stateRef.current.activeEvents.filter(evt => now < evt.startTime + evt.duration * 1000);
+        
+        // 2. Chance to spawn new event
+        if (events.length < 3 && Math.random() < 0.002) { 
+            // Filter available events based on tech requirements
+            const availableEvents = POSSIBLE_EVENTS.filter(evt => {
+                // If reqTech is undefined or empty, it's always available
+                if (!evt.reqTech || evt.reqTech.length === 0) return true;
+                // Otherwise, check if ALL required techs are researched
+                return evt.reqTech.every(req => stateRef.current.researchedTechs.includes(req));
+            });
+
+            if (availableEvents.length > 0) {
+                const newEventTemplate = availableEvents[Math.floor(Math.random() * availableEvents.length)];
+                const newEvent: GameEvent = {
+                    ...newEventTemplate,
+                    startTime: now,
+                    id: `${newEventTemplate.id}_${now}`
+                };
+                events = [...events, newEvent];
+                addLog(`随机事件: ${newEvent.name}`, newEvent.type === 'positive' ? 'success' : newEvent.type === 'negative' ? 'warning' : 'glitch');
+            }
+        }
+
+        const rates = calculateTotalProduction({ ...stateRef.current, activeEvents: events });
         
         // --- Calculate Artifact Drop Chance ---
         let luck = 1.0;
@@ -445,8 +563,17 @@ export const useGameLogic = () => {
             }
         }
 
-        if (Math.random() < 0.005) addLog(FLAVOR_MESSAGES[Math.floor(Math.random() * FLAVOR_MESSAGES.length)]);
-        if (newArtifact) addLog(`发现新项目: ${newArtifact.name}`, newArtifact.rarity === 'common' ? 'info' : 'success');
+        if (stateRef.current.settings.showFlavorText && Math.random() < 0.005) {
+            addLog(FLAVOR_MESSAGES[Math.floor(Math.random() * FLAVOR_MESSAGES.length)]);
+        }
+        
+        if (newArtifact) {
+            // Log logic based on settings
+            const isCommon = newArtifact.rarity === 'common';
+            if (!isCommon || stateRef.current.settings.showCommonArtifactLogs) {
+                addLog(`发现新项目: ${newArtifact.name}`, isCommon ? 'info' : 'success');
+            }
+        }
 
         setGameState(prev => {
             const nextRes = { ...prev.resources };
@@ -462,7 +589,8 @@ export const useGameLogic = () => {
                 resources: nextRes,
                 totalInfoMined: nextTotalInfo,
                 depth,
-                artifacts: newArtifact ? [...prev.artifacts, newArtifact] : prev.artifacts
+                artifacts: newArtifact ? [...prev.artifacts, newArtifact] : prev.artifacts,
+                activeEvents: events
             };
         });
     };
@@ -479,10 +607,12 @@ export const useGameLogic = () => {
     calculateGlobalCostReduction,
     handleManualMine,
     buyBuilding,
+    sellBuilding,
     researchTech,
     recycleArtifact,
     recycleAllCommons,
     saveGame,
-    resetGame
+    resetGame,
+    toggleSetting
   };
 };

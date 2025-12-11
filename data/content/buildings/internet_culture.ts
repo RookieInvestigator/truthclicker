@@ -32,7 +32,7 @@ export const INTERNET_CULTURE_BUILDINGS: Building[] = [
     description: '一只弹钢琴的猫。这是互联网存在的唯一理由。',
     category: BuildingCategory.INTERNET_CULTURE,
     baseCosts: { [ResourceType.FUNDS]: 1000, [ResourceType.INFO]: 1500 },
-    baseProduction: { [ResourceType.FOLLOWERS]: 5.0, [ResourceType.SPAM]: 2.0, [ResourceType.FUNDS]: 2.0 },
+    baseProduction: { [ResourceType.FOLLOWERS]: 5.0, [ResourceType.SPAM]: 150.0, [ResourceType.FUNDS]: 2.0 }, // SPAM 2 -> 150
     costMultiplier: 1.25,
     icon: 'Video',
     unlockRequirement: 500,
@@ -56,7 +56,7 @@ export const INTERNET_CULTURE_BUILDINGS: Building[] = [
     description: '绝不放弃你，绝不让你失望。通过恶作剧链接传播。',
     category: BuildingCategory.INTERNET_CULTURE,
     baseCosts: { [ResourceType.CODE]: 1000, [ResourceType.INFO]: 3000 },
-    baseProduction: { [ResourceType.CULTURE]: 0.5, [ResourceType.SPAM]: 5.0, [ResourceType.CRED]: -0.1 },
+    baseProduction: { [ResourceType.CULTURE]: 0.5, [ResourceType.SPAM]: 50.0, [ResourceType.CRED]: -0.1 },
     costMultiplier: 1.2,
     icon: 'Link',
     unlockRequirement: 1000,
@@ -65,14 +65,26 @@ export const INTERNET_CULTURE_BUILDINGS: Building[] = [
   {
     id: 'discord_server',
     name: 'Discord 服务器',
-    description: '全是通知红点。没人睡觉。',
+    description: '全是通知红点。没人睡觉。信息过载。',
     category: BuildingCategory.INTERNET_CULTURE,
     baseCosts: { [ResourceType.INFO]: 2000, [ResourceType.FOLLOWERS]: 100 },
-    baseProduction: { [ResourceType.FOLLOWERS]: 3.0, [ResourceType.SPAM]: 10.0, [ResourceType.CULTURE]: 0.2 },
+    baseProduction: { [ResourceType.FOLLOWERS]: 3.0, [ResourceType.SPAM]: 400.0, [ResourceType.CULTURE]: 0.2 }, // SPAM 10 -> 400
     costMultiplier: 1.25,
     icon: 'MessageCircle',
     unlockRequirement: 0,
     requireTech: ['usenet_access'],
+  },
+  {
+    id: 'meme_refinery',
+    name: '模因炼油厂',
+    description: '从海量垃圾贴文中提炼出纯粹的文化基因。',
+    category: BuildingCategory.INTERNET_CULTURE,
+    baseCosts: { [ResourceType.FUNDS]: 4000, [ResourceType.CULTURE]: 500 },
+    baseProduction: { [ResourceType.CULTURE]: 2.0, [ResourceType.INFO]: 100.0, [ResourceType.SPAM]: -500.0 }, // Converter
+    costMultiplier: 1.25,
+    icon: 'Filter',
+    unlockRequirement: 0,
+    requireTech: ['memetics'],
   },
   {
     id: 'subreddit_mod_room',
@@ -92,7 +104,7 @@ export const INTERNET_CULTURE_BUILDINGS: Building[] = [
     description: '自动复制粘贴长篇大论的废话。这到底是他妈的什么？',
     category: BuildingCategory.INTERNET_CULTURE,
     baseCosts: { [ResourceType.CODE]: 2000, [ResourceType.SPAM]: 500 },
-    baseProduction: { [ResourceType.LORE]: 0.2, [ResourceType.SPAM]: 20.0, [ResourceType.INFO]: 1.0 },
+    baseProduction: { [ResourceType.LORE]: 0.2, [ResourceType.SPAM]: 2000.0, [ResourceType.INFO]: 1.0 }, // SPAM 20 -> 2000
     costMultiplier: 1.25,
     icon: 'Copy',
     unlockRequirement: 2000,
@@ -113,10 +125,10 @@ export const INTERNET_CULTURE_BUILDINGS: Building[] = [
   {
     id: 'tiktok_content_house',
     name: '短视频工场',
-    description: '一群青少年住在豪宅里拍跳舞视频。',
+    description: '一群青少年住在豪宅里拍跳舞视频。垃圾信息的核爆中心。',
     category: BuildingCategory.INTERNET_CULTURE,
     baseCosts: { [ResourceType.FUNDS]: 20000, [ResourceType.CULTURE]: 1000 },
-    baseProduction: { [ResourceType.FOLLOWERS]: 50, [ResourceType.CULTURE]: -2.0, [ResourceType.SPAM]: 30.0 },
+    baseProduction: { [ResourceType.FOLLOWERS]: 50, [ResourceType.CULTURE]: -2.0, [ResourceType.SPAM]: 3000.0 }, // SPAM 30 -> 3000
     costMultiplier: 1.4,
     icon: 'Smartphone',
     unlockRequirement: 0,

@@ -11,11 +11,13 @@ import { FOLKLORE_BUILDINGS } from './content/buildings/folklore';
 import { SUBVERSION_BUILDINGS } from './content/buildings/subversion';
 import { ARCHIVE_BUILDINGS } from './content/buildings/archive';
 import { ESOTERIC_BUILDINGS } from './content/buildings/esoteric';
+import { ADULT_BUILDINGS } from './content/buildings/adult';
 
 export const BUILDINGS: Building[] = [
   ...SURVIVAL_BUILDINGS,
   ...NETWORK_BUILDINGS,
   ...INTERNET_CULTURE_BUILDINGS,
+  ...ADULT_BUILDINGS, // Added
   ...VERIFICATION_BUILDINGS,
   ...HISTORY_BUILDINGS,
   ...TECHNOCRACY_BUILDINGS,

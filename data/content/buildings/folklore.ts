@@ -17,7 +17,7 @@ export const FOLKLORE_BUILDINGS: Building[] = [
   {
     id: 'creepypasta_wiki',
     name: 'Creepypasta 百科',
-    description: '收集 Slender Man 和 SCP 的资料。有些条目在半夜会自动修改自己。',
+    description: '有些条目在半夜会自动修改自己。',
     category: BuildingCategory.FOLKLORE,
     baseCosts: { [ResourceType.INFO]: 4000, [ResourceType.CODE]: 200 },
     baseProduction: { [ResourceType.LORE]: 1.0, [ResourceType.SPAM]: 5.0 },
@@ -148,7 +148,7 @@ export const FOLKLORE_BUILDINGS: Building[] = [
   },
   {
     id: 'dreamcore_recorder',
-    name: '梦核 (Dreamcore) 录制仪',
+    name: '梦核录制仪',
     description: '记录那种熟悉又陌生的怀旧噩梦。蓝天、白云、无尽的草地。',
     category: BuildingCategory.FOLKLORE,
     baseCosts: { [ResourceType.OPS]: 15000, [ResourceType.LORE]: 5000 },
@@ -160,7 +160,7 @@ export const FOLKLORE_BUILDINGS: Building[] = [
   },
   {
     id: 'glitch_detector',
-    name: '现实故障 (Glitch) 探测器',
+    name: '现实故障探测器',
     description: '寻找重复的猫、静止的鸟和加载错误的纹理。',
     category: BuildingCategory.FOLKLORE,
     baseCosts: { [ResourceType.TECH_CAPITAL]: 2000, [ResourceType.CODE]: 50000 },

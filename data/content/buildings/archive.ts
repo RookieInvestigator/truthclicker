@@ -4,7 +4,7 @@ import { Building, ResourceType, BuildingCategory } from '../../../types';
 export const ARCHIVE_BUILDINGS: Building[] = [
   {
     id: 'microfiche_dungeon',
-    name: '缩微胶片地牢',
+    name: '缩微胶片地下室',
     description: '在干燥的地下室里堆满胶卷。虽然检索速度慢，但能防电磁脉冲。',
     category: BuildingCategory.ARCHIVE,
     baseCosts: { [ResourceType.FUNDS]: 1000, [ResourceType.CARDBOARD]: 200 },

@@ -2,7 +2,7 @@
 import React from 'react';
 import { Artifact, ResourceType } from '../types';
 import { RESOURCE_INFO } from '../constants';
-import { X, File, FileText, FileImage, FileAudio, FileCode, Microscope, Globe, Database, MessageSquare } from 'lucide-react';
+import { X, File, FileText, FileImage, FileAudio, FileCode, Microscope, Globe, Database, MessageSquare, Cpu, Radio, Disc, Cat } from 'lucide-react';
 
 interface ArtifactModalProps {
   artifact: Artifact;
@@ -22,7 +22,12 @@ const ArtifactModal: React.FC<ArtifactModalProps> = ({ artifact, onClose, onRecy
   };
 
   const getArtifactIcon = (artifact: Artifact) => {
+      // New Subtypes
       if (artifact.subtype === 'bookmark') return <Globe size={32} className="text-blue-400" />;
+      if (artifact.subtype === 'hardware') return <Cpu size={32} className="text-amber-500" />;
+      if (artifact.subtype === 'media') return <Disc size={32} className="text-purple-400" />;
+      if (artifact.subtype === 'creature') return <Cat size={32} className="text-red-400" />;
+      if (artifact.subtype === 'signal') return <Radio size={32} className="text-cyan-400" />;
 
       const lower = artifact.name.toLowerCase();
       if (lower.endsWith('.sql') || lower.endsWith('.db') || lower.endsWith('.csv')) return <Database size={32} className="text-yellow-400" />;
@@ -39,6 +44,10 @@ const ArtifactModal: React.FC<ArtifactModalProps> = ({ artifact, onClose, onRecy
       switch(subtype) {
           case 'file': return 'File Attributes';
           case 'bookmark': return 'Index Properties';
+          case 'hardware': return 'Component Specs';
+          case 'media': return 'Physical Media';
+          case 'creature': return 'Biological Sample';
+          case 'signal': return 'Signal Analysis';
           default: return 'Attributes';
       }
   };
@@ -82,7 +91,7 @@ const ArtifactModal: React.FC<ArtifactModalProps> = ({ artifact, onClose, onRecy
              {/* Metadata Box */}
              <div className="space-y-1">
                 <label className="text-[10px] text-gray-500 uppercase font-bold tracking-wider">
-                    {artifact.subtype === 'bookmark' ? 'Server Path' : 'Details'}
+                    {artifact.subtype === 'bookmark' ? 'Server Path' : artifact.subtype === 'signal' ? 'Frequency' : 'Details'}
                 </label>
                 <div className="bg-black p-3 rounded border border-gray-800 font-mono text-xs text-term-green/80 overflow-hidden text-ellipsis whitespace-nowrap">
                     {artifact.details}

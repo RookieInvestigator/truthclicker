@@ -14,6 +14,7 @@ const App: React.FC = () => {
   const {
     gameState,
     logs,
+    addGlobalLog, // NEW
     calculateTotalProduction,
     calculateClickPower,
     calculateGlobalCostReduction,
@@ -103,6 +104,7 @@ const App: React.FC = () => {
             onRecycleArtifact={investigateArtifact}
             onRecycleArtifactsByRarity={batchInvestigate}
             globalCostReduction={costReduction}
+            addGlobalLog={addGlobalLog} // NEW
         />
 
         {/* Right Column: Logs & Artifacts */}

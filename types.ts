@@ -1,42 +1,69 @@
 
+export interface GameSettings {
+  showCommonArtifactLogs: boolean;
+  showBuildingLogs: boolean;
+  showFlavorText: boolean;
+  disableChoiceEvents: boolean; 
+  showAutoSaveLogs: boolean; 
+  showDetailedBatchLogs: boolean; 
+}
+
+export interface GameState {
+  resources: {
+    [key in ResourceType]: number;
+  };
+  totalInfoMined: number;
+  buildings: {
+    [buildingId: string]: number;
+  };
+  researchedTechs: string[];
+  artifacts: Artifact[]; 
+  activeEvents: GameEvent[]; 
+  pendingChoice: ChoiceEventDefinition | null; 
+  settings: GameSettings;
+  startTime: number;
+  depth: number;
+  luckBoostEndTime: number; 
+}
+
 export enum ResourceType {
-  INFO = 'INFO',           // 基础资源：信息流
-  FUNDS = 'FUNDS',         // 经济资源：资金
-  FOLLOWERS = 'FOLLOWERS', // 影响力资源：粉丝/信徒
-  CRED = 'CRED',           // 声望资源：信誉/黑客声望
-  CULTURE = 'CULTURE',     // 文化资源：文化资本/高维叙事
+  INFO = 'INFO',           
+  FUNDS = 'FUNDS',         
+  FOLLOWERS = 'FOLLOWERS', 
+  CRED = 'CRED',           
+  CULTURE = 'CULTURE',     
   
-  CODE = 'CODE',           // 技术资源：代码
-  TECH_CAPITAL = 'TECH_CAPITAL', // 技术资本
-  OPS = 'OPS',             // 硬件资源：算力
-  BIOMASS = 'BIOMASS',     // 生物资源：生物质/湿件
-  POWER = 'POWER',         // 新增：电力 (维护资源)
+  CODE = 'CODE',           
+  TECH_CAPITAL = 'TECH_CAPITAL', 
+  OPS = 'OPS',             
+  BIOMASS = 'BIOMASS',     
+  POWER = 'POWER',         
 
-  CARDBOARD = 'CARDBOARD', // 废纸箱
-  SPAM = 'SPAM',           // 新增：垃圾信息 (副产物)
+  CARDBOARD = 'CARDBOARD', 
+  SPAM = 'SPAM',           
   
-  LORE = 'LORE',           // 新增：民俗学 (知识)
-  ANCIENT_WISDOM = 'ANCIENT_WISDOM', // 新增：古代知识
+  LORE = 'LORE',           
+  ANCIENT_WISDOM = 'ANCIENT_WISDOM', 
   
-  STORY = 'STORY',         // 故事
-  RUMORS = 'RUMORS',       // 新增：谣言/恐慌掌控
-  PANIC = 'PANIC',         // 恐慌 (高风险资源)
-  MIND_CONTROL = 'MIND_CONTROL', // 新增：心智掌控
+  STORY = 'STORY',         
+  RUMORS = 'RUMORS',       
+  PANIC = 'PANIC',         
+  MIND_CONTROL = 'MIND_CONTROL', 
 
-  PLEASURE = 'PLEASURE',   // 新增：快感/多巴胺
-  PROBABILITY = 'PROBABILITY', // 新增：正概率
-  REALITY = 'REALITY',     // 新增：现实稳定指数
+  PLEASURE = 'PLEASURE',   
+  PROBABILITY = 'PROBABILITY', 
+  REALITY = 'REALITY',     
 
-  CLUE = 'CLUE',           // 转化资源 I：线索
-  KNOWLEDGE = 'KNOWLEDGE', // 转化资源 II：隐秘知识
-  TRUTH = 'TRUTH',         // 终极资源：真相
+  CLUE = 'CLUE',           
+  KNOWLEDGE = 'KNOWLEDGE', 
+  TRUTH = 'TRUTH',         
 }
 
 export enum BuildingCategory {
   SURVIVAL = 'SURVIVAL',       
   NETWORK = 'NETWORK',         
   INTERNET_CULTURE = 'INTERNET_CULTURE', 
-  ADULT = 'ADULT',             // 新增：？？？ (欲望/娱乐/成人)
+  ADULT = 'ADULT',             
   VERIFICATION = 'VERIFICATION', 
   TECHNOCRACY = 'TECHNOCRACY', 
   HISTORY = 'HISTORY',         
@@ -80,7 +107,7 @@ export interface Tech {
   costs: { [key in ResourceType]?: number };
   effects: TechEffects;
   icon: string;
-  category: BuildingCategory; // Changed: Mandatory
+  category: BuildingCategory; 
   preRequisiteTech?: string;
   
   exclusiveWith?: string[]; 
@@ -95,16 +122,16 @@ export interface Artifact {
   category: BuildingCategory;
   rarity: 'common' | 'rare' | 'legendary' | 'mythic' | 'cursed' | 'anomaly';
   isProcedural?: boolean; 
-  subtype: 'file' | 'bookmark';
+  subtype: 'file' | 'bookmark' | 'hardware' | 'media' | 'creature' | 'signal'; // Expanded
   details?: string; 
   bonusType: 'production_multiplier' | 'click_power' | 'luck' | 'cost_reduction' | 'none';
   targetResource?: ResourceType; 
   bonusValue: number; 
   dropChanceWeight: number;
   
-  // NEW: Investigation Mechanics
-  hiddenLootId?: string; // ID of a Unique Artifact or Special Reward hidden inside
-  hasHint?: boolean; // Visual cue if player has high perception
+  hiddenLootId?: string; 
+  hasHint?: boolean; 
+  linkedProceduralType?: 'document' | 'image' | 'data' | 'log' | 'archive' | 'code'; 
 }
 
 export interface LogEntry {
@@ -119,23 +146,21 @@ export interface GameEvent {
   name: string;
   description: string;
   type: 'positive' | 'negative' | 'mixed' | 'glitch';
-  multipliers: { [key in ResourceType]?: number }; // Multiplier (e.g. 1.5 for +50%, 0.5 for -50%)
-  duration: number; // in seconds
-  startTime: number; // timestamp
-  reqTech?: string[]; // New: Tech required to unlock this event
+  multipliers: { [key in ResourceType]?: number }; 
+  duration: number; 
+  startTime: number; 
+  reqTech?: string[]; 
 }
 
-// --- NEW: CHOICE EVENT TYPES ---
 export interface ChoiceOption {
   id: string;
   label: string;
   description: string;
   cost?: { [key in ResourceType]?: number };
-  // Reward can be resources OR a trigger for a standard GameEvent (buff/debuff)
   reward: {
     resources?: { [key in ResourceType]?: number };
-    triggerEventId?: string; // ID of a GameEvent to trigger
-    buildingId?: string; // NEW: Reward a free building
+    triggerEventId?: string; 
+    buildingId?: string; 
   };
 }
 
@@ -143,32 +168,7 @@ export interface ChoiceEventDefinition {
   id: string;
   title: string;
   description: string;
-  options: ChoiceOption[]; // Pool of options, only 3 selected at runtime
+  options: ChoiceOption[]; 
   reqTech?: string[];
   minDepth?: number;
-}
-
-export interface GameSettings {
-  showCommonArtifactLogs: boolean;
-  showBuildingLogs: boolean;
-  showFlavorText: boolean;
-  disableChoiceEvents: boolean; // NEW: Toggle to disable popup choices
-}
-
-export interface GameState {
-  resources: {
-    [key in ResourceType]: number;
-  };
-  totalInfoMined: number;
-  buildings: {
-    [buildingId: string]: number;
-  };
-  researchedTechs: string[];
-  artifacts: Artifact[]; 
-  activeEvents: GameEvent[]; 
-  pendingChoice: ChoiceEventDefinition | null; // NEW: Active popup event
-  settings: GameSettings;
-  startTime: number;
-  depth: number;
-  luckBoostEndTime: number; 
 }

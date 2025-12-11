@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Artifact } from '../types';
 import ArtifactModal from './ArtifactModal';
-import { File, FileText, FileImage, FileAudio, FileCode, Disc, ArrowRight, Download, Globe, Database, MessageSquare } from 'lucide-react';
+import { File, FileText, FileImage, FileAudio, FileCode, Disc, ArrowRight, Download, Globe, Database, MessageSquare, Cpu, Radio, Cat } from 'lucide-react';
 
 interface ArtifactGridProps {
   collected: Artifact[];
@@ -27,8 +27,14 @@ const ArtifactGrid: React.FC<ArtifactGridProps> = ({ collected, limit, onViewAll
       });
 
   const getArtifactIcon = (artifact: Artifact, size: number) => {
+      // New Subtypes
       if (artifact.subtype === 'bookmark') return <Globe size={size} className="text-blue-400" />;
+      if (artifact.subtype === 'hardware') return <Cpu size={size} className="text-amber-500" />;
+      if (artifact.subtype === 'media') return <Disc size={size} className="text-purple-400" />;
+      if (artifact.subtype === 'creature') return <Cat size={size} className="text-red-400" />;
+      if (artifact.subtype === 'signal') return <Radio size={size} className="text-cyan-400" />;
 
+      // Fallback/Legacy File logic
       const lower = artifact.name.toLowerCase();
       if (lower.endsWith('.sql') || lower.endsWith('.db') || lower.endsWith('.csv')) return <Database size={size} className="text-yellow-400" />;
       if (lower.endsWith('.log') || lower.endsWith('.history')) return <MessageSquare size={size} className="text-pink-400" />;

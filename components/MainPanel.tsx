@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { GameState, ResourceType, Artifact, BuildingCategory } from '../types';
+import { GameState, ResourceType, Artifact, BuildingCategory, LogEntry } from '../types';
 import { BUILDINGS } from '../data/buildings';
 import { TECHS } from '../data/techs';
 import { CATEGORY_CONFIG, RESOURCE_INFO } from '../constants';
@@ -18,10 +18,11 @@ interface MainPanelProps {
   onRecycleArtifact: (artifact: Artifact) => void;
   onRecycleArtifactsByRarity: (rarity: string) => void;
   globalCostReduction: number;
+  addGlobalLog: (msg: string, type?: LogEntry['type']) => void;
 }
 
 const MainPanel: React.FC<MainPanelProps> = ({ 
-    gameState, onBuyBuilding, onSellBuilding, onResearchTech, onRecycleArtifact, onRecycleArtifactsByRarity, globalCostReduction 
+    gameState, onBuyBuilding, onSellBuilding, onResearchTech, onRecycleArtifact, onRecycleArtifactsByRarity, globalCostReduction, addGlobalLog
 }) => {
   const [activeTab, setActiveTab] = useState<'nodes' | 'research' | 'inventory'>('nodes');
   
@@ -144,16 +145,15 @@ const MainPanel: React.FC<MainPanelProps> = ({
 
             {activeTab === 'nodes' && (
                 <div className="space-y-4 p-6 pb-10">
+                    {/* ... (Building rendering logic logic same as before) ... */}
                     {Object.values(BuildingCategory).map(cat => {
                         let categoryBuildings = BUILDINGS.filter(b => b.category === cat);
                         
-                        // 1. Filter by Visibility (Unlock reqs)
                         categoryBuildings = categoryBuildings.filter(b => 
                             (gameState.totalInfoMined >= b.unlockRequirement * 0.5 || b.unlockRequirement === 0) &&
                             (!b.requireTech || b.requireTech.every(t => gameState.researchedTechs.includes(t)))
                         );
 
-                        // 2. Filter by Resource Output (if active)
                         if (resourceFilter) {
                             categoryBuildings = categoryBuildings.filter(b => 
                                 b.baseProduction && (b.baseProduction[resourceFilter] || 0) > 0
@@ -167,7 +167,6 @@ const MainPanel: React.FC<MainPanelProps> = ({
 
                         return (
                             <div key={cat} className="animate-in fade-in slide-in-from-bottom-2 duration-500">
-                                {/* Category Header (Collapsible) */}
                                 <div 
                                     className={`flex items-center gap-2 mb-3 cursor-pointer group select-none hover:bg-term-gray/10 p-2 rounded -mx-2`}
                                     onClick={() => toggleBuildingCategory(cat)}
@@ -223,7 +222,6 @@ const MainPanel: React.FC<MainPanelProps> = ({
                         );
                     })}
                     
-                    {/* Empty State for Filter */}
                     {resourceFilter && Object.values(BuildingCategory).every(cat => {
                          const buildings = BUILDINGS.filter(b => b.category === cat && 
                             (gameState.totalInfoMined >= b.unlockRequirement * 0.5 || b.unlockRequirement === 0) &&
@@ -245,11 +243,10 @@ const MainPanel: React.FC<MainPanelProps> = ({
 
             {activeTab === 'research' && (
                 <div className="p-6 pb-20 space-y-6">
-                    {/* Category Based Tech Grid */}
+                    {/* ... (Tech rendering logic same as before) ... */}
                     {Object.values(BuildingCategory).map(cat => {
                         const categoryTechs = TECHS.filter(t => t.category === cat).sort((a, b) => a.tier - b.tier);
                         
-                        // Visibility Check
                         const isCategoryVisible = categoryTechs.some(tech => 
                             gameState.researchedTechs.includes(tech.id) || 
                             (!tech.preRequisiteTech || gameState.researchedTechs.includes(tech.preRequisiteTech))
@@ -257,7 +254,6 @@ const MainPanel: React.FC<MainPanelProps> = ({
 
                         if (!isCategoryVisible) return null;
 
-                        // Filter techs inside category
                         const visibleTechs = categoryTechs.filter(tech => {
                              const isResearched = gameState.researchedTechs.includes(tech.id);
                              if (hideResearched && isResearched) return false;
@@ -272,7 +268,6 @@ const MainPanel: React.FC<MainPanelProps> = ({
 
                         return (
                             <div key={cat} className="animate-in fade-in slide-in-from-bottom-2 duration-500">
-                                {/* Category Header */}
                                 <div 
                                     className={`flex items-center gap-2 mb-3 cursor-pointer group select-none hover:bg-term-gray/10 p-2 rounded -mx-2`}
                                     onClick={() => toggleCategory(cat)}
@@ -337,6 +332,8 @@ const MainPanel: React.FC<MainPanelProps> = ({
                     artifacts={gameState.artifacts}
                     onRecycle={onRecycleArtifact}
                     onRecycleArtifactsByRarity={onRecycleArtifactsByRarity}
+                    onLog={addGlobalLog} 
+                    detailedLogsEnabled={gameState.settings.showDetailedBatchLogs} // NEW PROP
                 />
             )}
         </div>

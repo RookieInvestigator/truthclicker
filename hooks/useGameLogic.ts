@@ -1,831 +1,635 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { GameState, ResourceType, LogEntry, Artifact, GameEvent, GameSettings, ChoiceEventDefinition, ChoiceOption } from '../types';
-import { TICK_RATE, AUTOSAVE_INTERVAL } from '../constants';
+import { 
+  GameState, ResourceType, Building, Tech, Artifact, LogEntry, GameEvent, 
+  ChoiceEventDefinition, ChoiceOption, BuildingCategory 
+} from '../types';
 import { BUILDINGS } from '../data/buildings';
 import { TECHS } from '../data/techs';
-import { UNIQUE_ARTIFACTS } from '../data/artifacts';
-import { FLAVOR_MESSAGES } from '../data/flavor';
+import { RESOURCE_INFO, TICK_RATE, AUTOSAVE_INTERVAL } from '../constants';
 import { POSSIBLE_EVENTS } from '../data/events';
-import { CHOICE_EVENTS } from '../data/choiceEvents'; 
+import { CHOICE_EVENTS } from '../data/choiceEvents';
+import { UNIQUE_ARTIFACTS } from '../data/artifacts';
 import { generateArtifact } from '../utils/generator';
 
+// Initial State
+const INITIAL_STATE: GameState = {
+  resources: {
+    [ResourceType.INFO]: 0,
+    [ResourceType.FUNDS]: 0,
+    [ResourceType.FOLLOWERS]: 0,
+    [ResourceType.CRED]: 0,
+    [ResourceType.CULTURE]: 0,
+    [ResourceType.CODE]: 0,
+    [ResourceType.TECH_CAPITAL]: 0,
+    [ResourceType.OPS]: 0,
+    [ResourceType.BIOMASS]: 0,
+    [ResourceType.POWER]: 0,
+    [ResourceType.CARDBOARD]: 0,
+    [ResourceType.SPAM]: 0,
+    [ResourceType.LORE]: 0,
+    [ResourceType.ANCIENT_WISDOM]: 0,
+    [ResourceType.STORY]: 0,
+    [ResourceType.RUMORS]: 0,
+    [ResourceType.PANIC]: 0,
+    [ResourceType.MIND_CONTROL]: 0,
+    [ResourceType.PLEASURE]: 0,
+    [ResourceType.PROBABILITY]: 0,
+    [ResourceType.REALITY]: 100, 
+    [ResourceType.CLUE]: 0,
+    [ResourceType.KNOWLEDGE]: 0,
+    [ResourceType.TRUTH]: 0,
+  },
+  totalInfoMined: 0,
+  buildings: {},
+  researchedTechs: [],
+  artifacts: [],
+  activeEvents: [],
+  pendingChoice: null,
+  settings: {
+    showCommonArtifactLogs: false,
+    showBuildingLogs: true,
+    showFlavorText: true,
+    disableChoiceEvents: false,
+    showAutoSaveLogs: true,
+    showDetailedBatchLogs: false,
+  },
+  startTime: Date.now(),
+  depth: 0,
+  luckBoostEndTime: 0,
+};
+
 export const useGameLogic = () => {
-  const [gameState, setGameState] = useState<GameState>({
-    resources: {
-      [ResourceType.INFO]: 0,
-      [ResourceType.FUNDS]: 0,
-      [ResourceType.FOLLOWERS]: 0,
-      [ResourceType.CRED]: 0,
-      [ResourceType.CULTURE]: 0,
-      
-      [ResourceType.CODE]: 0,
-      [ResourceType.TECH_CAPITAL]: 0,
-      [ResourceType.OPS]: 0,
-      [ResourceType.BIOMASS]: 0,
-      [ResourceType.POWER]: 0,    
-      
-      [ResourceType.CARDBOARD]: 0,
-      [ResourceType.SPAM]: 0,     
-      
-      [ResourceType.LORE]: 0,           
-      [ResourceType.ANCIENT_WISDOM]: 0, 
-
-      [ResourceType.STORY]: 0,
-      [ResourceType.RUMORS]: 0,       
-      [ResourceType.PANIC]: 0,
-      [ResourceType.MIND_CONTROL]: 0, 
-
-      [ResourceType.PLEASURE]: 0,     
-      [ResourceType.PROBABILITY]: 0,  
-      [ResourceType.REALITY]: 0,      
-      
-      [ResourceType.CLUE]: 0,
-      [ResourceType.KNOWLEDGE]: 0,
-      [ResourceType.TRUTH]: 0,
-    },
-    totalInfoMined: 0, 
-    buildings: {},
-    researchedTechs: [],
-    artifacts: [],
-    activeEvents: [], 
-    pendingChoice: null, 
-    settings: {
-        showCommonArtifactLogs: true,
-        showBuildingLogs: true,
-        showFlavorText: true,
-        disableChoiceEvents: false, 
-    },
-    startTime: Date.now(),
-    depth: 0,
-    luckBoostEndTime: 0, 
-  });
-
-  const [logs, setLogs] = useState<LogEntry[]>([]);
-  const [lastTick, setLastTick] = useState<number>(Date.now());
-  const stateRef = useRef(gameState);
-  stateRef.current = gameState;
-
-  const addLog = useCallback((message: string, type: LogEntry['type'] = 'info') => {
-    setLogs(prev => [
-      ...prev, 
-      { 
-        id: Date.now() + Math.random(), 
-        timestamp: new Date().toLocaleTimeString('en-US', {hour12: false}), 
-        message, 
-        type 
-      }
-    ].slice(-50));
-  }, []);
-
-  const calculateTotalProduction = useCallback((state: GameState) => {
-    // 1. Initialize Containers
-    const grossProduction: Record<ResourceType, number> = Object.values(ResourceType).reduce((acc, res) => {
-        acc[res] = 0;
-        return acc;
-    }, {} as Record<ResourceType, number>);
-
-    const grossConsumption: Record<ResourceType, number> = Object.values(ResourceType).reduce((acc, res) => {
-        acc[res] = 0;
-        return acc;
-    }, {} as Record<ResourceType, number>);
-
-    // Base Multipliers (Techs + Building Global Effects) - Starts at 1.0 (100%)
-    const multipliers: Record<ResourceType, number> = Object.values(ResourceType).reduce((acc, res) => {
-        acc[res] = 1;
-        return acc;
-    }, {} as Record<ResourceType, number>);
-
-    // Event Multipliers - Starts at 1.0
-    const eventMults: Record<ResourceType, number> = Object.values(ResourceType).reduce((acc, res) => {
-        acc[res] = 1;
-        return acc;
-    }, {} as Record<ResourceType, number>);
-
-    // 2. Identify Starved Resources
-    const starvedResources = new Set<ResourceType>();
-    (Object.entries(state.resources) as [ResourceType, number][]).forEach(([res, amount]) => {
-        if (amount <= 0) starvedResources.add(res);
-    });
-
-    // 3. Apply Tech Multipliers (Additive to Base)
-    state.researchedTechs.forEach(techId => {
-        const tech = TECHS.find(t => t.id === techId);
-        if (tech?.effects.resourceMultipliers) {
-            (Object.entries(tech.effects.resourceMultipliers) as [ResourceType, number][]).forEach(([res, val]) => {
-                multipliers[res] += val;
-            });
-        }
-    });
-
-    // 4. Calculate Building Output (Split into Gross Prod & Cons)
-    Object.entries(state.buildings).forEach(([id, count]) => {
-      if (count <= 0) return;
-      const building = BUILDINGS.find(b => b.id === id);
-      if (!building) return;
-
-      // Check Operation Status
-      let isOperational = true;
-      if (building.baseProduction) {
-          for (const [res, amount] of Object.entries(building.baseProduction)) {
-              if (amount < 0 && starvedResources.has(res as ResourceType)) {
-                  isOperational = false;
-                  break;
-              }
-          }
-      }
-
-      if (isOperational) {
-        // Production
-        if (building.baseProduction) {
-            (Object.entries(building.baseProduction) as [ResourceType, number][]).forEach(([res, amount]) => {
-                if (amount > 0) {
-                    grossProduction[res] += amount * count;
-                } else {
-                    grossConsumption[res] += Math.abs(amount) * count; // Store as positive magnitude
-                }
-            });
-        }
-        // Building Global Multipliers (Additive)
-        if (building.globalMultipliers) {
-            (Object.entries(building.globalMultipliers) as [ResourceType, number][]).forEach(([res, percent]) => {
-                multipliers[res] += percent * count;
-            });
-        }
-      }
-    });
-
-    // 5. Apply Artifact Multipliers (Multiplicative to Base)
-    state.artifacts.forEach(art => {
-      if (art.bonusType === 'production_multiplier' && art.targetResource) {
-          multipliers[art.targetResource] *= art.bonusValue;
-      }
-    });
-
-    // 6. Calculate Event Multipliers
-    state.activeEvents.forEach(evt => {
-        if (evt.multipliers) {
-            (Object.entries(evt.multipliers) as [ResourceType, number][]).forEach(([res, val]) => {
-                eventMults[res] *= val;
-            });
-        }
-    });
-
-    // 7. Final Net Calculation
-    // Logic: Net = (Gross * BaseMults * EventMults) - GrossConsumption
-    const netProduction: Record<ResourceType, number> = {} as Record<ResourceType, number>;
-    
-    (Object.values(ResourceType) as ResourceType[]).forEach(res => {
-        let produced = grossProduction[res];
-        
-        // Apply multipliers only if there is production
-        if (produced > 0) {
-            produced *= multipliers[res]; // Apply Tech/Building/Artifacts
-            produced *= eventMults[res];  // Apply Events
-        }
-
-        const consumed = grossConsumption[res]; // Consumption is raw, unaffected by multipliers
-        
-        netProduction[res] = produced - consumed;
-    });
-
-    return netProduction;
-  }, []);
-
-  const calculateClickPower = useCallback(() => {
-    let base = 1;
-    let multiplier = 1;
-
-    // Artifacts
-    stateRef.current.artifacts.forEach(art => {
-      if (art.bonusType === 'click_power') base += art.bonusValue;
-    });
-
-    // Techs (New Logic)
-    stateRef.current.researchedTechs.forEach(techId => {
-        const tech = TECHS.find(t => t.id === techId);
-        if (tech?.effects.clickPowerMult) {
-            multiplier += tech.effects.clickPowerMult;
-        }
-    });
-
-    const production = calculateTotalProduction(stateRef.current);
-    base += Math.max(0, production[ResourceType.INFO]) * 0.05; 
-    
-    return Math.floor(base * multiplier);
-  }, [calculateTotalProduction]);
-
-  const calculateGlobalCostReduction = useCallback(() => {
-    let reduction = 0;
-    
-    // Artifacts
-    stateRef.current.artifacts.forEach(art => {
-        if (art.bonusType === 'cost_reduction') reduction += art.bonusValue;
-    });
-
-    // Techs (New Logic)
-    stateRef.current.researchedTechs.forEach(techId => {
-        const tech = TECHS.find(t => t.id === techId);
-        if (tech?.effects.globalCostReduction) {
-            reduction += tech.effects.globalCostReduction;
-        }
-    });
-
-    return Math.min(0.8, reduction);
-  }, []);
-
-  const calculateRecycleEfficiency = useCallback(() => {
-      let efficiency = 1.0;
-      stateRef.current.researchedTechs.forEach(techId => {
-        const tech = TECHS.find(t => t.id === techId);
-        if (tech?.effects.recycleEfficiency) {
-            efficiency += tech.effects.recycleEfficiency;
-        }
-      });
-      return efficiency;
-  }, []);
-
-  // --- Actions ---
-  const toggleSetting = useCallback((key: keyof GameSettings) => {
-      setGameState(prev => ({
-          ...prev,
-          settings: {
-              ...prev.settings,
-              [key]: !prev.settings[key]
-          }
-      }));
-  }, []);
-
-  // Handle Choice Made
-  const handleMakeChoice = useCallback((option: ChoiceOption) => {
-      setGameState(prev => {
-          const nextRes = { ...prev.resources };
-          const nextBuildings = { ...prev.buildings };
-          
-          // Deduct Cost
-          if (option.cost) {
-              (Object.entries(option.cost) as [ResourceType, number][]).forEach(([res, val]) => {
-                  nextRes[res] -= val;
-              });
-          }
-
-          // Apply Resource Reward
-          if (option.reward.resources) {
-              (Object.entries(option.reward.resources) as [ResourceType, number][]).forEach(([res, val]) => {
-                  nextRes[res] = (nextRes[res] || 0) + val;
-              });
-          }
-
-          // Apply Building Reward
-          if (option.reward.buildingId) {
-              const currentCount = nextBuildings[option.reward.buildingId] || 0;
-              nextBuildings[option.reward.buildingId] = currentCount + 1;
-              const buildingName = BUILDINGS.find(b => b.id === option.reward.buildingId)?.name || 'Unknown Building';
-              addLog(`获得建筑: ${buildingName}`, 'success');
-          }
-
-          // Trigger Linked Event
-          let newEvents = [...prev.activeEvents];
-          if (option.reward.triggerEventId) {
-              const evtTemplate = POSSIBLE_EVENTS.find(e => e.id === option.reward.triggerEventId);
-              if (evtTemplate) {
-                  const newEvent: GameEvent = {
-                      ...evtTemplate,
-                      startTime: Date.now(),
-                      id: `${evtTemplate.id}_triggered_${Date.now()}`
-                  };
-                  newEvents.push(newEvent);
-                  addLog(`决策结果: 触发了 [${newEvent.name}]`, newEvent.type === 'negative' ? 'warning' : 'success');
-              }
-          } else {
-              addLog(`决策执行完毕: ${option.label}`, 'success');
-          }
-
-          return {
-              ...prev,
-              resources: nextRes,
-              buildings: nextBuildings,
-              activeEvents: newEvents,
-              pendingChoice: null // Close modal
-          };
-      });
-  }, [addLog]);
-
-  // Manual Reality Flush
-  const triggerRealityFlush = useCallback(() => {
-      const COST = 20;
-      if (stateRef.current.resources[ResourceType.REALITY] < COST) {
-          addLog("现实稳定指数不足，无法执行修正", "warning");
-          return;
-      }
-
-      setGameState(prev => {
-          const removedCount = prev.activeEvents.length;
-          
-          if (removedCount === 0) {
-              addLog("现实读数稳定，无需重置", "info");
-              return prev;
-          }
-
-          addLog(`>>> 现实重置启动：强制归零了 ${removedCount} 个时间线波动`, "rare");
-          
-          return {
-              ...prev,
-              resources: {
-                  ...prev.resources,
-                  [ResourceType.REALITY]: prev.resources[ResourceType.REALITY] - COST
-              },
-              activeEvents: [] // Clear all
-          }
-      });
-  }, [addLog]);
-
-  // Manual Probability Drive
-  const triggerProbabilityDrive = useCallback(() => {
-      const COST = 5;
-      const DURATION = 60000; // 60s
-      
-      if (stateRef.current.resources[ResourceType.PROBABILITY] < COST) {
-          addLog("正概率不足，无法启动引擎", "warning");
-          return;
-      }
-
-      setGameState(prev => {
-          addLog(">>> 概率引擎过载：幸运值极幅提升 (60s)", "rare");
-          return {
-              ...prev,
-              resources: {
-                  ...prev.resources,
-                  [ResourceType.PROBABILITY]: prev.resources[ResourceType.PROBABILITY] - COST
-              },
-              luckBoostEndTime: Date.now() + DURATION
-          };
-      });
-  }, [addLog]);
-
-  const handleManualMine = useCallback(() => {
-    const amount = calculateClickPower();
-    const extra: Partial<Record<ResourceType, number>> = {};
-    
-    // Manual Click Random Drops
-    if (Math.random() < 0.02) extra[ResourceType.CLUE] = 1;
-    if (Math.random() < 0.05) extra[ResourceType.FUNDS] = 0.5;
-    if (Math.random() < 0.01 && stateRef.current.totalInfoMined > 1000) extra[ResourceType.CULTURE] = 0.1; 
-    
-    // Found a cardboard box while digging?
-    if (Math.random() < 0.1) extra[ResourceType.CARDBOARD] = 1; 
-
-    setGameState(prev => {
-        const res = { ...prev.resources };
-        res[ResourceType.INFO] += amount;
-        (Object.entries(extra) as [ResourceType, number][]).forEach(([key, val]) => {
-            res[key] += val;
-        });
-        return { ...prev, resources: res, totalInfoMined: prev.totalInfoMined + amount };
-    });
-  }, [calculateClickPower]);
-
-  const buyBuilding = useCallback((buildingId: string) => {
-    const building = BUILDINGS.find(b => b.id === buildingId);
-    if (!building) return;
-
-    const count = stateRef.current.buildings[buildingId] || 0;
-    const reduction = calculateGlobalCostReduction();
-    const costs: Partial<Record<ResourceType, number>> = {};
-    let canAfford = true;
-
-    // Standard Cost Check
-    (Object.entries(building.baseCosts) as [ResourceType, number][]).forEach(([res, base]) => {
-        let cost = Math.floor(base * Math.pow(building.costMultiplier, count));
-        cost = Math.floor(cost * (1 - reduction));
-        costs[res] = Math.max(1, cost);
-        if (stateRef.current.resources[res] < costs[res]!) canAfford = false;
-    });
-
-    // Starvation Purchase Check
-    if (building.baseProduction) {
-        for (const [res, amount] of Object.entries(building.baseProduction)) {
-             if (amount < 0 && stateRef.current.resources[res as ResourceType] <= 0) {
-                 canAfford = false;
-                 break; 
-             }
-        }
-    }
-
-    if (canAfford) {
-      setGameState(prev => {
-        const nextRes = { ...prev.resources };
-        (Object.entries(costs) as [ResourceType, number][]).forEach(([res, amt]) => {
-            nextRes[res] -= amt;
-        });
-        return { ...prev, resources: nextRes, buildings: { ...prev.buildings, [buildingId]: count + 1 } };
-      });
-      if (stateRef.current.settings.showBuildingLogs) {
-          addLog(`[Purchased] ${building.name}`, 'success');
-      }
-    } else {
-      let isStarved = false;
-      if (building.baseProduction) {
-        for (const [res, amount] of Object.entries(building.baseProduction)) {
-             if (amount < 0 && stateRef.current.resources[res as ResourceType] <= 0) {
-                 isStarved = true; 
-                 break;
-             }
-        }
-      }
-      if (isStarved) {
-          addLog('无法购买：缺少维护所需的资源', 'warning');
-      } else {
-          addLog('资源不足', 'warning');
-      }
-    }
-  }, [addLog, calculateGlobalCostReduction]);
-
-  const sellBuilding = useCallback((buildingId: string) => {
-    const building = BUILDINGS.find(b => b.id === buildingId);
-    if (!building) return;
-
-    const count = stateRef.current.buildings[buildingId] || 0;
-    if (count <= 0) return;
-
-    const refundRatio = 0.5;
-    const reduction = calculateGlobalCostReduction(); 
-    
-    // Calculate refund based on the cost paid for the LAST building (count - 1)
-    const refund: Partial<Record<ResourceType, number>> = {};
-    (Object.entries(building.baseCosts) as [ResourceType, number][]).forEach(([res, base]) => {
-        // Cost of the (count-1)th building: base * multiplier^(count-1)
-        let cost = Math.floor(base * Math.pow(building.costMultiplier, count - 1));
-        cost = Math.floor(cost * (1 - reduction));
-        refund[res] = Math.floor(cost * refundRatio);
-    });
-
-    setGameState(prev => {
-        const nextRes = { ...prev.resources };
-        (Object.entries(refund) as [ResourceType, number][]).forEach(([res, amt]) => {
-            nextRes[res] = (nextRes[res] || 0) + amt;
-        });
-        const nextBuildings = { ...prev.buildings };
-        nextBuildings[buildingId] = Math.max(0, count - 1);
-        
-        return { ...prev, resources: nextRes, buildings: nextBuildings };
-    });
-    
-    if (stateRef.current.settings.showBuildingLogs) {
-        addLog(`[拆除] ${building.name} (返还50%)`, 'warning'); 
-    }
-  }, [addLog, calculateGlobalCostReduction]);
-
-  const researchTech = useCallback((techId: string) => {
-      const tech = TECHS.find(t => t.id === techId);
-      if (!tech || stateRef.current.researchedTechs.includes(techId)) return;
-
-      // EXCLUSIVE TECH CHECK
-      if (tech.exclusiveWith) {
-          const hasConflict = tech.exclusiveWith.some(conflictId => stateRef.current.researchedTechs.includes(conflictId));
-          if (hasConflict) {
-              addLog('路径冲突：已选择互斥的技术路线', 'warning');
-              return;
-          }
-      }
-
-      const reduction = calculateGlobalCostReduction();
-      let canAfford = true;
-      const finalCosts: Partial<Record<ResourceType, number>> = {};
-
-      (Object.entries(tech.costs) as [ResourceType, number][]).forEach(([res, cost]) => {
-          const reduced = Math.max(1, Math.floor(cost * (1 - reduction)));
-          finalCosts[res] = reduced;
-          if (stateRef.current.resources[res] < reduced) canAfford = false;
-      });
-
-      if (canAfford) {
-        setGameState(prev => {
-            const nextRes = { ...prev.resources };
-            (Object.entries(finalCosts) as [ResourceType, number][]).forEach(([res, amt]) => nextRes[res] -= amt);
-            return { ...prev, resources: nextRes, researchedTechs: [...prev.researchedTechs, techId] };
-        });
-        addLog(`[Learned] ${tech.name} 完成`, 'success');
-        if (tech.effects.unlockMessage) addLog(tech.effects.unlockMessage, 'info');
-      } else {
-        addLog('资源不足', 'warning');
-      }
-  }, [addLog, calculateGlobalCostReduction]);
-
-  // NEW: Investigate Artifact (replaces recycle)
-  const investigateArtifact = useCallback((target: Artifact) => {
-     setGameState(prev => {
-        const remaining = prev.artifacts.filter(a => a.id !== target.id);
-        const res = { ...prev.resources };
-        const newArtifacts = [...remaining];
-        let logMsg = '';
-        let logType: LogEntry['type'] = 'info';
-
-        // 1. Check for Hidden Loot
-        if (target.hiddenLootId) {
-            if (target.hiddenLootId === 'resource_bundle') {
-                // High Value Resource Bundle
-                res[ResourceType.FUNDS] += 500;
-                res[ResourceType.CLUE] += 5;
-                logMsg = `调查发现: ${target.name} 包含加密账户数据 (+500 Funds, +5 Clue)`;
-                logType = 'success';
-            } else {
-                // Unique Artifact Discovery
-                const lootItem = UNIQUE_ARTIFACTS.find(u => u.id === target.hiddenLootId);
-                // Check if player already has this unique
-                const alreadyHas = prev.artifacts.some(a => a.id === lootItem?.id);
-                
-                if (lootItem && !alreadyHas) {
-                    newArtifacts.push(lootItem);
-                    logMsg = `重大发现: 从 ${target.name} 中提取出唯一物品 [${lootItem.name}]!`;
-                    logType = 'rare';
-                } else {
-                    // Fallback if duplicate
-                    res[ResourceType.KNOWLEDGE] += 10;
-                    logMsg = `调查发现: ${target.name} 包含重复的高价值数据 (+10 Knowledge)`;
-                    logType = 'success';
-                }
-            }
-        } else {
-            // 2. Standard "Recycle" Reward if nothing found
-            let rewardAmount = 50;
-            let rewardType = ResourceType.INFO;
-            
-            // Unique items give better scrap rewards
-            if (!target.isProcedural) {
-                rewardType = ResourceType.FUNDS;
-                if (target.rarity === 'rare') rewardAmount = 250;
-                if (target.rarity === 'legendary') rewardAmount = 1000;
-            } else {
-                if (target.rarity === 'rare') { rewardAmount = 100; rewardType = ResourceType.FUNDS; }
-                if (target.rarity === 'legendary') { rewardAmount = 50; rewardType = ResourceType.CULTURE; }
-                if (target.rarity === 'anomaly') { rewardAmount = 1; rewardType = ResourceType.TECH_CAPITAL; }
-            }
-
-            const efficiency = calculateRecycleEfficiency();
-            rewardAmount = Math.max(1, Math.floor(rewardAmount * efficiency));
-            
-            res[rewardType] += rewardAmount;
-            res[ResourceType.CARDBOARD] += 1;
-            logMsg = `分析完成: ${target.name} 无特殊价值 (+${rewardAmount} ${rewardType})`;
-        }
-        
-        addLog(logMsg, logType);
-        return { ...prev, artifacts: newArtifacts, resources: res };
-     });
-  }, [addLog, calculateRecycleEfficiency]);
-
-  // NEW: Batch Investigate
-  const batchInvestigate = useCallback((targetRarity: string) => {
-     const efficiency = calculateRecycleEfficiency();
-     setGameState(prev => {
-         const toProcess = prev.artifacts.filter(a => a.isProcedural && a.rarity === targetRarity);
-         const toKeep = prev.artifacts.filter(a => !(a.isProcedural && a.rarity === targetRarity));
-         
-         if (toProcess.length === 0) return prev;
-         
-         const newArtifacts = [...toKeep];
-         const rewards: Partial<Record<ResourceType, number>> = { [ResourceType.CARDBOARD]: toProcess.length };
-         let lootFoundCount = 0;
-
-         toProcess.forEach(item => {
-             // Logic mirrors single investigate but aggregated
-             if (item.hiddenLootId) {
-                 if (item.hiddenLootId === 'resource_bundle') {
-                     rewards[ResourceType.FUNDS] = (rewards[ResourceType.FUNDS] || 0) + 500;
-                     rewards[ResourceType.CLUE] = (rewards[ResourceType.CLUE] || 0) + 5;
-                     lootFoundCount++;
-                 } else {
-                     const lootItem = UNIQUE_ARTIFACTS.find(u => u.id === item.hiddenLootId);
-                     // Check current state AND newArtifacts buffer for dupes
-                     const alreadyHas = prev.artifacts.some(a => a.id === lootItem?.id) || newArtifacts.some(a => a.id === lootItem?.id);
-                     
-                     if (lootItem && !alreadyHas) {
-                         newArtifacts.push(lootItem);
-                         lootFoundCount++;
-                         addLog(`批量分析中发现: [${lootItem.name}]!`, 'rare');
-                     } else {
-                         rewards[ResourceType.KNOWLEDGE] = (rewards[ResourceType.KNOWLEDGE] || 0) + 10;
-                     }
-                 }
-             } else {
-                 let amount = 50; 
-                 let type = ResourceType.INFO;
-                 
-                 if (item.rarity === 'rare') { amount = 100; type = ResourceType.FUNDS; }
-                 if (item.rarity === 'legendary') { amount = 50; type = ResourceType.CULTURE; }
-                 if (item.rarity === 'anomaly') { amount = 1; type = ResourceType.TECH_CAPITAL; }
-                 
-                 amount = Math.max(1, Math.floor(amount * efficiency));
-                 rewards[type] = (rewards[type] || 0) + amount;
-             }
-         });
-
-         const res = { ...prev.resources };
-         (Object.entries(rewards) as [ResourceType, number][]).forEach(([key, val]) => {
-             res[key] += val;
-         });
-         
-         addLog(`批量调查结束: 处理了 ${toProcess.length} 个项目，发现了 ${lootFoundCount} 个异常点。`, 'success');
-         return { ...prev, artifacts: newArtifacts, resources: res };
-     });
-  }, [addLog, calculateRecycleEfficiency]);
-
-  // --- Save/Load ---
-  const saveGame = useCallback(() => {
-    localStorage.setItem('deepWebDiggerSave_v25', JSON.stringify(stateRef.current));
-    addLog('进度已保存', 'info');
-  }, [addLog]);
-
-  const resetGame = useCallback(() => {
-    if(confirm("重置所有进度？(Hard Reset?)")) {
-      localStorage.removeItem('deepWebDiggerSave_v25');
-      window.location.reload();
-    }
-  }, []);
-
-  useEffect(() => {
-    const saved = localStorage.getItem('deepWebDiggerSave_v25');
+  const [gameState, setGameState] = useState<GameState>(() => {
+    const saved = localStorage.getItem('truth_clicker_save_v2');
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        // Merge with default state to ensure new resources exist
-        setGameState(prev => ({ 
-            ...prev, ...parsed,
-            resources: { ...prev.resources, ...parsed.resources }, 
-            artifacts: parsed.artifacts || [],
-            activeEvents: parsed.activeEvents || [], // Load events
-            settings: { ...prev.settings, ...(parsed.settings || {}) }, // Merge settings
-            luckBoostEndTime: parsed.luckBoostEndTime || 0,
-            pendingChoice: null // Always reset pending choice on load
-        }));
-        addLog('系统恢复成功', 'success');
-      } catch (e) { console.error(e); }
-    } else {
-        addLog('初始化新会话...', 'info');
+        return { 
+          ...INITIAL_STATE, 
+          ...parsed, 
+          resources: { ...INITIAL_STATE.resources, ...parsed.resources }, 
+          settings: { ...INITIAL_STATE.settings, ...parsed.settings } 
+        };
+      } catch (e) {
+        console.error("Save load failed", e);
+      }
     }
-    const autoSave = setInterval(saveGame, AUTOSAVE_INTERVAL);
-    return () => clearInterval(autoSave);
+    return INITIAL_STATE;
+  });
+
+  const [logs, setLogs] = useState<LogEntry[]>([]);
+  const lastSaveTime = useRef(Date.now());
+
+  // Helpers
+  const addLog = useCallback((message: string, type: LogEntry['type'] = 'info') => {
+    setLogs(prev => {
+        const newLog = { id: Date.now() + Math.random(), timestamp: new Date().toLocaleTimeString(), message, type };
+        const nextLogs = [...prev, newLog];
+        if (nextLogs.length > 100) nextLogs.shift();
+        return nextLogs;
+    });
   }, []);
 
-  // --- Game Loop ---
-  useEffect(() => {
-    const tick = () => {
-        const now = Date.now();
-        const delta = (now - lastTick) / 1000;
-        if (delta < 0.1) return;
-        setLastTick(now);
+  const addGlobalLog = addLog;
 
-        // --- Event Logic ---
-        // 1. Clean up expired events
-        let events = stateRef.current.activeEvents.filter(evt => now < evt.startTime + evt.duration * 1000);
+  // Calculators
+  const calculateRecycleEfficiency = useCallback((researchedTechs: string[] = gameState.researchedTechs) => {
+    let eff = 1.0;
+    if (researchedTechs.includes('cardboard_architecture')) eff += 0.1;
+    if (researchedTechs.includes('used_hardware_flipping')) eff += 0.15;
+    if (researchedTechs.includes('data_hoarding_basics')) eff += 0.25;
+    if (researchedTechs.includes('deduplication')) eff += 0.15;
+    if (researchedTechs.includes('cold_storage_protocols')) eff += 0.1;
+    if (researchedTechs.includes('dead_theory_bot')) eff += 0.1;
+    return eff;
+  }, [gameState.researchedTechs]);
+
+  const calculateGlobalCostReduction = useCallback(() => {
+    let reduction = 0;
+    TECHS.forEach(tech => {
+        if (gameState.researchedTechs.includes(tech.id) && tech.effects.globalCostReduction) {
+            reduction += tech.effects.globalCostReduction;
+        }
+    });
+    return reduction;
+  }, [gameState.researchedTechs]);
+
+  const calculateClickPower = useCallback(() => {
+    let power = 1;
+    TECHS.forEach(tech => {
+        if (gameState.researchedTechs.includes(tech.id) && tech.effects.clickPowerMult) {
+            power += tech.effects.clickPowerMult;
+        }
+    });
+    gameState.artifacts.forEach(art => {
+        if (art.bonusType === 'click_power') power += art.bonusValue;
+    });
+    if (gameState.researchedTechs.includes('vacuum_decay')) power *= 5.0;
+    return power;
+  }, [gameState.researchedTechs, gameState.artifacts]);
+
+  const calculateTotalProduction = useCallback((state: GameState) => {
+    const production: Record<ResourceType, number> = {} as any;
+    Object.values(ResourceType).forEach(r => production[r] = 0);
+
+    Object.entries(state.buildings).forEach(([bId, count]) => {
+        if (count <= 0) return;
+        const building = BUILDINGS.find(b => b.id === bId);
+        if (!building || !building.baseProduction) return;
         
-        // 2. Chance to spawn new event (Standard OR Choice)
-        if (events.length < 3 && !stateRef.current.pendingChoice && Math.random() < 0.002) { 
+        Object.entries(building.baseProduction).forEach(([res, amount]) => {
+             production[res as ResourceType] += amount * count;
+        });
+    });
+
+    Object.keys(production).forEach(resKey => {
+        const res = resKey as ResourceType;
+        let mult = 1.0;
+
+        TECHS.forEach(tech => {
+            if (state.researchedTechs.includes(tech.id)) {
+                if (tech.effects.resourceMultipliers && tech.effects.resourceMultipliers[res]) {
+                    mult += tech.effects.resourceMultipliers[res]!;
+                }
+            }
+        });
+
+        state.artifacts.forEach(art => {
+            if (art.bonusType === 'production_multiplier' && art.targetResource === res) {
+                mult += art.bonusValue;
+            }
+        });
+
+        state.activeEvents.forEach(evt => {
+            if (evt.multipliers && evt.multipliers[res]) {
+                mult *= evt.multipliers[res]!;
+            }
+        });
+
+        if (production[res] > 0) {
+            production[res] *= mult;
+        }
+    });
+    
+    return production;
+  }, []);
+
+  // Actions
+  const handleManualMine = useCallback(() => {
+    const power = calculateClickPower();
+    setGameState(prev => ({
+        ...prev,
+        resources: {
+            ...prev.resources,
+            [ResourceType.INFO]: prev.resources[ResourceType.INFO] + power
+        },
+        totalInfoMined: prev.totalInfoMined + power
+    }));
+  }, [calculateClickPower]);
+
+  const buyBuilding = useCallback((id: string) => {
+    setGameState(prev => {
+        const building = BUILDINGS.find(b => b.id === id);
+        if (!building) return prev;
+        
+        const count = prev.buildings[id] || 0;
+        
+        // Calculate reduction inside
+        let reduction = 0;
+        TECHS.forEach(tech => {
+            if (prev.researchedTechs.includes(tech.id) && tech.effects.globalCostReduction) {
+                reduction += tech.effects.globalCostReduction;
+            }
+        });
+
+        const costs = building.baseCosts;
+        const newResources = { ...prev.resources };
+        let canAfford = true;
+
+        Object.entries(costs).forEach(([res, base]) => {
+            let cost = Math.floor(base * Math.pow(building.costMultiplier, count));
+            cost = Math.floor(cost * (1 - reduction));
+            cost = Math.max(1, cost);
+            if (newResources[res as ResourceType] < cost) canAfford = false;
+        });
+        
+        if (!canAfford) return prev;
+
+        Object.entries(costs).forEach(([res, base]) => {
+            let cost = Math.floor(base * Math.pow(building.costMultiplier, count));
+            cost = Math.floor(cost * (1 - reduction));
+            cost = Math.max(1, cost);
+            newResources[res as ResourceType] -= cost;
+        });
+
+        if (prev.settings.showBuildingLogs) {
+             addLog(`建造: ${building.name}`, 'info');
+        }
+
+        return {
+            ...prev,
+            resources: newResources,
+            buildings: { ...prev.buildings, [id]: count + 1 }
+        };
+    });
+  }, [addLog]);
+
+  const sellBuilding = useCallback((id: string) => {
+     setGameState(prev => {
+         const count = prev.buildings[id] || 0;
+         if (count <= 0) return prev;
+         
+         const building = BUILDINGS.find(b => b.id === id);
+         if (!building) return prev;
+         
+         const newResources = { ...prev.resources };
+         
+         // Refund 50% of current cost
+         // Need to recalc cost roughly.
+         Object.entries(building.baseCosts).forEach(([res, base]) => {
+             // refund previous level cost
+             let cost = Math.floor(base * Math.pow(building.costMultiplier, count - 1));
+             newResources[res as ResourceType] += Math.floor(cost * 0.5);
+         });
+
+         if (prev.settings.showBuildingLogs) {
+            addLog(`拆除: ${building.name}`, 'warning');
+         }
+
+         return {
+             ...prev,
+             resources: newResources,
+             buildings: { ...prev.buildings, [id]: count - 1 },
+         };
+     });
+  }, [addLog]);
+
+  const researchTech = useCallback((id: string) => {
+      setGameState(prev => {
+          if (prev.researchedTechs.includes(id)) return prev;
+          const tech = TECHS.find(t => t.id === id);
+          if (!tech) return prev;
+          
+          const newResources = { ...prev.resources };
+          
+          let techCostReduction = 0;
+          TECHS.forEach(t => {
+             if (prev.researchedTechs.includes(t.id) && t.effects.globalCostReduction) techCostReduction += t.effects.globalCostReduction;
+          });
+          
+          let canAfford = true;
+          Object.entries(tech.costs).forEach(([res, cost]) => {
+              let final = Math.floor(cost * (1 - techCostReduction));
+              final = Math.max(1, final);
+              if (newResources[res as ResourceType] < final) canAfford = false;
+          });
+          
+          if (!canAfford) return prev;
+          
+          Object.entries(tech.costs).forEach(([res, cost]) => {
+              let final = Math.floor(cost * (1 - techCostReduction));
+              final = Math.max(1, final);
+              newResources[res as ResourceType] -= final;
+          });
+          
+          addLog(`研发完成: ${tech.name}`, 'success');
+          if (tech.effects.unlockMessage) {
+              addLog(tech.effects.unlockMessage, 'rare');
+          }
+
+          return {
+              ...prev,
+              resources: newResources,
+              researchedTechs: [...prev.researchedTechs, id]
+          };
+      });
+  }, [addLog]);
+
+  const investigateArtifact = useCallback((target: Artifact, onResult?: (msg: string, type: LogEntry['type']) => void) => {
+    setGameState(prev => {
+       const remaining = prev.artifacts.filter(a => a.id !== target.id);
+       const res = { ...prev.resources };
+       const newArtifacts = [...remaining];
+       let logMsg = '';
+       let logType: LogEntry['type'] = 'info';
+       
+       let efficiency = 1.0;
+       if (prev.researchedTechs.includes('cardboard_architecture')) efficiency += 0.1;
+       if (prev.researchedTechs.includes('used_hardware_flipping')) efficiency += 0.15;
+       if (prev.researchedTechs.includes('data_hoarding_basics')) efficiency += 0.25;
+       if (prev.researchedTechs.includes('deduplication')) efficiency += 0.15;
+       if (prev.researchedTechs.includes('cold_storage_protocols')) efficiency += 0.1;
+       if (prev.researchedTechs.includes('dead_theory_bot')) efficiency += 0.1;
+
+       if (target.hiddenLootId) {
+           if (target.hiddenLootId === 'resource_bundle') {
+               res[ResourceType.FUNDS] += 500;
+               res[ResourceType.CLUE] += 5;
+               logMsg = `调查发现: 包含加密账户数据 (+500 Funds)`;
+               logType = 'success';
+           } else {
+               const lootItem = UNIQUE_ARTIFACTS.find(u => u.id === target.hiddenLootId);
+               const alreadyHas = prev.artifacts.some(a => a.id === lootItem?.id);
+               
+               if (lootItem && !alreadyHas) {
+                   newArtifacts.push(lootItem);
+                   logMsg = `重大发现: 提取出唯一物品 [${lootItem.name}]!`;
+                   logType = 'rare';
+               } else {
+                   res[ResourceType.KNOWLEDGE] += 10;
+                   logMsg = `调查发现: 包含重复的高价值数据 (+10 Knowledge)`;
+                   logType = 'success';
+               }
+           }
+       } else {
+           if (!target.isProcedural) {
+               let rewardAmount = 500;
+               if (target.rarity === 'legendary') rewardAmount = 2000;
+               const finalAmount = Math.floor(rewardAmount * efficiency);
+               res[ResourceType.FUNDS] += finalAmount;
+               logMsg = `出售珍品: ${target.name} (+${finalAmount} Funds)`;
+           } else {
+               const roll = Math.random();
+               const isCrit = roll > 0.90;
+               const isJunk = roll < 0.15;
+
+               let primaryRes = ResourceType.INFO;
+               let primaryBase = Math.floor(Math.random() * 40) + 30;
+               let secondaryRes: ResourceType | null = null;
+               let secondaryAmount = 0;
+
+               switch (target.subtype) {
+                   case 'file':
+                       primaryRes = ResourceType.INFO;
+                       primaryBase += 20;
+                       if (Math.random() > 0.5) { secondaryRes = ResourceType.SPAM; secondaryAmount = 2; }
+                       break;
+                   case 'bookmark':
+                       primaryRes = ResourceType.INFO;
+                       if (Math.random() > 0.7) { secondaryRes = ResourceType.FUNDS; secondaryAmount = 5; }
+                       break;
+                   case 'hardware':
+                       primaryRes = ResourceType.OPS;
+                       primaryBase = Math.floor(primaryBase / 5);
+                       if (Math.random() > 0.5) { secondaryRes = ResourceType.CARDBOARD; secondaryAmount = 3; }
+                       break;
+                   case 'media':
+                       primaryRes = ResourceType.CULTURE;
+                       primaryBase = Math.floor(primaryBase / 10);
+                       if (Math.random() > 0.5) { secondaryRes = ResourceType.LORE; secondaryAmount = 0.5; }
+                       break;
+                   case 'creature':
+                       primaryRes = ResourceType.BIOMASS;
+                       primaryBase = Math.floor(primaryBase / 2);
+                       if (Math.random() > 0.5) { secondaryRes = ResourceType.LORE; secondaryAmount = 1; }
+                       break;
+                   case 'signal':
+                       primaryRes = ResourceType.CODE;
+                       primaryBase = Math.floor(primaryBase / 5);
+                       if (Math.random() > 0.5) { secondaryRes = ResourceType.INFO; secondaryAmount = 20; }
+                       break;
+               }
+
+               if (isCrit) {
+                   primaryBase *= 2;
+                   if (secondaryAmount > 0) secondaryAmount *= 2;
+                   res[ResourceType.CLUE] = (res[ResourceType.CLUE] || 0) + 1;
+               } else if (isJunk) {
+                   primaryBase = Math.max(1, Math.floor(primaryBase * 0.2));
+                   secondaryRes = ResourceType.CARDBOARD;
+                   secondaryAmount = 1;
+               }
+
+               primaryBase = Math.max(1, Math.floor(primaryBase * efficiency));
+               
+               res[primaryRes] += primaryBase;
+               if (secondaryRes && secondaryAmount > 0) {
+                   res[secondaryRes] = (res[secondaryRes] || 0) + secondaryAmount;
+               }
+
+               let secondaryText = secondaryRes ? `, +${secondaryAmount} ${RESOURCE_INFO[secondaryRes].name}` : '';
+               let critText = isCrit ? ' [完美解析]' : isJunk ? ' [损坏]' : '';
+               logMsg = `分析完成${critText}: (+${primaryBase} ${RESOURCE_INFO[primaryRes].name}${secondaryText})`;
+           }
+       }
+       
+       if (onResult) {
+           onResult(logMsg, logType);
+       } else {
+           addLog(logMsg, logType);
+       }
+       
+       return { ...prev, artifacts: newArtifacts, resources: res };
+    });
+  }, [addLog]);
+
+  const batchInvestigate = useCallback((rarity: string) => {
+    // Logic handled by component usually, but we can implement mass recycle here if needed
+    // For now, this is a placeholder to satisfy the interface if called directly
+    addLog("Batch operation initiated from system core.", "info");
+  }, [addLog]);
+
+  const saveGame = useCallback(() => {
+      localStorage.setItem('truth_clicker_save_v2', JSON.stringify(gameState));
+      addLog("Game Saved", "success");
+      lastSaveTime.current = Date.now();
+  }, [gameState, addLog]);
+
+  const resetGame = useCallback(() => {
+      if(confirm("Reset game?")) {
+          setGameState(INITIAL_STATE);
+          setLogs([]);
+          localStorage.removeItem('truth_clicker_save_v2');
+      }
+  }, []);
+
+  const toggleSetting = useCallback((key: keyof GameState['settings']) => {
+      setGameState(prev => ({
+          ...prev,
+          settings: { ...prev.settings, [key]: !prev.settings[key] }
+      }));
+  }, []);
+
+  const triggerRealityFlush = useCallback(() => {
+      setGameState(prev => {
+          if (prev.resources[ResourceType.REALITY] < 20) return prev;
+          // Clear negative events
+          const newEvents = prev.activeEvents.filter(e => e.type === 'positive');
+          return {
+              ...prev,
+              resources: { ...prev.resources, [ResourceType.REALITY]: prev.resources[ResourceType.REALITY] - 20 },
+              activeEvents: newEvents
+          };
+      });
+      addLog("Reality Flush Triggered: Anomalies Cleared", "rare");
+  }, [addLog]);
+
+  const triggerProbabilityDrive = useCallback(() => {
+      setGameState(prev => {
+          if (prev.resources[ResourceType.PROBABILITY] < 5) return prev;
+          if (prev.luckBoostEndTime > Date.now()) return prev;
+          
+          return {
+              ...prev,
+              resources: { ...prev.resources, [ResourceType.PROBABILITY]: prev.resources[ResourceType.PROBABILITY] - 5 },
+              luckBoostEndTime: Date.now() + 30000 // 30s
+          };
+      });
+      addLog("Probability Drive Engaged: Luck Maximized", "rare");
+  }, [addLog]);
+
+  const handleMakeChoice = useCallback((option: ChoiceOption) => {
+      setGameState(prev => {
+          if (!prev.pendingChoice) return prev;
+          const newRes = { ...prev.resources };
+          
+          if (option.cost) {
+              Object.entries(option.cost).forEach(([res, val]) => {
+                  newRes[res as ResourceType] -= val;
+              });
+          }
+          
+          if (option.reward.resources) {
+              Object.entries(option.reward.resources).forEach(([res, val]) => {
+                  newRes[res as ResourceType] += val;
+              });
+          }
+          
+          // Trigger Event
+          let newEvents = [...prev.activeEvents];
+          if (option.reward.triggerEventId) {
+              const evtDef = POSSIBLE_EVENTS.find(e => e.id === option.reward.triggerEventId);
+              if (evtDef) {
+                  const newEvt: GameEvent = { ...evtDef, startTime: Date.now() };
+                  newEvents.push(newEvt);
+                  addLog(`Event Triggered: ${newEvt.name}`, newEvt.type === 'negative' ? 'warning' : 'info');
+              }
+          }
+
+          // Building reward
+          const newBuildings = { ...prev.buildings };
+          if (option.reward.buildingId) {
+             newBuildings[option.reward.buildingId] = (newBuildings[option.reward.buildingId] || 0) + 1;
+             addLog(`Acquired: ${BUILDINGS.find(b=>b.id===option.reward.buildingId)?.name}`, 'success');
+          }
+
+          return {
+              ...prev,
+              resources: newRes,
+              activeEvents: newEvents,
+              buildings: newBuildings,
+              pendingChoice: null
+          };
+      });
+  }, [addLog]);
+
+  // Main Loop
+  useEffect(() => {
+    const timer = setInterval(() => {
+        setGameState(prev => {
+            const now = Date.now();
+            const deltaSec = TICK_RATE / 1000;
+            const production = calculateTotalProduction(prev);
             
-            // 20% Chance for a Choice Event (If not disabled)
-            if (!stateRef.current.settings.disableChoiceEvents && Math.random() < 0.2) {
-                const availableChoices = CHOICE_EVENTS.filter(evt => {
-                    if (evt.minDepth && stateRef.current.depth < evt.minDepth) return false;
-                    if (evt.reqTech && !evt.reqTech.every(req => stateRef.current.researchedTechs.includes(req))) return false;
-                    return true;
-                });
+            const newRes = { ...prev.resources };
+            Object.entries(production).forEach(([res, amount]) => {
+                newRes[res as ResourceType] += amount * deltaSec;
+            });
 
-                if (availableChoices.length > 0) {
-                    const baseChoice = availableChoices[Math.floor(Math.random() * availableChoices.length)];
-                    
-                    // SHUFFLE AND PICK 3 OPTIONS
-                    const shuffledOptions = [...baseChoice.options].sort(() => 0.5 - Math.random());
-                    const selectedOptions = shuffledOptions.slice(0, 3);
-                    
-                    const finalChoice: ChoiceEventDefinition = {
-                        ...baseChoice,
-                        options: selectedOptions
-                    };
+            // Cap logic? Or default unbounded.
+            
+            // Random Events / Artifacts
+            let newArtifacts = [...prev.artifacts];
+            let newActiveEvents = prev.activeEvents.filter(e => (now - e.startTime) < e.duration * 1000);
+            let newPendingChoice = prev.pendingChoice;
 
-                    setGameState(prev => ({ ...prev, pendingChoice: finalChoice }));
-                    addLog(`注意：需要介入决策 - ${finalChoice.title}`, 'rare');
-                    // Return early so we don't spawn a standard event in the same tick
-                    return; 
+            // Artifact Drop
+            // Base chance: 1% per tick? 
+            let artifactChance = 0.005; 
+            // Tech mods
+            if (prev.luckBoostEndTime > now) artifactChance *= 2;
+            
+            TECHS.forEach(t => {
+                if (prev.researchedTechs.includes(t.id) && t.effects.artifactChanceMult) {
+                    artifactChance *= (1 + t.effects.artifactChanceMult);
+                }
+            });
+
+            if (Math.random() < artifactChance) {
+                const newArt = generateArtifact(prev.depth, prev.researchedTechs);
+                newArtifacts.push(newArt);
+                if (prev.settings.showCommonArtifactLogs || newArt.rarity !== 'common') {
+                     addLog(`获取物品: ${newArt.name} [${newArt.rarity}]`, 'info');
                 }
             }
 
-            // Standard Event Spawn
-            // Filter available events based on tech requirements
-            const availableEvents = POSSIBLE_EVENTS.filter(evt => {
-                // If reqTech is undefined or empty, it's always available
-                if (!evt.reqTech || evt.reqTech.length === 0) return true;
-                // Otherwise, check if ALL required techs are researched
-                return evt.reqTech.every(req => stateRef.current.researchedTechs.includes(req));
-            });
-
-            if (availableEvents.length > 0) {
-                const newEventTemplate = availableEvents[Math.floor(Math.random() * availableEvents.length)];
-                const newEvent: GameEvent = {
-                    ...newEventTemplate,
-                    startTime: now,
-                    id: `${newEventTemplate.id}_${now}`
-                };
-                events = [...events, newEvent];
-                addLog(`随机事件: ${newEvent.name}`, newEvent.type === 'positive' ? 'success' : newEvent.type === 'negative' ? 'warning' : 'glitch');
+            // Random Events
+            if (!prev.settings.disableChoiceEvents && !newPendingChoice) {
+                // Choice Event Chance
+                if (Math.random() < 0.001) { // Rare
+                     const validChoices = CHOICE_EVENTS.filter(c => (c.minDepth || 0) <= prev.depth);
+                     if (validChoices.length > 0) {
+                         const choice = validChoices[Math.floor(Math.random() * validChoices.length)];
+                         newPendingChoice = choice;
+                     }
+                }
+                
+                // Standard Event Chance
+                if (Math.random() < 0.002) {
+                     const validEvents = POSSIBLE_EVENTS.filter(e => !e.reqTech || e.reqTech.every(t => prev.researchedTechs.includes(t)));
+                     if (validEvents.length > 0) {
+                         const evtDef = validEvents[Math.floor(Math.random() * validEvents.length)];
+                         const newEvt: GameEvent = { ...evtDef, startTime: now };
+                         newActiveEvents.push(newEvt);
+                         addLog(`环境波动: ${newEvt.name}`, evtDef.type === 'negative' ? 'warning' : 'info');
+                     }
+                }
             }
-        }
 
-        const rates = calculateTotalProduction({ ...stateRef.current, activeEvents: events });
-        
-        // --- Calculate Artifact Drop Chance ---
-        let luck = 1.0;
-        let baseChance = 0.015;
-
-        // NEW: Probability Drive Boost
-        const isBoosted = now < stateRef.current.luckBoostEndTime;
-        if (isBoosted) {
-            luck *= 5.0; // 5x luck
-            baseChance *= 2.0; // Double frequency
-        }
-
-        // 1. Artifact Bonus
-        stateRef.current.artifacts.forEach(a => { if (a.bonusType === 'luck') luck *= a.bonusValue; });
-        
-        // 2. Tech Bonus
-        stateRef.current.researchedTechs.forEach(techId => {
-             const tech = TECHS.find(t => t.id === techId);
-             if (tech?.effects.artifactChanceMult) {
-                 baseChance *= (1 + tech.effects.artifactChanceMult);
-             }
-             if (tech?.effects.artifactRarityBonus) {
-                 luck *= (1 + tech.effects.artifactRarityBonus);
-             }
-        });
-
-        const chance = baseChance * luck;
-
-        // --- Artifact Generation ---
-        let newArtifact: Artifact | null = null;
-        if (Math.random() < chance) {
-            // Modified: Logic now handled in generator.ts to hide loot
-            newArtifact = generateArtifact(stateRef.current.depth, stateRef.current.researchedTechs);
-            
-            // Boosted Rarity Check if active (Upgrade common to rare)
-            if (isBoosted && newArtifact.rarity === 'common' && Math.random() < 0.5) {
-                newArtifact.rarity = 'rare'; 
+            // Autosave check
+            if (now - lastSaveTime.current > AUTOSAVE_INTERVAL) {
+                 localStorage.setItem('truth_clicker_save_v2', JSON.stringify({
+                     ...prev, resources: newRes, artifacts: newArtifacts, activeEvents: newActiveEvents
+                 }));
+                 lastSaveTime.current = now;
+                 if (prev.settings.showAutoSaveLogs) {
+                    // Silent save or specific log? 
+                    // addLog("Auto-saved", "dim"); // Can't call addLog inside setState easily without effect
+                 }
             }
-        }
 
-        if (stateRef.current.settings.showFlavorText && Math.random() < 0.005) {
-            addLog(FLAVOR_MESSAGES[Math.floor(Math.random() * FLAVOR_MESSAGES.length)]);
-        }
-        
-        if (newArtifact) {
-            // Log logic based on settings
-            const isCommon = newArtifact.rarity === 'common';
-            if (!isCommon || stateRef.current.settings.showCommonArtifactLogs) {
-                addLog(`发现新项目: ${newArtifact.name}`, isCommon ? 'info' : 'success');
-            }
-        }
-
-        setGameState(prev => {
-            const nextRes = { ...prev.resources };
-            (Object.entries(rates) as [ResourceType, number][]).forEach(([res, rate]) => {
-                nextRes[res] = Math.max(0, nextRes[res] + rate * delta);
-            });
-            
-            const nextTotalInfo = prev.totalInfoMined + Math.max(0, rates[ResourceType.INFO] * delta);
-            const depth = Math.floor(Math.log10(nextTotalInfo + 1) * 10); 
-            
             return {
                 ...prev,
-                resources: nextRes,
-                totalInfoMined: nextTotalInfo,
-                depth,
-                artifacts: newArtifact ? [...prev.artifacts, newArtifact] : prev.artifacts,
-                activeEvents: events
+                resources: newRes,
+                artifacts: newArtifacts,
+                activeEvents: newActiveEvents,
+                pendingChoice: newPendingChoice,
+                depth: prev.depth + (production[ResourceType.INFO] > 0 ? (production[ResourceType.INFO] * deltaSec * 0.001) : 0)
             };
         });
-    };
-    
-    const interval = setInterval(tick, TICK_RATE);
-    return () => clearInterval(interval);
-  }, [lastTick, calculateTotalProduction, addLog]);
+    }, TICK_RATE);
+    return () => clearInterval(timer);
+  }, [calculateTotalProduction, addLog]);
 
   return {
     gameState,
     logs,
-    calculateTotalProduction,
+    addGlobalLog,
+    calculateTotalProduction: (state: GameState) => calculateTotalProduction(state),
     calculateClickPower,
     calculateGlobalCostReduction,
     handleManualMine,
     buyBuilding,
     sellBuilding,
     researchTech,
-    recycleArtifact: investigateArtifact, // Alias for component compatibility if needed, but renamed
     investigateArtifact,
     batchInvestigate,
     saveGame,
     resetGame,
     toggleSetting,
-    triggerRealityFlush, 
+    triggerRealityFlush,
     triggerProbabilityDrive,
-    handleMakeChoice 
+    handleMakeChoice
   };
 };

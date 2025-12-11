@@ -31,22 +31,30 @@ export const generateArtifact = (depth: number, researchedTechs: string[]): Arti
         }
     });
 
-    // 2. Determine Type (File vs Bookmark)
-    const isFile = Math.random() < 0.65;
-    
-    // 3. Determine Rarity (NERFED: High rarities now come mostly from Investigation)
+    // 2. Determine Type (New Logic with new types)
     const roll = Math.random();
+    let subtype: Artifact['subtype'] = 'file';
+    
+    if (roll < 0.50) subtype = 'file';
+    else if (roll < 0.70) subtype = 'bookmark';
+    else if (roll < 0.80) subtype = 'media';
+    else if (roll < 0.90) subtype = 'hardware';
+    else if (roll < 0.96) subtype = 'signal';
+    else subtype = 'creature'; // 4% rare chance for creature
+
+    // 3. Determine Rarity (NERFED: High rarities now come mostly from Investigation)
+    const rarityRoll = Math.random();
     let rarity: Artifact['rarity'] = 'common';
     
     // Anomaly is depth based, extremely rare direct drop
     if (depth > 50 && Math.random() > 0.995) rarity = 'anomaly'; 
-    else if (roll > 0.98) rarity = 'rare'; // Significantly reduced
+    else if (rarityRoll > 0.98) rarity = 'rare'; // Significantly reduced
     else rarity = 'common';
 
     // 4. Investigation / Hidden Loot Logic
-    // Chance to contain a Unique Artifact or High Value Reward
     let hiddenLootId: string | undefined = undefined;
     let hasHint = false;
+    let forcedProceduralType: 'document' | 'image' | 'data' | 'log' | 'archive' | 'code' | undefined = undefined;
 
     // Base chance for hidden content
     const investigationChance = 0.05 + (depth * 0.001); // Increases with depth
@@ -57,13 +65,17 @@ export const generateArtifact = (depth: number, researchedTechs: string[]): Arti
             // 30% chance of hidden loot being a UNIQUE item
             const targetUnique = pick(UNIQUE_ARTIFACTS);
             hiddenLootId = targetUnique.id;
+            // FORCE TYPE to match hidden loot if it specifies one
+            if (targetUnique.linkedProceduralType) {
+                forcedProceduralType = targetUnique.linkedProceduralType as any;
+                if (forcedProceduralType) subtype = 'file'; // Most uniques hide in files
+            }
         } else {
             // 70% chance of just being a "High Value" resource bundle
             hiddenLootId = 'resource_bundle';
         }
         
-        // Visual Hint Logic (Perception check simulated)
-        // Techs like 'steganography' could increase chance to see hints
+        // Visual Hint Logic
         let detectionChance = 0.2; 
         if (researchedTechs.includes('steganography')) detectionChance += 0.3;
         if (researchedTechs.includes('pattern_recognition')) detectionChance += 0.3;
@@ -78,7 +90,6 @@ export const generateArtifact = (depth: number, researchedTechs: string[]): Arti
     let flavorText = '';
     let details = '';
     let category = BuildingCategory.SURVIVAL;
-    let subtype: 'file' | 'bookmark' = 'file';
 
     // Helper to get random tech template if available
     const getTechTemplate = (techId: string): string | undefined => {
@@ -98,20 +109,18 @@ export const generateArtifact = (depth: number, researchedTechs: string[]): Arti
         ? pick(TECH_LORE_INJECTIONS[activeTechId]!.topics!) 
         : pick(availableTopics);
 
-    if (isFile) {
-        subtype = 'file';
+    // --- GENERATION SWITCH ---
+    if (subtype === 'file') {
         category = BuildingCategory.ARCHIVE;
-        
-        // Select Content Type
-        const fileTypes = ['document', 'image', 'data', 'log', 'archive'] as const;
-        const contentTypeKey = pick(fileTypes as any) as keyof typeof PROCEDURAL_DATA.files;
+        const fileTypes = ['document', 'image', 'data', 'log', 'archive', 'code'] as const;
+        let contentTypeKey = pick(fileTypes as any) as keyof typeof PROCEDURAL_DATA.files;
+        if (forcedProceduralType && fileTypes.includes(forcedProceduralType as any)) {
+            contentTypeKey = forcedProceduralType as any;
+        }
         const contentTypeData = PROCEDURAL_DATA.files[contentTypeKey];
 
-        // Name Generation
         let ext = pick(contentTypeData.exts);
         let prefix = pick(contentTypeData.prefixes);
-        
-        // Inject tech prefix if available
         if (activeTechId && TECH_LORE_INJECTIONS[activeTechId]?.prefixes) {
             prefix = pick(TECH_LORE_INJECTIONS[activeTechId]!.prefixes!);
         }
@@ -122,49 +131,29 @@ export const generateArtifact = (depth: number, researchedTechs: string[]): Arti
              name = `${prefix}${Math.floor(Math.random()*1000)}${ext}`;
         }
         
-        // Description Generation
         let template = pick(contentTypeData.templates);
-        
         if (activeTechId) {
             const techTempl = getTechTemplate(activeTechId);
             if (techTempl) template = techTempl;
         }
-
         description = interpolate(template, { topic: selectedTopic });
 
-        // Flavor Text
         const hash = Math.random().toString(16).substr(2, 8).toUpperCase();
         flavorText = `MD5: ${hash} | Owner: ${pick(PROCEDURAL_DATA.common.users)}`;
-
-        // Details
         const size = (Math.random() * 15).toFixed(1);
         const unit = Math.random() > 0.8 ? 'MB' : 'KB';
         details = `${size} ${unit}`;
 
-        // Category adjustments
         if (contentTypeKey === 'data') category = BuildingCategory.TECHNOCRACY;
         if (contentTypeKey === 'log') category = BuildingCategory.FOLKLORE;
-        
-        if (activeTechId) {
-            if (activeTechId.includes('magic') || activeTechId.includes('history')) category = BuildingCategory.HISTORY;
-            else if (activeTechId.includes('conspiracy') || activeTechId.includes('state')) category = BuildingCategory.SUBVERSION;
-            else if (activeTechId.includes('aklo') || activeTechId.includes('occult')) category = BuildingCategory.ESOTERIC;
-        }
+        if (contentTypeKey === 'code') category = BuildingCategory.TECHNOCRACY;
 
-    } else {
-        // BOOKMARK GENERATION
-        subtype = 'bookmark';
+    } else if (subtype === 'bookmark') {
         category = BuildingCategory.FOLKLORE;
-        
         const data = PROCEDURAL_DATA.bookmarks;
         let title = pick(data.titles);
         let prefix = pick(data.prefixes);
-        
-        if (activeTechId) {
-            // Use topic as title for tech bookmarks
-            title = selectedTopic.replace(/\s+/g, '_'); 
-        }
-
+        if (activeTechId) title = selectedTopic.replace(/\s+/g, '_'); 
         name = `${prefix} ${title}`;
         
         let template = pick(data.description_templates);
@@ -172,20 +161,47 @@ export const generateArtifact = (depth: number, researchedTechs: string[]): Arti
             const techTempl = getTechTemplate(activeTechId);
             if (techTempl) template = techTempl;
         }
-
         description = interpolate(template, { topic: selectedTopic });
 
         const code = [200, 404, 503, 403, 301][Math.floor(Math.random() * 5)];
         const ms = Math.floor(Math.random() * 800) + 20;
         flavorText = `HTTP ${code} | Ping: ${ms}ms`;
+        details = `Server: Apache/${(Math.random() * 2 + 1).toFixed(1)}.x`;
 
-        if (Math.random() > 0.5) {
-             const pathUser = pick(PROCEDURAL_DATA.common.users);
-             const path = Math.random() > 0.5 ? `/var/www/${pathUser}/` : `C:\\Inetpub\\${pathUser}\\`;
-             details = `Path: ${path}`;
-        } else {
-             details = `Server: Apache/${(Math.random() * 2 + 1).toFixed(1)}.x`;
-        }
+    } else if (subtype === 'hardware') {
+        category = BuildingCategory.TECHNOCRACY;
+        name = interpolate(pick(PROCEDURAL_DATA.hardware.names), { topic: selectedTopic });
+        description = interpolate(pick(PROCEDURAL_DATA.hardware.templates), { topic: selectedTopic });
+        flavorText = `Condition: ${['Poor', 'Fair', 'Damaged', 'Burnt', 'Salvaged'][Math.floor(Math.random()*5)]}`;
+        details = `Weight: ${(Math.random() * 2).toFixed(2)} kg`;
+
+    } else if (subtype === 'media') {
+        category = BuildingCategory.ARCHIVE;
+        name = interpolate(pick(PROCEDURAL_DATA.media.names), { topic: selectedTopic });
+        description = interpolate(pick(PROCEDURAL_DATA.media.templates), { topic: selectedTopic });
+        flavorText = `Format: Analog/Digital`;
+        details = `Capacity: Unknown`;
+
+    } else if (subtype === 'creature') {
+        category = BuildingCategory.FOLKLORE;
+        name = interpolate(pick(PROCEDURAL_DATA.creature.names), { topic: selectedTopic });
+        description = interpolate(pick(PROCEDURAL_DATA.creature.templates), { topic: selectedTopic });
+        flavorText = `DNA: UNKNOWN`;
+        details = `Bio-Hazard Class: ${Math.floor(Math.random()*4)+1}`;
+
+    } else if (subtype === 'signal') {
+        category = BuildingCategory.NETWORK;
+        name = interpolate(pick(PROCEDURAL_DATA.signal.names), { topic: selectedTopic });
+        description = interpolate(pick(PROCEDURAL_DATA.signal.templates), { topic: selectedTopic });
+        flavorText = `Freq: ${Math.floor(Math.random()*9000)} kHz`;
+        details = `Signal Strength: -${Math.floor(Math.random()*100)} dBm`;
+    }
+
+    // Override category if active tech suggests a theme
+    if (activeTechId) {
+        if (activeTechId.includes('magic') || activeTechId.includes('history')) category = BuildingCategory.HISTORY;
+        else if (activeTechId.includes('conspiracy') || activeTechId.includes('state')) category = BuildingCategory.SUBVERSION;
+        else if (activeTechId.includes('aklo') || activeTechId.includes('occult')) category = BuildingCategory.ESOTERIC;
     }
 
     return {

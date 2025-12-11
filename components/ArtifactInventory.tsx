@@ -1,31 +1,36 @@
 
-import React, { useState, useMemo, useEffect } from 'react';
-import { Artifact } from '../types';
-import { Search, FolderOpen, DownloadCloud, Globe, Database, MessageSquare, ChevronDown, Microscope, Loader2 } from 'lucide-react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
+import { Artifact, LogEntry } from '../types';
+import { Search, FolderOpen, DownloadCloud, Globe, Database, MessageSquare, ChevronDown, Microscope, Loader2, X, Cpu, Disc, Radio, Cat } from 'lucide-react';
 import { ArrowUpDown, File, FileImage, FileText, FileAudio, FileCode } from 'lucide-react';
 import ArtifactModal from './ArtifactModal';
 
 interface ArtifactInventoryProps {
   artifacts: Artifact[];
-  onRecycle: (artifact: Artifact) => void;
-  onRecycleArtifactsByRarity: (rarity: string) => void; // Actually batchInvestigate
+  onRecycle: (artifact: Artifact, onResult?: (msg: string, type: LogEntry['type']) => void) => void;
+  onRecycleArtifactsByRarity: (rarity: string) => void; 
+  onLog?: (msg: string, type: LogEntry['type']) => void;
+  detailedLogsEnabled?: boolean; 
 }
 
-const ArtifactInventory: React.FC<ArtifactInventoryProps> = ({ artifacts, onRecycle, onRecycleArtifactsByRarity }) => {
-  const [filterType, setFilterType] = useState<'all' | 'file' | 'bookmark'>('all');
+const ArtifactInventory: React.FC<ArtifactInventoryProps> = ({ artifacts, onRecycle, onLog, detailedLogsEnabled }) => {
+  // Update filter type definition
+  const [filterType, setFilterType] = useState<'all' | 'file' | 'bookmark' | 'hardware' | 'media' | 'creature' | 'signal'>('all');
   const [sortBy, setSortBy] = useState<'recent' | 'rarity'>('recent');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedArtifact, setSelectedArtifact] = useState<Artifact | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   
-  // Batch Progress State
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [processTarget, setProcessTarget] = useState<string | null>(null);
-  const [progress, setProgress] = useState(0);
+  // --- BATCH PROCESSING STATE ---
+  const [isBatchMode, setIsBatchMode] = useState(false);
+  const [batchQueue, setBatchQueue] = useState<Artifact[]>([]);
+  const [currentProcessingItem, setCurrentProcessingItem] = useState<Artifact | null>(null);
+  const [batchLogs, setBatchLogs] = useState<{msg: string, type: string}[]>([]);
+  const [processedCount, setProcessedCount] = useState(0);
+  const logContainerRef = useRef<HTMLDivElement>(null);
 
-  // Stats & Procedural Counts by Rarity
+  // Stats
   const totalCount = artifacts.length;
-  
   const proceduralCounts = useMemo(() => {
       const counts: Record<string, number> = {};
       artifacts.forEach(a => {
@@ -36,50 +41,91 @@ const ArtifactInventory: React.FC<ArtifactInventoryProps> = ({ artifacts, onRecy
       return counts;
   }, [artifacts]);
 
-  // Handle Batch Investigation Progress
+  // Scroll log to bottom
   useEffect(() => {
-      let interval: ReturnType<typeof setInterval>;
-      if (isProcessing && processTarget) {
-          setProgress(0);
-          interval = setInterval(() => {
-              setProgress(prev => {
-                  if (prev >= 100) {
-                      clearInterval(interval);
-                      onRecycleArtifactsByRarity(processTarget); // Trigger actual logic
-                      setIsProcessing(false);
-                      setProcessTarget(null);
-                      return 100;
-                  }
-                  return prev + 5; // Speed of bar
-              });
-          }, 50); // 50ms * 20 steps = 1 second total
+      if (logContainerRef.current) {
+          logContainerRef.current.scrollTop = logContainerRef.current.scrollHeight;
       }
-      return () => clearInterval(interval);
-  }, [isProcessing, processTarget, onRecycleArtifactsByRarity]);
+  }, [batchLogs]);
 
-  // Filter & Sort
+  // --- BATCH LOGIC ---
+  const startBatch = (rarity: string) => {
+      const targetItems = artifacts.filter(a => a.isProcedural && a.rarity === rarity);
+      if (targetItems.length === 0) return;
+
+      setBatchQueue(targetItems);
+      setBatchLogs([]);
+      setProcessedCount(0);
+      setIsBatchMode(true);
+      setIsMenuOpen(false);
+  };
+
+  const closeBatchModal = () => {
+      setIsBatchMode(false);
+      setBatchQueue([]);
+      setCurrentProcessingItem(null);
+  };
+
+  // Process Queue Effect
+  useEffect(() => {
+      if (!isBatchMode || batchQueue.length === 0) {
+          if (isBatchMode && batchQueue.length === 0 && currentProcessingItem === null) {
+              const summaryMsg = `>>> 批处理任务完成 (BATCH_COMPLETE): ${processedCount} 个项目`;
+              setBatchLogs(prev => [...prev, { msg: summaryMsg, type: 'success' }]);
+              if (onLog) {
+                  onLog(`批量调查完成：已处理 ${processedCount} 个项目`, 'success');
+              }
+          }
+          return;
+      }
+
+      const item = batchQueue[0];
+      const remainingItems = batchQueue.length;
+      setCurrentProcessingItem(item);
+
+      const BASE_DELAY_CONSTANT = 2500; 
+      const MIN_DELAY = 40; 
+      const MAX_DELAY = 1000; 
+
+      let calculatedDelay = Math.floor(BASE_DELAY_CONSTANT / remainingItems);
+      let speed = Math.max(MIN_DELAY, Math.min(MAX_DELAY, calculatedDelay));
+
+      const timer = setTimeout(() => {
+          onRecycle(item, (msg: string, type: LogEntry['type']) => {
+              if (type !== 'info') {
+                  setBatchLogs(prev => [...prev, { msg: `[${item.name}] -> ${msg}`, type }]);
+              } else {
+                  if (detailedLogsEnabled) {
+                      const cleanMsg = msg.replace('分析完成:', '').trim();
+                      setBatchLogs(prev => [...prev, { msg: `[${item.name}] : ${cleanMsg}`, type: 'dim' }]);
+                  }
+              }
+          });
+
+          setBatchQueue(prev => prev.slice(1));
+          setProcessedCount(prev => prev + 1);
+      }, speed);
+
+      return () => clearTimeout(timer);
+  }, [isBatchMode, batchQueue, onRecycle, detailedLogsEnabled]); 
+
+
+  // Filter & Sort Logic
   const filteredArtifacts = useMemo(() => {
     let result = [...artifacts];
-
-    // Filter
     if (filterType !== 'all') {
         result = result.filter(a => a.subtype === filterType);
     }
-    
-    // Search
     if (searchQuery) {
         const q = searchQuery.toLowerCase();
         result = result.filter(a => a.name.toLowerCase().includes(q) || a.description.toLowerCase().includes(q));
     }
-
-    // Sort
     if (sortBy === 'recent') {
         result.reverse(); 
     } else if (sortBy === 'rarity') {
         const rarityOrder = { 'anomaly': 6, 'cursed': 5, 'mythic': 4, 'legendary': 3, 'rare': 2, 'common': 1 };
         result.sort((a, b) => (rarityOrder[b.rarity] || 0) - (rarityOrder[a.rarity] || 0));
     }
-
     return result;
   }, [artifacts, filterType, sortBy, searchQuery]);
 
@@ -94,21 +140,80 @@ const ArtifactInventory: React.FC<ArtifactInventoryProps> = ({ artifacts, onRecy
   };
 
   const getArtifactIcon = (artifact: Artifact) => {
+      // General Subtype Icons
       if (artifact.subtype === 'bookmark') return <Globe size={20} className="text-blue-400" />;
+      if (artifact.subtype === 'hardware') return <Cpu size={20} className="text-amber-500" />;
+      if (artifact.subtype === 'media') return <Disc size={20} className="text-purple-400" />;
+      if (artifact.subtype === 'creature') return <Cat size={20} className="text-red-400" />;
+      if (artifact.subtype === 'signal') return <Radio size={20} className="text-cyan-400" />;
 
+      // Specific File Icons
       const lower = artifact.name.toLowerCase();
       if (lower.endsWith('.sql') || lower.endsWith('.db') || lower.endsWith('.csv')) return <Database size={20} className="text-yellow-400" />;
       if (lower.endsWith('.log') || lower.endsWith('.history')) return <MessageSquare size={20} className="text-pink-400" />;
-
       if (lower.endsWith('.jpg') || lower.endsWith('.png') || lower.endsWith('.gif')) return <FileImage size={20} />;
       if (lower.endsWith('.mp3') || lower.endsWith('.wav')) return <FileAudio size={20} />;
       if (lower.endsWith('.txt') || lower.endsWith('.doc') || lower.endsWith('.pdf')) return <FileText size={20} />;
-      if (lower.endsWith('.js') || lower.endsWith('.html') || lower.endsWith('.css') || lower.endsWith('.py') || lower.endsWith('.exe')) return <FileCode size={20} />;
+      if (lower.endsWith('.js') || lower.endsWith('.html') || lower.endsWith('.c') || lower.endsWith('.py') || lower.endsWith('.exe')) return <FileCode size={20} />;
       return <File size={20} />;
   }
 
+  // Filter List Config
+  const filters = [
+      { id: 'all', label: 'All', icon: FolderOpen },
+      { id: 'file', label: 'File', icon: File },
+      { id: 'bookmark', label: 'Web', icon: Globe },
+      { id: 'hardware', label: 'Tech', icon: Cpu },
+      { id: 'media', label: 'Media', icon: Disc },
+      { id: 'signal', label: 'Signal', icon: Radio },
+      { id: 'creature', label: 'Bio', icon: Cat },
+  ] as const;
+
   return (
     <div className="h-full flex flex-col bg-term-black/50" onClick={() => isMenuOpen && setIsMenuOpen(false)}>
+      
+      {/* ... (Batch Modal code remains same) ... */}
+      {/* Re-implementing Batch Modal for context, see XML block closing */}
+      {isBatchMode && (
+          <div className="absolute inset-0 z-50 bg-black/90 flex flex-col p-6 animate-in fade-in duration-300">
+              <div className="flex justify-between items-center mb-4 border-b border-gray-700 pb-2">
+                  <div className="flex items-center gap-3">
+                      <Loader2 size={20} className={`text-term-green ${batchQueue.length > 0 ? 'animate-spin' : ''}`} />
+                      <h2 className="text-lg font-mono font-bold text-term-green tracking-wider">
+                          批量调查终端
+                      </h2>
+                  </div>
+                  {batchQueue.length === 0 && (
+                      <button onClick={closeBatchModal} className="text-gray-500 hover:text-white">
+                          <X size={20} />
+                      </button>
+                  )}
+              </div>
+              <div className="mb-6 space-y-2">
+                  <div className="flex justify-between text-xs font-mono text-gray-400">
+                      <span>STATUS: {batchQueue.length > 0 ? 'RUNNING' : 'COMPLETED'}</span>
+                      <span>PROCESSED: {processedCount}</span>
+                  </div>
+                  <div className="h-4 bg-gray-900 border border-gray-700 rounded-sm overflow-hidden relative">
+                        <div className="absolute inset-0 opacity-10 bg-[linear-gradient(45deg,transparent_25%,#fff_25%,#fff_50%,transparent_50%,transparent_75%,#fff_75%,#fff_100%)] bg-[length:10px_10px]"></div>
+                        <div className="absolute inset-0 flex items-center justify-center text-[9px] font-bold text-white z-10 drop-shadow-md">
+                            {currentProcessingItem ? `正在扫描: ${currentProcessingItem.name}` : '等待指令...'}
+                        </div>
+                  </div>
+              </div>
+              <div ref={logContainerRef} className="flex-1 bg-black border border-gray-800 p-4 font-mono text-xs overflow-y-auto space-y-1 shadow-inner font-bold">
+                  {batchLogs.map((log, idx) => (
+                      <div key={idx} className={`break-all font-mono leading-relaxed ${
+                          log.type === 'success' ? 'text-term-green' : 
+                          log.type === 'rare' ? 'text-cyber-purple bg-cyber-purple/10 px-1 border-l-2 border-cyber-purple' :
+                          log.type === 'dim' ? 'text-gray-600' : 'text-gray-400'}`}>
+                          {log.type === 'rare' ? '>>> ' : '> '}{log.msg}
+                      </div>
+                  ))}
+              </div>
+          </div>
+      )}
+
       {/* Toolbar */}
       <div className="p-4 border-b border-term-gray flex flex-col gap-4 bg-term-black relative z-10">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -123,21 +228,19 @@ const ArtifactInventory: React.FC<ArtifactInventoryProps> = ({ artifacts, onRecy
             <div className="relative">
                 <button 
                     onClick={(e) => { e.stopPropagation(); setIsMenuOpen(!isMenuOpen); }}
-                    disabled={isProcessing}
                     className={`flex items-center justify-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider border rounded transition-all bg-term-black
                         ${isMenuOpen ? 'border-term-green text-term-green' : 'border-gray-800 text-gray-500 hover:text-term-green hover:border-term-green/50'}
-                        ${isProcessing ? 'opacity-50 cursor-not-allowed' : ''}
                     `}
                 >
-                    {isProcessing ? <Loader2 size={14} className="animate-spin" /> : <Microscope size={14} />}
-                    {isProcessing ? '正在分析...' : '批量调查'}
+                    <Microscope size={14} />
+                    批量调查
                     <ChevronDown size={12} className={`transition-transform ${isMenuOpen ? 'rotate-180' : ''}`} />
                 </button>
 
-                {isMenuOpen && !isProcessing && (
+                {isMenuOpen && (
                     <div className="absolute top-full right-0 mt-2 w-48 bg-term-black border border-term-gray shadow-[0_0_20px_rgba(0,0,0,0.8)] rounded overflow-hidden z-50 flex flex-col animate-in fade-in slide-in-from-top-2 duration-100">
                         <div className="px-3 py-2 text-[10px] text-gray-500 uppercase font-bold border-b border-gray-800 bg-gray-900/50">
-                            选择调查目标的稀有度
+                            选择目标稀有度
                         </div>
                         {['common', 'rare', 'legendary', 'mythic', 'anomaly'].map(rarity => {
                             const count = proceduralCounts[rarity] || 0;
@@ -145,11 +248,7 @@ const ArtifactInventory: React.FC<ArtifactInventoryProps> = ({ artifacts, onRecy
                             return (
                                 <button
                                     key={rarity}
-                                    onClick={() => {
-                                        setProcessTarget(rarity);
-                                        setIsProcessing(true);
-                                        setIsMenuOpen(false);
-                                    }}
+                                    onClick={() => startBatch(rarity)}
                                     disabled={count === 0}
                                     className={`
                                         flex items-center justify-between px-3 py-2 text-xs text-left transition-colors
@@ -166,59 +265,51 @@ const ArtifactInventory: React.FC<ArtifactInventoryProps> = ({ artifacts, onRecy
             </div>
         </div>
 
-        {/* Processing Bar Overlay */}
-        {isProcessing && (
-            <div className="absolute top-0 left-0 w-full h-full bg-black/80 z-20 flex items-center justify-center p-4">
-                <div className="w-full max-w-md space-y-2">
-                    <div className="flex justify-between text-xs text-term-green font-mono">
-                        <span>ANALYZING_DATA_STRUCTURES...</span>
-                        <span>{progress}%</span>
-                    </div>
-                    <div className="h-2 bg-gray-900 rounded-full overflow-hidden border border-gray-700">
-                        <div 
-                            className="h-full bg-term-green transition-all duration-75 ease-linear" 
-                            style={{ width: `${progress}%` }}
-                        />
-                    </div>
+        <div className="flex flex-col gap-3">
+            {/* Search and Sort */}
+            <div className="flex gap-2">
+                <div className="relative flex-1">
+                    <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
+                    <input 
+                        type="text" 
+                        placeholder="Search artifacts..." 
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="w-full bg-black/50 border border-gray-700 rounded py-1.5 pl-9 pr-4 text-sm focus:border-term-green focus:outline-none text-gray-300 placeholder-gray-600"
+                    />
                 </div>
-            </div>
-        )}
-
-        <div className="flex flex-col sm:flex-row gap-3">
-            {/* Search */}
-            <div className="relative flex-1">
-                <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
-                <input 
-                    type="text" 
-                    placeholder="Search artifacts..." 
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full bg-black/50 border border-gray-700 rounded py-1.5 pl-9 pr-4 text-sm focus:border-term-green focus:outline-none text-gray-300 placeholder-gray-600"
-                />
+                <button 
+                    onClick={() => setSortBy(prev => prev === 'recent' ? 'rarity' : 'recent')}
+                    className="flex items-center gap-2 px-3 py-1.5 border border-gray-700 rounded text-xs text-gray-400 hover:text-white hover:border-gray-500 transition-colors bg-black/30 shrink-0"
+                >
+                    <ArrowUpDown size={12} />
+                    {sortBy === 'recent' ? 'DATE' : 'RARITY'}
+                </button>
             </div>
 
-            {/* Filters */}
-            <div className="flex items-center bg-gray-900/50 rounded border border-gray-700 p-0.5 overflow-x-auto">
-                {(['all', 'file', 'bookmark'] as const).map(type => (
-                    <button 
-                        key={type}
-                        onClick={() => setFilterType(type)}
-                        className={`px-3 py-1 text-xs rounded transition-colors whitespace-nowrap uppercase 
-                        ${filterType === type ? 'bg-gray-700 text-white shadow' : 'text-gray-500 hover:text-gray-300'}`}
-                    >
-                        {type === 'bookmark' ? 'Index' : type}
-                    </button>
-                ))}
+            {/* Stylish Filter Bar */}
+            <div className="flex items-center gap-1 overflow-x-auto scrollbar-hide pb-1">
+                {filters.map(filter => {
+                    const isActive = filterType === filter.id;
+                    const Icon = filter.icon;
+                    return (
+                        <button
+                            key={filter.id}
+                            onClick={() => setFilterType(filter.id as any)}
+                            className={`
+                                flex items-center gap-1.5 px-3 py-1.5 rounded-sm text-[10px] font-bold uppercase transition-all whitespace-nowrap border
+                                ${isActive 
+                                    ? 'bg-term-green/20 text-term-green border-term-green shadow-[0_0_10px_rgba(34,197,94,0.2)]' 
+                                    : 'bg-black/30 text-gray-500 border-gray-800 hover:text-gray-300 hover:border-gray-600'
+                                }
+                            `}
+                        >
+                            <Icon size={12} />
+                            {filter.label}
+                        </button>
+                    )
+                })}
             </div>
-
-            {/* Sort */}
-            <button 
-                onClick={() => setSortBy(prev => prev === 'recent' ? 'rarity' : 'recent')}
-                className="flex items-center gap-2 px-3 py-1.5 border border-gray-700 rounded text-xs text-gray-400 hover:text-white hover:border-gray-500 transition-colors bg-black/30 shrink-0"
-            >
-                <ArrowUpDown size={12} />
-                {sortBy === 'recent' ? 'DATE' : 'RARITY'}
-            </button>
         </div>
       </div>
 
@@ -241,7 +332,6 @@ const ArtifactInventory: React.FC<ArtifactInventoryProps> = ({ artifacts, onRecy
                         >
                              <div className={`shrink-0 w-12 h-12 flex items-center justify-center border rounded bg-black/50 relative ${colorClass}`}>
                                 {getArtifactIcon(artifact)}
-                                {/* Hint Overlay */}
                                 {artifact.hasHint && (
                                     <div className="absolute top-0 right-0 w-2 h-2 bg-white rounded-full animate-pulse shadow-[0_0_5px_white]"></div>
                                 )}
@@ -265,7 +355,6 @@ const ArtifactInventory: React.FC<ArtifactInventoryProps> = ({ artifacts, onRecy
                                 </div>
                              </div>
 
-                             {/* Quick Action */}
                              <button 
                                 onClick={(e) => { e.stopPropagation(); onRecycle(artifact); }}
                                 className="absolute bottom-2 right-2 p-1.5 text-gray-600 hover:text-term-green hover:bg-term-green/10 rounded transition-colors opacity-0 group-hover:opacity-100"

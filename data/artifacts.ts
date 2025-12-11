@@ -17,6 +17,7 @@ export const UNIQUE_ARTIFACTS: Artifact[] = [
     bonusType: 'cost_reduction',
     bonusValue: 0.05,
     dropChanceWeight: 5,
+    linkedProceduralType: 'archive'
   },
   {
     id: 'btc_wallet_lost',
@@ -31,6 +32,7 @@ export const UNIQUE_ARTIFACTS: Artifact[] = [
     targetResource: ResourceType.FUNDS,
     bonusValue: 2.5,
     dropChanceWeight: 2,
+    linkedProceduralType: 'data'
   },
   {
     id: 'library_of_babel',
@@ -45,6 +47,7 @@ export const UNIQUE_ARTIFACTS: Artifact[] = [
     targetResource: ResourceType.KNOWLEDGE,
     bonusValue: 1.3,
     dropChanceWeight: 3,
+    linkedProceduralType: 'data'
   },
   {
     id: 'cicada_pgp',
@@ -59,6 +62,7 @@ export const UNIQUE_ARTIFACTS: Artifact[] = [
     targetResource: ResourceType.CODE,
     bonusValue: 0.2,
     dropChanceWeight: 8,
+    linkedProceduralType: 'image'
   },
   {
     id: 'jfk_magic_bullet',
@@ -72,6 +76,81 @@ export const UNIQUE_ARTIFACTS: Artifact[] = [
     bonusType: 'luck',
     bonusValue: 1.1,
     dropChanceWeight: 4,
+    linkedProceduralType: 'document'
+  },
+  {
+    id: 'templeos_iso',
+    name: 'TempleOS.iso',
+    subtype: 'file',
+    details: '17 MB',
+    description: 'Terry A. Davis 编写的上帝操作系统。只支持 640x480 16色。',
+    flavorText: 'Divine Intellect: ACTIVE',
+    category: BuildingCategory.ESOTERIC,
+    rarity: 'legendary',
+    bonusType: 'production_multiplier',
+    targetResource: ResourceType.CODE,
+    bonusValue: 1.5,
+    dropChanceWeight: 3,
+    linkedProceduralType: 'archive'
+  },
+  {
+    id: 'snowden_slide',
+    name: 'PRISM_Overview.ppt',
+    subtype: 'file',
+    details: '4 MB',
+    description: '一张详细描述了 NSA 监控项目的幻灯片。历史的转折点。',
+    flavorText: 'Classification: TOP SECRET // NOFORN',
+    category: BuildingCategory.SUBVERSION,
+    rarity: 'rare',
+    bonusType: 'production_multiplier',
+    targetResource: ResourceType.TRUTH,
+    bonusValue: 0.5,
+    dropChanceWeight: 6,
+    linkedProceduralType: 'document'
+  },
+  {
+    id: 'voynich_scan',
+    name: 'Voynich_Page_78r.jpg',
+    subtype: 'file',
+    details: '22 MB',
+    description: '伏尼契手稿的高清扫描件。画着不存在的植物和裸体浴女。',
+    flavorText: 'Language: Unknown',
+    category: BuildingCategory.HISTORY,
+    rarity: 'rare',
+    bonusType: 'production_multiplier',
+    targetResource: ResourceType.ANCIENT_WISDOM,
+    bonusValue: 0.3,
+    dropChanceWeight: 7,
+    linkedProceduralType: 'image'
+  },
+  {
+    id: 'half_life_3_alpha',
+    name: 'hl3_build_0.0.1.exe',
+    subtype: 'file',
+    details: '45 GB',
+    description: '它真的存在。不，等等，这只是一个非常复杂的木马。或者...？',
+    flavorText: 'Version: Alpha',
+    category: BuildingCategory.INTERNET_CULTURE,
+    rarity: 'mythic',
+    bonusType: 'production_multiplier',
+    targetResource: ResourceType.PLEASURE,
+    bonusValue: 5.0,
+    dropChanceWeight: 1,
+    linkedProceduralType: 'archive'
+  },
+  {
+    id: 'stuxnet_source',
+    name: 'stuxnet.c',
+    subtype: 'file',
+    details: '150 KB',
+    description: '世界上第一个数字武器的源代码。专门用于摧毁离心机。',
+    flavorText: 'Target: SCADA Systems',
+    category: BuildingCategory.TECHNOCRACY,
+    rarity: 'legendary',
+    bonusType: 'click_power',
+    bonusValue: 2.0,
+    dropChanceWeight: 3,
+    linkedProceduralType: 'code'
   }
 ];
 
@@ -204,7 +283,80 @@ export const PROCEDURAL_DATA = {
         "一个自解压文件，运行后会播放 {topic} 的音效。",
         "名为 '{topic}_final_v2_real_final.zip' 的项目文件。"
       ]
+    },
+    code: { // NEW for Source Code items
+        exts: ['.c', '.py', '.js', '.ts', '.go', '.rb', '.asm'],
+        prefixes: ['main_', 'test_', 'hack_', 'script_', 'exploit_', 'bot_'],
+        templates: [
+            "一段乱糟糟的 {topic} 脚本，没有注释。",
+            "看起来是复制粘贴自 StackOverflow 的代码。",
+            "包含硬编码密码的源文件。",
+            "一个死循环，会不断打印 '{topic}'。",
+            "试图连接到暗网节点的 Python 脚本。"
+        ]
     }
+  },
+
+  // --- NEW TYPES ---
+  hardware: {
+      names: ['损坏的内存条', '烧毁的 CPU', '古董显卡', '机械硬盘碟片', '软盘驱动器', 'SCSI转接卡', '以太网终结器', '声霸卡', '3dfx Voodoo', '轨迹球鼠标'],
+      templates: [
+          "金手指部分有明显的氧化痕迹。可能还能用。",
+          "闻起来有股焦糊味。电容已经爆浆了。",
+          "标签上写着 '{topic} 专用'，手写字迹模糊。",
+          "这块电路板上的布线看起来像是一个迷宫。",
+          "一枚 {year} 年生产的芯片，针脚歪了。",
+          "这东西比现在的手机还要重。军工级做工。",
+          "不知道用途的接口，看起来像是某种专有协议。",
+          "上面粘着 {user} 的口香糖。",
+          "风扇叶片上积满了灰尘，必须用压缩空气清理。",
+          "这不仅是硬件，这是 {year} 年的梦想尸体。"
+      ]
+  },
+  media: {
+      names: ['VHS 录像带', '3.5寸软盘', '刻录 CD-R', 'MiniDisc', '磁带', 'ZIP 驱动盘', '打孔卡', '幻灯片转盘'],
+      templates: [
+          "标签上写着“{topic} - 请勿播放”，字迹潦草。",
+          "光盘表面划痕严重，不知道能不能读出数据。",
+          "一盘混音磁带，包含了 {year} 年的所有流行金曲。",
+          "这盘录像带的防抹写滑块被贴上了胶带。",
+          "里面似乎存储了 {topic} 的安装程序。",
+          "一张贴着骷髅头贴纸的软盘，容量只有 1.44MB。",
+          "播放时会听到令人不安的背景噪音。",
+          "看起来像是 {user} 的个人备份。",
+          "盒子里并没有光盘，只有一张写着密码的纸条。",
+          "这盘磁带在 {topic} 部分被消磁了。"
+      ]
+  },
+  creature: {
+      names: ['未知的毛发', '干燥的粘液', '奇怪的鳞片', '琥珀中的昆虫', '培养皿样本', '石化骨骼', '脱落的牙齿', '真菌孢子'],
+      templates: [
+          "DNA 分析显示它不属于地球上任何已知物种。",
+          "它在紫外线下会发出微弱的荧光。",
+          "这是 {topic} 留下的痕迹？还是某种突变的老鼠？",
+          "样本在培养皿中缓慢移动，即使没有营养源。",
+          "闻起来像臭氧和 {topic} 的混合物。",
+          "传说中 {user} 在下水道里发现过这东西。",
+          "它似乎对无线电波有反应，随着信号颤动。",
+          "这绝对不是宠物的毛发。太粗糙了。",
+          " touching it causes a mild tingling sensation.",
+          "这块骨头上刻着微小的符文。"
+      ]
+  },
+  signal: {
+      names: ['数字电台录音', 'SSTV 图像', '莫尔斯电码', '白噪音样本', '来自深空的脉冲', '加密语音', '鲸歌', '地下震动波形'],
+      templates: [
+          "一段循环播放数字 {number} 的录音。声音毫无感情。",
+          "解调后的音频听起来像是 {topic} 的名字。",
+          "频谱图中隐藏着 {user} 的头像。",
+          "这不仅是噪音，这是一种数学语言。",
+          "录音背景里有微弱的呼吸声。",
+          "信号源似乎在移动，速度极快。",
+          "这段莫尔斯电码拼写出了 '{topic}'。",
+          "来自 {year} 年的广播，但在当时这个频段并未启用。",
+          "听久了会让人感到头晕恶心。",
+          "它在重复同一句话：“由于 {topic}，系统已关闭。”"
+      ]
   },
 
   // --- BOOKMARKS (No URLs, just paths/titles) ---
@@ -242,7 +394,7 @@ export const PROCEDURAL_DATA = {
 // ==========================================
 // TECH LORE INJECTIONS
 // ==========================================
-// When these techs are researched, NEW content is added to the randomization pools.
+// ... (Keep existing TECH_LORE_INJECTIONS)
 export const TECH_LORE_INJECTIONS: Record<string, {
     topics?: string[];
     prefixes?: string[]; // for files/bookmarks

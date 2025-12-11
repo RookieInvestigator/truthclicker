@@ -8,7 +8,7 @@ import MainPanel from './components/MainPanel';
 import ArtifactGrid from './components/ArtifactGrid';
 import SettingsModal from './components/SettingsModal';
 import ActiveEventsTicker from './components/ActiveEventsTicker';
-import ChoiceEventModal from './components/ChoiceEventModal'; // NEW
+import ChoiceEventModal from './components/ChoiceEventModal';
 
 const App: React.FC = () => {
   const {
@@ -21,14 +21,14 @@ const App: React.FC = () => {
     buyBuilding,
     sellBuilding,
     researchTech,
-    recycleArtifact,
-    recycleAllCommons,
+    investigateArtifact, // Renamed from recycleArtifact
+    batchInvestigate,    // Renamed from recycleArtifactsByRarity
     saveGame,
     resetGame,
     toggleSetting,
     triggerRealityFlush, 
     triggerProbabilityDrive,
-    handleMakeChoice // NEW
+    handleMakeChoice
   } = useGameLogic();
 
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -100,8 +100,8 @@ const App: React.FC = () => {
             onBuyBuilding={buyBuilding}
             onSellBuilding={sellBuilding}
             onResearchTech={researchTech}
-            onRecycleArtifact={recycleArtifact}
-            onRecycleAllCommons={recycleAllCommons}
+            onRecycleArtifact={investigateArtifact}
+            onRecycleArtifactsByRarity={batchInvestigate}
             globalCostReduction={costReduction}
         />
 
@@ -114,7 +114,7 @@ const App: React.FC = () => {
              <ArtifactGrid 
                 collected={gameState.artifacts} 
                 limit={20} 
-                onRecycle={recycleArtifact}
+                onRecycle={investigateArtifact}
              />
           </div>
         </section>

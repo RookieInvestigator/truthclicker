@@ -1,6 +1,6 @@
 
 import { Artifact, BuildingCategory } from '../types';
-import { PROCEDURAL_DATA, TECH_LORE_INJECTIONS } from '../data/artifacts';
+import { PROCEDURAL_DATA, TECH_LORE_INJECTIONS, UNIQUE_ARTIFACTS } from '../data/artifacts';
 
 const pick = <T>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
 
@@ -22,35 +22,56 @@ export const generateArtifact = (depth: number, researchedTechs: string[]): Arti
     
     // 1. Build Dynamic Pools based on Techs
     let availableTopics = [...PROCEDURAL_DATA.common.topics];
-    let filePrefixes = { ...PROCEDURAL_DATA.files.document.prefixes }; // Start with doc prefixes as base
     
     // Add Tech-Unlocked Content to the Pools
     researchedTechs.forEach(techId => {
         const injection = TECH_LORE_INJECTIONS[techId];
         if (injection) {
             if (injection.topics) availableTopics.push(...injection.topics);
-            // We just mix prefixes into a generic bag for now
-            if (injection.prefixes) {
-                // Ugly hack to mix array into object for randomness later, 
-                // simpler to just pick from a merged list during generation
-            }
         }
     });
 
     // 2. Determine Type (File vs Bookmark)
     const isFile = Math.random() < 0.65;
     
-    // 3. Determine Rarity
-    // Depth slightly increases rarity chance
-    const depthBonus = Math.min(0.1, depth * 0.005);
+    // 3. Determine Rarity (NERFED: High rarities now come mostly from Investigation)
     const roll = Math.random();
     let rarity: Artifact['rarity'] = 'common';
     
-    if (roll > 0.995 - depthBonus) { rarity = 'legendary'; }
-    else if (roll > 0.95 - depthBonus) { rarity = 'rare'; }
+    // Anomaly is depth based, extremely rare direct drop
+    if (depth > 50 && Math.random() > 0.995) rarity = 'anomaly'; 
+    else if (roll > 0.98) rarity = 'rare'; // Significantly reduced
+    else rarity = 'common';
+
+    // 4. Investigation / Hidden Loot Logic
+    // Chance to contain a Unique Artifact or High Value Reward
+    let hiddenLootId: string | undefined = undefined;
+    let hasHint = false;
+
+    // Base chance for hidden content
+    const investigationChance = 0.05 + (depth * 0.001); // Increases with depth
     
-    // Anomaly Chance (Very low, requires depth)
-    if (depth > 20 && Math.random() > 0.99) rarity = 'anomaly'; 
+    if (Math.random() < investigationChance) {
+        const secretRoll = Math.random();
+        if (secretRoll < 0.3) {
+            // 30% chance of hidden loot being a UNIQUE item
+            const targetUnique = pick(UNIQUE_ARTIFACTS);
+            hiddenLootId = targetUnique.id;
+        } else {
+            // 70% chance of just being a "High Value" resource bundle
+            hiddenLootId = 'resource_bundle';
+        }
+        
+        // Visual Hint Logic (Perception check simulated)
+        // Techs like 'steganography' could increase chance to see hints
+        let detectionChance = 0.2; 
+        if (researchedTechs.includes('steganography')) detectionChance += 0.3;
+        if (researchedTechs.includes('pattern_recognition')) detectionChance += 0.3;
+        
+        if (Math.random() < detectionChance) {
+            hasHint = true;
+        }
+    }
 
     let name = '';
     let description = '';
@@ -68,13 +89,11 @@ export const generateArtifact = (depth: number, researchedTechs: string[]): Arti
         return undefined;
     };
 
-    // Helper to see if we should force a "Themed" drop (20% chance)
-    // A themed drop uses a specific tech's templates strictly, rather than the mixed pool
+    // Helper to see if we should force a "Themed" drop
     const relevantTechIds = researchedTechs.filter(id => TECH_LORE_INJECTIONS[id]);
     const forceTheme = relevantTechIds.length > 0 && Math.random() < 0.25;
     let activeTechId = forceTheme ? pick(relevantTechIds) : null;
 
-    // Use topics from the specific tech if forced, otherwise mixed pool
     let selectedTopic = activeTechId && TECH_LORE_INJECTIONS[activeTechId]?.topics 
         ? pick(TECH_LORE_INJECTIONS[activeTechId]!.topics!) 
         : pick(availableTopics);
@@ -98,17 +117,14 @@ export const generateArtifact = (depth: number, researchedTechs: string[]): Arti
         }
 
         if (contentTypeKey === 'log' || activeTechId) {
-             // More formal names for logs or tech items
              name = `${prefix}${selectedTopic.replace(/\s+/g, '_').substring(0, 15)}${ext}`;
         } else {
-             // Random names for junk
              name = `${prefix}${Math.floor(Math.random()*1000)}${ext}`;
         }
         
         // Description Generation
         let template = pick(contentTypeData.templates);
         
-        // Override with Tech Template if forced
         if (activeTechId) {
             const techTempl = getTechTemplate(activeTechId);
             if (techTempl) template = techTempl;
@@ -129,7 +145,6 @@ export const generateArtifact = (depth: number, researchedTechs: string[]): Arti
         if (contentTypeKey === 'data') category = BuildingCategory.TECHNOCRACY;
         if (contentTypeKey === 'log') category = BuildingCategory.FOLKLORE;
         
-        // Adjust category based on Tech Category (simple mapping based on string analysis of ID)
         if (activeTechId) {
             if (activeTechId.includes('magic') || activeTechId.includes('history')) category = BuildingCategory.HISTORY;
             else if (activeTechId.includes('conspiracy') || activeTechId.includes('state')) category = BuildingCategory.SUBVERSION;
@@ -164,7 +179,6 @@ export const generateArtifact = (depth: number, researchedTechs: string[]): Arti
         const ms = Math.floor(Math.random() * 800) + 20;
         flavorText = `HTTP ${code} | Ping: ${ms}ms`;
 
-        // Path / Server Info
         if (Math.random() > 0.5) {
              const pathUser = pick(PROCEDURAL_DATA.common.users);
              const path = Math.random() > 0.5 ? `/var/www/${pathUser}/` : `C:\\Inetpub\\${pathUser}\\`;
@@ -186,6 +200,8 @@ export const generateArtifact = (depth: number, researchedTechs: string[]): Arti
         isProcedural: true,
         bonusType: 'none',
         bonusValue: 0, 
-        dropChanceWeight: 0 
+        dropChanceWeight: 0,
+        hiddenLootId,
+        hasHint
     };
 };

@@ -11,7 +11,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.CODE]: 0.05, [ResourceType.INFO]: 0.5 },
     costMultiplier: 1.15,
     icon: 'Code',
-    unlockRequirement: 50,
+    unlockRequirement: 0, // Reset
     requireTech: ['html_1_0'],
   },
   {
@@ -23,7 +23,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.CODE]: 0.1, [ResourceType.CULTURE]: 0.05 },
     costMultiplier: 1.15,
     icon: 'Settings',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['digital_literacy'],
   },
   {
@@ -35,7 +35,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.CODE]: 0.2 },
     costMultiplier: 1.15,
     icon: 'Terminal',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['basic_scripting'],
   },
   {
@@ -47,7 +47,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.CODE]: 0.4, [ResourceType.INFO]: -2.0 },
     costMultiplier: 1.2,
     icon: 'Clipboard',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['basic_scripting'],
   },
   {
@@ -59,7 +59,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.CODE]: 0.5, [ResourceType.OPS]: 1, [ResourceType.CARDBOARD]: -2 },
     costMultiplier: 1.2,
     icon: 'Cpu',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['used_hardware_flipping'],
   },
   {
@@ -71,7 +71,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.OPS]: 2.0, [ResourceType.POWER]: -5.0 },
     costMultiplier: 1.2,
     icon: 'Server',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['basic_scripting'],
   },
   {
@@ -83,7 +83,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.POWER]: 10.0 },
     costMultiplier: 1.25,
     icon: 'Sun',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['hardware_assembly'],
   },
   {
@@ -95,7 +95,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.POWER]: 20.0, [ResourceType.FUNDS]: -5.0 },
     costMultiplier: 1.25,
     icon: 'Zap',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['hardware_assembly'],
   },
   {
@@ -107,7 +107,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.CODE]: 3.0, [ResourceType.FUNDS]: -10.0 },
     costMultiplier: 1.3,
     icon: 'Briefcase',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['e_commerce_logic'],
   },
   {
@@ -119,7 +119,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.OPS]: 5, [ResourceType.CODE]: 1.0, [ResourceType.POWER]: -25.0 },
     costMultiplier: 1.25,
     icon: 'Server',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['hardware_assembly'],
   },
   {
@@ -131,7 +131,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.OPS]: 15.0, [ResourceType.POWER]: -10.0 },
     costMultiplier: 1.2,
     icon: 'Droplets',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['hardware_assembly'],
   },
   {
@@ -143,7 +143,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.FUNDS]: 100.0, [ResourceType.OPS]: 20.0, [ResourceType.POWER]: -80.0 },
     costMultiplier: 1.3,
     icon: 'Cpu',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['hardware_assembly'],
   },
   {
@@ -155,7 +155,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.TECH_CAPITAL]: 0.05, [ResourceType.OPS]: 10.0, [ResourceType.FUNDS]: -50.0 }, 
     costMultiplier: 1.35,
     icon: 'Atom',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['cold_fusion'],
   },
   {
@@ -167,7 +167,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.MIND_CONTROL]: 0.2, [ResourceType.PANIC]: 0.5, [ResourceType.POWER]: -150.0, [ResourceType.OPS]: -50.0 }, 
     costMultiplier: 1.4,
     icon: 'RadioTower',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['v2k_technology'],
   },
   {
@@ -179,7 +179,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.OPS]: 40, [ResourceType.FUNDS]: 25, [ResourceType.CRED]: -2.0, [ResourceType.SPAM]: 10.0 }, 
     costMultiplier: 1.3,
     icon: 'Bot',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['botnet_architecture'],
   },
   {
@@ -191,7 +191,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.POWER]: 200.0, [ResourceType.PANIC]: 0.1, [ResourceType.FUNDS]: -150.0 }, 
     costMultiplier: 1.4,
     icon: 'Zap',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['wireless_power'],
   },
   {
@@ -203,7 +203,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.OPS]: 500, [ResourceType.TECH_CAPITAL]: 0.5, [ResourceType.POWER]: -200.0 },
     costMultiplier: 1.45,
     icon: 'Layers',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['hardware_assembly'],
   },
   {
@@ -215,7 +215,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.CODE]: 50, [ResourceType.MIND_CONTROL]: 0.5, [ResourceType.BIOMASS]: -2.0 },
     costMultiplier: 1.4,
     icon: 'Brain',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['biohacking_basics'],
   },
   {
@@ -227,7 +227,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.OPS]: 200, [ResourceType.CODE]: 20, [ResourceType.FUNDS]: -150, [ResourceType.POWER]: -500.0, [ResourceType.INFO]: -5000.0 }, 
     costMultiplier: 1.4,
     icon: 'BrainCircuit',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['ai_alignment'],
   },
   {
@@ -239,7 +239,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.TECH_CAPITAL]: 2.0, [ResourceType.OPS]: 1000, [ResourceType.POWER]: -1000.0 },
     costMultiplier: 1.5,
     icon: 'Box',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['cold_fusion'],
   },
   {
@@ -251,7 +251,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.POWER]: 1000, [ResourceType.OPS]: 200 },
     costMultiplier: 1.5,
     icon: 'Circle',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['wireless_power'],
   },
   {
@@ -263,7 +263,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.OPS]: 5000, [ResourceType.PANIC]: 5.0, [ResourceType.BIOMASS]: -50.0 },
     costMultiplier: 1.6,
     icon: 'AlertTriangle',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['nanotechnology'],
   },
   {
@@ -275,7 +275,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.OPS]: 20000, [ResourceType.INFO]: 5000 },
     costMultiplier: 1.8,
     icon: 'Rocket',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['orbital_mechanics'],
   },
   {
@@ -287,7 +287,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.POWER]: 5000.0, [ResourceType.OPS]: -500.0, [ResourceType.FUNDS]: -500.0 }, 
     costMultiplier: 1.6,
     icon: 'Sun',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['orbital_mechanics'],
   },
   {
@@ -299,7 +299,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.OPS]: 50000, [ResourceType.KNOWLEDGE]: 100.0 },
     costMultiplier: 2.0,
     icon: 'Server',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['type_ii_civilization'],
   },
   {
@@ -311,7 +311,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.POWER]: 100000, [ResourceType.OPS]: 10000, [ResourceType.TRUTH]: -10.0 },
     costMultiplier: 1.7,
     icon: 'Cloud',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['zero_point_energy'],
   },
   {
@@ -323,7 +323,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.POWER]: 50000, [ResourceType.TECH_CAPITAL]: 500, [ResourceType.PANIC]: 10.0 },
     costMultiplier: 1.6,
     icon: 'Zap',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['zero_point_energy'],
   },
 ];

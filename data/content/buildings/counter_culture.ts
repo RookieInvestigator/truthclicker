@@ -11,7 +11,7 @@ export const COUNTER_CULTURE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.CULTURE]: 0.3, [ResourceType.FOLLOWERS]: 0.2 },
     costMultiplier: 1.15,
     icon: 'FileText',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['cardboard_architecture'],
   },
   {
@@ -23,7 +23,7 @@ export const COUNTER_CULTURE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.CULTURE]: 1.0, [ResourceType.CRED]: 0.5, [ResourceType.POWER]: -5.0 },
     costMultiplier: 1.25,
     icon: 'Truck',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['wire_splicing'],
   },
   {
@@ -35,7 +35,7 @@ export const COUNTER_CULTURE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.FUNDS]: 100, [ResourceType.SPAM]: 50.0, [ResourceType.CULTURE]: -0.1, [ResourceType.POWER]: -20.0, [ResourceType.INFO]: -200.0 }, 
     costMultiplier: 1.3,
     icon: 'Video',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['ai_content_farm'],
   },
   {
@@ -47,7 +47,7 @@ export const COUNTER_CULTURE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.CULTURE]: 3.0, [ResourceType.SPAM]: 10.0, [ResourceType.CRED]: 1.0 },
     costMultiplier: 1.35,
     icon: 'SprayCan',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['botnet_architecture'],
   },
   {
@@ -59,7 +59,7 @@ export const COUNTER_CULTURE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.CODE]: 5.0, [ResourceType.CRED]: 2.0, [ResourceType.OPS]: 10.0 },
     costMultiplier: 1.4,
     icon: 'Terminal',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['p2p_sharing'],
   },
   {
@@ -71,7 +71,7 @@ export const COUNTER_CULTURE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.MIND_CONTROL]: 0.5, [ResourceType.RUMORS]: 2.0, [ResourceType.CULTURE]: 1.0, [ResourceType.INFO]: -50.0 },
     costMultiplier: 1.35,
     icon: 'Smile',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['memetics'],
   },
 ];

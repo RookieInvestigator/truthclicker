@@ -11,7 +11,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.FUNDS]: 0.1, [ResourceType.CARDBOARD]: 0.2 }, 
     costMultiplier: 1.15, 
     icon: 'Trash',
-    unlockRequirement: 0,
+    unlockRequirement: 50, // Keep: No Tech, needs info gate
   },
   {
     id: 'paid_surveys',
@@ -22,7 +22,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.FUNDS]: 0.35, [ResourceType.SPAM]: 0.2 }, 
     costMultiplier: 1.15,
     icon: 'FileText',
-    unlockRequirement: 100, 
+    unlockRequirement: 150, // Keep: No Tech, needs info gate
   },
   {
     id: 'bike_generator', 
@@ -33,7 +33,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.POWER]: 2.0, [ResourceType.BIOMASS]: -0.1 }, 
     costMultiplier: 1.2,
     icon: 'Bike',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset: Has Tech
     requireTech: ['cardboard_architecture'],
   },
   {
@@ -45,7 +45,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.INFO]: 1.5, [ResourceType.LORE]: 0.05 }, 
     costMultiplier: 1.2,
     icon: 'BookOpen',
-    unlockRequirement: 0,
+    unlockRequirement: 200, // Keep: No Tech, needs info gate
   },
   {
     id: 'public_wifi_leech',
@@ -56,7 +56,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.INFO]: 3.0, [ResourceType.SPAM]: 0.3 },
     costMultiplier: 1.15,
     icon: 'Wifi',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset: Has Tech
     requireTech: ['digital_literacy'],
   },
   {
@@ -68,7 +68,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.FUNDS]: 0.8, [ResourceType.OPS]: 0.1, [ResourceType.SPAM]: 0.8 }, 
     costMultiplier: 1.15,
     icon: 'CheckSquare',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset: Has Tech
     requireTech: ['ocr_basics'],
   },
   {
@@ -80,7 +80,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.FUNDS]: 1.5, [ResourceType.OPS]: 0.2 }, 
     costMultiplier: 1.25,
     icon: 'Bot',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset: Has Tech
     requireTech: ['basic_scripting'],
   },
   {
@@ -92,7 +92,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.CARDBOARD]: 0.6, [ResourceType.FUNDS]: 0.1 }, 
     costMultiplier: 1.25,
     icon: 'Trash2',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset: Has Tech
     requireTech: ['cardboard_architecture'],
   },
   {
@@ -104,7 +104,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.FUNDS]: 3.0, [ResourceType.CARDBOARD]: 1.0 }, 
     costMultiplier: 1.3,
     icon: 'ZapOff',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset: Has Tech
     requireTech: ['wire_splicing'],
   },
   {
@@ -116,7 +116,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.POWER]: 10.0, [ResourceType.CRED]: -0.2 }, 
     costMultiplier: 1.35,
     icon: 'Zap',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset: Has Tech
     requireTech: ['wire_splicing'],
   },
   {
@@ -128,7 +128,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.BIOMASS]: 0.3, [ResourceType.CARDBOARD]: -0.5 }, 
     costMultiplier: 1.15,
     icon: 'Sprout',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset: Has Tech
     requireTech: ['cardboard_architecture'],
   },
   {
@@ -140,7 +140,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.BIOMASS]: 1.5, [ResourceType.PANIC]: 0.1 },
     costMultiplier: 1.2,
     icon: 'Rat',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset: Has Tech
     requireTech: ['cardboard_architecture'],
   },
   {
@@ -152,7 +152,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.FUNDS]: 5.0, [ResourceType.CARDBOARD]: 1.0, [ResourceType.SPAM]: 3.0 }, 
     costMultiplier: 1.3,
     icon: 'Store',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset: Has Tech
     requireTech: ['e_commerce_logic'],
   },
   {
@@ -164,7 +164,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.FUNDS]: 8.0, [ResourceType.CRED]: -0.8 }, 
     costMultiplier: 1.3,
     icon: 'CreditCard',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset: Has Tech
     requireTech: ['hardware_assembly'],
   },
   {
@@ -176,7 +176,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.BIOMASS]: 1.5, [ResourceType.FUNDS]: -1, [ResourceType.POWER]: -2.0 },
     costMultiplier: 1.2,
     icon: 'FlaskConical',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset: Has Tech
     requireTech: ['chlorella_cultivation'],
   },
   {
@@ -188,7 +188,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.BIOMASS]: 1.0, [ResourceType.FUNDS]: 1.5 }, 
     costMultiplier: 1.2,
     icon: 'Droplets',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset: Has Tech
     requireTech: ['chlorella_cultivation'],
   },
   {
@@ -200,7 +200,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.FUNDS]: 2.5, [ResourceType.CLUE]: 0.1 }, 
     costMultiplier: 1.25,
     icon: 'Anchor',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset: Has Tech
     requireTech: ['magnet_fishing'],
   },
   {
@@ -212,7 +212,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.POWER]: 15.0, [ResourceType.CARDBOARD]: 2.0 },
     costMultiplier: 1.25,
     icon: 'BatteryCharging',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset: Has Tech
     requireTech: ['hardware_assembly'],
   },
   {
@@ -224,7 +224,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.FUNDS]: 25, [ResourceType.CRED]: -0.3, [ResourceType.RUMORS]: -0.5 }, 
     costMultiplier: 1.25,
     icon: 'DollarSign',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset: Has Tech
     requireTech: ['pseudoscience_marketing'],
   },
   {
@@ -236,7 +236,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.FUNDS]: 20, [ResourceType.PANIC]: -0.1 }, 
     costMultiplier: 1.2,
     icon: 'Shield',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset: Has Tech
     requireTech: ['pseudoscience_marketing'],
   },
   {
@@ -248,7 +248,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.INFO]: 20, [ResourceType.CRED]: 0.2, [ResourceType.FUNDS]: -0.5 },
     costMultiplier: 1.3,
     icon: 'Phone',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset: Has Tech
     requireTech: ['phreaking_tools'],
   },
   {
@@ -260,7 +260,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.INFO]: 10, [ResourceType.FUNDS]: 10 }, 
     costMultiplier: 1.2,
     icon: 'MapPin',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset: Has Tech
     requireTech: ['social_engineering'],
   },
   {
@@ -272,7 +272,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.FUNDS]: 60, [ResourceType.FOLLOWERS]: 10, [ResourceType.INFO]: 50, [ResourceType.POWER]: -20 },
     costMultiplier: 1.4,
     icon: 'Monitor',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset: Has Tech
     requireTech: ['generative_adversarial_networks'],
   },
   {
@@ -284,7 +284,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.FUNDS]: 5, [ResourceType.SPAM]: 1.5 }, 
     costMultiplier: 1.15,
     icon: 'Bitcoin',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset: Has Tech
     requireTech: ['blockchain_basics'],
   },
   {
@@ -296,7 +296,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.FUNDS]: 40, [ResourceType.OPS]: -5.0 }, 
     costMultiplier: 1.3,
     icon: 'Briefcase',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset: Has Tech
     requireTech: ['basic_scripting'],
   },
   {
@@ -308,7 +308,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.FUNDS]: 120, [ResourceType.CRED]: -10.0, [ResourceType.PANIC]: 1.0 },
     costMultiplier: 1.5,
     icon: 'CreditCard',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset: Has Tech
     requireTech: ['tor_network'],
   },
   {
@@ -320,7 +320,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.BIOMASS]: 5.0, [ResourceType.FUNDS]: -2.0 },
     costMultiplier: 1.2,
     icon: 'Sun',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset: Has Tech
     requireTech: ['chlorella_cultivation'],
   },
   {
@@ -332,7 +332,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.FUNDS]: 150, [ResourceType.CRED]: 1.5 },
     costMultiplier: 1.4,
     icon: 'Briefcase',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset: Has Tech
     requireTech: ['e_commerce_logic'],
   },
   {
@@ -344,7 +344,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.FUNDS]: 80, [ResourceType.OPS]: -15.0, [ResourceType.POWER]: -15.0 },
     costMultiplier: 1.35,
     icon: 'Send',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset: Has Tech
     requireTech: ['drone_avionics'],
   },
   {
@@ -356,7 +356,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.FUNDS]: 80, [ResourceType.LORE]: 0.2 },
     costMultiplier: 1.25,
     icon: 'ShoppingBag',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset: Has Tech
     requireTech: ['used_hardware_flipping'],
   },
   {
@@ -368,7 +368,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.FUNDS]: 200, [ResourceType.BIOMASS]: 3.0, [ResourceType.INFO]: 20 },
     costMultiplier: 1.4,
     icon: 'Tool',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset: Has Tech
     requireTech: ['social_engineering'],
   },
 ];

@@ -11,7 +11,7 @@ export const ARCHIVE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.INFO]: 2.0, [ResourceType.LORE]: 0.1 },
     costMultiplier: 1.15,
     icon: 'Film',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['data_hoarding_basics'],
   },
   {
@@ -23,7 +23,7 @@ export const ARCHIVE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.INFO]: 10.0, [ResourceType.CODE]: 0.5, [ResourceType.POWER]: -2.0 },
     costMultiplier: 1.2,
     icon: 'CassetteTape',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['deduplication'],
   },
   {
@@ -35,7 +35,7 @@ export const ARCHIVE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.BIOMASS]: 5.0, [ResourceType.KNOWLEDGE]: 0.1 },
     costMultiplier: 1.3,
     icon: 'Sprout',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['chlorella_cultivation'],
   },
   {
@@ -47,7 +47,7 @@ export const ARCHIVE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.INFO]: 25.0, [ResourceType.CULTURE]: 0.2 },
     costMultiplier: 1.25,
     icon: 'Disc',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['data_hoarding_basics'],
   },
   {
@@ -59,7 +59,7 @@ export const ARCHIVE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.CODE]: 3.0, [ResourceType.TECH_CAPITAL]: 0.2, [ResourceType.KNOWLEDGE]: 0.5 },
     costMultiplier: 1.35,
     icon: 'Code',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['cold_storage_protocols'],
   },
   {
@@ -71,7 +71,7 @@ export const ARCHIVE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.INFO]: 100.0, [ResourceType.OPS]: 5.0, [ResourceType.BIOMASS]: 1.0 },
     costMultiplier: 1.4,
     icon: 'Waves',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['underwater_cooling'],
   },
   {
@@ -83,7 +83,7 @@ export const ARCHIVE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.ANCIENT_WISDOM]: 0.5, [ResourceType.KNOWLEDGE]: 3.0, [ResourceType.BIOMASS]: -5.0 },
     costMultiplier: 1.5,
     icon: 'Dna',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['biohacking_basics'],
   },
   {
@@ -95,7 +95,7 @@ export const ARCHIVE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.KNOWLEDGE]: 5.0, [ResourceType.TRUTH]: 0.1, [ResourceType.POWER]: -50.0 },
     costMultiplier: 1.45,
     icon: 'Gem',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['5d_optical_storage'],
   },
   {
@@ -107,7 +107,7 @@ export const ARCHIVE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.INFO]: 200.0, [ResourceType.BIOMASS]: 10.0, [ResourceType.LORE]: 1.0 },
     costMultiplier: 1.4,
     icon: 'Network',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['mycelial_network_theory'],
   },
   {
@@ -119,7 +119,7 @@ export const ARCHIVE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.KNOWLEDGE]: 10.0, [ResourceType.TRUTH]: 0.3, [ResourceType.FUNDS]: -500.0 },
     costMultiplier: 1.6,
     icon: 'Moon',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['orbital_mechanics'],
   },
   {
@@ -131,7 +131,7 @@ export const ARCHIVE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.TRUTH]: 0.5, [ResourceType.ANCIENT_WISDOM]: 0.5, [ResourceType.INFO]: 5000.0 },
     costMultiplier: 1.7,
     icon: 'Satellite',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['orbital_mechanics'],
   },
 ];

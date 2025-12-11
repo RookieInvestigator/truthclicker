@@ -11,7 +11,7 @@ export const ADULT_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.PLEASURE]: 0.2, [ResourceType.FUNDS]: 0.5 },
     costMultiplier: 1.15,
     icon: 'Mic',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['rule_34'],
   },
   {
@@ -23,7 +23,7 @@ export const ADULT_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.FUNDS]: 25, [ResourceType.FOLLOWERS]: 2, [ResourceType.PLEASURE]: 1.0 },
     costMultiplier: 1.35,
     icon: 'Camera',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['programming_socks'],
   },
   {
@@ -35,7 +35,7 @@ export const ADULT_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.FUNDS]: 40, [ResourceType.PLEASURE]: 2.0, [ResourceType.FOLLOWERS]: 5.0 },
     costMultiplier: 1.3,
     icon: 'Video',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['rule_34'],
   },
   {
@@ -47,7 +47,7 @@ export const ADULT_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.PLEASURE]: 5.0, [ResourceType.PROBABILITY]: 0.01, [ResourceType.FUNDS]: 10.0 },
     costMultiplier: 1.25,
     icon: 'Gem',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['rule_34'],
   },
   {
@@ -59,7 +59,7 @@ export const ADULT_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.FUNDS]: 100, [ResourceType.BIOMASS]: -2.0, [ResourceType.PLEASURE]: 3.0 },
     costMultiplier: 1.3,
     icon: 'Droplets',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['simp_economics'],
   },
   {
@@ -71,7 +71,7 @@ export const ADULT_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.OPS]: 300.0, [ResourceType.PROBABILITY]: 0.02, [ResourceType.PLEASURE]: -30.0 }, // Consumes Pleasure
     costMultiplier: 1.4,
     icon: 'Shield',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['semen_retention'],
   },
   {
@@ -83,7 +83,7 @@ export const ADULT_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.FOLLOWERS]: 30, [ResourceType.MIND_CONTROL]: 0.5, [ResourceType.PLEASURE]: 5.0 },
     costMultiplier: 1.35,
     icon: 'Heart',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['ai_content_farm'],
   },
   {
@@ -95,7 +95,7 @@ export const ADULT_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.PLEASURE]: 20.0, [ResourceType.POWER]: -50.0 },
     costMultiplier: 1.4,
     icon: 'Zap',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['hedonistic_imperative'],
   },
   {
@@ -107,7 +107,7 @@ export const ADULT_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.OPS]: 100.0, [ResourceType.PLEASURE]: -10.0 },
     costMultiplier: 1.4,
     icon: 'Activity',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['hedonistic_imperative'],
   },
   {
@@ -119,7 +119,7 @@ export const ADULT_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.PLEASURE]: 50.0, [ResourceType.REALITY]: -0.5, [ResourceType.BIOMASS]: -10.0 },
     costMultiplier: 1.5,
     icon: 'Flame',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['tulpa_engineering'],
   },
   {
@@ -131,7 +131,7 @@ export const ADULT_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.PLEASURE]: 200.0, [ResourceType.BIOMASS]: -50.0, [ResourceType.REALITY]: -1.0 },
     costMultiplier: 1.6,
     icon: 'Zap',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['hedonistic_imperative'],
   }
 ];

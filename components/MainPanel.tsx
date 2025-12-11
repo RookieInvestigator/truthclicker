@@ -16,12 +16,12 @@ interface MainPanelProps {
   onSellBuilding: (id: string) => void;
   onResearchTech: (id: string) => void;
   onRecycleArtifact: (artifact: Artifact) => void;
-  onRecycleAllCommons: () => void;
+  onRecycleArtifactsByRarity: (rarity: string) => void;
   globalCostReduction: number;
 }
 
 const MainPanel: React.FC<MainPanelProps> = ({ 
-    gameState, onBuyBuilding, onSellBuilding, onResearchTech, onRecycleArtifact, onRecycleAllCommons, globalCostReduction 
+    gameState, onBuyBuilding, onSellBuilding, onResearchTech, onRecycleArtifact, onRecycleArtifactsByRarity, globalCostReduction 
 }) => {
   const [activeTab, setActiveTab] = useState<'nodes' | 'research' | 'inventory'>('nodes');
   
@@ -42,13 +42,8 @@ const MainPanel: React.FC<MainPanelProps> = ({
       setCollapsedBuildingCategories(prev => ({ ...prev, [cat]: !prev[cat] }));
   };
 
-  // Resources available for filtering
-  const filterableResources = [
-      ResourceType.INFO, ResourceType.FUNDS, ResourceType.OPS, ResourceType.CODE, 
-      ResourceType.POWER, ResourceType.BIOMASS, ResourceType.CULTURE, ResourceType.LORE,
-      ResourceType.TRUTH, ResourceType.CRED, ResourceType.FOLLOWERS,
-      ResourceType.PLEASURE, ResourceType.PROBABILITY, ResourceType.REALITY
-  ];
+  // Resources available for filtering - Now includes ALL resources
+  const filterableResources = Object.values(ResourceType);
 
   return (
     <section className="flex-1 flex flex-col bg-term-black min-w-0">
@@ -341,7 +336,7 @@ const MainPanel: React.FC<MainPanelProps> = ({
                 <ArtifactInventory 
                     artifacts={gameState.artifacts}
                     onRecycle={onRecycleArtifact}
-                    onRecycleAllCommons={onRecycleAllCommons}
+                    onRecycleArtifactsByRarity={onRecycleArtifactsByRarity}
                 />
             )}
         </div>

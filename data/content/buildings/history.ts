@@ -11,7 +11,7 @@ export const HISTORY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.FUNDS]: 2.0, [ResourceType.CLUE]: 0.05 },
     costMultiplier: 1.15,
     icon: 'Search',
-    unlockRequirement: 0,
+    unlockRequirement: 300, // Needs info gate as it has no tech
   },
   {
     id: 'oral_history_project', 
@@ -22,7 +22,7 @@ export const HISTORY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.LORE]: 0.5, [ResourceType.INFO]: 5 },
     costMultiplier: 1.2,
     icon: 'Mic',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['microfilm_scanning'],
   },
   {
@@ -34,7 +34,7 @@ export const HISTORY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.CLUE]: 0.2, [ResourceType.CULTURE]: 0.1, [ResourceType.LORE]: 0.1 },
     costMultiplier: 1.2,
     icon: 'Shovel',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['carbon_dating'],
   },
   {
@@ -46,7 +46,7 @@ export const HISTORY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.KNOWLEDGE]: 0.1, [ResourceType.INFO]: 10, [ResourceType.LORE]: 0.2 },
     costMultiplier: 1.2,
     icon: 'Film',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['microfilm_scanning'],
   },
   {
@@ -58,7 +58,7 @@ export const HISTORY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.LORE]: 0.5, [ResourceType.SPAM]: 2.0, [ResourceType.CRED]: -0.1 },
     costMultiplier: 1.2,
     icon: 'Globe',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['conspiracy_101'],
   },
   {
@@ -70,7 +70,7 @@ export const HISTORY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.CULTURE]: 0.5, [ResourceType.LORE]: 0.3, [ResourceType.INFO]: 15 },
     costMultiplier: 1.25,
     icon: 'Archive',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['wiki_wars'],
   },
   {
@@ -82,7 +82,7 @@ export const HISTORY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.ANCIENT_WISDOM]: 0.1, [ResourceType.LORE]: 1.0 },
     costMultiplier: 1.35,
     icon: 'Hammer',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['mud_flood'],
   },
   {
@@ -94,7 +94,7 @@ export const HISTORY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.STORY]: 0.5, [ResourceType.PANIC]: 0.1, [ResourceType.TRUTH]: 0.05, [ResourceType.POWER]: -10.0 },
     costMultiplier: 1.3,
     icon: 'Crosshair',
-    unlockRequirement: 2000,
+    unlockRequirement: 0, // Reset
     requireTech: ['magic_bullet_theory'],
   },
   {
@@ -106,7 +106,7 @@ export const HISTORY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.ANCIENT_WISDOM]: 0.3, [ResourceType.KNOWLEDGE]: 1.0 },
     costMultiplier: 1.3,
     icon: 'Scroll',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['ocr_basics'],
   },
   {
@@ -118,7 +118,7 @@ export const HISTORY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.ANCIENT_WISDOM]: 0.5, [ResourceType.OPS]: -20.0 },
     costMultiplier: 1.4,
     icon: 'Triangle',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['atlantean_knowledge'],
   },
   {
@@ -130,7 +130,7 @@ export const HISTORY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.KNOWLEDGE]: 0.5, [ResourceType.CRED]: 0.5, [ResourceType.ANCIENT_WISDOM]: 0.2 },
     costMultiplier: 1.3,
     icon: 'Box',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['oopart_studies'],
   },
   {
@@ -142,7 +142,7 @@ export const HISTORY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.KNOWLEDGE]: 1.0, [ResourceType.OPS]: 5.0 },
     costMultiplier: 1.35,
     icon: 'Settings',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['oopart_studies'],
   },
   {
@@ -154,7 +154,7 @@ export const HISTORY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.ANCIENT_WISDOM]: 1.0, [ResourceType.CODE]: 2.0, [ResourceType.OPS]: -50.0 },
     costMultiplier: 1.4,
     icon: 'Book',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['aklo_language'],
   },
   {
@@ -166,7 +166,7 @@ export const HISTORY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.ANCIENT_WISDOM]: 2.0, [ResourceType.POWER]: -100.0 },
     costMultiplier: 1.5,
     icon: 'Activity',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['atlantean_knowledge'],
   },
   {
@@ -178,7 +178,7 @@ export const HISTORY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.FUNDS]: 500, [ResourceType.LORE]: 1.0, [ResourceType.CRED]: -5.0 },
     costMultiplier: 1.45,
     icon: 'Bone',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['cryptozoology'],
   },
   {
@@ -190,7 +190,7 @@ export const HISTORY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.ANCIENT_WISDOM]: 0.5, [ResourceType.KNOWLEDGE]: 1.0 },
     costMultiplier: 1.4,
     icon: 'Compass',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['akashic_record_access'],
   },
 ];

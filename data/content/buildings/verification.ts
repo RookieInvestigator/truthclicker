@@ -11,7 +11,7 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.STORY]: 0.5, [ResourceType.PANIC]: -0.1, [ResourceType.SPAM]: -2.0, [ResourceType.INFO]: -50.0 }, 
     costMultiplier: 1.2,
     icon: 'ShieldCheck',
-    unlockRequirement: 500,
+    unlockRequirement: 0, // Reset
     requireTech: ['search_operators'],
   },
   {
@@ -23,7 +23,7 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.TRUTH]: 0.05, [ResourceType.INFO]: -20.0, [ResourceType.SPAM]: -1.0 },
     costMultiplier: 1.2,
     icon: 'Image',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['search_operators'],
   },
   {
@@ -35,7 +35,7 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.CLUE]: 0.2, [ResourceType.CODE]: 0.5, [ResourceType.INFO]: -10.0 },
     costMultiplier: 1.2,
     icon: 'FileText',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['ocr_basics'],
   },
   {
@@ -47,7 +47,7 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.KNOWLEDGE]: 0.2, [ResourceType.CLUE]: 0.3 },
     costMultiplier: 1.2,
     icon: 'Network',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['search_operators'],
   },
   {
@@ -59,7 +59,7 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.RUMORS]: 1.0, [ResourceType.PANIC]: 0.2, [ResourceType.INFO]: -150.0, [ResourceType.FUNDS]: -5.0 }, 
     costMultiplier: 1.25,
     icon: 'Megaphone',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['social_engineering'],
   },
   {
@@ -71,7 +71,7 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.INFO]: 10, [ResourceType.CLUE]: 0.1 },
     costMultiplier: 1.15,
     icon: 'Search',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['search_operators'],
   },
   {
@@ -83,7 +83,7 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.INFO]: 500.0, [ResourceType.TRUTH]: 0.05, [ResourceType.SPAM]: -1000.0, [ResourceType.POWER]: -100.0 }, // Massive Cleaner
     costMultiplier: 1.35,
     icon: 'Activity',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['deduplication'],
   },
   {
@@ -95,7 +95,7 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.STORY]: 1.0, [ResourceType.CLUE]: -0.1, [ResourceType.INFO]: -500.0 }, 
     costMultiplier: 1.25,
     icon: 'BookOpen',
-    unlockRequirement: 1000,
+    unlockRequirement: 0, // Reset
     requireTech: ['memetics'],
   },
   {
@@ -107,7 +107,7 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.CODE]: 1.0, [ResourceType.SPAM]: -50.0, [ResourceType.OPS]: -10.0 }, 
     costMultiplier: 1.3,
     icon: 'Filter',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['spam_algorithms'],
   },
   {
@@ -119,7 +119,7 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.TRUTH]: 0.05, [ResourceType.CLUE]: 0.5, [ResourceType.OPS]: -5.0 },
     costMultiplier: 1.25,
     icon: 'Fingerprint',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['linguistic_fingerprinting'],
   },
   {
@@ -131,7 +131,7 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.INFO]: 50, [ResourceType.LORE]: 0.2, [ResourceType.OPS]: -20.0 },
     costMultiplier: 1.25,
     icon: 'History',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['gopher_protocol'],
   },
   {
@@ -143,7 +143,7 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.FUNDS]: 20, [ResourceType.CRED]: 0.5, [ResourceType.PANIC]: -0.5, [ResourceType.INFO]: -200.0 }, 
     costMultiplier: 1.25,
     icon: 'Video',
-    unlockRequirement: 2000,
+    unlockRequirement: 0, // Reset
     requireTech: ['content_farm'], 
   },
   {
@@ -155,7 +155,7 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.CLUE]: 0.5, [ResourceType.TRUTH]: 0.05 },
     costMultiplier: 1.2,
     icon: 'MapPin',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['social_engineering'],
   },
   {
@@ -167,7 +167,7 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.CRED]: 1.0, [ResourceType.TRUTH]: 0.1, [ResourceType.OPS]: -15.0 },
     costMultiplier: 1.35,
     icon: 'Key',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['zero_knowledge_proofs'],
   },
   {
@@ -179,7 +179,7 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.TRUTH]: 0.1, [ResourceType.RUMORS]: -1.0, [ResourceType.OPS]: -50.0 },
     costMultiplier: 1.3,
     icon: 'Eye',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['generative_adversarial_networks'],
   },
   {
@@ -191,7 +191,7 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.CODE]: 2.0, [ResourceType.PANIC]: -0.5, [ResourceType.OPS]: -100.0 },
     costMultiplier: 1.35,
     icon: 'BarChart',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['ai_alignment'],
   },
   {
@@ -203,7 +203,7 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.FUNDS]: 50, [ResourceType.TRUTH]: 0.1, [ResourceType.CRED]: -1.0 },
     costMultiplier: 1.3,
     icon: 'Link',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['blockchain_basics'],
   },
   {
@@ -215,7 +215,7 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.CODE]: 5.0, [ResourceType.PANIC]: -1.0, [ResourceType.POWER]: -50.0, [ResourceType.INFO]: -2000.0 }, 
     costMultiplier: 1.4,
     icon: 'BarChart2',
-    unlockRequirement: 5000,
+    unlockRequirement: 0, // Reset
     requireTech: ['social_engineering'],
   },
   {
@@ -227,7 +227,7 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.CLUE]: 1.0, [ResourceType.TRUTH]: 0.2, [ResourceType.INFO]: -1000.0 },
     costMultiplier: 1.4,
     icon: 'Layout',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['search_operators'],
   },
 ];

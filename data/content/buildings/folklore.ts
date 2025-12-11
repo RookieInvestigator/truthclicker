@@ -11,7 +11,7 @@ export const FOLKLORE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.LORE]: 0.8, [ResourceType.INFO]: 10 },
     costMultiplier: 1.2,
     icon: 'MessageCircle',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['forum_culture'],
   },
   {
@@ -23,7 +23,7 @@ export const FOLKLORE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.LORE]: 1.0, [ResourceType.SPAM]: 5.0 },
     costMultiplier: 1.2,
     icon: 'FileText',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['creepypasta_analysis'],
   },
   {
@@ -35,7 +35,7 @@ export const FOLKLORE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.CLUE]: 0.4, [ResourceType.FOLLOWERS]: 0.1, [ResourceType.LORE]: 0.3, [ResourceType.POWER]: -5.0 },
     costMultiplier: 1.2,
     icon: 'Eye',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['cryptozoology'],
   },
   {
@@ -47,7 +47,7 @@ export const FOLKLORE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.LORE]: 0.5, [ResourceType.BIOMASS]: 0.5 },
     costMultiplier: 1.25,
     icon: 'Footprints',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['cryptozoology'],
   },
   {
@@ -59,7 +59,7 @@ export const FOLKLORE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.CLUE]: 0.8, [ResourceType.INFO]: 30, [ResourceType.LORE]: 0.5, [ResourceType.POWER]: -2.0 },
     costMultiplier: 1.25,
     icon: 'Radio',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['evp_recording'],
   },
   {
@@ -71,7 +71,7 @@ export const FOLKLORE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.LORE]: 2.0, [ResourceType.PANIC]: 0.5, [ResourceType.POWER]: -10.0 },
     costMultiplier: 1.3,
     icon: 'Video',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['cryptozoology'],
   },
   {
@@ -83,7 +83,7 @@ export const FOLKLORE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.LORE]: 2.5, [ResourceType.CLUE]: 1.0, [ResourceType.PANIC]: 0.2 },
     costMultiplier: 1.3,
     icon: 'MapPin',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['quantum_randonauting'],
   },
   {
@@ -95,7 +95,7 @@ export const FOLKLORE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.FUNDS]: 200, [ResourceType.PANIC]: 0.2, [ResourceType.LORE]: -1.0 },
     costMultiplier: 1.3,
     icon: 'Ghost',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['e_commerce_logic'],
   },
   {
@@ -107,7 +107,7 @@ export const FOLKLORE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.LORE]: 3.0, [ResourceType.PANIC]: 1.0, [ResourceType.CULTURE]: 0.5 },
     costMultiplier: 1.35,
     icon: 'Maximize',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['liminal_space_theory'],
   },
   {
@@ -119,7 +119,7 @@ export const FOLKLORE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.PANIC]: 5.0, [ResourceType.RUMORS]: 2.0, [ResourceType.LORE]: 1.0 },
     costMultiplier: 1.4,
     icon: 'CassetteTape',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['infohazard_containment'],
   },
   {
@@ -131,7 +131,7 @@ export const FOLKLORE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.ANCIENT_WISDOM]: 0.5, [ResourceType.LORE]: 2.0, [ResourceType.BIOMASS]: -2.0 }, 
     costMultiplier: 1.45,
     icon: 'ArrowUpCircle',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['ritual_protocols'],
   },
   {
@@ -143,7 +143,7 @@ export const FOLKLORE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.LORE]: 3.0, [ResourceType.CULTURE]: 1.0, [ResourceType.INFO]: 50 },
     costMultiplier: 1.35,
     icon: 'Database',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['creepypasta_analysis'],
   },
   {
@@ -155,7 +155,7 @@ export const FOLKLORE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.LORE]: 5.0, [ResourceType.CULTURE]: 2.0, [ResourceType.MIND_CONTROL]: 1.0 },
     costMultiplier: 1.4,
     icon: 'Cloud',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['dream_cartography'],
   },
   {
@@ -167,7 +167,7 @@ export const FOLKLORE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.TRUTH]: 0.2, [ResourceType.LORE]: 4.0, [ResourceType.PANIC]: 2.0 },
     costMultiplier: 1.5,
     icon: 'AlertTriangle',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['noclipping_physics'],
   },
   {
@@ -179,7 +179,7 @@ export const FOLKLORE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.LORE]: 10.0, [ResourceType.ANCIENT_WISDOM]: 1.0, [ResourceType.POWER]: -200.0 },
     costMultiplier: 1.6,
     icon: 'EyeOff',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['cognitohazard_design'],
   },
 ];

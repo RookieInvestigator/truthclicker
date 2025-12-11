@@ -79,6 +79,7 @@ const ArtifactGrid: React.FC<ArtifactGridProps> = ({ collected, limit, onViewAll
                       artifact.rarity === 'rare' ? 'border-cyber-purple bg-cyber-purple/10 text-cyber-purple' : 
                       'border-term-green bg-term-green/10 text-term-green'}
                     ${artifact.isProcedural ? 'opacity-80' : 'opacity-100 ring-1 ring-white/10'}
+                    ${artifact.hasHint ? 'shadow-[inset_0_0_5px_rgba(255,255,255,0.3)]' : ''}
                   `}>
                     {getArtifactIcon(artifact, 18)}
                   </div>

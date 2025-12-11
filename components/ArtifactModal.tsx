@@ -2,7 +2,7 @@
 import React from 'react';
 import { Artifact, ResourceType } from '../types';
 import { RESOURCE_INFO } from '../constants';
-import { X, File, FileText, FileImage, FileAudio, FileCode, Trash2, Globe, Database, MessageSquare } from 'lucide-react';
+import { X, File, FileText, FileImage, FileAudio, FileCode, Microscope, Globe, Database, MessageSquare } from 'lucide-react';
 
 interface ArtifactModalProps {
   artifact: Artifact;
@@ -45,26 +45,6 @@ const ArtifactModal: React.FC<ArtifactModalProps> = ({ artifact, onClose, onRecy
 
   const colorClass = getRarityColor(artifact.rarity);
 
-  // Recycle Value Calculation
-  const getRecycleValue = () => {
-    let base = 50;
-    if (artifact.rarity === 'rare') base = 250;
-    if (artifact.rarity === 'legendary') base = 1000;
-    if (artifact.rarity === 'mythic') base = 5000;
-    if (artifact.rarity === 'anomaly') base = 1; 
-    
-    // Procedural items give Info/Funds/Tech Capital
-    let type = artifact.isProcedural ? ResourceType.INFO : ResourceType.FUNDS;
-    if (artifact.isProcedural && artifact.rarity === 'anomaly') type = ResourceType.TECH_CAPITAL;
-
-    return {
-        type: type,
-        amount: base
-    }
-  };
-
-  const recycleInfo = getRecycleValue();
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-in fade-in zoom-in duration-200" onClick={onClose}>
       <div className={`bg-term-black border w-full max-w-md shadow-[0_0_50px_rgba(0,0,0,0.8)] relative flex flex-col max-h-[90vh] ${colorClass.split(' ')[1]}`} onClick={e => e.stopPropagation()}>
@@ -85,8 +65,9 @@ const ArtifactModal: React.FC<ArtifactModalProps> = ({ artifact, onClose, onRecy
         <div className="p-6 space-y-6 overflow-y-auto">
           
           <div className="flex items-start gap-4">
-              <div className={`w-20 h-20 flex items-center justify-center border-2 rounded-lg ${colorClass} shrink-0 bg-black`}>
+              <div className={`w-20 h-20 flex items-center justify-center border-2 rounded-lg ${colorClass} shrink-0 bg-black relative`}>
                 {getArtifactIcon(artifact)}
+                {artifact.hasHint && <div className="absolute top-1 right-1 w-2 h-2 bg-white rounded-full shadow-[0_0_5px_white] animate-pulse" />}
               </div>
               <div className="flex-1 min-w-0">
                  <h2 className={`font-bold font-mono text-xl break-all ${colorClass.split(' ')[0]}`}>{artifact.name}</h2>
@@ -159,10 +140,10 @@ const ArtifactModal: React.FC<ArtifactModalProps> = ({ artifact, onClose, onRecy
            {onRecycle && (
              <button 
                 onClick={onRecycle}
-                className="flex items-center gap-2 px-4 py-2 bg-red-900/20 border border-red-900/50 text-red-400 text-xs font-bold uppercase rounded hover:bg-red-900/40 hover:text-red-300 transition-all"
+                className="flex items-center gap-2 px-4 py-2 bg-term-green/10 border border-term-green/50 text-term-green text-xs font-bold uppercase rounded hover:bg-term-green/20 transition-all"
              >
-                <Trash2 size={14} />
-                <span>DELETE (+{recycleInfo.amount} {RESOURCE_INFO[recycleInfo.type].name})</span>
+                <Microscope size={14} />
+                <span>INVESTIGATE</span>
              </button>
            )}
         </div>

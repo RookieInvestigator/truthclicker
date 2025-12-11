@@ -81,7 +81,7 @@ export const UNIQUE_ARTIFACTS: Artifact[] = [
 
 export const PROCEDURAL_DATA = {
   common: {
-    // 基础话题池（平凡）
+    // 基础话题池（平凡 -> 离奇）
     topics: [
       '猫咪护理', 'Linux发行版', 'N级火车模型', '多肉植物', 'UFO目击', '星球大战', 
       'Flash游戏', 'Winamp皮肤', '酸种面包', '飞蝇钓', '无线电', '稀有邮票',
@@ -90,7 +90,9 @@ export const PROCEDURAL_DATA = {
       '人体工学', '打印机卡纸', '低钠盐', '假发保养', '混凝土',
       '下水道疏通', '公车时刻表', '超市传单', '税务审计', '指甲刀',
       '空调遥控器', '霉菌', '旧电池', '水印去除', '防脱发', '彩票走势',
-      '二手车估价', '通马桶技巧', 'Excel快捷键', '办公室瑜伽'
+      '二手车估价', '通马桶技巧', 'Excel快捷键', '办公室瑜伽',
+      '量子波动', '水下焊接', '工业事故', '被遗忘的神', '真菌网络', 
+      '地下室的门', '夜间广播', '失踪人口', '奇怪的梦', '重复的数字'
     ],
     // 基础用户池
     users: [
@@ -98,15 +100,16 @@ export const PROCEDURAL_DATA = {
       'anime_fan_2000', 'sysadmin', 'root', 'user1234', 'xX_Shadow_Xx', 'Neo',
       'hackerman', 'l33t_hax0r', 'cat_lover', 'doge', 'john_doe', 'jane_doe', 
       'pizza_lover', 'noob_master', 'blue_screen', '404_brain', 'null_ptr',
-      'Karen_from_HR', 'anon', 'throwaway_123', 'deleted_user', 'bot_01'
+      'Karen_from_HR', 'anon', 'throwaway_123', 'deleted_user', 'bot_01',
+      'Watcher', 'Nobody', 'System', 'Ghost', 'Echo', 'Oracle'
     ]
   },
 
   // --- FILE TEMPLATES (Generic) ---
   files: {
     document: {
-      exts: ['.txt', '.doc', '.pdf', '.rtf', '.wps', '.md'],
-      prefixes: ['未命名_', '简历_', '草稿_', '说明书_', '合同_', '笔记_', '作业_', '计划_', 'README_', 'TODO_'],
+      exts: ['.txt', '.doc', '.pdf', '.rtf', '.wps', '.md', '.nfo'],
+      prefixes: ['未命名_', '简历_', '草稿_', '说明书_', '合同_', '笔记_', '作业_', '计划_', 'README_', 'TODO_', 'CONFIDENTIAL_', 'MANIFESTO_'],
       templates: [
         "一份关于 {topic} 的文档，只有标题，正文是空的。",
         "文件头部损坏，无法预览。最后修改于 {year} 年。",
@@ -116,12 +119,19 @@ export const PROCEDURAL_DATA = {
         "被 {user} 重命名了 {number} 次的文件，内容依然不明。",
         "一份未完成的 {topic} 教程，只写了第一章。",
         "看起来像是 {user} 的购物清单，里面混入了 {topic}。",
-        "全是乱码，只有 '{topic}' 这个词清晰可见。"
+        "全是乱码，只有 '{topic}' 这个词清晰可见。",
+        "一份 {year} 年的 {topic} 研讨会会议纪要。",
+        "针对 {topic} 的投诉信草稿，措辞非常激烈。",
+        "列出了 {number} 个痛恨 {topic} 的理由。",
+        "一篇关于 {topic} 的同人文，主角是 {user}。",
+        "详细记录了 {topic} 的历史价格波动。",
+        "警告：{topic} 可能会导致严重的副作用。",
+        "这是给未来的 {user} 的一封信，关于 {topic}。"
       ]
     },
     image: {
-      exts: ['.jpg', '.png', '.gif', '.bmp', '.tiff', '.webp'],
-      prefixes: ['IMG_', 'DSC_', 'Scan_', 'Screenshot_', '未标题_', '头像_', '证据_', 'thumb_'],
+      exts: ['.jpg', '.png', '.gif', '.bmp', '.tiff', '.webp', '.svg'],
+      prefixes: ['IMG_', 'DSC_', 'Scan_', 'Screenshot_', '未标题_', '头像_', '证据_', 'thumb_', 'render_', 'CAM_'],
       templates: [
         "分辨率极低的 {topic} 图片，甚至看不清轮廓 (320x240)。",
         "扫描件显示这是一张 {year} 年的披萨外卖传单。",
@@ -130,12 +140,18 @@ export const PROCEDURAL_DATA = {
         "截图显示 {year} 年的桌面，壁纸是 {topic}。",
         "一个闪烁的 GIF，内容是旋转的 {topic}。",
         "图片元数据显示拍摄地点在南极洲，但内容是 {topic}。",
-        "{user} 的自拍，背景里有一个模糊的 {topic}。"
+        "{user} 的自拍，背景里有一个模糊的 {topic}。",
+        "一张 {topic} 的高清渲染图，但光影效果很假。",
+        "被裁剪过的图片，缺失了 {topic} 的关键部分。",
+        "夜视摄像头拍摄到的 {topic}，只有两只发光的眼睛。",
+        "一张 {year} 年的家庭合影，所有人的脸都被 {topic} 遮住了。",
+        "显微镜下的 {topic} 切片，看起来像外星地貌。",
+        "一张 {topic} 的设计草图，旁边有咖啡渍。"
       ]
     },
     data: {
-      exts: ['.sql', '.csv', '.xls', '.json', '.xml', '.dat', '.mdb'],
-      prefixes: ['db_backup_', 'users_', 'export_', 'log_', 'data_', 'finance_', 'list_', 'dump_'],
+      exts: ['.sql', '.csv', '.xls', '.json', '.xml', '.dat', '.mdb', '.yaml'],
+      prefixes: ['db_backup_', 'users_', 'export_', 'log_', 'data_', 'finance_', 'list_', 'dump_', 'config_', 'save_'],
       templates: [
         "包含 {number} 条用户记录，但密码都是明文的 '123456'。",
         "一张关于 {topic} 的库存表，大部分物品数量为 0。",
@@ -145,12 +161,17 @@ export const PROCEDURAL_DATA = {
         "包含大量 {user} 的登录尝试记录，全部失败。",
         "这是一个被 SQL 注入攻击后的残留数据片段。",
         "记录了 {number} 个被封禁的 IP 地址。",
-        "关于 {topic} 的 JSON 数据，但是括号不匹配。"
+        "关于 {topic} 的 JSON 数据，但是括号不匹配。",
+        "看起来是 {topic} 的哈希表，无法逆向。",
+        "一组 {year} 年的气象数据，专注于 {topic}。",
+        "配置文件，将 {topic} 设置为 'DISABLED'。",
+        "游戏存档，{user} 已经在 {topic} 上花费了 {number} 小时。",
+        "一份加密的联系人列表，备注里提到了 {topic}。"
       ]
     },
     log: {
-      exts: ['.log', '.txt', '.history', '.err'],
-      prefixes: ['chat_', 'irc_', 'syslog_', 'error_', 'debug_', 'msn_', 'access_'],
+      exts: ['.log', '.txt', '.history', '.err', '.out'],
+      prefixes: ['chat_', 'irc_', 'syslog_', 'error_', 'debug_', 'msn_', 'access_', 'console_'],
       templates: [
         "[{year}] <{user}>: 任何人？有人在吗？... (无人回应)",
         "系统日志显示 {year} 年发生了严重错误：{topic} not found。",
@@ -160,19 +181,28 @@ export const PROCEDURAL_DATA = {
         "[{year}] <{user}>: 为什么我的屏幕变成蓝色的了？",
         "服务器启动日志，但在加载 {topic} 模块时卡住了。",
         "一段无法解析的加密聊天记录。",
-        "[{year}] Kernel panic: syncronizing {topic}..."
+        "[{year}] Kernel panic: syncronizing {topic}...",
+        "自动化脚本每隔 5 秒尝试连接 {topic}，全部超时。",
+        "<{user}>: 我发誓我昨晚看到了 {topic}。",
+        "[{year}] Warning: {topic} temperature critical.",
+        "聊天记录中断，最后一条消息是 '它来了'。",
+        "调试信息显示 {topic} 的内存泄漏导致了崩溃。"
       ]
     },
     archive: {
-      exts: ['.zip', '.rar', '.7z', '.tar.gz', '.exe', '.iso'],
-      prefixes: ['setup_', 'crack_', 'backup_', 'game_', 'driver_', 'tool_', 'Full_'],
+      exts: ['.zip', '.rar', '.7z', '.tar.gz', '.exe', '.iso', '.dmg'],
+      prefixes: ['setup_', 'crack_', 'backup_', 'game_', 'driver_', 'tool_', 'Full_', 'Project_'],
       templates: [
         "一个包含 {number} 个同名文件的压缩包，解压需要密码。",
         "文件名声称是游戏作弊器，但实际只是一个弹窗脚本。",
         "这可能是一个误报的病毒，或者只是一个损坏的屏保程序。",
         "安装程序在 {number}% 处报错并退出。",
         "光盘镜像文件，标签写着 '{topic} 2000'。",
-        "压缩包内只有一个名为 'READ ME' 的文本文件，写着“不要打开”。"
+        "压缩包内只有一个名为 'READ ME' 的文本文件，写着“不要打开”。",
+        "似乎是 {user} 的整个 'My Documents' 文件夹备份。",
+        "包含 {number} 个版本的 {topic} 驱动程序。",
+        "一个自解压文件，运行后会播放 {topic} 的音效。",
+        "名为 '{topic}_final_v2_real_final.zip' 的项目文件。"
       ]
     }
   },
@@ -181,12 +211,12 @@ export const PROCEDURAL_DATA = {
   bookmarks: {
     prefixes: [
       '索引:', '目录:', '缓存:', '快照:', 'FTP:', 
-      '[403]', '[500]', '镜像:', '备份:', '旧版:', '洋葱:', 'I2P:'
+      '[403]', '[500]', '镜像:', '备份:', '旧版:', '洋葱:', 'I2P:', 'Intranet:'
     ],
     titles: [
       'Public_HTML', 'Member_Area', 'Uploads', 'Cgi-bin', 'Images', 'Backup_2001',
       'Forum_Root', 'Wiki_Main', 'Guestbook_DB', 'Admin_Panel', 'Logs', 'Temp',
-      'Hidden_Service', 'Private_Tracker', 'Mail_Spool'
+      'Hidden_Service', 'Private_Tracker', 'Mail_Spool', 'Confidential', 'Do_Not_Delete'
     ],
     description_templates: [
       "服务器返回了 404 错误，但缓存中保留了标题。",
@@ -200,7 +230,11 @@ export const PROCEDURAL_DATA = {
       "一个纯文本的目录列表，最后修改于 {year} 年。",
       "只有管理员权限才能查看此目录的完整内容。",
       "页面上唯一的元素是一个旋转的骷髅头 GIF。",
-      "这是一个 {topic} 论坛的归档镜像，无法发帖。"
+      "这是一个 {topic} 论坛的归档镜像，无法发帖。",
+      "网站已被 FBI 查封的通知页面。",
+      "一个正在建设中的页面，有一个挖掘工人的动图。",
+      "重定向循环，最终指向了 {topic}。",
+      "页面的源代码里藏着一段关于 {user} 的注释。"
     ]
   }
 };

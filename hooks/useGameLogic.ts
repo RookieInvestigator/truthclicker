@@ -256,7 +256,7 @@ export const useGameLogic = () => {
       }));
   }, []);
 
-  // NEW: Handle Choice Made
+  // Handle Choice Made
   const handleMakeChoice = useCallback((option: ChoiceOption) => {
       setGameState(prev => {
           const nextRes = { ...prev.resources };
@@ -311,7 +311,7 @@ export const useGameLogic = () => {
       });
   }, [addLog]);
 
-  // NEW: Manual Reality Flush
+  // Manual Reality Flush
   const triggerRealityFlush = useCallback(() => {
       const COST = 20;
       if (stateRef.current.resources[ResourceType.REALITY] < COST) {
@@ -320,7 +320,6 @@ export const useGameLogic = () => {
       }
 
       setGameState(prev => {
-          // Remove ALL events (Clean slate)
           const removedCount = prev.activeEvents.length;
           
           if (removedCount === 0) {
@@ -341,7 +340,7 @@ export const useGameLogic = () => {
       });
   }, [addLog]);
 
-  // NEW: Manual Probability Drive
+  // Manual Probability Drive
   const triggerProbabilityDrive = useCallback(() => {
       const COST = 5;
       const DURATION = 60000; // 60s
@@ -513,54 +512,123 @@ export const useGameLogic = () => {
       }
   }, [addLog, calculateGlobalCostReduction]);
 
-  const recycleArtifact = useCallback((target: Artifact) => {
-     let rewardAmount = 50;
-     let rewardType = ResourceType.INFO;
-     
-     if (!target.isProcedural) {
-         rewardType = ResourceType.FUNDS;
-         if (target.rarity === 'rare') rewardAmount = 250;
-         if (target.rarity === 'legendary') rewardAmount = 1000;
-         if (target.rarity === 'mythic') rewardAmount = 5000;
-     } else {
-          if (target.rarity === 'rare') { rewardAmount = 100; rewardType = ResourceType.FUNDS; }
-          if (target.rarity === 'legendary') { rewardAmount = 50; rewardType = ResourceType.CULTURE; }
-          if (target.rarity === 'mythic') { rewardAmount = 5; rewardType = ResourceType.KNOWLEDGE; }
-          if (target.rarity === 'anomaly') { rewardAmount = 1; rewardType = ResourceType.TECH_CAPITAL; }
-     }
-
-     // Apply Tech Efficiency Multiplier
-     const efficiency = calculateRecycleEfficiency();
-     rewardAmount = Math.max(1, Math.floor(rewardAmount * efficiency));
-
+  // NEW: Investigate Artifact (replaces recycle)
+  const investigateArtifact = useCallback((target: Artifact) => {
      setGameState(prev => {
         const remaining = prev.artifacts.filter(a => a.id !== target.id);
         const res = { ...prev.resources };
-        res[rewardType] += rewardAmount;
-        res[ResourceType.CARDBOARD] += 1;
+        const newArtifacts = [...remaining];
+        let logMsg = '';
+        let logType: LogEntry['type'] = 'info';
+
+        // 1. Check for Hidden Loot
+        if (target.hiddenLootId) {
+            if (target.hiddenLootId === 'resource_bundle') {
+                // High Value Resource Bundle
+                res[ResourceType.FUNDS] += 500;
+                res[ResourceType.CLUE] += 5;
+                logMsg = `调查发现: ${target.name} 包含加密账户数据 (+500 Funds, +5 Clue)`;
+                logType = 'success';
+            } else {
+                // Unique Artifact Discovery
+                const lootItem = UNIQUE_ARTIFACTS.find(u => u.id === target.hiddenLootId);
+                // Check if player already has this unique
+                const alreadyHas = prev.artifacts.some(a => a.id === lootItem?.id);
+                
+                if (lootItem && !alreadyHas) {
+                    newArtifacts.push(lootItem);
+                    logMsg = `重大发现: 从 ${target.name} 中提取出唯一物品 [${lootItem.name}]!`;
+                    logType = 'rare';
+                } else {
+                    // Fallback if duplicate
+                    res[ResourceType.KNOWLEDGE] += 10;
+                    logMsg = `调查发现: ${target.name} 包含重复的高价值数据 (+10 Knowledge)`;
+                    logType = 'success';
+                }
+            }
+        } else {
+            // 2. Standard "Recycle" Reward if nothing found
+            let rewardAmount = 50;
+            let rewardType = ResourceType.INFO;
+            
+            // Unique items give better scrap rewards
+            if (!target.isProcedural) {
+                rewardType = ResourceType.FUNDS;
+                if (target.rarity === 'rare') rewardAmount = 250;
+                if (target.rarity === 'legendary') rewardAmount = 1000;
+            } else {
+                if (target.rarity === 'rare') { rewardAmount = 100; rewardType = ResourceType.FUNDS; }
+                if (target.rarity === 'legendary') { rewardAmount = 50; rewardType = ResourceType.CULTURE; }
+                if (target.rarity === 'anomaly') { rewardAmount = 1; rewardType = ResourceType.TECH_CAPITAL; }
+            }
+
+            const efficiency = calculateRecycleEfficiency();
+            rewardAmount = Math.max(1, Math.floor(rewardAmount * efficiency));
+            
+            res[rewardType] += rewardAmount;
+            res[ResourceType.CARDBOARD] += 1;
+            logMsg = `分析完成: ${target.name} 无特殊价值 (+${rewardAmount} ${rewardType})`;
+        }
         
-        return { ...prev, artifacts: remaining, resources: res };
+        addLog(logMsg, logType);
+        return { ...prev, artifacts: newArtifacts, resources: res };
      });
-     addLog(`已移除: ${target.name} (+${rewardAmount} ${rewardType})`, 'info');
   }, [addLog, calculateRecycleEfficiency]);
 
-  const recycleAllCommons = useCallback(() => {
+  // NEW: Batch Investigate
+  const batchInvestigate = useCallback((targetRarity: string) => {
      const efficiency = calculateRecycleEfficiency();
      setGameState(prev => {
-         const toKeep = prev.artifacts.filter(a => !(a.isProcedural && a.rarity === 'common'));
-         const removedCount = prev.artifacts.length - toKeep.length;
-         if (removedCount === 0) return prev;
+         const toProcess = prev.artifacts.filter(a => a.isProcedural && a.rarity === targetRarity);
+         const toKeep = prev.artifacts.filter(a => !(a.isProcedural && a.rarity === targetRarity));
          
-         const baseReward = removedCount * 50;
-         const finalReward = Math.floor(baseReward * efficiency);
+         if (toProcess.length === 0) return prev;
+         
+         const newArtifacts = [...toKeep];
+         const rewards: Partial<Record<ResourceType, number>> = { [ResourceType.CARDBOARD]: toProcess.length };
+         let lootFoundCount = 0;
+
+         toProcess.forEach(item => {
+             // Logic mirrors single investigate but aggregated
+             if (item.hiddenLootId) {
+                 if (item.hiddenLootId === 'resource_bundle') {
+                     rewards[ResourceType.FUNDS] = (rewards[ResourceType.FUNDS] || 0) + 500;
+                     rewards[ResourceType.CLUE] = (rewards[ResourceType.CLUE] || 0) + 5;
+                     lootFoundCount++;
+                 } else {
+                     const lootItem = UNIQUE_ARTIFACTS.find(u => u.id === item.hiddenLootId);
+                     // Check current state AND newArtifacts buffer for dupes
+                     const alreadyHas = prev.artifacts.some(a => a.id === lootItem?.id) || newArtifacts.some(a => a.id === lootItem?.id);
+                     
+                     if (lootItem && !alreadyHas) {
+                         newArtifacts.push(lootItem);
+                         lootFoundCount++;
+                         addLog(`批量分析中发现: [${lootItem.name}]!`, 'rare');
+                     } else {
+                         rewards[ResourceType.KNOWLEDGE] = (rewards[ResourceType.KNOWLEDGE] || 0) + 10;
+                     }
+                 }
+             } else {
+                 let amount = 50; 
+                 let type = ResourceType.INFO;
+                 
+                 if (item.rarity === 'rare') { amount = 100; type = ResourceType.FUNDS; }
+                 if (item.rarity === 'legendary') { amount = 50; type = ResourceType.CULTURE; }
+                 if (item.rarity === 'anomaly') { amount = 1; type = ResourceType.TECH_CAPITAL; }
+                 
+                 amount = Math.max(1, Math.floor(amount * efficiency));
+                 rewards[type] = (rewards[type] || 0) + amount;
+             }
+         });
 
          const res = { ...prev.resources };
-         res[ResourceType.INFO] += finalReward;
-         res[ResourceType.CARDBOARD] += removedCount; 
+         (Object.entries(rewards) as [ResourceType, number][]).forEach(([key, val]) => {
+             res[key] += val;
+         });
          
-         return { ...prev, artifacts: toKeep, resources: res };
+         addLog(`批量调查结束: 处理了 ${toProcess.length} 个项目，发现了 ${lootFoundCount} 个异常点。`, 'success');
+         return { ...prev, artifacts: newArtifacts, resources: res };
      });
-     addLog(`批量清理完成`, 'success');
   }, [addLog, calculateRecycleEfficiency]);
 
   // --- Save/Load ---
@@ -695,25 +763,12 @@ export const useGameLogic = () => {
         // --- Artifact Generation ---
         let newArtifact: Artifact | null = null;
         if (Math.random() < chance) {
-            const uniqueRoll = Math.random();
-            const collectedIds = stateRef.current.artifacts.filter(a => !a.isProcedural).map(a => a.id);
-            const availableUniques = UNIQUE_ARTIFACTS.filter(a => !collectedIds.includes(a.id));
-            const uniqueChance = 0.05 * luck; // Boosted luck increases Unique chance
-
-            if (uniqueRoll < uniqueChance && availableUniques.length > 0) {
-                 const totalWeight = availableUniques.reduce((sum, a) => sum + a.dropChanceWeight, 0);
-                 let randomWeight = Math.random() * totalWeight;
-                 for (const art of availableUniques) {
-                     randomWeight -= art.dropChanceWeight;
-                     if (randomWeight <= 0) { newArtifact = art; break; }
-                 }
-            } else {
-                newArtifact = generateArtifact(stateRef.current.depth, stateRef.current.researchedTechs);
-                
-                // Boosted Rarity Check if active
-                if (isBoosted && newArtifact.rarity === 'common' && Math.random() < 0.5) {
-                    newArtifact.rarity = 'rare'; // Upgrade common to rare 50% of time during boost
-                }
+            // Modified: Logic now handled in generator.ts to hide loot
+            newArtifact = generateArtifact(stateRef.current.depth, stateRef.current.researchedTechs);
+            
+            // Boosted Rarity Check if active (Upgrade common to rare)
+            if (isBoosted && newArtifact.rarity === 'common' && Math.random() < 0.5) {
+                newArtifact.rarity = 'rare'; 
             }
         }
 
@@ -763,13 +818,14 @@ export const useGameLogic = () => {
     buyBuilding,
     sellBuilding,
     researchTech,
-    recycleArtifact,
-    recycleAllCommons,
+    recycleArtifact: investigateArtifact, // Alias for component compatibility if needed, but renamed
+    investigateArtifact,
+    batchInvestigate,
     saveGame,
     resetGame,
     toggleSetting,
     triggerRealityFlush, 
     triggerProbabilityDrive,
-    handleMakeChoice // Exported
+    handleMakeChoice 
   };
 };

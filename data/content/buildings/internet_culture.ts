@@ -11,7 +11,7 @@ export const INTERNET_CULTURE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.CULTURE]: 0.2, [ResourceType.INFO]: 5 },
     costMultiplier: 1.15,
     icon: 'Smile',
-    unlockRequirement: 100,
+    unlockRequirement: 0, // Reset
     requireTech: ['forum_culture'],
   },
   {
@@ -23,7 +23,7 @@ export const INTERNET_CULTURE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.CULTURE]: 0.3, [ResourceType.FOLLOWERS]: 0.1 },
     costMultiplier: 1.2,
     icon: 'BookHeart',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['forum_culture'],
   },
   {
@@ -32,10 +32,10 @@ export const INTERNET_CULTURE_BUILDINGS: Building[] = [
     description: '一只弹钢琴的猫。这是互联网存在的唯一理由。',
     category: BuildingCategory.INTERNET_CULTURE,
     baseCosts: { [ResourceType.FUNDS]: 1000, [ResourceType.INFO]: 1500 },
-    baseProduction: { [ResourceType.FOLLOWERS]: 5.0, [ResourceType.SPAM]: 150.0, [ResourceType.FUNDS]: 2.0 }, // SPAM 2 -> 150
+    baseProduction: { [ResourceType.FOLLOWERS]: 5.0, [ResourceType.SPAM]: 150.0, [ResourceType.FUNDS]: 2.0 }, 
     costMultiplier: 1.25,
     icon: 'Video',
-    unlockRequirement: 500,
+    unlockRequirement: 0, // Reset
     requireTech: ['html_1_0'],
   },
   {
@@ -47,7 +47,7 @@ export const INTERNET_CULTURE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.CULTURE]: 0.5, [ResourceType.INFO]: 5 },
     costMultiplier: 1.2,
     icon: 'Music',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['html_1_0'],
   },
   {
@@ -59,7 +59,7 @@ export const INTERNET_CULTURE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.CULTURE]: 0.5, [ResourceType.SPAM]: 50.0, [ResourceType.CRED]: -0.1 },
     costMultiplier: 1.2,
     icon: 'Link',
-    unlockRequirement: 1000,
+    unlockRequirement: 0, // Reset
     requireTech: ['clickbait_tactics'],
   },
   {
@@ -68,10 +68,10 @@ export const INTERNET_CULTURE_BUILDINGS: Building[] = [
     description: '全是通知红点。没人睡觉。信息过载。',
     category: BuildingCategory.INTERNET_CULTURE,
     baseCosts: { [ResourceType.INFO]: 2000, [ResourceType.FOLLOWERS]: 100 },
-    baseProduction: { [ResourceType.FOLLOWERS]: 3.0, [ResourceType.SPAM]: 400.0, [ResourceType.CULTURE]: 0.2 }, // SPAM 10 -> 400
+    baseProduction: { [ResourceType.FOLLOWERS]: 3.0, [ResourceType.SPAM]: 400.0, [ResourceType.CULTURE]: 0.2 }, 
     costMultiplier: 1.25,
     icon: 'MessageCircle',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['usenet_access'],
   },
   {
@@ -80,10 +80,10 @@ export const INTERNET_CULTURE_BUILDINGS: Building[] = [
     description: '从海量垃圾贴文中提炼出纯粹的文化基因。',
     category: BuildingCategory.INTERNET_CULTURE,
     baseCosts: { [ResourceType.FUNDS]: 4000, [ResourceType.CULTURE]: 500 },
-    baseProduction: { [ResourceType.CULTURE]: 2.0, [ResourceType.INFO]: 100.0, [ResourceType.SPAM]: -500.0 }, // Converter
+    baseProduction: { [ResourceType.CULTURE]: 2.0, [ResourceType.INFO]: 100.0, [ResourceType.SPAM]: -500.0 }, 
     costMultiplier: 1.25,
     icon: 'Filter',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['memetics'],
   },
   {
@@ -95,67 +95,43 @@ export const INTERNET_CULTURE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.CRED]: -1.0, [ResourceType.CULTURE]: 1.0, [ResourceType.POWER]: -5.0 },
     costMultiplier: 1.3,
     icon: 'ShieldAlert',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['forum_culture'],
   },
   {
     id: 'copypasta_printer',
     name: '复读机脚本',
-    description: '自动复制粘贴长篇大论的废话。这到底是他妈的什么？',
+    description: 'Ctrl+C, Ctrl+V。通过重复来创造意义（或者消解意义）。',
     category: BuildingCategory.INTERNET_CULTURE,
-    baseCosts: { [ResourceType.CODE]: 2000, [ResourceType.SPAM]: 500 },
-    baseProduction: { [ResourceType.LORE]: 0.2, [ResourceType.SPAM]: 2000.0, [ResourceType.INFO]: 1.0 }, // SPAM 20 -> 2000
-    costMultiplier: 1.25,
+    baseCosts: { [ResourceType.CODE]: 2000, [ResourceType.INFO]: 8000 },
+    baseProduction: { [ResourceType.SPAM]: 200.0, [ResourceType.CULTURE]: 0.5 },
+    costMultiplier: 1.2,
     icon: 'Copy',
-    unlockRequirement: 2000,
-    requireTech: ['spam_algorithms'],
+    unlockRequirement: 0, // Reset
+    requireTech: ['basic_scripting'],
   },
   {
-    id: 'arg_solving_group',
-    name: 'ARG 解谜组',
-    description: '分析音频频谱图寻找隐藏信息。',
+    id: 'infinite_scroll_engine',
+    name: '无限滚动引擎',
+    description: '没有底部的页面。用户永远无法离开。',
     category: BuildingCategory.INTERNET_CULTURE,
-    baseCosts: { [ResourceType.INFO]: 5000, [ResourceType.CULTURE]: 500 },
-    baseProduction: { [ResourceType.CLUE]: 1.0, [ResourceType.LORE]: 0.5 },
-    costMultiplier: 1.3,
-    icon: 'Puzzle',
-    unlockRequirement: 0,
-    requireTech: ['steganography'],
-  },
-  {
-    id: 'tiktok_content_house',
-    name: '短视频工场',
-    description: '一群青少年住在豪宅里拍跳舞视频。垃圾信息的核爆中心。',
-    category: BuildingCategory.INTERNET_CULTURE,
-    baseCosts: { [ResourceType.FUNDS]: 20000, [ResourceType.CULTURE]: 1000 },
-    baseProduction: { [ResourceType.FOLLOWERS]: 50, [ResourceType.CULTURE]: -2.0, [ResourceType.SPAM]: 3000.0 }, // SPAM 30 -> 3000
-    costMultiplier: 1.4,
-    icon: 'Smartphone',
-    unlockRequirement: 0,
-    requireTech: ['content_farm'],
-  },
-  {
-    id: 'nyan_cat_screen',
-    name: '彩虹猫屏幕',
-    description: 'Nyanyanyanyanyanyanya! 永远循环。',
-    category: BuildingCategory.INTERNET_CULTURE,
-    baseCosts: { [ResourceType.CODE]: 5000, [ResourceType.CULTURE]: 1000 },
-    baseProduction: { [ResourceType.CULTURE]: 2.0, [ResourceType.POWER]: -10.0 },
-    costMultiplier: 1.3,
-    icon: 'Cat',
-    unlockRequirement: 0,
-    requireTech: ['meme_warfare_center'],
-  },
-  {
-    id: 'meme_exchange',
-    name: '模因交易所',
-    description: '买入佩佩蛙，卖出悲伤蛙。稀有数字资产的交易中心。',
-    category: BuildingCategory.INTERNET_CULTURE,
-    baseCosts: { [ResourceType.FUNDS]: 5000, [ResourceType.CULTURE]: 1000 },
-    baseProduction: { [ResourceType.FUNDS]: 50.0, [ResourceType.CULTURE]: 1.0 },
+    baseCosts: { [ResourceType.CODE]: 10000, [ResourceType.MIND_CONTROL]: 20 },
+    baseProduction: { [ResourceType.FOLLOWERS]: 10.0, [ResourceType.MIND_CONTROL]: 0.1, [ResourceType.PLEASURE]: 2.0 },
     costMultiplier: 1.35,
-    icon: 'TrendingUp',
-    unlockRequirement: 5000,
-    requireTech: ['memetics'],
+    icon: 'ArrowDown',
+    unlockRequirement: 0, // Reset
+    requireTech: ['infinite_scroll_trap'],
   },
+  {
+    id: 'meme_singularity_node',
+    name: '模因奇点节点',
+    description: '一个自我进化的笑话，好笑到足以终结文明。',
+    category: BuildingCategory.INTERNET_CULTURE,
+    baseCosts: { [ResourceType.CULTURE]: 100000, [ResourceType.TECH_CAPITAL]: 5000 },
+    baseProduction: { [ResourceType.CULTURE]: 100.0, [ResourceType.MIND_CONTROL]: 5.0, [ResourceType.REALITY]: -2.0 },
+    costMultiplier: 1.5,
+    icon: 'Zap',
+    unlockRequirement: 0, // Reset
+    requireTech: ['meme_singularity'],
+  }
 ];

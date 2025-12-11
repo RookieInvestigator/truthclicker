@@ -11,7 +11,7 @@ export const SUBVERSION_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.SPAM]: 2.0, [ResourceType.FOLLOWERS]: 1.0, [ResourceType.TRUTH]: -0.1 },
     costMultiplier: 1.2,
     icon: 'Disc',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['conspiracy_101'],
   },
   {
@@ -23,7 +23,7 @@ export const SUBVERSION_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.RUMORS]: 2.0, [ResourceType.PANIC]: 0.5, [ResourceType.SPAM]: 500.0, [ResourceType.FUNDS]: -20.0, [ResourceType.INFO]: -100.0 }, // SPAM 5 -> 500
     costMultiplier: 1.3,
     icon: 'Users',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['social_engineering'],
   },
   {
@@ -35,7 +35,7 @@ export const SUBVERSION_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.RUMORS]: 3.0, [ResourceType.FUNDS]: 50.0 },
     costMultiplier: 1.3,
     icon: 'Smile',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['conspiracy_101'],
   },
   {
@@ -47,7 +47,7 @@ export const SUBVERSION_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.PANIC]: 2.0, [ResourceType.RUMORS]: 5.0, [ResourceType.FUNDS]: -50.0 },
     costMultiplier: 1.35,
     icon: 'Drama',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['crisis_acting'],
   },
   {
@@ -59,7 +59,7 @@ export const SUBVERSION_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.STORY]: 2.0, [ResourceType.RUMORS]: 3.0, [ResourceType.POWER]: -50.0, [ResourceType.OPS]: -50.0, [ResourceType.INFO]: -300.0 }, 
     costMultiplier: 1.4,
     icon: 'Video',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['ai_content_farm'],
   },
   {
@@ -71,7 +71,7 @@ export const SUBVERSION_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.FOLLOWERS]: 20, [ResourceType.MIND_CONTROL]: 0.8, [ResourceType.TRUTH]: -0.5, [ResourceType.POWER]: -100.0, [ResourceType.CULTURE]: -2.0 }, 
     costMultiplier: 1.4,
     icon: 'Radio',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['neurolinguistic_programming'],
   },
   {
@@ -83,7 +83,7 @@ export const SUBVERSION_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.MIND_CONTROL]: 1.0, [ResourceType.SPAM]: -10.0, [ResourceType.OPS]: -20.0 },
     costMultiplier: 1.35,
     icon: 'EyeOff',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['spam_algorithms'],
   },
   {
@@ -95,7 +95,7 @@ export const SUBVERSION_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.PANIC]: 5.0, [ResourceType.RUMORS]: 10.0, [ResourceType.TRUTH]: -2.0 },
     costMultiplier: 1.5,
     icon: 'Flag',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['deep_state_mapping'],
   },
   {
@@ -107,7 +107,7 @@ export const SUBVERSION_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.FUNDS]: 200, [ResourceType.MIND_CONTROL]: 1.0 },
     costMultiplier: 1.4,
     icon: 'Monitor',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['neurolinguistic_programming'],
   },
   {
@@ -119,7 +119,7 @@ export const SUBVERSION_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.TRUTH]: 0.1, [ResourceType.FUNDS]: -300, [ResourceType.MIND_CONTROL]: 1.5, [ResourceType.RUMORS]: 3.0 }, 
     costMultiplier: 1.4,
     icon: 'CloudRain',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['atmospheric_geoengineering'],
   },
   {
@@ -131,7 +131,7 @@ export const SUBVERSION_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.TRUTH]: -1.0, [ResourceType.PANIC]: 2.0, [ResourceType.LORE]: 5.0 },
     costMultiplier: 1.5,
     icon: 'Shuffle',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['phantom_time'],
   },
   {
@@ -143,7 +143,7 @@ export const SUBVERSION_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.MIND_CONTROL]: 3.0, [ResourceType.BIOMASS]: -10.0, [ResourceType.FUNDS]: -100.0 }, 
     costMultiplier: 1.45,
     icon: 'Droplets',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['fluoride_calcification'],
   },
 ];

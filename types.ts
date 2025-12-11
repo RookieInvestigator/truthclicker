@@ -100,7 +100,11 @@ export interface Artifact {
   bonusType: 'production_multiplier' | 'click_power' | 'luck' | 'cost_reduction' | 'none';
   targetResource?: ResourceType; 
   bonusValue: number; 
-  dropChanceWeight: number; 
+  dropChanceWeight: number;
+  
+  // NEW: Investigation Mechanics
+  hiddenLootId?: string; // ID of a Unique Artifact or Special Reward hidden inside
+  hasHint?: boolean; // Visual cue if player has high perception
 }
 
 export interface LogEntry {

@@ -11,7 +11,7 @@ export const ESOTERIC_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.BIOMASS]: 1.0, [ResourceType.LORE]: 0.5, [ResourceType.POWER]: 5.0 },
     costMultiplier: 1.25,
     icon: 'Box',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['pseudoscience_marketing'],
   },
   {
@@ -23,7 +23,7 @@ export const ESOTERIC_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.TRUTH]: 0.2, [ResourceType.PANIC]: -2.0, [ResourceType.MIND_CONTROL]: -1.0 },
     costMultiplier: 1.3,
     icon: 'Shield',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['conspiracy_101'],
   },
   {
@@ -35,7 +35,7 @@ export const ESOTERIC_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.PROBABILITY]: 0.05, [ResourceType.POWER]: -20.0 },
     costMultiplier: 1.4,
     icon: 'Dices',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['quantum_luck'],
   },
   {
@@ -47,7 +47,7 @@ export const ESOTERIC_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.REALITY]: 1.0, [ResourceType.POWER]: -50.0 },
     costMultiplier: 1.5,
     icon: 'Anchor',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['quantum_luck'],
   },
   {
@@ -59,7 +59,7 @@ export const ESOTERIC_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.FOLLOWERS]: 15, [ResourceType.CULTURE]: 1.0, [ResourceType.MIND_CONTROL]: 2.0, [ResourceType.POWER]: -200.0, [ResourceType.LORE]: -2.0 }, 
     costMultiplier: 1.4,
     icon: 'Radio',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['bicameralism'],
   },
   {
@@ -71,7 +71,7 @@ export const ESOTERIC_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.KNOWLEDGE]: 0.5, [ResourceType.LORE]: 2.0, [ResourceType.BIOMASS]: -20.0, [ResourceType.PLEASURE]: 2.0 },
     costMultiplier: 1.35,
     icon: 'FlaskConical',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['biohacking_basics'],
   },
   {
@@ -83,7 +83,7 @@ export const ESOTERIC_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.KNOWLEDGE]: 1.0, [ResourceType.CLUE]: 2.0, [ResourceType.POWER]: -50.0 },
     costMultiplier: 1.4,
     icon: 'Eye',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['remote_viewing'],
   },
   {
@@ -95,7 +95,7 @@ export const ESOTERIC_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.TRUTH]: 0.5, [ResourceType.MIND_CONTROL]: 5.0, [ResourceType.POWER]: -500.0, [ResourceType.KNOWLEDGE]: -1.0 }, 
     costMultiplier: 1.5,
     icon: 'Wifi',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['collective_unconscious'],
   },
   {
@@ -107,7 +107,7 @@ export const ESOTERIC_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.PROBABILITY]: 0.02, [ResourceType.LORE]: -5.0, [ResourceType.PLEASURE]: -10.0 }, 
     costMultiplier: 1.3,
     icon: 'Star',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['symbolism_decoding'],
   },
   {
@@ -119,7 +119,7 @@ export const ESOTERIC_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.REALITY]: 5.0, [ResourceType.TRUTH]: -0.2, [ResourceType.POWER]: -1000.0 }, 
     costMultiplier: 1.4,
     icon: 'Anchor',
-    unlockRequirement: 0,
+    unlockRequirement: 0, // Reset
     requireTech: ['reality_tunneling'],
   },
 ];

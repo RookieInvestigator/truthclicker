@@ -49,7 +49,7 @@ export const useGameLoop = (
             let newPendingChoice = prev.pendingChoice;
 
             // Artifact Drop Logic
-            let artifactChance = 0.005; 
+            let artifactChance = 0.01; // Base chance increased to 1% per tick
             if (prev.luckBoostEndTime > now) artifactChance *= 2;
             
             // Instability Boosts Drop Rate (Chaos reveals secrets)
@@ -71,8 +71,8 @@ export const useGameLoop = (
 
             // Random Events Logic
             if (!prev.settings.disableChoiceEvents && !newPendingChoice) {
-                // Choice Event Chance
-                if (Math.random() < 0.001) { 
+                // Choice Event Chance - Increased to 0.25% per tick
+                if (Math.random() < 0.0025) { 
                      const validChoices = CHOICE_EVENTS.filter(c => (c.minDepth || 0) <= prev.depth);
                      if (validChoices.length > 0) {
                          const choice = validChoices[Math.floor(Math.random() * validChoices.length)];
@@ -80,8 +80,8 @@ export const useGameLoop = (
                      }
                 }
                 
-                // Standard Event Chance
-                let eventProbability = 0.002;
+                // Standard Event Chance - Increased to 0.5% per tick
+                let eventProbability = 0.005;
                 // Instability Boosts Event Rate (Chaos causes glitches)
                 eventProbability *= (1 + instability * 3); // Up to 4x event rate at 0 reality
 

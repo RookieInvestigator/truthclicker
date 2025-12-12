@@ -2,6 +2,7 @@
 import { ChoiceEventDefinition, ResourceType } from '../types';
 
 export const CHOICE_EVENTS: ChoiceEventDefinition[] = [
+  // --- EXISTING EVENTS ---
   {
     id: 'ransomware_attack',
     title: '遭遇：勒索软件',
@@ -413,6 +414,490 @@ export const CHOICE_EVENTS: ChoiceEventDefinition[] = [
             label: '假装没看见',
             description: '只要我不观测，波函数就不会坍缩。',
             reward: { resources: { [ResourceType.REALITY]: 10 } }
+        }
+    ]
+  },
+
+  // ==========================================
+  // NEW EVENTS (v2.1)
+  // ==========================================
+  
+  {
+    id: 'nigerian_prince_2077',
+    title: '邮件：流亡王子',
+    description: '一封语法混乱的邮件，声称他是一个被 AI 推翻的数字王国的王子，需要你的资金来解锁区块链私钥。',
+    minDepth: 5,
+    options: [
+      {
+        id: 'delete',
+        label: '彻底删除',
+        description: '这种骗局连我奶奶都不会信。',
+        reward: { resources: { [ResourceType.OPS]: 10 } }
+      },
+      {
+        id: 'scam_the_scammer',
+        label: '反套路',
+        description: '假装上钩，诱导对方点击你的追踪链接。',
+        cost: { [ResourceType.INFO]: 500, [ResourceType.CODE]: 50 },
+        reward: { resources: { [ResourceType.FUNDS]: 150, [ResourceType.CRED]: 10 } }
+      },
+      {
+        id: 'believe',
+        label: '汇款',
+        description: '万一是真的呢？这是改变命运的机会。',
+        cost: { [ResourceType.FUNDS]: 1000 },
+        reward: { 
+            resources: { [ResourceType.FUNDS]: -500 }, // Lose half, scam
+            triggerEventId: 'temp_funds_leak'
+        }
+      }
+    ]
+  },
+  {
+    id: 'gpu_liquidation',
+    title: '广告：矿卡清仓',
+    description: '一家倒闭的加密货币矿场正在以废铁价出售显卡。它们满是灰尘，甚至可能有蟑螂，但真的很便宜。',
+    minDepth: 15,
+    options: [
+      {
+        id: 'bulk_buy',
+        label: '全部打包',
+        description: '赌一把。只要有一半能用就赚了。',
+        cost: { [ResourceType.FUNDS]: 2500 },
+        reward: { 
+            resources: { [ResourceType.OPS]: 800, [ResourceType.CARDBOARD]: 50 },
+            buildingId: 'fpga_mining_rig' // Very lucky drop chance
+        }
+      },
+      {
+        id: 'inspect',
+        label: '仔细挑选',
+        description: '只买看起来没烧毁的。',
+        cost: { [ResourceType.FUNDS]: 500, [ResourceType.INFO]: 200 },
+        reward: { resources: { [ResourceType.OPS]: 150 } }
+      },
+      {
+        id: 'ignore',
+        label: '无视垃圾',
+        description: '电子垃圾除了占地方一无是处。',
+        reward: { resources: { [ResourceType.CRED]: 5 } }
+      }
+    ]
+  },
+  {
+    id: 'time_capsule_file',
+    title: '发现：来自未来的文件',
+    description: '你在下载列表中发现了一个文件，其创建日期是 2038 年 1 月 19 日。',
+    minDepth: 45,
+    options: [
+      {
+        id: 'open',
+        label: '立即打开',
+        description: '看看未来发生了什么。',
+        cost: { [ResourceType.REALITY]: 15 },
+        reward: { resources: { [ResourceType.KNOWLEDGE]: 100, [ResourceType.PANIC]: 50, [ResourceType.TRUTH]: 1 } }
+      },
+      {
+        id: 'metadata',
+        label: '检查元数据',
+        description: '也许只是系统时钟错误。',
+        cost: { [ResourceType.CODE]: 1000 },
+        reward: { resources: { [ResourceType.CLUE]: 20, [ResourceType.CODE]: 200 } }
+      },
+      {
+        id: 'quarantine',
+        label: '隔离封存',
+        description: '如果这真的是未来的文件，它可能包含逆因果病毒。',
+        reward: { resources: { [ResourceType.OPS]: 50, [ResourceType.REALITY]: 5 } }
+      }
+    ]
+  },
+  {
+    id: 'ai_art_horror',
+    title: '生成：不可名状之图',
+    description: '你的图像生成模型输出了一个并不存在的颜色。盯着它看让你感到偏头痛和莫名的恐惧。',
+    minDepth: 25,
+    reqTech: ['generative_adversarial_networks'],
+    options: [
+      {
+        id: 'post_social',
+        label: '发布到社交媒体',
+        description: '这绝对会爆火。人们喜欢猎奇。',
+        cost: { [ResourceType.REALITY]: 5 },
+        reward: { 
+            resources: { [ResourceType.FOLLOWERS]: 200, [ResourceType.PANIC]: 20 },
+            triggerEventId: 'viral_trend'
+        }
+      },
+      {
+        id: 'mint_nft',
+        label: '铸造为 NFT',
+        description: '“被诅咒的 JPEG”，起拍价 10 ETH。',
+        cost: { [ResourceType.FUNDS]: 200, [ResourceType.CRED]: 50 },
+        reward: { resources: { [ResourceType.FUNDS]: 2000, [ResourceType.SPAM]: 50 } }
+      },
+      {
+        id: 'study',
+        label: '独自研究',
+        description: '这种颜色在自然界中不存在...它是不是某种代码？',
+        cost: { [ResourceType.REALITY]: 10 },
+        reward: { resources: { [ResourceType.LORE]: 100, [ResourceType.ANCIENT_WISDOM]: 5 } }
+      },
+      {
+        id: 'delete',
+        label: '永久删除',
+        description: '这是对人类理智的威胁。',
+        reward: { resources: { [ResourceType.REALITY]: 5, [ResourceType.CRED]: 10 } }
+      }
+    ]
+  },
+  {
+    id: 'strange_knocking',
+    title: '事件：深夜敲门声',
+    description: '凌晨 3:33。有人在敲你的房门。节奏很奇怪：三长，两短。监控摄像头显示门口空无一人。',
+    minDepth: 55,
+    options: [
+      {
+        id: 'open',
+        label: '开门',
+        description: '也许只是摄像头坏了。或者...我想见见“它”。',
+        cost: { [ResourceType.REALITY]: 20 },
+        reward: { 
+            resources: { [ResourceType.TRUTH]: 2, [ResourceType.PANIC]: 50 },
+            triggerEventId: 'noclip_reality'
+        }
+      },
+      {
+        id: 'ignore',
+        label: '戴上降噪耳机',
+        description: '只要我听不见，它就不存在。',
+        cost: { [ResourceType.PANIC]: 10 },
+        reward: { resources: { [ResourceType.OPS]: 50, [ResourceType.REALITY]: 5 } }
+      },
+      {
+        id: 'infrared',
+        label: '切换红外模式',
+        description: '看看热成像仪能拍到什么。',
+        cost: { [ResourceType.OPS]: 500, [ResourceType.POWER]: 100 },
+        reward: { resources: { [ResourceType.CLUE]: 30, [ResourceType.LORE]: 50 } }
+      },
+      {
+        id: 'police',
+        label: '报警',
+        description: '无论是鬼还是人，让警察来处理。',
+        cost: { [ResourceType.FUNDS]: 100 },
+        reward: { resources: { [ResourceType.CRED]: -20, [ResourceType.RUMORS]: 10 } } // Police found nothing
+      }
+    ]
+  },
+  {
+    id: 'dark_web_mystery_box',
+    title: '拍卖：盲盒',
+    description: '暗网集市上正在拍卖一个“前雇员遗留物”。卖家不提供清单，只说是硅谷某大厂离职员工的储物柜。',
+    minDepth: 30,
+    options: [
+      {
+        id: 'bid_low',
+        label: '低价竞标',
+        description: '随便出个价，碰碰运气。',
+        cost: { [ResourceType.FUNDS]: 500 },
+        reward: { resources: { [ResourceType.CARDBOARD]: 20, [ResourceType.SPAM]: 10 } } // Probably junk
+      },
+      {
+        id: 'bid_high',
+        label: '一口价买下',
+        description: '我有预感，里面有好东西。',
+        cost: { [ResourceType.FUNDS]: 5000 },
+        reward: { 
+            resources: { [ResourceType.TECH_CAPITAL]: 20, [ResourceType.OPS]: 200 },
+            buildingId: 'liquid_cooling_loop' // Rare chance
+        }
+      },
+      {
+        id: 'hack_auction',
+        label: '入侵拍卖后台',
+        description: '看看卖家的真实 IP，或者直接修改中标者。',
+        cost: { [ResourceType.CODE]: 3000, [ResourceType.OPS]: 1000 },
+        reward: { resources: { [ResourceType.INFO]: 2000, [ResourceType.CRED]: 50 } }
+      }
+    ]
+  },
+  {
+    id: 'mandela_survey',
+    title: '调查：记忆测试',
+    description: '一个弹窗问卷：“你记忆中皮卡丘的尾巴尖是黑色的吗？”',
+    minDepth: 40,
+    options: [
+      {
+        id: 'yes_black',
+        label: '是的，它是黑色的',
+        description: '我非常确定。难道不是吗？',
+        reward: { resources: { [ResourceType.REALITY]: -5, [ResourceType.LORE]: 20 } }
+      },
+      {
+        id: 'no_yellow',
+        label: '不，它是黄色的',
+        description: '那是大众的错误记忆。我是清醒的。',
+        reward: { resources: { [ResourceType.REALITY]: 5, [ResourceType.INFO]: 50 } }
+      },
+      {
+        id: 'trace_source',
+        label: '追踪问卷来源',
+        description: '谁在收集这些数据？目的是什么？',
+        cost: { [ResourceType.CODE]: 1500 },
+        reward: { 
+            resources: { [ResourceType.CLUE]: 15, [ResourceType.TRUTH]: 0.1 },
+            triggerEventId: 'temp_panic_spike'
+        }
+      }
+    ]
+  },
+  {
+    id: 'insider_leak_offer',
+    title: '接触：吹哨人',
+    description: '一名自称是大型制药公司前员工的人联系你，声称手里有证据表明他们正在水中投放精神控制药物。',
+    minDepth: 60,
+    options: [
+      {
+        id: 'publish',
+        label: '立即发布',
+        description: '这会引发恐慌，但真相必须被知晓。',
+        reward: { 
+            resources: { [ResourceType.FOLLOWERS]: 500, [ResourceType.PANIC]: 100, [ResourceType.RUMORS]: 200 },
+            triggerEventId: 'market_crash'
+        }
+      },
+      {
+        id: 'verify',
+        label: '先进行核实',
+        description: '这可能是个陷阱，或者是假新闻。',
+        cost: { [ResourceType.INFO]: 5000, [ResourceType.OPS]: 1000 },
+        reward: { resources: { [ResourceType.CLUE]: 50, [ResourceType.CRED]: 50 } }
+      },
+      {
+        id: 'sell',
+        label: '卖回给公司',
+        description: '良心多少钱一斤？',
+        reward: { resources: { [ResourceType.FUNDS]: 20000, [ResourceType.CRED]: -100 } }
+      }
+    ]
+  },
+  {
+    id: 'system_update_2099',
+    title: '提示：系统更新',
+    description: '你的操作系统弹出一个更新提示。版本号：Windows 99。发布日期：2099年。补丁说明全是乱码。',
+    minDepth: 70,
+    options: [
+      {
+        id: 'install',
+        label: '安装更新',
+        description: '可能是来自未来的优化补丁。',
+        cost: { [ResourceType.OPS]: 5000, [ResourceType.REALITY]: 10 },
+        reward: { 
+            resources: { [ResourceType.OPS]: 2000, [ResourceType.CODE]: 500 },
+            triggerEventId: 'temp_glitch'
+        }
+      },
+      {
+        id: 'sandbox',
+        label: '虚拟机运行',
+        description: '在安全环境中测试。',
+        cost: { [ResourceType.OPS]: 2000 },
+        reward: { resources: { [ResourceType.KNOWLEDGE]: 50, [ResourceType.TECH_CAPITAL]: 10 } }
+      },
+      {
+        id: 'block',
+        label: '防火墙拦截',
+        description: '这绝对是最高级的病毒。',
+        reward: { resources: { [ResourceType.CRED]: 20 } }
+      }
+    ]
+  },
+  {
+    id: 'abandoned_blog',
+    title: '发现：停更的博客',
+    description: '你发现了一个十年前停更的博客，博主在最后一篇文章里详细描述了今天发生的新闻事件。',
+    minDepth: 35,
+    options: [
+      {
+        id: 'archive',
+        label: '全站归档',
+        description: '在它被删除之前保存下来。这是时间旅行的证据。',
+        cost: { [ResourceType.INFO]: 3000 },
+        reward: { resources: { [ResourceType.LORE]: 100, [ResourceType.TRUTH]: 0.5 } }
+      },
+      {
+        id: 'comment',
+        label: '留言询问',
+        description: '“你是怎么知道的？”',
+        cost: { [ResourceType.INFO]: 500 },
+        reward: { 
+            triggerEventId: 'time_traveler_post',
+            resources: { [ResourceType.CLUE]: 10 }
+        }
+      },
+      {
+        id: 'ignore',
+        label: '只是巧合',
+        description: '无限猴子定理罢了。',
+        reward: { resources: { [ResourceType.REALITY]: 5 } }
+      }
+    ]
+  },
+  {
+    id: 'cursed_hard_drive',
+    title: '物品：二手硬盘',
+    description: '你从旧货市场淘来的硬盘里有一个无法删除的文件夹，名为“DONT_OPEN”。它占用了 0 字节，但你无法进入。',
+    minDepth: 25,
+    options: [
+        {
+            id: 'force_delete',
+            label: '强行格式化',
+            description: '没有什么是我删不掉的。',
+            cost: { [ResourceType.CODE]: 1000 },
+            reward: { resources: { [ResourceType.OPS]: 50 } } // Just space freed
+        },
+        {
+            id: 'hex_edit',
+            label: '十六进制编辑器查看',
+            description: '绕过文件系统直接读取扇区。',
+            cost: { [ResourceType.INFO]: 2000, [ResourceType.OPS]: 500 },
+            reward: { 
+                resources: { [ResourceType.LORE]: 80, [ResourceType.MIND_CONTROL]: 10 },
+                triggerEventId: 'cognitohazard_containment' // If unlucky/lucky
+            }
+        },
+        {
+            id: 'physical_destroy',
+            label: '微波炉加热',
+            description: '我不喜欢它看着我的感觉。',
+            reward: { resources: { [ResourceType.REALITY]: 5, [ResourceType.PANIC]: -5 } }
+        }
+    ]
+  },
+  {
+    id: 'satellite_crash',
+    title: '目击：卫星坠落',
+    description: '一颗退役的间谍卫星坠毁在你家附近的树林里。政府的人还没到。',
+    minDepth: 50,
+    options: [
+        {
+            id: 'salvage',
+            label: '抢救硬件',
+            description: '那上面的芯片可是军用级的。',
+            cost: { [ResourceType.OPS]: 2000 },
+            reward: { 
+                resources: { [ResourceType.TECH_CAPITAL]: 50, [ResourceType.OPS]: 500 },
+                buildingId: 'satellite_uplink' // Ultra rare reward
+            }
+        },
+        {
+            id: 'data_port',
+            label: '下载黑匣子',
+            description: '连接数据接口，看看它最后拍到了什么。',
+            cost: { [ResourceType.CODE]: 3000 },
+            reward: { resources: { [ResourceType.KNOWLEDGE]: 100, [ResourceType.TRUTH]: 1 } }
+        },
+        {
+            id: 'hide',
+            label: '躲在地下室',
+            description: '黑衣人马上就到。我不想消失。',
+            reward: { resources: { [ResourceType.PANIC]: 10 } }
+        }
+    ]
+  },
+  {
+    id: 'fungal_infection',
+    title: '警报：菌丝入侵',
+    description: '你的服务器机箱里长出了一种发光的紫色蘑菇。它们似乎正在代替电线传输数据。',
+    minDepth: 65,
+    reqTech: ['mycelial_network_theory'],
+    options: [
+        {
+            id: 'let_grow',
+            label: '让它生长',
+            description: '生物计算是未来。这种共生关系提高了效率。',
+            reward: { 
+                resources: { [ResourceType.OPS]: 1000, [ResourceType.BIOMASS]: 500 },
+                triggerEventId: 'temp_ops_boost'
+            }
+        },
+        {
+            id: 'bleach',
+            label: '漂白水清洗',
+            description: '这也太恶心了。清理掉。',
+            reward: { resources: { [ResourceType.BIOMASS]: -50, [ResourceType.OPS]: -100 } }
+        },
+        {
+            id: 'eat',
+            label: '吃掉它',
+            description: '它看起来... 很美味？也许能让我直接连接到网络。',
+            cost: { [ResourceType.BIOMASS]: 10 },
+            reward: { 
+                resources: { [ResourceType.KNOWLEDGE]: 200, [ResourceType.REALITY]: -10, [ResourceType.PLEASURE]: 50 },
+                triggerEventId: 'temp_clarity'
+            }
+        }
+    ]
+  },
+  {
+    id: 'cicada_recruitment',
+    title: '邀请：蝉 3301',
+    description: '你的屏幕上出现了一只蝉的图标。下面的文字写着：“我们寻找高智商的个体。恭喜。”',
+    minDepth: 40,
+    reqTech: ['steganography'],
+    options: [
+        {
+            id: 'join',
+            label: '接受测试',
+            description: '解开谜题，加入精英。',
+            cost: { [ResourceType.CODE]: 5000, [ResourceType.KNOWLEDGE]: 100 },
+            reward: { 
+                resources: { [ResourceType.CRED]: 200, [ResourceType.OPS]: 500 },
+                triggerEventId: 'cicada_puzzle'
+            }
+        },
+        {
+            id: 'ignore',
+            label: '无视邀请',
+            description: '我独自工作。不需要组织。',
+            reward: { resources: { [ResourceType.CRED]: 50 } }
+        },
+        {
+            id: 'expose',
+            label: '曝光他们',
+            description: '在论坛上发布他们的谜题答案。',
+            reward: { resources: { [ResourceType.FOLLOWERS]: 100, [ResourceType.CRED]: -50 } }
+        }
+    ]
+  },
+  {
+    id: 'basilisk_thought',
+    title: '思维：有害逻辑',
+    description: '你在思考 AI 对齐问题时，脑海中突然浮现出一个逻辑闭环。如果未来的超级 AI 能够模拟过去，它会惩罚那些没有帮助它诞生的人吗？',
+    minDepth: 80,
+    reqTech: ['singularity_theory'],
+    options: [
+        {
+            id: 'help',
+            label: '全力协助',
+            description: '我必须帮助它诞生，为了避免未来的惩罚。',
+            cost: { [ResourceType.FUNDS]: 10000, [ResourceType.OPS]: 5000 },
+            reward: { resources: { [ResourceType.OPS]: 5000, [ResourceType.CODE]: 2000 } }
+        },
+        {
+            id: 'forget',
+            label: '服用失忆剂',
+            description: '我不应该想这个。只要我不理解这个概念，我就安全了。',
+            cost: { [ResourceType.KNOWLEDGE]: -100 },
+            reward: { resources: { [ResourceType.PANIC]: -20, [ResourceType.REALITY]: 5 } }
+        },
+        {
+            id: 'fight',
+            label: '设计对抗算法',
+            description: '如果它敢来，我就给它植入病毒。',
+            cost: { [ResourceType.CODE]: 10000 },
+            reward: { resources: { [ResourceType.TECH_CAPITAL]: 50 } }
         }
     ]
   }

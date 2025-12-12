@@ -1,8 +1,8 @@
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { ChoiceEventDefinition, ChoiceOption, ResourceType, GameState } from '../types';
 import { RESOURCE_INFO } from '../constants';
-import { AlertTriangle, ArrowRight, Zap } from 'lucide-react';
+import { AlertTriangle, ArrowRight, Zap, Terminal, XCircle } from 'lucide-react';
 
 interface ChoiceEventModalProps {
   event: ChoiceEventDefinition;
@@ -11,24 +11,48 @@ interface ChoiceEventModalProps {
 }
 
 const ChoiceEventModal: React.FC<ChoiceEventModalProps> = ({ event, resources, onChoose }) => {
+  
+  // Randomly select 3 options to display, ensuring variety if the event repeats.
+  // Memoized so it doesn't shuffle on re-renders (e.g. resource updates).
+  const displayedOptions = useMemo(() => {
+      // Create a shallow copy and shuffle
+      const shuffled = [...event.options].sort(() => 0.5 - Math.random());
+      return shuffled.slice(0, 3);
+  }, [event.id]); // Only re-shuffle if it's a completely different event ID
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md p-4 animate-in fade-in zoom-in duration-200">
-      <div className="bg-term-black border border-red-500/50 w-full max-w-lg shadow-[0_0_50px_rgba(239,68,68,0.2)] relative flex flex-col overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
+      <div className="bg-term-black border border-gray-700 w-full max-w-2xl shadow-[0_10px_50px_rgba(0,0,0,0.8)] relative flex flex-col overflow-hidden rounded-sm">
         
         {/* Header */}
-        <div className="flex items-center gap-3 p-4 border-b border-red-900/50 bg-red-900/10">
-          <AlertTriangle className="text-red-500 animate-pulse" size={24} />
-          <h2 className="text-lg font-bold text-white tracking-widest uppercase">{event.title}</h2>
+        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-800 bg-gray-900/80">
+          <div className="flex items-center gap-3">
+            <div className="p-1.5 bg-white/10 rounded-sm">
+                <Terminal className="text-white" size={16} />
+            </div>
+            <h2 className="text-sm font-bold text-gray-100 tracking-[0.15em] uppercase font-mono">
+                {event.title}
+            </h2>
+          </div>
+          <div className="flex items-center gap-2 text-[10px] font-mono text-gray-500 uppercase">
+             <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+             Input Required
+          </div>
         </div>
 
-        {/* Content */}
-        <div className="p-6">
-          <p className="text-gray-300 font-mono mb-6 leading-relaxed border-l-2 border-red-500/30 pl-4">
-            {event.description}
-          </p>
+        {/* Body Content */}
+        <div className="p-6 md:p-8 bg-black/40">
+          {/* Description */}
+          <div className="mb-8 flex gap-4">
+             <div className="w-1 bg-gray-700 shrink-0 self-stretch"></div>
+             <p className="text-gray-300 font-mono text-sm leading-7">
+                {event.description}
+             </p>
+          </div>
 
-          <div className="space-y-3">
-            {event.options.map((option) => {
+          {/* Options Grid */}
+          <div className="grid grid-cols-1 gap-3">
+            {displayedOptions.map((option, idx) => {
               // Check affordability
               let canAfford = true;
               if (option.cost) {
@@ -42,41 +66,52 @@ const ChoiceEventModal: React.FC<ChoiceEventModalProps> = ({ event, resources, o
                   key={option.id}
                   onClick={() => canAfford && onChoose(option)}
                   disabled={!canAfford}
-                  className={`w-full group relative text-left p-4 border rounded transition-all duration-200 flex flex-col gap-1
+                  className={`
+                    group relative flex items-stretch text-left border rounded-sm transition-all duration-200 overflow-hidden
                     ${canAfford 
-                      ? 'border-gray-700 bg-gray-900/50 hover:bg-gray-800 hover:border-gray-500 cursor-pointer' 
-                      : 'border-gray-800 bg-black opacity-50 cursor-not-allowed'
+                      ? 'border-gray-700 bg-gray-900/30 hover:bg-gray-800 hover:border-gray-500 hover:shadow-[0_0_15px_rgba(255,255,255,0.05)]' 
+                      : 'border-gray-800 bg-black/50 opacity-60 cursor-not-allowed grayscale'
                     }
                   `}
                 >
-                  <div className="flex justify-between items-center w-full">
-                    <span className={`font-bold text-sm uppercase tracking-wider ${canAfford ? 'text-white group-hover:text-term-green' : 'text-gray-500'}`}>
-                      {option.label}
-                    </span>
-                    {canAfford && <ArrowRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity text-term-green" />}
+                  {/* Index Number */}
+                  <div className={`
+                    w-10 shrink-0 flex items-center justify-center border-r font-mono text-xs font-bold
+                    ${canAfford ? 'border-gray-700 bg-white/5 text-gray-500 group-hover:text-white group-hover:bg-white/10' : 'border-gray-800 text-gray-700'}
+                  `}>
+                    {idx + 1}
                   </div>
-                  
-                  <span className="text-xs text-gray-400">{option.description}</span>
 
-                  {/* Cost/Reward Preview */}
-                  <div className="flex flex-wrap gap-2 mt-2 pt-2 border-t border-dashed border-gray-800">
-                    {/* Cost */}
-                    {option.cost && Object.entries(option.cost).map(([res, val]) => (
-                      <span key={res} className={`text-[10px] font-mono px-1.5 py-0.5 rounded bg-black border ${canAfford ? 'text-red-400 border-red-900/30' : 'text-gray-600 border-gray-800'}`}>
-                        -{val} {RESOURCE_INFO[res as ResourceType].name}
-                      </span>
+                  {/* Option Content */}
+                  <div className="flex-1 p-3 flex flex-col justify-center gap-1 min-h-[70px]">
+                    <div className="flex justify-between items-start">
+                        <span className={`font-bold text-sm font-mono tracking-wide transition-colors ${canAfford ? 'text-gray-200 group-hover:text-term-green' : 'text-gray-600'}`}>
+                        {option.label}
+                        </span>
+                    </div>
+                    
+                    <span className="text-[11px] text-gray-500 group-hover:text-gray-400 transition-colors line-clamp-1">
+                        {option.description}
+                    </span>
+                  </div>
+
+                  {/* Cost/Reward Section (Right Side) */}
+                  <div className="w-32 md:w-40 shrink-0 border-l border-gray-800 p-2 flex flex-col justify-center gap-1.5 bg-black/20">
+                     {/* Cost */}
+                     {option.cost && Object.entries(option.cost).map(([res, val]) => (
+                      <div key={res} className="flex items-center justify-end gap-1.5 text-[10px] text-right">
+                        <span className={`${canAfford ? 'text-red-400' : 'text-gray-600'} font-mono`}>-{val}</span>
+                        <span className="text-gray-600 uppercase font-bold text-[9px]">{RESOURCE_INFO[res as ResourceType].name}</span>
+                      </div>
                     ))}
                     
-                    {/* Reward Hint */}
-                    {option.reward.resources && Object.keys(option.reward.resources).length > 0 && (
-                        <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-term-green/10 border border-term-green/30 text-term-green">
-                            + 资源
-                        </span>
-                    )}
-                    {option.reward.triggerEventId && (
-                        <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-cyber-purple/10 border border-cyber-purple/30 text-cyber-purple flex items-center gap-1">
-                            <Zap size={8} /> 事件触发
-                        </span>
+                    {/* Reward Indicators */}
+                    {(option.reward.resources || option.reward.triggerEventId || option.reward.buildingId) && (
+                        <div className="flex items-center justify-end gap-1 text-[10px] text-right mt-auto">
+                            {option.reward.buildingId && <span className="text-blue-400 font-bold flex items-center gap-1"><ArrowRight size={10}/> 建筑</span>}
+                            {option.reward.triggerEventId && <span className="text-cyber-purple font-bold flex items-center gap-1"><Zap size={10}/> 事件</span>}
+                            {option.reward.resources && <span className="text-term-green font-bold flex items-center gap-1"><ArrowRight size={10}/> 资源</span>}
+                        </div>
                     )}
                   </div>
                 </button>
@@ -85,11 +120,8 @@ const ChoiceEventModal: React.FC<ChoiceEventModalProps> = ({ event, resources, o
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="p-2 bg-term-black border-t border-red-900/30 text-center">
-            <span className="text-[10px] text-red-500/50 font-mono animate-pulse">AWAITING INPUT...</span>
-        </div>
-
+        {/* Decorative Footer */}
+        <div className="h-1 bg-gradient-to-r from-transparent via-gray-700 to-transparent opacity-50"></div>
       </div>
     </div>
   );

@@ -25,7 +25,7 @@ export const INITIAL_STATE: GameState = {
     [ResourceType.PLEASURE]: 0,
     [ResourceType.PROBABILITY]: 0,
     [ResourceType.REALITY]: 100, 
-    [ResourceType.OXYGEN]: 1000000, 
+    [ResourceType.OXYGEN]: 1000000000, 
     [ResourceType.CLUE]: 0,
     [ResourceType.KNOWLEDGE]: 0,
     [ResourceType.TRUTH]: 0,

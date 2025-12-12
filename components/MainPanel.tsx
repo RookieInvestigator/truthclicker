@@ -47,38 +47,46 @@ const MainPanel: React.FC<MainPanelProps> = ({
   const filterableResources = Object.values(ResourceType);
 
   return (
-    <section className="flex-1 flex flex-col bg-term-black min-w-0 h-full">
+    <section className="flex-1 flex flex-col bg-term-black min-w-0 h-full overflow-hidden relative">
+        {/* Static Background Texture */}
+        <div className="absolute inset-0 pointer-events-none opacity-[0.03] z-0" 
+             style={{ backgroundImage: `linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px)`, backgroundSize: '40px 40px' }}
+        ></div>
+
         {/* Tabs */}
-        <div className="flex border-b border-term-gray bg-term-gray/5 z-20 shrink-0">
+        <div className="flex border-b border-term-gray bg-black/80 z-30 shrink-0 relative backdrop-blur-sm">
             <button 
                 onClick={() => setActiveTab('nodes')}
-                className={`flex-1 py-3 md:py-4 text-xs md:text-sm font-bold flex items-center justify-center gap-2 transition-colors border-r border-term-gray/50
-                    ${activeTab === 'nodes' ? 'bg-term-black text-term-green border-t-2 border-t-term-green' : 'text-gray-500 hover:text-gray-300 hover:bg-term-gray/10'}`}
+                className={`flex-1 py-3 text-xs font-bold flex items-center justify-center gap-2 transition-all relative overflow-hidden group
+                    ${activeTab === 'nodes' ? 'text-term-green' : 'text-gray-500 hover:text-gray-300'}`}
             >
-                <Grid size={16} />
+                <Grid size={16} className={activeTab === 'nodes' ? 'text-term-green' : 'opacity-70'} />
                 <span>节点</span>
+                {activeTab === 'nodes' && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-term-green shadow-[0_0_10px_rgba(34,197,94,0.5)]"></div>}
             </button>
             <button 
                 onClick={() => setActiveTab('research')}
-                className={`flex-1 py-3 md:py-4 text-xs md:text-sm font-bold flex items-center justify-center gap-2 transition-colors border-r border-term-gray/50
-                    ${activeTab === 'research' ? 'bg-term-black text-blue-400 border-t-2 border-t-blue-400' : 'text-gray-500 hover:text-gray-300 hover:bg-term-gray/10'}`}
+                className={`flex-1 py-3 text-xs font-bold flex items-center justify-center gap-2 transition-all relative overflow-hidden group
+                    ${activeTab === 'research' ? 'text-blue-400' : 'text-gray-500 hover:text-gray-300'}`}
             >
-                <FlaskConical size={16} />
+                <FlaskConical size={16} className={activeTab === 'research' ? 'text-blue-400' : 'opacity-70'} />
                 <span>科技</span>
+                {activeTab === 'research' && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-400 shadow-[0_0_10px_rgba(96,165,250,0.5)]"></div>}
             </button>
             <button 
                 onClick={() => setActiveTab('inventory')}
-                className={`flex-1 py-3 md:py-4 text-xs md:text-sm font-bold flex items-center justify-center gap-2 transition-colors relative
-                    ${activeTab === 'inventory' ? 'bg-term-black text-cyber-purple border-t-2 border-t-cyber-purple' : 'text-gray-500 hover:text-gray-300 hover:bg-term-gray/10'}`}
+                className={`flex-1 py-3 text-xs font-bold flex items-center justify-center gap-2 transition-all relative overflow-hidden group
+                    ${activeTab === 'inventory' ? 'text-cyber-purple' : 'text-gray-500 hover:text-gray-300'}`}
             >
-                <FolderOpen size={16} />
+                <FolderOpen size={16} className={activeTab === 'inventory' ? 'text-cyber-purple' : 'opacity-70'} />
                 <span>仓库</span>
+                {activeTab === 'inventory' && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-cyber-purple shadow-[0_0_10px_rgba(168,85,247,0.5)]"></div>}
             </button>
         </div>
         
         {/* Sub-Header for Research Filters */}
         {activeTab === 'research' && (
-            <div className="px-4 py-2 bg-term-black border-b border-term-gray/30 flex justify-between items-center select-none z-10 shrink-0">
+            <div className="px-4 py-2 bg-term-black/90 border-b border-term-gray/30 flex justify-between items-center select-none z-20 shrink-0 relative backdrop-blur-sm">
                 <button 
                     onClick={() => setIsCompact(!isCompact)}
                     className="flex items-center gap-2 text-[10px] md:text-xs text-gray-500 hover:text-white transition-colors"
@@ -99,7 +107,7 @@ const MainPanel: React.FC<MainPanelProps> = ({
 
         {/* Sub-Header for Building Filters */}
         {activeTab === 'nodes' && (
-            <div className="px-4 py-2 bg-term-black border-b border-term-gray/30 flex items-center gap-3 overflow-x-auto whitespace-nowrap scrollbar-hide z-10 shrink-0">
+            <div className="px-4 py-2 bg-term-black/90 border-b border-term-gray/30 flex items-center gap-3 overflow-x-auto whitespace-nowrap scrollbar-hide z-20 shrink-0 relative backdrop-blur-sm">
                 <div className="flex items-center gap-2 text-xs text-gray-500 mr-2 shrink-0">
                     <Filter size={14} />
                     <span className="hidden sm:inline">产出:</span>
@@ -137,15 +145,9 @@ const MainPanel: React.FC<MainPanelProps> = ({
         )}
 
         {/* Content Area */}
-        <div className="flex-1 overflow-y-auto bg-dots relative p-4 pb-20 md:pb-4">
-            {/* Background Texture - slightly more subtle */}
-            <div className="absolute inset-0 pointer-events-none opacity-[0.02]" 
-                 style={{ backgroundImage: `linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px)`, backgroundSize: '40px 40px' }}
-            ></div>
-
+        <div className="flex-1 overflow-y-auto bg-dots relative z-0 scroll-smooth">
             {activeTab === 'nodes' && (
-                <div className="space-y-4">
-                    {/* ... (Building rendering logic logic same as before) ... */}
+                <div className="pb-20 md:pb-4">
                     {Object.values(BuildingCategory).map(cat => {
                         let categoryBuildings = BUILDINGS.filter(b => b.category === cat);
                         
@@ -166,25 +168,23 @@ const MainPanel: React.FC<MainPanelProps> = ({
                         const meta = CATEGORY_CONFIG[cat];
 
                         return (
-                            <div key={cat} className="animate-in fade-in slide-in-from-bottom-2 duration-500">
+                            <div key={cat} className="mb-4">
                                 <div 
-                                    className={`flex items-center gap-2 mb-3 cursor-pointer group select-none hover:bg-term-gray/10 p-2 rounded -mx-2`}
+                                    className={`sticky top-0 z-10 flex items-center gap-2 px-4 py-2 cursor-pointer group select-none backdrop-blur-md bg-term-black/80 border-y border-term-gray/20 shadow-sm transition-colors hover:bg-term-gray/20`}
                                     onClick={() => toggleBuildingCategory(cat)}
                                 >
-                                    <div className={`p-1 rounded transition-colors ${meta.color.replace(/border-.*$/, '')} bg-black/40 border border-white/5`}>
-                                        {isCollapsed ? <ChevronRight size={16} /> : <ChevronDown size={16} />}
+                                    <div className={`p-0.5 rounded transition-colors ${meta.color.replace(/border-.*$/, '')}`}>
+                                        {isCollapsed ? <ChevronRight size={14} /> : <ChevronDown size={14} />}
                                     </div>
-                                    <div className={`flex-1 flex items-center border-b border-term-gray/20 pb-2 ${meta.color.split(' ')[0]}`}>
-                                        <h2 className="font-bold text-sm tracking-widest uppercase">{meta.name}</h2>
-                                        <span className="text-[10px] text-gray-500 ml-3 hidden sm:inline">{meta.description}</span>
-                                        <div className="ml-auto text-[10px] font-mono text-gray-600 bg-term-black px-2 py-0.5 rounded border border-gray-800">
-                                            {categoryBuildings.reduce((acc, b) => acc + (gameState.buildings[b.id] || 0), 0)} Unit(s)
-                                        </div>
+                                    <h2 className={`font-bold text-xs tracking-widest uppercase ${meta.color.split(' ')[0]}`}>{meta.name}</h2>
+                                    <span className="text-[10px] text-gray-500 hidden sm:inline opacity-70 ml-2">{meta.description}</span>
+                                    <div className="ml-auto text-[10px] font-mono text-gray-600 bg-black/50 px-2 py-0.5 rounded border border-gray-800">
+                                        {categoryBuildings.reduce((acc, b) => acc + (gameState.buildings[b.id] || 0), 0)} Unit(s)
                                     </div>
                                 </div>
 
                                 {!isCollapsed && (
-                                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 p-4">
                                         {categoryBuildings.map(building => {
                                             const count = gameState.buildings[building.id] || 0;
                                             let canAfford = true;
@@ -195,6 +195,7 @@ const MainPanel: React.FC<MainPanelProps> = ({
                                                 if (gameState.resources[res] < cost) canAfford = false;
                                             });
 
+                                            // Special check for negative production cost
                                             if (building.baseProduction) {
                                                 for (const [res, amount] of Object.entries(building.baseProduction)) {
                                                     if (amount < 0 && gameState.resources[res as ResourceType] <= 0) {
@@ -222,28 +223,16 @@ const MainPanel: React.FC<MainPanelProps> = ({
                         );
                     })}
                     
-                    {resourceFilter && Object.values(BuildingCategory).every(cat => {
-                         const buildings = BUILDINGS.filter(b => b.category === cat && 
-                            (gameState.totalInfoMined >= b.unlockRequirement * 0.5 || b.unlockRequirement === 0) &&
-                            (!b.requireTech || b.requireTech.every(t => gameState.researchedTechs.includes(t))) &&
-                            b.baseProduction && (b.baseProduction[resourceFilter] || 0) > 0
-                         );
-                         return buildings.length === 0;
-                    }) && (
-                        <div className="flex flex-col items-center justify-center py-20 text-gray-600 gap-3">
-                            <FlaskConical size={48} className="opacity-20" />
-                            <p>没有找到生产 {RESOURCE_INFO[resourceFilter].name} 的已解锁建筑</p>
-                            <button onClick={() => setResourceFilter(null)} className="text-xs text-term-green hover:underline">
-                                清除筛选
-                            </button>
+                    {resourceFilter && (
+                        <div className="flex flex-col items-center justify-center py-10 text-gray-600 gap-2">
+                            <span className="text-xs opacity-50">--- 筛选结束 ---</span>
                         </div>
                     )}
                 </div>
             )}
 
             {activeTab === 'research' && (
-                <div className="space-y-6">
-                    {/* ... (Tech rendering logic same as before) ... */}
+                <div className="pb-20 md:pb-4">
                     {Object.values(BuildingCategory).map(cat => {
                         const categoryTechs = TECHS.filter(t => t.category === cat).sort((a, b) => a.tier - b.tier);
                         
@@ -267,25 +256,23 @@ const MainPanel: React.FC<MainPanelProps> = ({
                         const meta = CATEGORY_CONFIG[cat];
 
                         return (
-                            <div key={cat} className="animate-in fade-in slide-in-from-bottom-2 duration-500">
+                            <div key={cat} className="mb-4">
                                 <div 
-                                    className={`flex items-center gap-2 mb-3 cursor-pointer group select-none hover:bg-term-gray/10 p-2 rounded -mx-2`}
+                                    className={`sticky top-0 z-10 flex items-center gap-2 px-4 py-2 cursor-pointer group select-none backdrop-blur-md bg-term-black/80 border-y border-term-gray/20 shadow-sm transition-colors hover:bg-term-gray/20`}
                                     onClick={() => toggleCategory(cat)}
                                 >
-                                    <div className={`p-1 rounded transition-colors ${meta.color.replace(/border-.*$/, '')} bg-black/40 border border-white/5`}>
-                                        {isCollapsed ? <ChevronRight size={16} /> : <ChevronDown size={16} />}
+                                    <div className={`p-0.5 rounded transition-colors ${meta.color.replace(/border-.*$/, '')}`}>
+                                        {isCollapsed ? <ChevronRight size={14} /> : <ChevronDown size={14} />}
                                     </div>
-                                    <div className={`flex-1 flex items-center border-b border-term-gray/20 pb-2 ${meta.color.split(' ')[0]}`}>
-                                        <h2 className="font-bold text-sm tracking-widest uppercase">{meta.name}</h2>
-                                        <span className="text-[10px] text-gray-500 ml-3 hidden sm:inline">{meta.description}</span>
-                                        <div className="ml-auto text-[10px] font-mono text-gray-600">
-                                            {categoryTechs.filter(t => gameState.researchedTechs.includes(t.id)).length} / {categoryTechs.length}
-                                        </div>
+                                    <h2 className={`font-bold text-xs tracking-widest uppercase ${meta.color.split(' ')[0]}`}>{meta.name}</h2>
+                                    <span className="text-[10px] text-gray-500 hidden sm:inline opacity-70 ml-2">{meta.description}</span>
+                                    <div className="ml-auto text-[10px] font-mono text-gray-600">
+                                        {categoryTechs.filter(t => gameState.researchedTechs.includes(t.id)).length} / {categoryTechs.length}
                                     </div>
                                 </div>
 
                                 {!isCollapsed && (
-                                    <div className={`grid gap-3 ${isCompact ? 'grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'}`}>
+                                    <div className={`grid gap-3 p-4 ${isCompact ? 'grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'}`}>
                                         {visibleTechs.map(tech => {
                                             const isResearched = gameState.researchedTechs.includes(tech.id);
                                             let isLockedByExclusion = false;

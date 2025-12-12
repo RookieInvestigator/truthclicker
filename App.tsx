@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Eye, Radio, Save, RefreshCw, Settings as SettingsIcon, Database, Terminal, Cpu } from 'lucide-react';
+import { Eye, Radio, Save, RefreshCw, Settings as SettingsIcon, Database, Terminal, Cpu, HardDrive } from 'lucide-react';
 import { useGameLogic } from './hooks/useGameLogic';
 import TerminalLog from './components/TerminalLog';
 import ResourcesPanel from './components/ResourcesPanel';
@@ -50,10 +50,16 @@ const App: React.FC = () => {
   const isRealityStable = reality > 120;
 
   return (
-    <div className={`flex flex-col h-screen bg-term-black text-gray-300 font-mono overflow-hidden transition-all duration-1000 relative
+    <div className={`flex flex-col h-screen bg-term-black text-gray-300 font-mono overflow-hidden transition-all duration-1000 relative selection:bg-term-green selection:text-black
         ${isRealityCollapsing ? 'sepia-[0.3] hue-rotate-[-10deg]' : ''}
     `}>
       
+      {/* CRT Scanline Overlay */}
+      <div className="pointer-events-none fixed inset-0 z-[60] scanlines opacity-10"></div>
+      
+      {/* Vignette Overlay */}
+      <div className="pointer-events-none fixed inset-0 z-[50] bg-[radial-gradient(circle_at_center,transparent_50%,rgba(0,0,0,0.4)_100%)]"></div>
+
       {/* REALITY OVERLAYS */}
       {isRealityCollapsing && (
           <div className="pointer-events-none fixed inset-0 z-50 bg-red-900/10 mix-blend-overlay animate-pulse"></div>
@@ -71,40 +77,77 @@ const App: React.FC = () => {
       )}
 
       {/* Header */}
-      <header className="h-12 border-b border-term-gray flex items-center justify-between px-4 bg-term-gray/10 z-10 shrink-0 select-none relative">
+      <header className="h-14 border-b border-term-gray/60 flex items-center justify-between px-4 bg-black z-20 shrink-0 select-none relative shadow-[0_2px_10px_rgba(0,0,0,0.5)]">
         {/* Logo Section */}
-        <div className="flex items-center gap-2 shrink-0">
-          <Eye className={`text-term-green ${isRealityCollapsing ? 'animate-spin' : 'animate-pulse'}`} />
-          <h1 className="text-lg font-bold tracking-tighter text-white hidden sm:block">
-            TRUTH<span className="text-term-green">_CLICKER</span>
-          </h1>
+        <div className="flex items-center gap-3 shrink-0 mr-4">
+          <div className={`
+            relative flex items-center justify-center w-9 h-9 rounded border bg-term-green/5 
+            ${isRealityCollapsing ? 'animate-spin border-red-500 bg-red-900/10' : 'border-term-green/30'}
+          `}>
+             <Eye size={20} className={`transition-colors ${isRealityCollapsing ? 'text-red-500' : 'text-term-green drop-shadow-[0_0_5px_rgba(34,197,94,0.6)]'}`} />
+          </div>
+          <div className="flex flex-col justify-center leading-none hidden sm:flex">
+            <h1 className="text-sm font-bold tracking-[0.2em] text-gray-200 text-glow">
+              TRUTH<span className="text-term-green">_CLICKER</span>
+            </h1>
+            <div className="flex items-center gap-2 mt-1">
+                <span className="text-[8px] text-gray-600 font-mono tracking-widest uppercase">
+                v2.1.0
+                </span>
+                <div className="flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-term-green animate-pulse"></span>
+                    <span className="text-[8px] text-term-green/70 font-mono uppercase">ONLINE</span>
+                </div>
+            </div>
+          </div>
         </div>
         
-        {/* Center: Event Ticker (Hidden on very small screens if needed, but flex-1 handles it) */}
-        <ActiveEventsTicker events={gameState.activeEvents} />
+        {/* Center: Event Ticker */}
+        <div className="flex-1 max-w-3xl mx-auto h-full flex items-center overflow-hidden relative border-x border-gray-900 bg-black/50">
+             <ActiveEventsTicker events={gameState.activeEvents} />
+        </div>
 
         {/* Right: Controls */}
-        <div className="flex items-center gap-2 sm:gap-4 text-xs shrink-0 w-auto justify-end">
-          <div className="hidden sm:flex items-center gap-1 text-cyber-purple border border-cyber-purple/30 px-2 py-1 rounded bg-cyber-purple/5">
-            <Radio size={14} />
-            <span>DEPTH: {Math.floor(gameState.depth / 10)}</span>
+        <div className="flex items-center gap-4 shrink-0 w-auto justify-end ml-4">
+          
+          {/* Depth Meter */}
+          <div className="hidden md:flex items-center gap-3 px-3 py-1.5 rounded-sm bg-gray-900 border border-gray-800 text-xs font-mono group hover:border-cyber-purple/50 transition-colors">
+            <div className="flex items-center gap-2 text-cyber-purple/80">
+                <Radio size={12} className="animate-pulse" />
+                <span className="text-[10px] font-bold tracking-wider opacity-70">DEPTH</span>
+            </div>
+            <div className="h-3 w-px bg-gray-700"></div>
+            <span className="text-gray-200 font-bold tabular-nums text-shadow-purple">{Math.floor(gameState.depth / 10)}m</span>
           </div>
           
-          <button 
-            onClick={() => setIsSettingsOpen(true)}
-            className="p-1.5 hover:text-white transition-colors rounded hover:bg-white/10"
-            title="Settings"
-          >
-            <SettingsIcon size={16} />
-          </button>
+          <div className="h-6 w-px bg-gray-800 hidden sm:block"></div>
 
-          <button onClick={saveGame} className="hidden sm:flex items-center gap-1 hover:text-white transition-colors">
-            <Save size={14} /> SAVE
-          </button>
-          
-          <button onClick={resetGame} className="hidden sm:flex items-center gap-1 text-red-400 hover:text-red-500 transition-colors border border-red-900/50 px-2 py-1 rounded hover:bg-red-900/10">
-            <RefreshCw size={14} /> RESET
-          </button>
+          {/* System Menu */}
+          <div className="flex items-center gap-1">
+              <button 
+                onClick={saveGame}
+                className="p-2 text-gray-500 hover:text-term-green hover:bg-term-green/10 rounded transition-all group relative"
+                title="Save Data [Ctrl+S]"
+              >
+                <HardDrive size={18} />
+              </button>
+
+              <button 
+                onClick={() => setIsSettingsOpen(true)}
+                className="p-2 text-gray-500 hover:text-white hover:bg-white/10 rounded transition-all"
+                title="System Configuration"
+              >
+                <SettingsIcon size={18} />
+              </button>
+              
+              <button 
+                onClick={resetGame}
+                className="p-2 text-gray-500 hover:text-red-500 hover:bg-red-900/20 rounded transition-all"
+                title="Hard Reset / Wipe"
+              >
+                <RefreshCw size={18} />
+              </button>
+          </div>
         </div>
       </header>
 
@@ -113,7 +156,7 @@ const App: React.FC = () => {
         
         {/* Left Column: Resources (Visible on Mobile if tab is 'resources', always on Desktop) */}
         <div className={`
-            flex-col bg-term-black/90 min-w-[240px]
+            flex-col bg-term-black min-w-[240px] overflow-hidden
             ${mobileTab === 'resources' ? 'flex w-full absolute inset-0 z-20' : 'hidden'} 
             md:flex md:w-[20%] md:relative md:z-0 md:border-r md:border-term-gray
         `}>
@@ -132,7 +175,7 @@ const App: React.FC = () => {
 
         {/* Center Column: Main Game Area (Visible on Mobile if tab is 'main', always on Desktop) */}
         <div className={`
-            flex-col bg-term-black min-w-0
+            flex-col bg-term-black min-w-0 overflow-hidden
             ${mobileTab === 'main' ? 'flex w-full absolute inset-0 z-20' : 'hidden'}
             md:flex md:flex-1 md:relative md:z-0
         `}>
@@ -150,7 +193,7 @@ const App: React.FC = () => {
 
         {/* Right Column: Logs & Artifacts (Visible on Mobile if tab is 'system', always on Desktop) */}
         <section className={`
-            flex-col min-w-[240px] bg-term-black
+            flex-col min-w-[240px] bg-term-black overflow-hidden
             ${mobileTab === 'system' ? 'flex w-full absolute inset-0 z-20' : 'hidden'}
             md:flex md:w-[20%] md:relative md:z-0 md:border-l md:border-term-gray
         `}>

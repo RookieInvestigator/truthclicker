@@ -40,8 +40,9 @@ export enum ResourceType {
   POWER = 'POWER',         
 
   CARDBOARD = 'CARDBOARD', 
+  TINFOIL = 'TINFOIL',     // NEW: Satirical resource
   SPAM = 'SPAM',           
-  FOSSIL = 'FOSSIL',       // NEW
+  FOSSIL = 'FOSSIL',       
   
   LORE = 'LORE',           
   ANCIENT_WISDOM = 'ANCIENT_WISDOM', 
@@ -50,11 +51,12 @@ export enum ResourceType {
   RUMORS = 'RUMORS',       
   PANIC = 'PANIC',         
   MIND_CONTROL = 'MIND_CONTROL', 
+  RED_PILL = 'RED_PILL',   // NEW: Conspiracy resource
 
   PLEASURE = 'PLEASURE',   
   PROBABILITY = 'PROBABILITY', 
   REALITY = 'REALITY',     
-  OXYGEN = 'OXYGEN',       // NEW: Starts High, is a drug
+  OXYGEN = 'OXYGEN',       
 
   CLUE = 'CLUE',           
   KNOWLEDGE = 'KNOWLEDGE', 
@@ -76,7 +78,7 @@ export enum BuildingCategory {
   ARCHIVE = 'ARCHIVE',         
   SUBVERSION = 'SUBVERSION',   
   ESOTERIC = 'ESOTERIC',       
-  TRUTH = 'TRUTH',             // NEW ULTIMATE CATEGORY
+  TRUTH = 'TRUTH',             
 }
 
 export interface Building {
@@ -127,7 +129,7 @@ export interface Artifact {
   category: BuildingCategory;
   rarity: 'common' | 'rare' | 'legendary' | 'mythic' | 'cursed' | 'anomaly';
   isProcedural?: boolean; 
-  subtype: 'file' | 'bookmark' | 'hardware' | 'media' | 'creature' | 'signal'; // Expanded
+  subtype: 'file' | 'bookmark' | 'hardware' | 'media' | 'creature' | 'signal'; 
   details?: string; 
   bonusType: 'production_multiplier' | 'click_power' | 'luck' | 'cost_reduction' | 'none';
   targetResource?: ResourceType; 

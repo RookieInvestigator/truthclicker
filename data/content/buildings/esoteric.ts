@@ -31,8 +31,8 @@ export const ESOTERIC_BUILDINGS: Building[] = [
     name: '全身法拉第笼',
     description: '彻底隔绝所有电磁波。在这里，你只能听到自己的血液流动。',
     category: BuildingCategory.ESOTERIC,
-    baseCosts: { [ResourceType.FUNDS]: 2000, [ResourceType.PANIC]: 100 },
-    baseProduction: { [ResourceType.TRUTH]: 0.005, [ResourceType.PANIC]: -5.0, [ResourceType.MIND_CONTROL]: -2.0 }, // Nerfed
+    baseCosts: { [ResourceType.FUNDS]: 2000, [ResourceType.TINFOIL]: 500 }, // Costs Tinfoil now
+    baseProduction: { [ResourceType.TRUTH]: 0.005, [ResourceType.PANIC]: -5.0, [ResourceType.MIND_CONTROL]: -2.0 }, 
     costMultiplier: 1.5,
     icon: 'Shield',
     unlockRequirement: 0, // Reset

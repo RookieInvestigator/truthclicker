@@ -35,7 +35,7 @@ const ResourcesPanel: React.FC<ExtendedResourcesPanelProps> = ({
           id: 'basic', 
           label: '基础资源', 
           icon: Box,
-          resources: [ResourceType.FUNDS, ResourceType.CARDBOARD, ResourceType.SPAM] 
+          resources: [ResourceType.FUNDS, ResourceType.CARDBOARD, ResourceType.TINFOIL, ResourceType.SPAM] 
       },
       { 
           id: 'infra', 
@@ -59,7 +59,7 @@ const ResourcesPanel: React.FC<ExtendedResourcesPanelProps> = ({
           id: 'entropy', 
           label: '熵 & 异常', 
           icon: Activity,
-          resources: [ResourceType.RUMORS, ResourceType.PANIC, ResourceType.MIND_CONTROL] 
+          resources: [ResourceType.RUMORS, ResourceType.PANIC, ResourceType.MIND_CONTROL, ResourceType.RED_PILL] 
       },
       { 
           id: 'abstract', 
@@ -73,7 +73,9 @@ const ResourcesPanel: React.FC<ExtendedResourcesPanelProps> = ({
   const showOxygen = researchedTechs.includes('oxygen_toxicity');
 
   return (
-    <section className="w-[20%] border-r border-term-gray flex flex-col bg-black/40 backdrop-blur-md min-w-[240px] h-full font-mono">
+    // Changed w-[20%] to w-full to fill the parent container defined in App.tsx
+    // Removed border-r as it is handled by the parent container in App.tsx to avoid double borders
+    <section className="w-full flex flex-col bg-black/40 backdrop-blur-md h-full font-mono">
         {/* Mining Button Area */}
         <div className="p-4 border-b border-term-gray/50 flex flex-col items-center justify-center bg-gradient-to-b from-term-gray/10 to-transparent shrink-0">
             <button 
@@ -96,7 +98,8 @@ const ResourcesPanel: React.FC<ExtendedResourcesPanelProps> = ({
                 </div>
                 
                 <div className="text-right relative z-10">
-                    <span className="text-xs font-bold text-term-green">+{clickPower}</span>
+                    {/* Fixed decimal places for click power */}
+                    <span className="text-xs font-bold text-term-green">+{clickPower.toFixed(1)}</span>
                     <span className="text-[9px] text-gray-600 block">Info/Click</span>
                 </div>
 

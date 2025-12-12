@@ -36,6 +36,36 @@ export const TIER_3_TECHS: Tech[] = [
     highlight: true
   },
 
+  // --- NEW SUBVERSION TECHS ---
+  {
+    id: 'avian_surveillance',
+    name: '鸟类监控论',
+    description: '如果它会飞，它就是间谍。鸟类是政府的无人机。',
+    tier: 3,
+    category: BuildingCategory.SUBVERSION,
+    costs: { [ResourceType.TINFOIL]: 20, [ResourceType.INFO]: 5000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.TINFOIL]: 0.2 },
+        unlockMessage: '解锁: 鸟类干扰器'
+    },
+    icon: 'Feather',
+    preRequisiteTech: 'conspiracy_101'
+  },
+  {
+    id: 'cultural_pessimism',
+    name: '文化悲观主义',
+    description: '相信文明正在经历不可逆转的衰退。只有回归传统才能拯救我们。',
+    tier: 3,
+    category: BuildingCategory.SUBVERSION,
+    costs: { [ResourceType.RED_PILL]: 10, [ResourceType.CULTURE]: 500 },
+    effects: {
+        resourceMultipliers: { [ResourceType.RED_PILL]: 0.2 },
+        unlockMessage: '解锁: 红丸播客工作室'
+    },
+    icon: 'Frown',
+    preRequisiteTech: 'conspiracy_101'
+  },
+
   // --- NETWORK ---
   {
     id: 'tor_network',

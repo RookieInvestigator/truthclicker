@@ -19,8 +19,9 @@ export const RESOURCE_INFO: Record<ResourceType, { name: string; color: string; 
   [ResourceType.BIOMASS]:      { name: '生物质', color: 'text-lime-500', icon: 'Dna' }, 
   
   [ResourceType.CARDBOARD]:    { name: '废纸箱', color: 'text-amber-700', icon: 'Package' }, 
+  [ResourceType.TINFOIL]:      { name: '锡纸', color: 'text-zinc-400', icon: 'Triangle' }, // Icon: Triangle (Hat shape)
   [ResourceType.SPAM]:         { name: '垃圾信息', color: 'text-pink-600', icon: 'Trash' }, 
-  [ResourceType.FOSSIL]:       { name: '化石', color: 'text-stone-400', icon: 'Bone' }, // NEW
+  [ResourceType.FOSSIL]:       { name: '化石', color: 'text-stone-400', icon: 'Bone' }, 
 
   [ResourceType.LORE]:         { name: '民俗学', color: 'text-emerald-200', icon: 'Scroll' }, 
   [ResourceType.ANCIENT_WISDOM]: { name: '古代知识', color: 'text-amber-200', icon: 'Hourglass' }, 
@@ -29,15 +30,16 @@ export const RESOURCE_INFO: Record<ResourceType, { name: string; color: string; 
   [ResourceType.RUMORS]:       { name: '恐慌掌控', color: 'text-red-400', icon: 'Megaphone' }, 
   [ResourceType.PANIC]:        { name: '恐慌', color: 'text-red-600', icon: 'Siren' }, 
   [ResourceType.MIND_CONTROL]: { name: '心智掌控', color: 'text-purple-600', icon: 'Brain' }, 
+  [ResourceType.RED_PILL]:     { name: '红丸', color: 'text-red-600', icon: 'Pill' }, // Icon: Pill
 
   [ResourceType.PLEASURE]:     { name: '快感', color: 'text-pink-500', icon: 'Heart' }, 
   [ResourceType.PROBABILITY]:  { name: '正概率', color: 'text-yellow-200', icon: 'Dices' }, 
   [ResourceType.REALITY]:      { name: '现实稳定', color: 'text-white', icon: 'Activity' }, 
-  [ResourceType.OXYGEN]:       { name: '氧气', color: 'text-cyan-200', icon: 'Wind' }, // NEW
+  [ResourceType.OXYGEN]:       { name: '氧气', color: 'text-cyan-200', icon: 'Wind' }, 
 
   [ResourceType.CLUE]:         { name: '线索', color: 'text-yellow-400', icon: 'Search' }, 
   [ResourceType.KNOWLEDGE]:    { name: '隐秘知识', color: 'text-violet-400', icon: 'BookOpen' }, 
-  [ResourceType.TRUTH]:        { name: '红丸', color: 'text-red-600', icon: 'Eye' }, 
+  [ResourceType.TRUTH]:        { name: '真相', color: 'text-red-600', icon: 'Eye' }, 
 };
 
 // Category Metadata
@@ -54,7 +56,7 @@ export const CATEGORY_CONFIG: Record<BuildingCategory, { name: string; color: st
   [BuildingCategory.FOLKLORE]:        { name: '怪谈传说', color: 'text-rose-400 border-rose-400', description: '探索都市传说与异常地点。' },
   [BuildingCategory.COUNTER_CULTURE]: { name: '反文化', color: 'text-pink-400 border-pink-400', description: '传播模因与混乱艺术。' },
   [BuildingCategory.ARCHIVE]:         { name: '档案馆', color: 'text-slate-500 border-slate-500', description: '保存即将消失的历史数据。' }, 
-  [BuildingCategory.SUBVERSION]:      { name: '阴谋论', color: 'text-zinc-400 border-zinc-400', description: '揭露被掩盖的真相。' }, 
+  [BuildingCategory.SUBVERSION]:      { name: '阴谋论', color: 'text-zinc-400 border-zinc-400', description: '政治光谱的边缘与荒诞的现实。' }, 
   [BuildingCategory.ESOTERIC]:        { name: '神秘学', color: 'text-purple-500 border-purple-500', description: '超越唯物主义的认知。' },
   [BuildingCategory.TRUTH]:           { name: '真相', color: 'text-red-500 border-red-500', description: '接触世界的底层代码。最终的启示。' },
 };

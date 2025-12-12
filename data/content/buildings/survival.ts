@@ -63,10 +63,10 @@ export const SURVIVAL_BUILDINGS: Building[] = [
   {
     id: 'dumpster_diving_route', 
     name: '定点拾荒路线',
-    description: '你知道哪家电子商店周二晚上会扔掉“损坏”但可用的硬件。',
+    description: '收集电子垃圾和人们以此遮蔽思想的材料。你知道哪里有最好的垃圾。',
     category: BuildingCategory.SURVIVAL,
     baseCosts: { [ResourceType.INFO]: 500, [ResourceType.FUNDS]: 50 }, 
-    baseProduction: { [ResourceType.CARDBOARD]: 1.5, [ResourceType.FUNDS]: 1.5, [ResourceType.OPS]: 0.5 }, 
+    baseProduction: { [ResourceType.CARDBOARD]: 1.5, [ResourceType.FUNDS]: 1.5, [ResourceType.OPS]: 0.5, [ResourceType.TINFOIL]: 0.5 }, 
     costMultiplier: 1.3,
     icon: 'Trash2',
     unlockRequirement: 0, 

@@ -37,6 +37,36 @@ export const TIER_4_TECHS: Tech[] = [
     highlight: true
   },
 
+  // --- NEW SUBVERSION TECHS ---
+  {
+    id: 'titan_geology',
+    name: '泰坦地质学',
+    description: '那个山脉其实是一个石化的巨人。地质学是掩盖真相的谎言。',
+    tier: 4,
+    category: BuildingCategory.SUBVERSION,
+    costs: { [ResourceType.TINFOIL]: 200, [ResourceType.FOSSIL]: 100 },
+    effects: {
+        resourceMultipliers: { [ResourceType.TINFOIL]: 0.25 },
+        unlockMessage: '解锁: 泥化石大学'
+    },
+    icon: 'Mountain',
+    preRequisiteTech: 'atmospheric_geoengineering'
+  },
+  {
+    id: 'hyperborean_myth',
+    name: '极北神话',
+    description: '关于北极圈内古老雅利安文明的神秘学说。传统的源头。',
+    tier: 4,
+    category: BuildingCategory.SUBVERSION,
+    costs: { [ResourceType.RED_PILL]: 200, [ResourceType.ANCIENT_WISDOM]: 500 },
+    effects: {
+        resourceMultipliers: { [ResourceType.RED_PILL]: 0.25 },
+        unlockMessage: '解锁: 阿加尔塔钻机 / 传统生活公社'
+    },
+    icon: 'Compass',
+    preRequisiteTech: 'cultural_pessimism'
+  },
+
   {
     id: 'cold_fusion', 
     name: '冷聚变',

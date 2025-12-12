@@ -49,10 +49,10 @@ const BuildingCard: React.FC<BuildingCardProps> = ({ building, count, canAfford,
     <div 
       onClick={() => canAfford && onBuy()}
       className={`
-        relative group flex flex-col p-4 border bg-term-black/80 h-full rounded-sm
+        relative group flex flex-col p-3 md:p-4 border bg-term-black/80 h-full rounded-sm
         transition-all duration-200 select-none
         ${canAfford 
-          ? 'cursor-pointer hover:bg-term-gray/20 hover:scale-[1.02] active:scale-[0.98]' 
+          ? 'cursor-pointer hover:bg-term-gray/20 active:bg-gray-800' 
           : 'opacity-50 cursor-not-allowed grayscale'}
         ${canAfford ? 'border-term-gray hover:border-term-green' : 'border-term-gray'}
       `}
@@ -72,8 +72,8 @@ const BuildingCard: React.FC<BuildingCardProps> = ({ building, count, canAfford,
         </div>
 
         {/* Name & Sell */}
-        <div className="flex flex-col items-end flex-1 ml-2">
-            <h3 className={`font-bold font-mono text-sm text-right leading-tight ${canAfford ? 'text-white' : 'text-gray-500'}`}>
+        <div className="flex flex-col items-end flex-1 ml-2 min-w-0">
+            <h3 className={`font-bold font-mono text-xs md:text-sm text-right leading-tight break-words ${canAfford ? 'text-white' : 'text-gray-500'}`}>
                 {building.name}
             </h3>
             
@@ -83,7 +83,7 @@ const BuildingCard: React.FC<BuildingCardProps> = ({ building, count, canAfford,
                         e.stopPropagation();
                         onSell();
                     }}
-                    className="flex items-center gap-1 mt-1 text-[10px] text-gray-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="flex items-center gap-1 mt-1 text-[10px] text-gray-600 hover:text-red-400 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity"
                     title="拆除 (50% 返还)"
                 >
                    <MinusCircle size={10} /> 拆除
@@ -93,7 +93,7 @@ const BuildingCard: React.FC<BuildingCardProps> = ({ building, count, canAfford,
       </div>
 
       <div className="flex-1 flex flex-col justify-between">
-          <p className="text-[11px] text-gray-400 leading-tight mb-3 min-h-[2.5em]">{building.description}</p>
+          <p className="text-[10px] md:text-[11px] text-gray-400 leading-tight mb-3 min-h-[2.5em]">{building.description}</p>
           
           <div>
             {/* Stats */}

@@ -1,0 +1,89 @@
+
+import { Building, ResourceType, BuildingCategory } from '../../../types';
+
+export const TRUTH_BUILDINGS: Building[] = [
+  {
+    id: 'reality_editor',
+    name: '现实编辑器',
+    description: '一个简单的命令行界面，可以直接修改物理常数。请小心使用 `rm -rf /`。',
+    category: BuildingCategory.TRUTH,
+    baseCosts: { [ResourceType.TRUTH]: 1000, [ResourceType.REALITY]: 10, [ResourceType.OPS]: 500000 },
+    baseProduction: { [ResourceType.TRUTH]: 5.0, [ResourceType.REALITY]: -0.0003, [ResourceType.FUNDS]: 50000.0 }, // 0.2 -> 5.0
+    costMultiplier: 2.2, // 1.5 -> 2.2
+    icon: 'Terminal',
+    unlockRequirement: 0,
+    requireTech: ['admin_privileges'],
+  },
+  {
+    id: 'causality_inverter',
+    name: '因果逆转机',
+    description: '结果发生在原因之前。你已经赢了，现在只需要把过程补上。',
+    category: BuildingCategory.TRUTH,
+    baseCosts: { [ResourceType.TRUTH]: 2500, [ResourceType.ANCIENT_WISDOM]: 1000 },
+    baseProduction: { [ResourceType.TRUTH]: 10.0, [ResourceType.PROBABILITY]: 5.0, [ResourceType.OPS]: 50000.0 }, // 0.5 -> 10
+    costMultiplier: 2.5,
+    icon: 'RefreshCw',
+    unlockRequirement: 0,
+    requireTech: ['retrocausal_git'],
+  },
+  {
+    id: 'akashic_record_writer', 
+    name: '阿卡西覆写笔',
+    description: '不再是被动读取，而是主动写入。将你的意志刻录进宇宙的根目录。',
+    category: BuildingCategory.TRUTH,
+    baseCosts: { [ResourceType.TRUTH]: 5000, [ResourceType.KNOWLEDGE]: 50000, [ResourceType.LORE]: 50000 },
+    baseProduction: { [ResourceType.ANCIENT_WISDOM]: 200.0, [ResourceType.KNOWLEDGE]: 1000.0, [ResourceType.LORE]: 1000.0 }, // Huge boost
+    costMultiplier: 2.5,
+    icon: 'PenTool',
+    unlockRequirement: 0, 
+    requireTech: ['akashic_upload'],
+  },
+  {
+    id: 'panopticon_eye', 
+    name: '全视之眼',
+    description: '同时观测所有可能的时间线。波函数被迫坍缩成你想要的样子。',
+    category: BuildingCategory.TRUTH,
+    baseCosts: { [ResourceType.TRUTH]: 10000, [ResourceType.OPS]: 1000000 },
+    baseProduction: { [ResourceType.TRUTH]: 50.0, [ResourceType.CLUE]: 500.0, [ResourceType.PROBABILITY]: 20.0 }, // 1 -> 50
+    costMultiplier: 2.8,
+    icon: 'Eye',
+    unlockRequirement: 0, 
+    requireTech: ['laplaces_demon'],
+  },
+  {
+    id: 'antimemetic_complex',
+    name: '逆模因复合体',
+    description: '这是一个会杀死观察者的概念。它正在吞噬所有的信息，只留下纯粹的空洞。',
+    category: BuildingCategory.TRUTH,
+    baseCosts: { [ResourceType.TRUTH]: 20000, [ResourceType.MIND_CONTROL]: 5000 },
+    baseProduction: { [ResourceType.TRUTH]: 100.0, [ResourceType.INFO]: -5000000.0, [ResourceType.KNOWLEDGE]: -5000.0, [ResourceType.REALITY]: -0.0005 }, // 2.5 -> 100
+    costMultiplier: 3.0,
+    icon: 'Delete',
+    unlockRequirement: 0,
+    requireTech: ['mnestics_therapy'],
+  },
+  {
+    id: 'terminal_station',
+    name: '终点站列车',
+    description: '一列没有列在时刻表上的火车。乘客们都在微笑，因为他们是好孩子。没有返程票。',
+    category: BuildingCategory.TRUTH,
+    baseCosts: { [ResourceType.TRUTH]: 15000, [ResourceType.BIOMASS]: 20000 },
+    baseProduction: { [ResourceType.TRUTH]: 80.0, [ResourceType.BIOMASS]: -5000.0, [ResourceType.FOLLOWERS]: -1000.0, [ResourceType.PLEASURE]: 500.0 },
+    costMultiplier: 2.8,
+    icon: 'Train',
+    unlockRequirement: 0,
+    requireTech: ['good_boy_protocol'],
+  },
+  {
+    id: 'the_source', 
+    name: '源代码之井',
+    description: '世界的尽头不是虚空，而是一行注释：//TODO: Fix entropy leak.',
+    category: BuildingCategory.TRUTH,
+    baseCosts: { [ResourceType.TRUTH]: 50000, [ResourceType.TECH_CAPITAL]: 1000000 },
+    baseProduction: { [ResourceType.TRUTH]: 500.0, [ResourceType.REALITY]: 0.0009, [ResourceType.INFO]: 10000000.0 }, // 5 -> 500
+    costMultiplier: 4.0,
+    icon: 'Code',
+    unlockRequirement: 0, 
+    requireTech: ['fourth_wall_break'],
+  },
+];

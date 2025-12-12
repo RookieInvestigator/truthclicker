@@ -75,7 +75,7 @@ export const TIER_5_TECHS: Tech[] = [
     name: '志留纪假说',
     description: '在人类出现之前的几百万年，是否存在过另一个工业文明？化石中不仅有骨头，还有塑料。',
     tier: 5,
-    category: BuildingCategory.HISTORY,
+    category: BuildingCategory.CRYPTID, // Changed
     costs: { [ResourceType.FOSSIL]: 500, [ResourceType.ANCIENT_WISDOM]: 1000 },
     effects: {
         resourceMultipliers: { [ResourceType.ANCIENT_WISDOM]: 0.2 },
@@ -225,7 +225,7 @@ export const TIER_5_TECHS: Tech[] = [
   },
   {
     id: 'reality_shifting',
-    name: '现实转移 (Shifting)',
+    name: '现实转移',
     description: '通过编写脚本和听潜意识音乐，试图将意识转移到哈利波特的世界。逃避主义的终极形式。',
     tier: 5,
     category: BuildingCategory.ADULT,
@@ -235,6 +235,20 @@ export const TIER_5_TECHS: Tech[] = [
     },
     icon: 'Shuffle',
     preRequisiteTech: 'lucid_dream_mask'
+  },
+  {
+    id: 'idol_trinity',
+    name: '偶像三身',
+    description: '同时运营偶像、调查员和阴谋论教主三个账号。三位一体，收割全网。',
+    tier: 5,
+    category: BuildingCategory.ADULT,
+    costs: { [ResourceType.FOLLOWERS]: 100000, [ResourceType.PLEASURE]: 50000, [ResourceType.INFO]: 200000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.FOLLOWERS]: 0.5, [ResourceType.FUNDS]: 0.3, [ResourceType.CRED]: 0.2 },
+        unlockMessage: '全网出道'
+    },
+    icon: 'Sparkles',
+    preRequisiteTech: 'body_pillow_comfort'
   },
 
   // --- NEW FLAVOR TECHS (Tier 5) ---
@@ -317,5 +331,19 @@ export const TIER_5_TECHS: Tech[] = [
     },
     icon: 'Rewind',
     preRequisiteTech: 'phantom_time'
+  },
+  {
+    id: 'divine_rng',
+    name: '神圣随机数',
+    description: '上帝不掷骰子，他使用线性同余生成器。在无序中寻找神谕。',
+    tier: 5,
+    category: BuildingCategory.ESOTERIC,
+    costs: { [ResourceType.CODE]: 50000, [ResourceType.ANCIENT_WISDOM]: 2000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.PROBABILITY]: 0.3, [ResourceType.TRUTH]: 0.05 },
+        unlockMessage: '随机性即神性'
+    },
+    icon: 'Dices',
+    preRequisiteTech: 'holy_c_compiler'
   }
 ];

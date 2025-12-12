@@ -120,6 +120,21 @@ export const TIER_6_TECHS: Tech[] = [
     icon: 'Zap',
     preRequisiteTech: 'hedonistic_imperative'
   },
+  
+  // --- HIGH INFO COST TECHS ---
+  {
+    id: 'panopticon_algorithm',
+    name: '全景监狱算法',
+    description: '没有盲点。每一个数据包，每一次点击，都被实时分析。隐私已死，真相永存。',
+    tier: 6,
+    category: BuildingCategory.VERIFICATION,
+    costs: { [ResourceType.INFO]: 10000000, [ResourceType.OPS]: 500000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.TRUTH]: 0.5, [ResourceType.CLUE]: 0.5 },
+    },
+    icon: 'Eye',
+    preRequisiteTech: 'zero_point_energy'
+  },
 
   // --- NEW FLAVOR TECHS (Tier 6) ---
   {
@@ -154,9 +169,10 @@ export const TIER_6_TECHS: Tech[] = [
     description: '三维宇宙只是二维视界上的信息投影。',
     tier: 6,
     category: BuildingCategory.ESOTERIC,
-    costs: { [ResourceType.KNOWLEDGE]: 2000000 },
+    costs: { [ResourceType.KNOWLEDGE]: 2000000, [ResourceType.INFO]: 25000000 },
     effects: {
         resourceMultipliers: { [ResourceType.INFO]: 0.5 },
+        unlockMessage: '解锁: 视界信息捕获阵列'
     },
     icon: 'Projector',
     preRequisiteTech: 'library_of_alexandria_backup'

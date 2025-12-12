@@ -47,49 +47,49 @@ const MainPanel: React.FC<MainPanelProps> = ({
   const filterableResources = Object.values(ResourceType);
 
   return (
-    <section className="flex-1 flex flex-col bg-term-black min-w-0">
+    <section className="flex-1 flex flex-col bg-term-black min-w-0 h-full">
         {/* Tabs */}
-        <div className="flex border-b border-term-gray bg-term-gray/5 z-20">
+        <div className="flex border-b border-term-gray bg-term-gray/5 z-20 shrink-0">
             <button 
                 onClick={() => setActiveTab('nodes')}
-                className={`flex-1 py-4 text-sm font-bold flex items-center justify-center gap-2 transition-colors border-r border-term-gray/50
+                className={`flex-1 py-3 md:py-4 text-xs md:text-sm font-bold flex items-center justify-center gap-2 transition-colors border-r border-term-gray/50
                     ${activeTab === 'nodes' ? 'bg-term-black text-term-green border-t-2 border-t-term-green' : 'text-gray-500 hover:text-gray-300 hover:bg-term-gray/10'}`}
             >
                 <Grid size={16} />
-                <span>节点网络</span>
+                <span>节点</span>
             </button>
             <button 
                 onClick={() => setActiveTab('research')}
-                className={`flex-1 py-4 text-sm font-bold flex items-center justify-center gap-2 transition-colors border-r border-term-gray/50
+                className={`flex-1 py-3 md:py-4 text-xs md:text-sm font-bold flex items-center justify-center gap-2 transition-colors border-r border-term-gray/50
                     ${activeTab === 'research' ? 'bg-term-black text-blue-400 border-t-2 border-t-blue-400' : 'text-gray-500 hover:text-gray-300 hover:bg-term-gray/10'}`}
             >
                 <FlaskConical size={16} />
-                <span>科技树</span>
+                <span>科技</span>
             </button>
             <button 
                 onClick={() => setActiveTab('inventory')}
-                className={`flex-1 py-4 text-sm font-bold flex items-center justify-center gap-2 transition-colors relative
+                className={`flex-1 py-3 md:py-4 text-xs md:text-sm font-bold flex items-center justify-center gap-2 transition-colors relative
                     ${activeTab === 'inventory' ? 'bg-term-black text-cyber-purple border-t-2 border-t-cyber-purple' : 'text-gray-500 hover:text-gray-300 hover:bg-term-gray/10'}`}
             >
                 <FolderOpen size={16} />
-                <span>数据仓库</span>
+                <span>仓库</span>
             </button>
         </div>
         
         {/* Sub-Header for Research Filters */}
         {activeTab === 'research' && (
-            <div className="px-6 py-2 bg-term-black border-b border-term-gray/30 flex justify-between items-center select-none z-10">
+            <div className="px-4 py-2 bg-term-black border-b border-term-gray/30 flex justify-between items-center select-none z-10 shrink-0">
                 <button 
                     onClick={() => setIsCompact(!isCompact)}
-                    className="flex items-center gap-2 text-xs text-gray-500 hover:text-white transition-colors"
+                    className="flex items-center gap-2 text-[10px] md:text-xs text-gray-500 hover:text-white transition-colors"
                 >
                     {isCompact ? <Maximize2 size={14} /> : <Minimize2 size={14} />}
-                    {isCompact ? '大图模式' : '紧凑模式'}
+                    {isCompact ? '大图' : '紧凑'}
                 </button>
 
                 <button 
                     onClick={() => setHideResearched(!hideResearched)}
-                    className="flex items-center gap-2 text-xs text-gray-500 hover:text-white transition-colors cursor-pointer"
+                    className="flex items-center gap-2 text-[10px] md:text-xs text-gray-500 hover:text-white transition-colors cursor-pointer"
                 >
                     {hideResearched ? <CheckSquare size={14} className="text-term-green" /> : <Square size={14} />}
                     隐藏已完成
@@ -99,10 +99,10 @@ const MainPanel: React.FC<MainPanelProps> = ({
 
         {/* Sub-Header for Building Filters */}
         {activeTab === 'nodes' && (
-            <div className="px-4 py-2 bg-term-black border-b border-term-gray/30 flex items-center gap-3 overflow-x-auto whitespace-nowrap scrollbar-hide z-10">
-                <div className="flex items-center gap-2 text-xs text-gray-500 mr-2">
+            <div className="px-4 py-2 bg-term-black border-b border-term-gray/30 flex items-center gap-3 overflow-x-auto whitespace-nowrap scrollbar-hide z-10 shrink-0">
+                <div className="flex items-center gap-2 text-xs text-gray-500 mr-2 shrink-0">
                     <Filter size={14} />
-                    <span className="hidden sm:inline">产出筛选:</span>
+                    <span className="hidden sm:inline">产出:</span>
                 </div>
                 {filterableResources.map(res => {
                     const info = RESOURCE_INFO[res];
@@ -128,7 +128,7 @@ const MainPanel: React.FC<MainPanelProps> = ({
                 {resourceFilter && (
                     <button 
                         onClick={() => setResourceFilter(null)}
-                        className="ml-auto text-xs text-gray-500 hover:text-red-400 flex items-center gap-1"
+                        className="ml-auto text-xs text-gray-500 hover:text-red-400 flex items-center gap-1 shrink-0"
                     >
                         <XCircle size={14} /> 清除
                     </button>
@@ -137,14 +137,14 @@ const MainPanel: React.FC<MainPanelProps> = ({
         )}
 
         {/* Content Area */}
-        <div className="flex-1 overflow-y-auto bg-dots relative">
+        <div className="flex-1 overflow-y-auto bg-dots relative p-4 pb-20 md:pb-4">
             {/* Background Texture - slightly more subtle */}
             <div className="absolute inset-0 pointer-events-none opacity-[0.02]" 
                  style={{ backgroundImage: `linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px)`, backgroundSize: '40px 40px' }}
             ></div>
 
             {activeTab === 'nodes' && (
-                <div className="space-y-4 p-6 pb-10">
+                <div className="space-y-4">
                     {/* ... (Building rendering logic logic same as before) ... */}
                     {Object.values(BuildingCategory).map(cat => {
                         let categoryBuildings = BUILDINGS.filter(b => b.category === cat);
@@ -242,7 +242,7 @@ const MainPanel: React.FC<MainPanelProps> = ({
             )}
 
             {activeTab === 'research' && (
-                <div className="p-6 pb-20 space-y-6">
+                <div className="space-y-6">
                     {/* ... (Tech rendering logic same as before) ... */}
                     {Object.values(BuildingCategory).map(cat => {
                         const categoryTechs = TECHS.filter(t => t.category === cat).sort((a, b) => a.tier - b.tier);
@@ -328,13 +328,15 @@ const MainPanel: React.FC<MainPanelProps> = ({
             )}
 
             {activeTab === 'inventory' && (
-                <ArtifactInventory 
-                    artifacts={gameState.artifacts}
-                    onRecycle={onRecycleArtifact}
-                    onRecycleArtifactsByRarity={onRecycleArtifactsByRarity}
-                    onLog={addGlobalLog} 
-                    detailedLogsEnabled={gameState.settings.showDetailedBatchLogs} // NEW PROP
-                />
+                <div className="h-full">
+                    <ArtifactInventory 
+                        artifacts={gameState.artifacts}
+                        onRecycle={onRecycleArtifact}
+                        onRecycleArtifactsByRarity={onRecycleArtifactsByRarity}
+                        onLog={addGlobalLog} 
+                        detailedLogsEnabled={gameState.settings.showDetailedBatchLogs} 
+                    />
+                </div>
             )}
         </div>
     </section>

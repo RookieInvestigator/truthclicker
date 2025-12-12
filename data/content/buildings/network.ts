@@ -16,10 +16,10 @@ export const NETWORK_BUILDINGS: Building[] = [
   {
     id: 'directory_indexer', 
     name: '开放目录索引',
-    description: '专门寻找配置错误的服务器文件列表 (Index of /)。挖掘未被搜索引擎收录的深层数据。',
+    description: '专门寻找配置错误的服务器文件列表 (Index of /)。虽然昂贵，但在垃圾山中偶尔能发现世界的真实碎片。',
     category: BuildingCategory.NETWORK,
-    baseCosts: { [ResourceType.INFO]: 300 },
-    baseProduction: { [ResourceType.INFO]: 1.5 },
+    baseCosts: { [ResourceType.INFO]: 2500 }, // Expensive Early Game Investment
+    baseProduction: { [ResourceType.INFO]: 2.0, [ResourceType.TRUTH]: 0.0001 }, // The ONLY early truth source
     costMultiplier: 1.15,
     icon: 'FolderSearch',
     unlockRequirement: 0,
@@ -204,5 +204,29 @@ export const NETWORK_BUILDINGS: Building[] = [
     icon: 'Activity',
     unlockRequirement: 0,
     requireTech: ['ansible_network'],
+  },
+  {
+    id: 'neuromorphic_internet',
+    name: '神经形态互联网',
+    description: '网络不再传输数据，它本身就是一个正在思考的大脑。信息在这里自我繁殖。',
+    category: BuildingCategory.NETWORK,
+    baseCosts: { [ResourceType.OPS]: 200000, [ResourceType.BIOMASS]: 10000, [ResourceType.CODE]: 50000 },
+    baseProduction: { [ResourceType.INFO]: 25000.0, [ResourceType.OPS]: -500.0, [ResourceType.MIND_CONTROL]: 2.0 }, 
+    costMultiplier: 1.8,
+    icon: 'BrainCircuit',
+    unlockRequirement: 0,
+    requireTech: ['neural_cloud'],
+  },
+  {
+    id: 'event_horizon_telescope',
+    name: '视界信息捕获阵列',
+    description: '黑洞并不吞噬信息，它将信息编码在视界表面。我们正在读取宇宙的回收站。',
+    category: BuildingCategory.NETWORK,
+    baseCosts: { [ResourceType.OPS]: 1000000, [ResourceType.TECH_CAPITAL]: 500000, [ResourceType.POWER]: 100000 },
+    baseProduction: { [ResourceType.INFO]: 200000.0, [ResourceType.TRUTH]: 0.005, [ResourceType.REALITY]: -0.0001 }, // Nerfed TRUTH
+    costMultiplier: 2.0,
+    icon: 'Aperture',
+    unlockRequirement: 0,
+    requireTech: ['holographic_principle'],
   }
 ];

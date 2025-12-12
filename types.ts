@@ -63,17 +63,20 @@ export enum ResourceType {
 
 export enum BuildingCategory {
   SURVIVAL = 'SURVIVAL',       
+  CAPITAL = 'CAPITAL',         
   NETWORK = 'NETWORK',         
   INTERNET_CULTURE = 'INTERNET_CULTURE', 
   ADULT = 'ADULT',             
   VERIFICATION = 'VERIFICATION', 
   TECHNOCRACY = 'TECHNOCRACY', 
   HISTORY = 'HISTORY',         
+  CRYPTID = 'CRYPTID',         
   FOLKLORE = 'FOLKLORE',       
   COUNTER_CULTURE = 'COUNTER_CULTURE', 
   ARCHIVE = 'ARCHIVE',         
   SUBVERSION = 'SUBVERSION',   
   ESOTERIC = 'ESOTERIC',       
+  TRUTH = 'TRUTH',             // NEW ULTIMATE CATEGORY
 }
 
 export interface Building {

@@ -11,7 +11,19 @@ export const FOLKLORE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.LORE]: 0.8, [ResourceType.INFO]: 10 },
     costMultiplier: 1.2,
     icon: 'MessageCircle',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
+    requireTech: ['forum_culture'],
+  },
+  {
+    id: 'occult_magazine_stand',
+    name: '神秘学杂志摊',
+    description: '出售《Fate》、《Fortean Times》和《飞碟探索》。记录着旧世界对于未知的探索与迷恋。',
+    category: BuildingCategory.FOLKLORE,
+    baseCosts: { [ResourceType.FUNDS]: 1000, [ResourceType.LORE]: 50 },
+    baseProduction: { [ResourceType.LORE]: 1.2, [ResourceType.CLUE]: 0.1 },
+    costMultiplier: 1.15,
+    icon: 'BookOpen',
+    unlockRequirement: 0, 
     requireTech: ['forum_culture'],
   },
   {
@@ -20,7 +32,7 @@ export const FOLKLORE_BUILDINGS: Building[] = [
     description: '专门寻找卫星地图上被涂黑或马赛克的区域。那里有什么？',
     category: BuildingCategory.FOLKLORE,
     baseCosts: { [ResourceType.INFO]: 5000, [ResourceType.LORE]: 50 },
-    baseProduction: { [ResourceType.TRUTH]: 0.05, [ResourceType.LORE]: 0.5 },
+    baseProduction: { [ResourceType.TRUTH]: 0.005, [ResourceType.LORE]: 0.5 }, // Nerfed
     costMultiplier: 1.2,
     icon: 'Map',
     unlockRequirement: 0,
@@ -35,44 +47,8 @@ export const FOLKLORE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.LORE]: 1.0, [ResourceType.SPAM]: 5.0 },
     costMultiplier: 1.2,
     icon: 'FileText',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['creepypasta_analysis'],
-  },
-  {
-    id: 'mothman_lure', 
-    name: '天蛾人诱捕灯',
-    description: '在波因特普莱森特的桥梁上架设高强度红外灯。',
-    category: BuildingCategory.FOLKLORE,
-    baseCosts: { [ResourceType.FUNDS]: 500, [ResourceType.CLUE]: 10 },
-    baseProduction: { [ResourceType.CLUE]: 0.4, [ResourceType.FOLLOWERS]: 0.1, [ResourceType.LORE]: 0.3, [ResourceType.POWER]: -5.0 },
-    costMultiplier: 1.2,
-    icon: 'Eye',
-    unlockRequirement: 0, // Reset
-    requireTech: ['cryptozoology'],
-  },
-  {
-    id: 'mothman_lamp_store',
-    name: '灯具与鳞粉店',
-    description: '“兄弟，我有灯。” 出售专门吸引不可名状生物的灯具。',
-    category: BuildingCategory.FOLKLORE,
-    baseCosts: { [ResourceType.FUNDS]: 3000, [ResourceType.LORE]: 500 },
-    baseProduction: { [ResourceType.FUNDS]: 50, [ResourceType.FOLLOWERS]: 2.0, [ResourceType.BIOMASS]: 0.2 },
-    costMultiplier: 1.25,
-    icon: 'Zap',
-    unlockRequirement: 0,
-    requireTech: ['cryptid_domestication'],
-  },
-  {
-    id: 'bigfoot_trap',
-    name: '大脚怪陷阱',
-    description: '用培根和信息素作为诱饵。捕捉到的通常只是也是来找大脚怪的游客。',
-    category: BuildingCategory.FOLKLORE,
-    baseCosts: { [ResourceType.CARDBOARD]: 1000, [ResourceType.BIOMASS]: 200 },
-    baseProduction: { [ResourceType.LORE]: 0.5, [ResourceType.BIOMASS]: 0.5 },
-    costMultiplier: 1.25,
-    icon: 'Footprints',
-    unlockRequirement: 0, // Reset
-    requireTech: ['cryptozoology'],
   },
   {
     id: 'spirit_radio',
@@ -83,31 +59,19 @@ export const FOLKLORE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.CLUE]: 0.8, [ResourceType.INFO]: 30, [ResourceType.LORE]: 0.5, [ResourceType.POWER]: -2.0 },
     costMultiplier: 1.25,
     icon: 'Radio',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['evp_recording'],
   },
   {
-    id: 'skinwalker_ranch_cam',
-    name: '皮行者牧场监控',
-    description: '24小时直播犹他州的异常热点。虽然大部分时间只是土和草。',
-    category: BuildingCategory.FOLKLORE,
-    baseCosts: { [ResourceType.FUNDS]: 10000, [ResourceType.OPS]: 1000 },
-    baseProduction: { [ResourceType.LORE]: 2.0, [ResourceType.PANIC]: 0.5, [ResourceType.POWER]: -10.0 },
-    costMultiplier: 1.3,
-    icon: 'Video',
-    unlockRequirement: 0, // Reset
-    requireTech: ['cryptozoology'],
-  },
-  {
     id: 'randonauting_server',
-    name: '随机漫步 (Randonauting) 服务器',
+    name: '随机漫步服务器',
     description: '生成量子随机坐标。引导探索者前往“意念场”异常集中的盲点。',
     category: BuildingCategory.FOLKLORE,
     baseCosts: { [ResourceType.CODE]: 8000, [ResourceType.OPS]: 2000 },
     baseProduction: { [ResourceType.LORE]: 2.5, [ResourceType.CLUE]: 1.0, [ResourceType.PANIC]: 0.2 },
     costMultiplier: 1.3,
     icon: 'MapPin',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['quantum_randonauting'],
   },
   {
@@ -119,7 +83,7 @@ export const FOLKLORE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.FUNDS]: 200, [ResourceType.PANIC]: 0.2, [ResourceType.LORE]: -1.0 },
     costMultiplier: 1.3,
     icon: 'Ghost',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['e_commerce_logic'],
   },
   {
@@ -131,7 +95,7 @@ export const FOLKLORE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.LORE]: 3.0, [ResourceType.PANIC]: 1.0, [ResourceType.CULTURE]: 0.5 },
     costMultiplier: 1.35,
     icon: 'Maximize',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['liminal_space_theory'],
   },
   {
@@ -143,7 +107,7 @@ export const FOLKLORE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.PANIC]: 5.0, [ResourceType.RUMORS]: 2.0, [ResourceType.LORE]: 1.0 },
     costMultiplier: 1.4,
     icon: 'CassetteTape',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['infohazard_containment'],
   },
   {
@@ -155,7 +119,7 @@ export const FOLKLORE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.ANCIENT_WISDOM]: 0.5, [ResourceType.LORE]: 2.0, [ResourceType.BIOMASS]: -2.0 }, 
     costMultiplier: 1.45,
     icon: 'ArrowUpCircle',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['ritual_protocols'],
   },
   {
@@ -167,7 +131,7 @@ export const FOLKLORE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.LORE]: 3.0, [ResourceType.CULTURE]: 1.0, [ResourceType.INFO]: 50 },
     costMultiplier: 1.35,
     icon: 'Database',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['creepypasta_analysis'],
   },
   {
@@ -179,7 +143,7 @@ export const FOLKLORE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.LORE]: 5.0, [ResourceType.CULTURE]: 2.0, [ResourceType.MIND_CONTROL]: 1.0 },
     costMultiplier: 1.4,
     icon: 'Cloud',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['dream_cartography'],
   },
   {
@@ -188,10 +152,10 @@ export const FOLKLORE_BUILDINGS: Building[] = [
     description: '寻找重复的猫、静止的鸟和加载错误的纹理。',
     category: BuildingCategory.FOLKLORE,
     baseCosts: { [ResourceType.TECH_CAPITAL]: 2000, [ResourceType.CODE]: 50000 },
-    baseProduction: { [ResourceType.TRUTH]: 0.2, [ResourceType.LORE]: 4.0, [ResourceType.PANIC]: 2.0 },
+    baseProduction: { [ResourceType.TRUTH]: 0.005, [ResourceType.LORE]: 4.0, [ResourceType.PANIC]: 2.0 }, // Nerfed
     costMultiplier: 1.5,
     icon: 'AlertTriangle',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['noclipping_physics'],
   },
   {
@@ -203,31 +167,7 @@ export const FOLKLORE_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.LORE]: 10.0, [ResourceType.ANCIENT_WISDOM]: 1.0, [ResourceType.POWER]: -200.0 },
     costMultiplier: 1.6,
     icon: 'EyeOff',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['cognitohazard_design'],
-  },
-  {
-    id: 'crypto_darkroom',
-    name: '神秘生物暗房',
-    description: '专门冲洗那些所谓“曝光不足”的怪物照片。从噪点中还原雷鸟的翼展。',
-    category: BuildingCategory.FOLKLORE,
-    baseCosts: { [ResourceType.FUNDS]: 2000, [ResourceType.LORE]: 100 },
-    baseProduction: { [ResourceType.LORE]: 1.0, [ResourceType.CLUE]: 0.2 },
-    costMultiplier: 1.25,
-    icon: 'Image',
-    unlockRequirement: 0,
-    requireTech: ['thunderbird_photo'],
-  },
-  {
-    id: 'extinction_reversal_vat',
-    name: '拉撒路物种坑',
-    description: '渡渡鸟并没有死，它只是在等待服务器重启。我们正在把它“下载”回来。',
-    category: BuildingCategory.FOLKLORE,
-    baseCosts: { [ResourceType.BIOMASS]: 5000, [ResourceType.LORE]: 2000 },
-    baseProduction: { [ResourceType.BIOMASS]: 10.0, [ResourceType.LORE]: 2.0, [ResourceType.FOSSIL]: -0.5 },
-    costMultiplier: 1.4,
-    icon: 'Dna',
-    unlockRequirement: 0,
-    requireTech: ['hollow_earth_biology'],
   }
 ];

@@ -116,7 +116,7 @@ export const ADULT_BUILDINGS: Building[] = [
     description: '用纯粹的欲望作为祭品。实体化的色欲恶魔。',
     category: BuildingCategory.ADULT,
     baseCosts: { [ResourceType.PLEASURE]: 20000, [ResourceType.LORE]: 5000 },
-    baseProduction: { [ResourceType.PLEASURE]: 50.0, [ResourceType.REALITY]: -0.5, [ResourceType.BIOMASS]: -10.0 },
+    baseProduction: { [ResourceType.PLEASURE]: 50.0, [ResourceType.REALITY]: -0.0001, [ResourceType.BIOMASS]: -10.0 },
     costMultiplier: 1.5,
     icon: 'Flame',
     unlockRequirement: 0, // Reset
@@ -128,7 +128,7 @@ export const ADULT_BUILDINGS: Building[] = [
     description: '直接刺激大脑的快乐中枢。不再需要食物，不再需要睡眠，只需要电流。',
     category: BuildingCategory.ADULT,
     baseCosts: { [ResourceType.TECH_CAPITAL]: 5000, [ResourceType.OPS]: 50000 },
-    baseProduction: { [ResourceType.PLEASURE]: 200.0, [ResourceType.BIOMASS]: -50.0, [ResourceType.REALITY]: -1.0 },
+    baseProduction: { [ResourceType.PLEASURE]: 200.0, [ResourceType.BIOMASS]: -50.0, [ResourceType.REALITY]: -0.0002 },
     costMultiplier: 1.6,
     icon: 'Zap',
     unlockRequirement: 0, // Reset

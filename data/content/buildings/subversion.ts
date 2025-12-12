@@ -8,7 +8,7 @@ export const SUBVERSION_BUILDINGS: Building[] = [
     description: '制作精美的圆盘地球模型。解释为什么澳大利亚不存在。',
     category: BuildingCategory.SUBVERSION,
     baseCosts: { [ResourceType.CARDBOARD]: 500, [ResourceType.RUMORS]: 50 },
-    baseProduction: { [ResourceType.SPAM]: 2.0, [ResourceType.FOLLOWERS]: 1.0, [ResourceType.TRUTH]: -0.1 },
+    baseProduction: { [ResourceType.SPAM]: 2.0, [ResourceType.FOLLOWERS]: 1.0 }, // Removed TRUTH consumption
     costMultiplier: 1.2,
     icon: 'Disc',
     unlockRequirement: 0, // Reset
@@ -68,7 +68,7 @@ export const SUBVERSION_BUILDINGS: Building[] = [
     description: '在流行歌曲中植入指令。消耗[文化资本]作为载体。',
     category: BuildingCategory.SUBVERSION,
     baseCosts: { [ResourceType.CULTURE]: 5000, [ResourceType.OPS]: 10000 },
-    baseProduction: { [ResourceType.FOLLOWERS]: 20, [ResourceType.MIND_CONTROL]: 0.8, [ResourceType.TRUTH]: -0.5, [ResourceType.POWER]: -100.0, [ResourceType.CULTURE]: -2.0 }, 
+    baseProduction: { [ResourceType.FOLLOWERS]: 20, [ResourceType.MIND_CONTROL]: 0.8, [ResourceType.POWER]: -100.0, [ResourceType.CULTURE]: -2.0 }, // Removed TRUTH consumption
     costMultiplier: 1.4,
     icon: 'Radio',
     unlockRequirement: 0, // Reset
@@ -104,7 +104,7 @@ export const SUBVERSION_BUILDINGS: Building[] = [
     description: '设计一场看起来像意外的事件。',
     category: BuildingCategory.SUBVERSION,
     baseCosts: { [ResourceType.FUNDS]: 50000, [ResourceType.INFO]: 20000 },
-    baseProduction: { [ResourceType.PANIC]: 5.0, [ResourceType.RUMORS]: 10.0, [ResourceType.TRUTH]: -2.0 },
+    baseProduction: { [ResourceType.PANIC]: 5.0, [ResourceType.RUMORS]: 10.0 }, // Removed TRUTH consumption
     costMultiplier: 1.5,
     icon: 'Flag',
     unlockRequirement: 0, // Reset
@@ -128,7 +128,7 @@ export const SUBVERSION_BUILDINGS: Building[] = [
     description: '在高空释放气溶胶。燃烧大量[资金]作为航空燃油。',
     category: BuildingCategory.SUBVERSION,
     baseCosts: { [ResourceType.FUNDS]: 20000, [ResourceType.OPS]: 5000 },
-    baseProduction: { [ResourceType.TRUTH]: 0.1, [ResourceType.FUNDS]: -300, [ResourceType.MIND_CONTROL]: 1.5, [ResourceType.RUMORS]: 3.0 }, 
+    baseProduction: { [ResourceType.TRUTH]: 0.005, [ResourceType.FUNDS]: -300, [ResourceType.MIND_CONTROL]: 1.5, [ResourceType.RUMORS]: 3.0 }, // Nerfed
     costMultiplier: 1.4,
     icon: 'CloudRain',
     unlockRequirement: 0, // Reset
@@ -140,7 +140,7 @@ export const SUBVERSION_BUILDINGS: Building[] = [
     description: '微调过去的时间线。到底是“贝伦斯坦熊”还是“贝伦斯特恩熊”？',
     category: BuildingCategory.SUBVERSION,
     baseCosts: { [ResourceType.TECH_CAPITAL]: 5000, [ResourceType.OPS]: 50000 },
-    baseProduction: { [ResourceType.TRUTH]: -1.0, [ResourceType.PANIC]: 2.0, [ResourceType.LORE]: 5.0 },
+    baseProduction: { [ResourceType.PANIC]: 2.0, [ResourceType.LORE]: 5.0 }, // Removed TRUTH consumption
     costMultiplier: 1.5,
     icon: 'Shuffle',
     unlockRequirement: 0, // Reset

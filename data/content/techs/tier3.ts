@@ -39,7 +39,7 @@ export const TIER_3_TECHS: Tech[] = [
   // --- NETWORK ---
   {
     id: 'tor_network',
-    name: '洋葱路由 (Tor)',
+    name: '洋葱路由',
     description: '进入深网。访问 .onion 站点。',
     tier: 3,
     category: BuildingCategory.NETWORK,
@@ -53,7 +53,7 @@ export const TIER_3_TECHS: Tech[] = [
   },
   {
     id: 'dark_fiber', 
-    name: '暗光纤 (Dark Fiber)',
+    name: '暗光纤',
     description: '连接到那些铺设了但从未投入使用的光缆。无限的带宽。',
     tier: 3,
     category: BuildingCategory.NETWORK,
@@ -95,7 +95,7 @@ export const TIER_3_TECHS: Tech[] = [
   },
   {
     id: 'generative_adversarial_networks',
-    name: '生成对抗网络 (GANs)',
+    name: '生成对抗网络',
     description: '两个AI相互博弈，一个生成假象，一个鉴别真伪。',
     tier: 3,
     category: BuildingCategory.TECHNOCRACY,
@@ -151,7 +151,7 @@ export const TIER_3_TECHS: Tech[] = [
   // --- FOLKLORE EXPANSION ---
   {
     id: 'liminal_space_theory',
-    name: '阈限空间 (Liminal Space)',
+    name: '阈限空间',
     description: 'Kenopsia：那种通常熙熙攘攘但现在空无一人的场所所带来的诡异氛围。',
     tier: 3,
     category: BuildingCategory.FOLKLORE,
@@ -253,7 +253,7 @@ export const TIER_3_TECHS: Tech[] = [
   // --- HISTORY ---
   {
     id: 'oopart_studies', 
-    name: '欧帕兹 (OOPArt) 研究',
+    name: '欧帕兹研究',
     description: 'Out-of-place artifacts。这些文物不应该存在于那个时代。',
     tier: 3,
     category: BuildingCategory.HISTORY,
@@ -263,6 +263,20 @@ export const TIER_3_TECHS: Tech[] = [
         unlockMessage: '解锁: 欧帕兹收藏馆'
     },
     icon: 'Box',
+    preRequisiteTech: 'carbon_dating'
+  },
+  {
+    id: 'paleo_virology',
+    name: '古病毒学',
+    description: '随着永久冻土的融化，沉睡了三万年的巨型病毒正在苏醒。潘多拉魔盒其实是个冰块。',
+    tier: 3,
+    category: BuildingCategory.CRYPTID,
+    costs: { [ResourceType.INFO]: 8000, [ResourceType.BIOMASS]: 500 },
+    effects: {
+        resourceMultipliers: { [ResourceType.FOSSIL]: 0.1 },
+        unlockMessage: '解锁: 冻土钻探机'
+    },
+    icon: 'Thermometer',
     preRequisiteTech: 'carbon_dating'
   },
   {
@@ -281,7 +295,7 @@ export const TIER_3_TECHS: Tech[] = [
   },
   {
     id: 'black_knight_satellite', 
-    name: '黑骑士卫星 (Black Knight)',
+    name: '黑骑士卫星',
     description: '它在极地轨道上运行了13000年。特斯拉曾接收过它的信号。',
     tier: 3,
     category: BuildingCategory.HISTORY,
@@ -295,8 +309,8 @@ export const TIER_3_TECHS: Tech[] = [
   },
   {
     id: 'atmospheric_geoengineering', 
-    name: '大气地球工程',
-    description: '所谓的“化学凝尾 (Chemtrails)”其实是平流层气溶胶注入计划。',
+    name: '平流层气溶胶注入',
+    description: '所谓的“化学凝尾”其实是改变气候的工程计划。',
     tier: 3,
     category: BuildingCategory.SUBVERSION, // Root
     costs: { [ResourceType.KNOWLEDGE]: 100, [ResourceType.FUNDS]: 25000 }, 
@@ -336,7 +350,7 @@ export const TIER_3_TECHS: Tech[] = [
   },
   {
     id: 'crisis_acting', 
-    name: '危机演员 (Crisis Actors)',
+    name: '危机演员',
     description: '那些在不同新闻悲剧中出现的同一张面孔。一切都是剧本。',
     tier: 3,
     category: BuildingCategory.SUBVERSION,
@@ -363,7 +377,7 @@ export const TIER_3_TECHS: Tech[] = [
   },
   {
     id: 'targeted_individuals', 
-    name: '有组织纠缠',
+    name: '受控个体',
     description: '不是你在发疯，而是真的有一群人在街角用红颜色车灯给你发信号。',
     tier: 3,
     category: BuildingCategory.SUBVERSION,
@@ -406,7 +420,7 @@ export const TIER_3_TECHS: Tech[] = [
   {
     id: 'simp_economics',
     name: 'Simp 经济学',
-    description: '如何倾家荡产的指南。',
+    description: '为了听一句“谢谢大哥”而倾家荡产。',
     tier: 3,
     category: BuildingCategory.ADULT,
     costs: { [ResourceType.FUNDS]: 2000, [ResourceType.PLEASURE]: 50 },
@@ -420,7 +434,7 @@ export const TIER_3_TECHS: Tech[] = [
   {
     id: 'character_worship',
     name: '怪谈崇拜',
-    description: '准备好召唤Slender Man的仪式了吗？',
+    description: '杰夫杀手 (Jeff the Killer) 不是怪物，他是被误解的偶像。在硬盘深处为他建立祭坛。',
     tier: 3,
     category: BuildingCategory.ADULT,
     costs: { [ResourceType.LORE]: 200, [ResourceType.PLEASURE]: 50 },
@@ -465,7 +479,7 @@ export const TIER_3_TECHS: Tech[] = [
     name: '混币服务',
     description: '洗钱 101。确保资金来源不可追踪。',
     tier: 3,
-    category: BuildingCategory.SURVIVAL,
+    category: BuildingCategory.CAPITAL, // Changed
     costs: { [ResourceType.FUNDS]: 15000 },
     effects: {
         resourceMultipliers: { [ResourceType.FUNDS]: 0.15 },
@@ -518,8 +532,8 @@ export const TIER_3_TECHS: Tech[] = [
     name: '猜想演化',
     description: '《Man After Man》。如果人类被基因工程改造成肉块会怎样？推演未来的恐怖生态。',
     tier: 3,
-    category: BuildingCategory.HISTORY,
-    costs: { [ResourceType.BIOMASS]: 500, [ResourceType.INFO]: 15000, [ResourceType.FOSSIL]: 50 }, // Added FOSSIL cost
+    category: BuildingCategory.CRYPTID, // Changed
+    costs: { [ResourceType.BIOMASS]: 500, [ResourceType.INFO]: 15000, [ResourceType.FOSSIL]: 50 }, 
     effects: {
         resourceMultipliers: { [ResourceType.BIOMASS]: 0.2, [ResourceType.LORE]: 0.1 },
         unlockMessage: '解锁: 未来演化沙盘'

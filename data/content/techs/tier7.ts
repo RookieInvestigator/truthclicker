@@ -49,7 +49,7 @@ export const TIER_7_TECHS: Tech[] = [
   {
     id: 'experience_machine',
     name: '体验机',
-    description: '。一个完美的模拟水箱，你可以在其中过上你想过的任何生活。',
+    description: '一个完美的模拟水箱，你可以在其中过上你想过的任何生活。',
     tier: 7,
     category: BuildingCategory.ADULT,
     costs: { [ResourceType.PLEASURE]: 5000000, [ResourceType.OPS]: 5000000 },
@@ -59,6 +59,21 @@ export const TIER_7_TECHS: Tech[] = [
     },
     icon: 'Monitor',
     preRequisiteTech: 'limbic_overclocking'
+  },
+  
+  // --- HIGH INFO COST TECHS ---
+  {
+    id: 'psychohistory',
+    name: '心理史学',
+    description: '只要数据量足够大，个体行为的不可预测性就会消失，历史变成可以计算的物理学。',
+    tier: 7,
+    category: BuildingCategory.TECHNOCRACY,
+    costs: { [ResourceType.INFO]: 100000000, [ResourceType.KNOWLEDGE]: 1000000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.OPS]: 0.5, [ResourceType.FUNDS]: 0.5 },
+    },
+    icon: 'BarChart',
+    preRequisiteTech: 'panopticon_algorithm'
   },
 
   // --- NEW FLAVOR TECHS (Tier 7) ---

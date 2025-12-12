@@ -42,18 +42,21 @@ export const RESOURCE_INFO: Record<ResourceType, { name: string; color: string; 
 
 // Category Metadata
 export const CATEGORY_CONFIG: Record<BuildingCategory, { name: string; color: string; description: string }> = {
-  [BuildingCategory.SURVIVAL]:        { name: '底层生存', color: 'text-emerald-500 border-emerald-500', description: '维持肉体存活并获取基础资金。' },
+  [BuildingCategory.SURVIVAL]:        { name: '生存狂', color: 'text-amber-600 border-amber-600', description: '城市拾荒，基础设施与废土堡垒。' },
+  [BuildingCategory.CAPITAL]:         { name: '加密资本', color: 'text-emerald-400 border-emerald-400', description: '区块链、NFT 与算法金融黑洞。' },
   [BuildingCategory.NETWORK]:         { name: '网络连接', color: 'text-cyan-500 border-cyan-500', description: '扩展连接带宽与网络节点。' },
   [BuildingCategory.INTERNET_CULTURE]:{ name: '互联网文化', color: 'text-lime-400 border-lime-400', description: '记录稍纵即逝的网络模因与梗文化。' }, 
   [BuildingCategory.ADULT]:           { name: '？？？', color: 'text-pink-500 border-pink-500', description: '深渊凝视。消费主义、多巴胺与边缘产业。' }, 
   [BuildingCategory.VERIFICATION]:    { name: '真相核查', color: 'text-teal-400 border-teal-400', description: '分析数据，构建叙事，控制恐慌。' }, 
   [BuildingCategory.TECHNOCRACY]:     { name: '边缘科技', color: 'text-blue-400 border-blue-400', description: '构建硬件设施与自动化脚本。' }, 
   [BuildingCategory.HISTORY]:         { name: '历史考古', color: 'text-amber-700 border-amber-700', description: '挖掘过去的时间线与失落遗物。' },
+  [BuildingCategory.CRYPTID]:         { name: '异种生物', color: 'text-stone-400 border-stone-400', description: '挖掘化石，追踪隐匿生物，研究未知生命形式。' },
   [BuildingCategory.FOLKLORE]:        { name: '怪谈传说', color: 'text-rose-400 border-rose-400', description: '探索都市传说与异常地点。' },
   [BuildingCategory.COUNTER_CULTURE]: { name: '反文化', color: 'text-pink-400 border-pink-400', description: '传播模因与混乱艺术。' },
   [BuildingCategory.ARCHIVE]:         { name: '档案馆', color: 'text-slate-500 border-slate-500', description: '保存即将消失的历史数据。' }, 
   [BuildingCategory.SUBVERSION]:      { name: '阴谋论', color: 'text-zinc-400 border-zinc-400', description: '揭露被掩盖的真相。' }, 
   [BuildingCategory.ESOTERIC]:        { name: '神秘学', color: 'text-purple-500 border-purple-500', description: '超越唯物主义的认知。' },
+  [BuildingCategory.TRUTH]:           { name: '真相', color: 'text-red-500 border-red-500', description: '接触世界的底层代码。最终的启示。' },
 };
 
 export const CATEGORY_COLORS = Object.fromEntries(

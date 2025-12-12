@@ -9,6 +9,7 @@ import { TIER_5_TECHS } from './content/techs/tier5';
 import { TIER_6_TECHS } from './content/techs/tier6';
 import { TIER_7_TECHS } from './content/techs/tier7';
 import { TIER_8_TECHS } from './content/techs/tier8';
+import { TRUTH_TECHS } from './content/techs/truth'; // Added
 
 export const TECHS: Tech[] = [
   ...TIER_0_TECHS,
@@ -19,5 +20,6 @@ export const TECHS: Tech[] = [
   ...TIER_5_TECHS,
   ...TIER_6_TECHS,
   ...TIER_7_TECHS,
-  ...TIER_8_TECHS
+  ...TIER_8_TECHS,
+  ...TRUTH_TECHS // Added
 ];

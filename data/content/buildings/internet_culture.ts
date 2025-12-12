@@ -140,7 +140,7 @@ export const INTERNET_CULTURE_BUILDINGS: Building[] = [
     description: '一个自我进化的笑话，好笑到足以终结文明。',
     category: BuildingCategory.INTERNET_CULTURE,
     baseCosts: { [ResourceType.CULTURE]: 100000, [ResourceType.TECH_CAPITAL]: 5000 },
-    baseProduction: { [ResourceType.CULTURE]: 100.0, [ResourceType.MIND_CONTROL]: 5.0, [ResourceType.REALITY]: -2.0 },
+    baseProduction: { [ResourceType.CULTURE]: 100.0, [ResourceType.MIND_CONTROL]: 5.0, [ResourceType.REALITY]: -0.0005 },
     costMultiplier: 1.5,
     icon: 'Zap',
     unlockRequirement: 0, // Reset

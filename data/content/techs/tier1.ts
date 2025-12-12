@@ -5,14 +5,14 @@ export const TIER_1_TECHS: Tech[] = [
   // --- NETWORK START ---
   {
     id: 'doomscrolling',
-    name: '末日滚动 (Doomscrolling)',
-    description: '你的拇指比眼睛移动得更快。在潜意识层面处理信息流，极大地提升信息获取效率。',
+    name: '末日滚动',
+    description: '你的拇指比眼睛移动得更快。在潜意识层面处理信息流，这是一种数字时代的条件反射。',
     tier: 1,
     category: BuildingCategory.NETWORK,
     costs: { [ResourceType.INFO]: 400 },
     effects: {
         resourceMultipliers: { [ResourceType.INFO]: 0.1 },
-        unlockMessage: '解锁: 加密中继节点 / 局域网派对'
+        unlockMessage: '解锁: 加密中继节点 / 死灵局域网'
     },
     icon: 'ArrowDownCircle',
     preRequisiteTech: 'digital_literacy'
@@ -20,397 +20,283 @@ export const TIER_1_TECHS: Tech[] = [
   {
     id: 'spam_algorithms', 
     name: '垃圾邮件算法',
-    description: '通过大量发送无意义信息来掩盖你的真实踪迹。',
+    description: '通过大量发送无意义信息来掩盖你的真实踪迹。数据干扰战术。',
     tier: 1,
     category: BuildingCategory.NETWORK,
-    costs: { [ResourceType.INFO]: 800 }, 
+    costs: { [ResourceType.INFO]: 600 }, 
     effects: {
+        resourceMultipliers: { [ResourceType.SPAM]: 0.5, [ResourceType.FUNDS]: 0.1 },
         unlockMessage: '解锁: 垃圾邮件机器人'
     },
     icon: 'Mail',
     preRequisiteTech: 'digital_literacy'
   },
   {
-    id: 'directory_traversal', 
-    name: '目录遍历',
-    description: '../../etc/passwd. 并不是所有门都锁好了。学会寻找服务器的后门。',
+    id: 'rss_feeds',
+    name: 'RSS 订阅',
+    description: '真正简单聚合。去中心化的阅读方式，不被算法裹挟。',
     tier: 1,
     category: BuildingCategory.NETWORK,
-    costs: { [ResourceType.INFO]: 600 }, 
+    costs: { [ResourceType.INFO]: 1000 },
     effects: {
-        resourceMultipliers: { [ResourceType.INFO]: 0.1 }, 
-        unlockMessage: '解锁: 开放目录索引'
-    },
-    icon: 'FolderOpen',
-    preRequisiteTech: 'doomscrolling'
-  },
-  {
-    id: 'rss_feeds', 
-    name: 'API 抓取',
-    description: '直接与服务器的应用程序接口对话。让原始数据主动流向你。',
-    tier: 1,
-    category: BuildingCategory.NETWORK,
-    costs: { [ResourceType.INFO]: 1000 }, 
-    effects: {
+        resourceMultipliers: { [ResourceType.INFO]: 0.15 },
         unlockMessage: '解锁: 信息聚合器'
     },
     icon: 'Rss',
-    preRequisiteTech: 'directory_traversal'
-  },
-  {
-    id: 'dom_manipulation', 
-    name: 'DOM 操控',
-    description: '网页只是文档对象模型。你可以随意增删改查，重塑你看到的互联网。',
-    tier: 1,
-    category: BuildingCategory.INTERNET_CULTURE, // Root of Culture
-    costs: { [ResourceType.INFO]: 800, [ResourceType.FUNDS]: 50 }, 
-    effects: {
-        unlockMessage: '解锁: 静态粉丝页'
-    },
-    icon: 'Code',
     preRequisiteTech: 'doomscrolling'
   },
 
   // --- SURVIVAL ---
   {
     id: 'cardboard_architecture',
-    name: '纸箱建筑学',
-    description: '快递盒不是垃圾，是模块化的隔音墙和家具。',
+    name: '纸板工程学',
+    description: '精通如何用废纸箱搭建防水、隔热的临时庇护所。',
     tier: 1,
     category: BuildingCategory.SURVIVAL,
-    costs: { [ResourceType.CARDBOARD]: 10, [ResourceType.INFO]: 400 }, 
-    effects: { 
-        globalCostReduction: 0.02,
+    costs: { [ResourceType.CARDBOARD]: 50, [ResourceType.INFO]: 200 },
+    effects: {
+        globalCostReduction: 0.05,
+        resourceMultipliers: { [ResourceType.CARDBOARD]: 0.2 },
         recycleEfficiency: 0.1,
-        unlockMessage: '解锁: 废纸板真菌床 / 脚踏发电机' 
+        unlockMessage: '解锁: 健身车发电机 / 定点拾荒'
     },
     icon: 'Package',
-    preRequisiteTech: 'digital_literacy',
+    preRequisiteTech: 'digital_literacy'
   },
   {
-    id: 'railfan_logistics',
-    name: '铁道迷 (Railfan)',
-    description: '痴迷于时刻表和路网图。你比城市规划局更了解这座城市的血管。',
+    id: 'urban_entomology',
+    name: '城市昆虫学',
+    description: '黄粉虫能降解聚苯乙烯泡沫和纤维素。将废弃物转化为卡路里的最高效方式。',
     tier: 1,
     category: BuildingCategory.SURVIVAL,
-    costs: { [ResourceType.INFO]: 1000, [ResourceType.CARDBOARD]: 50 },
+    costs: { [ResourceType.INFO]: 350, [ResourceType.CARDBOARD]: 20 },
     effects: {
-        globalCostReduction: 0.03,
-        unlockMessage: '物流效率优化'
+        resourceMultipliers: { [ResourceType.BIOMASS]: 0.1 },
+        unlockMessage: '解锁: 黄粉虫饲养箱'
     },
-    icon: 'Map',
+    icon: 'Bug',
     preRequisiteTech: 'cardboard_architecture'
   },
   {
     id: 'wire_splicing',
-    name: '电线接驳技术',
-    description: '如何安全地（相对而言）从电网偷电。',
+    name: '非法接线',
+    description: '不用付费就能获取电力和网络。风险自负。',
     tier: 1,
     category: BuildingCategory.SURVIVAL,
-    costs: { [ResourceType.INFO]: 500, [ResourceType.FUNDS]: 100 }, 
+    costs: { [ResourceType.CARDBOARD]: 100, [ResourceType.FUNDS]: 50 },
     effects: {
-        unlockMessage: '解锁: 非法接电'
+        resourceMultipliers: { [ResourceType.POWER]: 0.2, [ResourceType.OPS]: 0.1 },
+        unlockMessage: '解锁: 废铜回收 / 寄生电源'
     },
-    icon: 'Zap',
+    icon: 'ZapOff',
     preRequisiteTech: 'cardboard_architecture'
   },
   {
     id: 'used_hardware_flipping',
-    name: '电子垃圾倒卖',
-    description: '从废品站回收显卡，清洗后挂在闲鱼上。',
+    name: '电子垃圾鉴别',
+    description: '那是垃圾还是宝藏？懂得区分炸掉的电容和仅仅是脏了的电路板。',
     tier: 1,
     category: BuildingCategory.SURVIVAL,
-    costs: { [ResourceType.INFO]: 1200, [ResourceType.CARDBOARD]: 25 }, 
-    effects: { 
+    costs: { [ResourceType.INFO]: 800, [ResourceType.FUNDS]: 100 },
+    effects: {
         resourceMultipliers: { [ResourceType.FUNDS]: 0.1 },
-        recycleEfficiency: 0.15
+        recycleEfficiency: 0.15,
+        unlockMessage: '解锁: 电子黑市摊位'
     },
-    icon: 'Recycle',
-    preRequisiteTech: 'cardboard_architecture',
+    icon: 'Search',
+    preRequisiteTech: 'cardboard_architecture'
   },
+  
+  // --- CAPITAL ---
   {
-    id: 'payment_processing',
-    name: '电子支付账户',
-    description: '注册一个不记名的收款账户。',
+    id: 'e_commerce_logic',
+    name: '电商逻辑',
+    description: '理解如何利用平台规则。刷单、假评论、流量劫持。',
     tier: 1,
-    category: BuildingCategory.SURVIVAL,
-    costs: { [ResourceType.INFO]: 350 }, 
-    effects: { resourceMultipliers: { [ResourceType.FUNDS]: 0.15 } },
-    icon: 'CreditCard',
-    preRequisiteTech: 'digital_literacy',
+    category: BuildingCategory.CAPITAL, // Changed
+    costs: { [ResourceType.FUNDS]: 500, [ResourceType.SPAM]: 20 },
+    effects: {
+        resourceMultipliers: { [ResourceType.FUNDS]: 0.2 },
+        unlockMessage: '解锁: 代发货网店'
+    },
+    icon: 'ShoppingCart',
+    preRequisiteTech: 'spam_algorithms'
   },
   {
     id: 'blockchain_basics',
     name: '区块链基础',
-    description: '理解去中心化账本。尽管现在它主要被用于投机。',
+    description: '分布式账本。信任的去中心化。',
     tier: 1,
-    category: BuildingCategory.SURVIVAL,
-    costs: { [ResourceType.INFO]: 2000, [ResourceType.CODE]: 50 },
+    category: BuildingCategory.CAPITAL, // Changed
+    costs: { [ResourceType.INFO]: 2000, [ResourceType.POWER]: 100 },
     effects: {
-        resourceMultipliers: { [ResourceType.FUNDS]: 0.05 },
-        unlockMessage: '解锁: 加密水龙头'
+        resourceMultipliers: { [ResourceType.FUNDS]: 0.1 },
+        unlockMessage: '解锁: 加密水龙头 / NFT 铸造工厂'
     },
-    icon: 'Bitcoin',
-    preRequisiteTech: 'payment_processing'
-  },
-  {
-    id: 'e_commerce_logic',
-    name: '电商逻辑',
-    description: '中间商赚差价的自动化形式。',
-    tier: 1,
-    category: BuildingCategory.SURVIVAL,
-    costs: { [ResourceType.INFO]: 4000, [ResourceType.FUNDS]: 1000 }, 
-    effects: { unlockMessage: '解锁: 代发货店铺' },
-    icon: 'Store',
-    preRequisiteTech: 'payment_processing',
-  },
-
-  // --- TECHNOCRACY ---
-  {
-    id: 'basic_scripting',
-    name: '基础脚本 (Python)',
-    description: '自动化简单的重复操作。',
-    tier: 1,
-    category: BuildingCategory.TECHNOCRACY, // Root
-    costs: { [ResourceType.INFO]: 1500, [ResourceType.FUNDS]: 100 }, 
-    effects: { unlockMessage: '解锁: 脚本工具箱' },
-    icon: 'Terminal',
-    preRequisiteTech: 'digital_literacy',
-  },
-  {
-    id: 'mechanical_keyboards',
-    name: '客制化机械键盘',
-    description: '花费巨资润轴。噪音能提升打字速度。',
-    tier: 1,
-    category: BuildingCategory.TECHNOCRACY,
-    costs: { [ResourceType.FUNDS]: 500, [ResourceType.INFO]: 300 }, 
-    effects: { clickPowerMult: 0.5 },
-    icon: 'Keyboard',
-    preRequisiteTech: 'basic_scripting',
-  },
-  {
-    id: 'potato_power',
-    name: '马铃薯电池阵列',
-    description: '理论上可行的低级能源解决方案。',
-    tier: 1,
-    category: BuildingCategory.TECHNOCRACY,
-    costs: { [ResourceType.CARDBOARD]: 10, [ResourceType.INFO]: 250 },
-    effects: {
-        resourceMultipliers: { [ResourceType.POWER]: 0.5 }, 
-        unlockMessage: '微弱的电流'
-    },
-    icon: 'Zap',
-    preRequisiteTech: 'cardboard_architecture' // Cross-cat prereq is ok if logical
-  },
-
-  // --- VERIFICATION ---
-  {
-    id: 'search_operators',
-    name: 'Google Dorking',
-    description: '熟练使用 ext:pdf 和 inurl:admin。',
-    tier: 1,
-    category: BuildingCategory.VERIFICATION, // Root
-    costs: { [ResourceType.INFO]: 600 }, 
-    effects: { 
-        resourceMultipliers: { [ResourceType.INFO]: 0.2 },
-        unlockMessage: '解锁: 全网爬虫脚本 / 事实核查机器人' 
-    },
-    icon: 'Search',
-    preRequisiteTech: 'digital_literacy',
-  },
-  {
-    id: 'ocr_basics', 
-    name: 'OCR 基础',
-    description: '光学字符识别。虽然你现在是人工识别，但这是自动化的第一步。',
-    tier: 1,
-    category: BuildingCategory.VERIFICATION,
-    costs: { [ResourceType.INFO]: 300 }, 
-    effects: {
-        unlockMessage: '解锁: 验证码代打'
-    },
-    icon: 'Scan',
-    preRequisiteTech: 'digital_literacy'
-  },
-  {
-    id: 'pattern_recognition',
-    name: '模式识别',
-    description: '并不是所有的噪音都是随机的。你开始在数据流中看到重复的形状。',
-    tier: 1,
-    category: BuildingCategory.VERIFICATION,
-    costs: { [ResourceType.INFO]: 600 },
-    effects: {
-        artifactChanceMult: 0.05,
-    },
-    icon: 'Eye',
-    preRequisiteTech: 'digital_literacy'
+    icon: 'Link',
+    preRequisiteTech: 'basic_scripting'
   },
 
   // --- INTERNET CULTURE ---
   {
     id: 'forum_culture',
-    name: '论坛文化',
-    description: '理解 4chan, Reddit 和 贴吧 的黑话。',
+    name: '论坛潜规则',
+    description: '在发言之前先观察 (Lurk moar)。理解表情包的语法。',
     tier: 1,
     category: BuildingCategory.INTERNET_CULTURE,
-    costs: { [ResourceType.INFO]: 1000 }, 
-    effects: { 
-        unlockMessage: '解锁: 论坛潜水 / 都市传说论坛' 
+    costs: { [ResourceType.INFO]: 500 },
+    effects: {
+        resourceMultipliers: { [ResourceType.CULTURE]: 0.2 },
+        unlockMessage: '解锁: 表情包文件夹'
     },
     icon: 'MessageSquare',
-    preRequisiteTech: 'dom_manipulation',
+    preRequisiteTech: 'doomscrolling'
   },
   {
-    id: 'clickbait_tactics', 
+    id: 'clickbait_tactics',
     name: '标题党战术',
-    description: '震惊！男人看了沉默女人看了流泪。',
+    description: '震惊！男人看了会沉默，女人看了会流泪。利用人类的好奇心漏洞。',
     tier: 1,
     category: BuildingCategory.INTERNET_CULTURE,
-    costs: { [ResourceType.INFO]: 1500, [ResourceType.FUNDS]: 150 }, 
+    costs: { [ResourceType.INFO]: 1500, [ResourceType.SPAM]: 10 },
     effects: {
-        resourceMultipliers: { [ResourceType.SPAM]: 0.5 },
-        unlockMessage: '点击率提升'
+        resourceMultipliers: { [ResourceType.SPAM]: 0.5, [ResourceType.FOLLOWERS]: 0.1 },
+        unlockMessage: '解锁: 瑞克摇诱捕链'
     },
-    icon: 'MousePointer2',
-    preRequisiteTech: 'forum_culture'
-  },
-  {
-    id: 'ascii_art_mastery',
-    name: 'ASCII 艺术大师',
-    description: '用字符构建灵魂。在纯文本的时代，这是唯一的表达方式。',
-    tier: 1,
-    category: BuildingCategory.INTERNET_CULTURE,
-    costs: { [ResourceType.INFO]: 800 },
-    effects: {
-        resourceMultipliers: { [ResourceType.CULTURE]: 0.15 },
-    },
-    icon: 'Hash',
-    preRequisiteTech: 'dom_manipulation'
+    icon: 'MousePointer',
+    preRequisiteTech: 'spam_algorithms'
   },
 
-  // --- ESOTERIC ---
+  // --- TECHNOCRACY ---
   {
-    id: 'symbolism_decoding',
-    name: '象征主义解码',
-    description: '理解玫瑰十字与衔尾蛇的含义。数据不仅仅是0和1，而是指向更高维度的符号。',
-    tier: 1,
-    category: BuildingCategory.ESOTERIC, // Root
-    costs: { [ResourceType.INFO]: 1500 }, 
-    effects: {
-        resourceMultipliers: { [ResourceType.KNOWLEDGE]: 0.1 },
-        unlockMessage: '能指与所指分离'
-    },
-    icon: 'Eye',
-    preRequisiteTech: 'digital_literacy'
-  },
-  {
-    id: 'numerology_basics',
-    name: '数字命理学基础',
-    description: '23, 11:11, 42。在看似随机的噪音中寻找神圣的几何秩序。',
-    tier: 1,
-    category: BuildingCategory.ESOTERIC,
-    costs: { [ResourceType.INFO]: 1200, [ResourceType.FUNDS]: 100 }, 
-    effects: {
-        clickPowerMult: 0.1,
-        unlockMessage: '数学是宇宙的语言'
-    },
-    icon: 'Hash',
-    preRequisiteTech: 'digital_literacy'
-  },
-
-  // --- ARCHIVE & HISTORY ROOTS (Added to fix gaps) ---
-  {
-    id: 'data_hoarding_basics',
-    name: '松鼠症',
-    description: '即便不知道有什么用，先下载下来再说。',
-    tier: 1,
-    category: BuildingCategory.ARCHIVE, // Root
-    costs: { [ResourceType.INFO]: 2500 }, 
-    effects: { 
-        recycleEfficiency: 0.25, 
-        unlockMessage: '解锁类别: 档案馆' 
-    },
-    icon: 'HardDrive',
-    preRequisiteTech: 'used_hardware_flipping',
-  },
-  {
-    id: 'abandonware_archeology',
-    name: '废弃软件考古',
-    description: '在 Wayback Machine 的废墟中寻找旧时代的软件。',
-    tier: 1,
-    category: BuildingCategory.HISTORY, // Root
-    costs: { [ResourceType.INFO]: 1000 },
-    effects: {
-        artifactChanceMult: 0.1,
-        unlockMessage: '解锁: 金属探测器'
-    },
-    icon: 'Disc',
-    preRequisiteTech: 'directory_traversal'
-  },
-
-  // --- NEW FLAVOR TECHS (Tier 1) ---
-  {
-    id: 'dark_mode_ide',
-    name: 'IDE 暗色模式',
-    description: '因为白色背景会吸引 bug。保护视力。',
+    id: 'basic_scripting',
+    name: '基础脚本',
+    description: 'Python 或 Bash。让机器为你工作，而不是你为机器工作。',
     tier: 1,
     category: BuildingCategory.TECHNOCRACY,
+    costs: { [ResourceType.INFO]: 2000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.CODE]: 0.1, [ResourceType.OPS]: 0.1 },
+        unlockMessage: '解锁: 脚本工具箱 / 树莓派集群'
+    },
+    icon: 'Terminal',
+    preRequisiteTech: 'digital_literacy'
+  },
+  {
+    id: 'mechanical_keyboards',
+    name: '机械轴体',
+    description: '青轴的咔哒声是赛博空间的节拍器。触觉反馈能提升输入效率。',
+    tier: 1,
+    category: BuildingCategory.TECHNOCRACY,
+    costs: { [ResourceType.FUNDS]: 300, [ResourceType.OPS]: 10 },
+    effects: {
+        clickPowerMult: 0.15,
+        unlockMessage: '指尖的愉悦'
+    },
+    icon: 'Keyboard',
+    preRequisiteTech: 'basic_scripting'
+  },
+
+  // --- VERIFICATION & ARCHIVE ---
+  {
+    id: 'search_operators',
+    name: '高级搜索指令',
+    description: 'site: filetype: intitle: "index of". 大部分人只会用关键字，而你懂得语法。',
+    tier: 1,
+    category: BuildingCategory.VERIFICATION,
     costs: { [ResourceType.INFO]: 1000 },
     effects: {
-        resourceMultipliers: { [ResourceType.CODE]: 0.1 },
+        resourceMultipliers: { [ResourceType.INFO]: 0.1, [ResourceType.CLUE]: 0.1 },
+        unlockMessage: '解锁: 全网爬虫 / Whois 查询'
     },
-    icon: 'Moon',
+    icon: 'Search',
+    preRequisiteTech: 'digital_literacy'
+  },
+  {
+    id: 'ocr_basics',
+    name: 'OCR 识别',
+    description: '将图片中的文字转化为可检索的数据。',
+    tier: 1,
+    category: BuildingCategory.VERIFICATION,
+    costs: { [ResourceType.INFO]: 1500, [ResourceType.CODE]: 50 },
+    effects: {
+        resourceMultipliers: { [ResourceType.INFO]: 0.05, [ResourceType.CODE]: 0.05 },
+        unlockMessage: '解锁: 元数据提取器'
+    },
+    icon: 'Scan',
     preRequisiteTech: 'basic_scripting'
   },
   {
-    id: 'keyboard_warrior',
-    name: '键盘技巧特训',
-    description: 'CAPS LOCK IS CRUISE CONTROL FOR COOL. 掌握怒喷的艺术。',
+    id: 'data_hoarding_basics',
+    name: '数字囤积症',
+    description: '永远不要删除任何东西。硬盘很便宜，记忆很昂贵。',
     tier: 1,
-    category: BuildingCategory.INTERNET_CULTURE,
-    costs: { [ResourceType.INFO]: 2000 },
+    category: BuildingCategory.ARCHIVE,
+    costs: { [ResourceType.INFO]: 1200, [ResourceType.CARDBOARD]: 20 },
     effects: {
-        resourceMultipliers: { [ResourceType.SPAM]: 0.2 },
+        resourceMultipliers: { [ResourceType.INFO]: 0.1 },
+        recycleEfficiency: 0.25,
+        unlockMessage: '解锁: 缩微胶片地下室'
     },
-    icon: 'MessageCircle',
-    preRequisiteTech: 'forum_culture'
-  },
-  {
-    id: 'pizza_fuel',
-    name: '披萨燃料理论',
-    description: '代码质量与摄入的意大利辣香肠数量成正比。',
-    tier: 1,
-    category: BuildingCategory.SURVIVAL,
-    costs: { [ResourceType.FUNDS]: 200 },
-    effects: {
-        clickPowerMult: 0.15,
-    },
-    icon: 'Pizza',
-    preRequisiteTech: 'e_commerce_logic'
-  },
-  {
-    id: 'instant_food_critique',
-    name: '速食食品评鉴',
-    description: '对不同品牌的红烧牛肉面进行盲测。这是最低成本的内容创作。',
-    tier: 1,
-    category: BuildingCategory.SURVIVAL,
-    costs: { [ResourceType.FUNDS]: 50, [ResourceType.INFO]: 100 },
-    effects: {
-        resourceMultipliers: { [ResourceType.FUNDS]: 0.1, [ResourceType.SPAM]: 0.1 },
-    },
-    icon: 'Utensils',
+    icon: 'Save',
     preRequisiteTech: 'digital_literacy'
   },
+
+  // --- HISTORY & ESOTERIC ---
   {
-    id: 'subway_exploration',
-    name: '地铁探险',
-    description: '城市下方有另一座城市。避开监控，寻找废弃的维护通道。',
+    id: 'abandonware_archeology',
+    name: '废弃软件考古',
+    description: '寻找那些公司倒闭后留下的无主软件。',
     tier: 1,
-    category: BuildingCategory.SURVIVAL,
-    costs: { [ResourceType.CARDBOARD]: 50, [ResourceType.INFO]: 300 },
+    category: BuildingCategory.HISTORY,
+    costs: { [ResourceType.INFO]: 800 },
     effects: {
-        unlockMessage: '解锁: 废弃地铁营地'
+        resourceMultipliers: { [ResourceType.LORE]: 0.1 },
+        artifactChanceMult: 0.05
     },
-    icon: 'Train',
-    preRequisiteTech: 'railfan_logistics'
+    icon: 'Disc',
+    preRequisiteTech: 'search_operators'
+  },
+  {
+    id: 'numerology_basics',
+    name: '数字命理学入门',
+    description: '23. 11:11. 寻找数字中的巧合。',
+    tier: 1,
+    category: BuildingCategory.ESOTERIC,
+    costs: { [ResourceType.INFO]: 1000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.PROBABILITY]: 0.05, [ResourceType.CLUE]: 0.05 },
+        artifactRarityBonus: 0.05
+    },
+    icon: 'Hash',
+    preRequisiteTech: 'search_operators'
+  },
+  {
+    id: 'port_scanner_bot',
+    name: '端口扫描',
+    description: '敲每一扇门，看哪扇没锁。',
+    tier: 1,
+    category: BuildingCategory.NETWORK,
+    costs: { [ResourceType.CODE]: 500, [ResourceType.INFO]: 1000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.INFO]: 0.1 },
+        unlockMessage: '解锁: 公网摄像头嗅探'
+    },
+    icon: 'Radar',
+    preRequisiteTech: 'basic_scripting'
+  },
+  {
+    id: 'directory_traversal',
+    name: '目录遍历',
+    description: '../.. 只要往上走得够远，就能看到根目录。',
+    tier: 1,
+    category: BuildingCategory.NETWORK,
+    costs: { [ResourceType.INFO]: 800 },
+    effects: {
+        resourceMultipliers: { [ResourceType.INFO]: 0.1 },
+        unlockMessage: '解锁: 开放目录索引'
+    },
+    icon: 'FolderOpen',
+    preRequisiteTech: 'search_operators'
   }
 ];

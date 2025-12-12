@@ -307,7 +307,7 @@ const ArtifactInventory: React.FC<ArtifactInventoryProps> = ({ artifacts, onRecy
                 <p>No Data Found</p>
             </div>
         ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
                 {filteredArtifacts.map((artifact) => {
                     const colorClass = getRarityColor(artifact.rarity);
                     return (
@@ -326,18 +326,12 @@ const ArtifactInventory: React.FC<ArtifactInventoryProps> = ({ artifacts, onRecy
                              <div className="flex-1 min-w-0 flex flex-col justify-between">
                                 <div>
                                     <div className="flex justify-between items-start">
-                                        <h4 className={`text-sm font-bold truncate ${colorClass.split(' ')[0]}`}>{artifact.name}</h4>
-                                        <span className={`text-[9px] uppercase border px-1 rounded ${artifact.rarity !== 'common' ? colorClass : 'border-gray-800 text-gray-500'}`}>
-                                            {artifact.rarity === 'common' ? artifact.subtype.toUpperCase() : artifact.rarity}
-                                        </span>
+                                        <h4 className={`text-xs font-bold truncate ${colorClass.split(' ')[0]}`}>{artifact.name}</h4>
                                     </div>
-                                    <p className="text-[10px] text-gray-500 truncate mt-0.5">{artifact.details}</p>
-                                </div>
-                                
-                                <div className="flex items-end justify-between mt-2">
-                                     <div className="text-[10px] text-gray-600 font-mono">
-                                        {artifact.bonusType === 'none' ? 'UNANALYZED' : 'ACTIVE'}
-                                     </div>
+                                    <span className={`text-[9px] uppercase border px-1 rounded inline-block mt-1 ${artifact.rarity !== 'common' ? colorClass : 'border-gray-800 text-gray-500'}`}>
+                                        {artifact.rarity === 'common' ? artifact.subtype.toUpperCase() : artifact.rarity}
+                                    </span>
+                                    <p className="text-[9px] text-gray-500 truncate mt-0.5">{artifact.details}</p>
                                 </div>
                              </div>
 

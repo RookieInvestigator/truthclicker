@@ -81,7 +81,7 @@ export const TIER_2_TECHS: Tech[] = [
   {
     id: 'phreaking_tools',
     name: '电话破解',
-    description: '探索电信系统的漏洞。',
+    description: '探索电信系统的漏洞。口哨声就是钥匙。',
     tier: 2,
     category: BuildingCategory.NETWORK,
     costs: { [ResourceType.INFO]: 4000, [ResourceType.CODE]: 200 },
@@ -108,7 +108,7 @@ export const TIER_2_TECHS: Tech[] = [
   {
     id: 'p2p_sharing', 
     name: 'P2P 文件共享',
-    description: 'eMule 和 BitTorrent。人人为我，我为人人。',
+    description: 'BitTorrent 协议。人人为我，我为人人。',
     tier: 2,
     category: BuildingCategory.NETWORK,
     costs: { [ResourceType.INFO]: 8000, [ResourceType.OPS]: 1000 }, 
@@ -178,7 +178,7 @@ export const TIER_2_TECHS: Tech[] = [
   },
   {
     id: 'steganography', 
-    name: '隐写术',
+    name: '数字隐写',
     description: '将秘密信息隐藏在图片的像素噪点中。',
     tier: 2,
     category: BuildingCategory.INTERNET_CULTURE,
@@ -192,7 +192,7 @@ export const TIER_2_TECHS: Tech[] = [
   },
   {
     id: 'leetspeak_decoding',
-    name: '火星文解码 (1337)',
+    name: '黑客语解码',
     description: 'n00b, pwned, w00t. 熟练阅读这种古老的黑客方言，从中提取有效信息。',
     tier: 2,
     category: BuildingCategory.INTERNET_CULTURE,
@@ -205,7 +205,7 @@ export const TIER_2_TECHS: Tech[] = [
   },
   {
     id: 'rng_manipulation',
-    name: 'RNG 操控',
+    name: '随机数操控',
     description: '如果能在特定的微秒按下鼠标，就能强行让随机数生成器吐出我们想要的结果。',
     tier: 2,
     category: BuildingCategory.INTERNET_CULTURE,
@@ -218,7 +218,7 @@ export const TIER_2_TECHS: Tech[] = [
   },
   {
     id: 'vs_debating',
-    name: 'VSBATTLE',
+    name: '战力讨论',
     description: '不知疲倦地计算虚构角色的拳头能释放多少吨TNT当量。',
     tier: 2,
     category: BuildingCategory.INTERNET_CULTURE,
@@ -321,10 +321,10 @@ export const TIER_2_TECHS: Tech[] = [
     preRequisiteTech: 'numerology_basics'
   },
 
-  // --- SURVIVAL / TECH ---
+  // --- SURVIVAL / TECH / CAPITAL ---
   {
     id: 'nutrient_paste',
-    name: '高效营养剂',
+    name: '代餐粉末',
     description: '不管它是用什么做的，它能让你在不离开椅子的情况下活下去。',
     tier: 2,
     category: BuildingCategory.SURVIVAL,
@@ -356,7 +356,7 @@ export const TIER_2_TECHS: Tech[] = [
     name: '神秘动物学',
     description: '相信天蛾人和大脚怪的存在并非迷信，而是对已知生物学的补充。',
     tier: 2,
-    category: BuildingCategory.FOLKLORE,
+    category: BuildingCategory.CRYPTID, // Changed
     costs: { [ResourceType.INFO]: 4500, [ResourceType.CLUE]: 25 }, 
     effects: {
         resourceMultipliers: { [ResourceType.CLUE]: 0.2, [ResourceType.LORE]: 0.1 },
@@ -367,7 +367,7 @@ export const TIER_2_TECHS: Tech[] = [
   },
   {
     id: 'magic_bullet_theory', 
-    name: '魔弹',
+    name: '魔弹理论',
     description: '一颗子弹怎么可能在空中转弯？JFK 档案的物理学并不存在。',
     tier: 2,
     category: BuildingCategory.HISTORY,
@@ -412,7 +412,7 @@ export const TIER_2_TECHS: Tech[] = [
     name: '伪科学营销',
     description: '量子波动速读？负离子内裤？只要有人信，就能变现。',
     tier: 2,
-    category: BuildingCategory.SURVIVAL,
+    category: BuildingCategory.CAPITAL, // Changed
     costs: { [ResourceType.INFO]: 6000, [ResourceType.CRED]: 50 }, 
     effects: {
         resourceMultipliers: { [ResourceType.FUNDS]: 0.3 },
@@ -423,7 +423,7 @@ export const TIER_2_TECHS: Tech[] = [
   },
   {
     id: 'hardware_assembly',
-    name: '硬件组装',
+    name: '垃圾佬硬件组装',
     description: '用至强 E5 处理器搭建家用服务器。',
     tier: 2,
     category: BuildingCategory.TECHNOCRACY,
@@ -551,7 +551,7 @@ export const TIER_2_TECHS: Tech[] = [
     name: '雷鸟照片鉴别',
     description: '那张 19 世纪牛仔举着巨大翼龙的照片真的存在吗？还是我们集体的曼德拉效应？',
     tier: 2,
-    category: BuildingCategory.FOLKLORE,
+    category: BuildingCategory.CRYPTID, // Changed
     costs: { [ResourceType.LORE]: 30, [ResourceType.INFO]: 4000 },
     effects: {
         resourceMultipliers: { [ResourceType.LORE]: 0.15 },

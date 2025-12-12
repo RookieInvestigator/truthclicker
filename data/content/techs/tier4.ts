@@ -107,6 +107,20 @@ export const TIER_4_TECHS: Tech[] = [
     preRequisiteTech: 'creepypasta_analysis'
   },
   {
+    id: 'holy_c_compiler',
+    name: 'HolyC 编译器',
+    description: 'Terry A. Davis 的遗产。一种神圣的 C 语言变体，用于构建神的圣殿。',
+    tier: 4,
+    category: BuildingCategory.ESOTERIC,
+    costs: { [ResourceType.CODE]: 30000, [ResourceType.KNOWLEDGE]: 1000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.CODE]: 0.1, [ResourceType.ANCIENT_WISDOM]: 0.1 },
+        unlockMessage: '解锁: 第三圣殿主机'
+    },
+    icon: 'Terminal',
+    preRequisiteTech: 'digital_gnosis'
+  },
+  {
     id: 'infohazard_containment',
     name: '信息危害协议',
     description: '有些知识仅仅是知道就会造成伤害。Roko\'s Basilisk 是最简单的例子。',
@@ -150,7 +164,7 @@ export const TIER_4_TECHS: Tech[] = [
   {
     id: 'semen_retention',
     name: '戒色修行',
-    description: '互联网上的苦行僧运动。拒绝多巴胺的奴役，通过“重启”大脑来获得传说中的超自然专注力（据说能学会悬浮，假的）。',
+    description: '互联网上的苦行僧运动。拒绝多巴胺的奴役，通过“重启”大脑来获得传说中的超自然专注力。',
     tier: 4,
     category: BuildingCategory.ADULT,
     costs: { [ResourceType.BIOMASS]: 5000, [ResourceType.INFO]: 20000 },
@@ -203,7 +217,7 @@ export const TIER_4_TECHS: Tech[] = [
   },
   {
     id: 'phantom_time', 
-    name: '幻影时间假说',
+    name: '幻影时间',
     description: '公元614年到911年从未发生过。查理曼大帝是虚构的。我们活在1700年代。',
     tier: 4,
     category: BuildingCategory.HISTORY,
@@ -275,7 +289,7 @@ export const TIER_4_TECHS: Tech[] = [
     name: '神秘生物驯化',
     description: '天蛾人其实很亲人，只要你给它喂灯油。',
     tier: 4,
-    category: BuildingCategory.FOLKLORE,
+    category: BuildingCategory.CRYPTID, // Changed
     costs: { [ResourceType.BIOMASS]: 2000, [ResourceType.LORE]: 1000 },
     effects: {
         resourceMultipliers: { [ResourceType.BIOMASS]: 0.3 },
@@ -283,11 +297,25 @@ export const TIER_4_TECHS: Tech[] = [
     icon: 'Cat',
     preRequisiteTech: 'cryptozoology'
   },
+  {
+    id: 'atavism_activation',
+    name: '返祖激活',
+    description: '鸟类就是长了喙的恐龙。只要关闭喙的基因，牙齿就会长回来。鸡龙计划 (Project Chickenosaurus)。',
+    tier: 4,
+    category: BuildingCategory.CRYPTID,
+    costs: { [ResourceType.INFO]: 15000, [ResourceType.CODE]: 2000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.FOSSIL]: 0.2 },
+        unlockMessage: '解锁: 逆向演化槽'
+    },
+    icon: 'Dna',
+    preRequisiteTech: 'speculative_biology'
+  },
 
   // --- ARCHIVE & VERIFICATION EXPANSION ---
   {
     id: 'zero_knowledge_proofs',
-    name: '零知识证明 (ZKP)',
+    name: '零知识证明',
     description: '我能证明我知道密码，而不需要告诉你密码是什么。数学是终极的信任。',
     tier: 4,
     category: BuildingCategory.VERIFICATION,
@@ -301,7 +329,7 @@ export const TIER_4_TECHS: Tech[] = [
   },
   {
     id: '5d_optical_storage',
-    name: '5D 光存储技术',
+    name: '5D 光存储',
     description: '利用熔融石英的纳米光栅结构。数据可以保存 138 亿年。',
     tier: 4,
     category: BuildingCategory.ARCHIVE,
@@ -372,8 +400,8 @@ export const TIER_4_TECHS: Tech[] = [
     name: '地球定期补充灭绝物种',
     description: '物种并没有灭绝，它们只是“夹”到了地图的背面。地球深处有一个备份数据库。',
     tier: 4,
-    category: BuildingCategory.FOLKLORE,
-    costs: { [ResourceType.LORE]: 5000, [ResourceType.BIOMASS]: 5000, [ResourceType.FOSSIL]: 200 }, // Added FOSSIL cost
+    category: BuildingCategory.CRYPTID, // Changed
+    costs: { [ResourceType.LORE]: 5000, [ResourceType.BIOMASS]: 5000, [ResourceType.FOSSIL]: 200 }, 
     effects: {
         resourceMultipliers: { [ResourceType.FOSSIL]: 0.2, [ResourceType.BIOMASS]: 0.2 },
         unlockMessage: '解锁: 拉撒路物种坑'

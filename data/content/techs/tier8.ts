@@ -86,6 +86,22 @@ export const TIER_8_TECHS: Tech[] = [
     icon: 'Rewind',
     preRequisiteTech: 'omega_point_theory'
   },
+  
+  // --- HIGH INFO COST TECHS ---
+  {
+    id: 'omniscient_narrator',
+    name: '全知叙事者',
+    description: '你不再阅读信息，你成为了信息本身。你可以随意阅读宇宙中任何一个原子的过去。',
+    tier: 8,
+    category: BuildingCategory.ESOTERIC,
+    costs: { [ResourceType.INFO]: 10000000000 },
+    effects: {
+        clickPowerMult: 5.0,
+        resourceMultipliers: { [ResourceType.INFO]: 5.0 },
+    },
+    icon: 'BookOpen',
+    preRequisiteTech: 'psychohistory'
+  },
 
   // --- SURVIVAL ULTIMATE ---
   {

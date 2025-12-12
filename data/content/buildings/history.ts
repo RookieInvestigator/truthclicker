@@ -8,10 +8,10 @@ export const HISTORY_BUILDINGS: Building[] = [
     description: '在公园草坪上寻找硬币和旧徽章。',
     category: BuildingCategory.HISTORY,
     baseCosts: { [ResourceType.FUNDS]: 200, [ResourceType.CARDBOARD]: 20 },
-    baseProduction: { [ResourceType.FUNDS]: 2.0, [ResourceType.CLUE]: 0.05, [ResourceType.FOSSIL]: 0.02 }, // Slightly increased fossil
+    baseProduction: { [ResourceType.FUNDS]: 2.0, [ResourceType.CLUE]: 0.05, [ResourceType.FOSSIL]: 0.02 }, 
     costMultiplier: 1.15,
     icon: 'Search',
-    unlockRequirement: 300, // Needs info gate as it has no tech
+    unlockRequirement: 300, 
   },
   {
     id: 'oral_history_project', 
@@ -22,7 +22,7 @@ export const HISTORY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.LORE]: 0.5, [ResourceType.INFO]: 5 },
     costMultiplier: 1.2,
     icon: 'Mic',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['microfilm_scanning'],
   },
   {
@@ -34,7 +34,7 @@ export const HISTORY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.CLUE]: 0.2, [ResourceType.CULTURE]: 0.1, [ResourceType.LORE]: 0.1 },
     costMultiplier: 1.2,
     icon: 'Shovel',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['carbon_dating'],
   },
   {
@@ -46,7 +46,7 @@ export const HISTORY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.KNOWLEDGE]: 0.1, [ResourceType.INFO]: 10, [ResourceType.LORE]: 0.2 },
     costMultiplier: 1.2,
     icon: 'Film',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['microfilm_scanning'],
   },
   {
@@ -58,7 +58,7 @@ export const HISTORY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.LORE]: 0.5, [ResourceType.SPAM]: 2.0, [ResourceType.CRED]: -0.1 },
     costMultiplier: 1.2,
     icon: 'Globe',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['conspiracy_101'],
   },
   {
@@ -70,7 +70,7 @@ export const HISTORY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.CULTURE]: 0.5, [ResourceType.LORE]: 0.3, [ResourceType.INFO]: 15 },
     costMultiplier: 1.25,
     icon: 'Archive',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['wiki_wars'],
   },
   {
@@ -82,20 +82,8 @@ export const HISTORY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.ANCIENT_WISDOM]: 0.1, [ResourceType.LORE]: 1.0 },
     costMultiplier: 1.35,
     icon: 'Hammer',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['mud_flood'],
-  },
-  {
-    id: 'paleontology_lab',
-    name: '古生物实验室',
-    description: '从石头中提取DNA片段和远古气候数据。将无用的骨头转化为真理。',
-    category: BuildingCategory.HISTORY,
-    baseCosts: { [ResourceType.FUNDS]: 8000, [ResourceType.OPS]: 1000 },
-    baseProduction: { [ResourceType.FOSSIL]: -0.2, [ResourceType.KNOWLEDGE]: 2.5, [ResourceType.ANCIENT_WISDOM]: 0.05 },
-    costMultiplier: 1.3,
-    icon: 'Microscope',
-    unlockRequirement: 0,
-    requireTech: ['carbon_dating'],
   },
   {
     id: 'grassy_knoll_sim', 
@@ -103,10 +91,10 @@ export const HISTORY_BUILDINGS: Building[] = [
     description: '重现达拉斯 1963 年的那一刻。寻找第二枪手。',
     category: BuildingCategory.HISTORY,
     baseCosts: { [ResourceType.OPS]: 2000, [ResourceType.CLUE]: 50 },
-    baseProduction: { [ResourceType.STORY]: 0.5, [ResourceType.PANIC]: 0.1, [ResourceType.TRUTH]: 0.05, [ResourceType.POWER]: -10.0 },
+    baseProduction: { [ResourceType.STORY]: 0.5, [ResourceType.PANIC]: 0.1, [ResourceType.POWER]: -10.0 },
     costMultiplier: 1.3,
     icon: 'Crosshair',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['magic_bullet_theory'],
   },
   {
@@ -115,10 +103,10 @@ export const HISTORY_BUILDINGS: Building[] = [
     description: '利用多光谱成像技术读取碳化的羊皮纸。',
     category: BuildingCategory.HISTORY,
     baseCosts: { [ResourceType.FUNDS]: 8000, [ResourceType.KNOWLEDGE]: 100 },
-    baseProduction: { [ResourceType.ANCIENT_WISDOM]: 0.3, [ResourceType.KNOWLEDGE]: 1.0 },
+    baseProduction: { [ResourceType.ANCIENT_WISDOM]: 0.3, [ResourceType.KNOWLEDGE]: 1.0, [ResourceType.TRUTH]: 0.005 }, // Keep TRUTH here (mid-game artifact)
     costMultiplier: 1.3,
     icon: 'Scroll',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['ocr_basics'],
   },
   {
@@ -130,19 +118,19 @@ export const HISTORY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.ANCIENT_WISDOM]: 0.5, [ResourceType.OPS]: -20.0 },
     costMultiplier: 1.4,
     icon: 'Triangle',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['atlantean_knowledge'],
   },
   {
     id: 'oopart_gallery', 
-    name: '欧帕兹 (OOPArt) 私人收藏',
+    name: '欧帕兹私人收藏',
     description: '展示安提基特拉机械和巴格达电池的复制品。',
     category: BuildingCategory.HISTORY,
     baseCosts: { [ResourceType.FUNDS]: 5000, [ResourceType.KNOWLEDGE]: 50 },
     baseProduction: { [ResourceType.KNOWLEDGE]: 0.5, [ResourceType.CRED]: 0.5, [ResourceType.ANCIENT_WISDOM]: 0.2 },
     costMultiplier: 1.3,
     icon: 'Box',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['oopart_studies'],
   },
   {
@@ -154,7 +142,7 @@ export const HISTORY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.KNOWLEDGE]: 1.0, [ResourceType.OPS]: 5.0 },
     costMultiplier: 1.35,
     icon: 'Settings',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['oopart_studies'],
   },
   {
@@ -166,7 +154,7 @@ export const HISTORY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.ANCIENT_WISDOM]: 1.0, [ResourceType.CODE]: 2.0, [ResourceType.OPS]: -50.0 },
     costMultiplier: 1.4,
     icon: 'Book',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['aklo_language'],
   },
   {
@@ -178,20 +166,8 @@ export const HISTORY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.ANCIENT_WISDOM]: 2.0, [ResourceType.POWER]: -100.0 },
     costMultiplier: 1.5,
     icon: 'Activity',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['atlantean_knowledge'],
-  },
-  {
-    id: 'dino_bone_market',
-    name: '恐龙骨骼黑市',
-    description: '交易非法的化石。也许其中混入了不是地球生物的骨头。',
-    category: BuildingCategory.HISTORY,
-    baseCosts: { [ResourceType.FUNDS]: 100000, [ResourceType.CRED]: -500 },
-    baseProduction: { [ResourceType.FUNDS]: 500, [ResourceType.LORE]: 1.0, [ResourceType.CRED]: -5.0, [ResourceType.FOSSIL]: 1.0 }, // Increased production
-    costMultiplier: 1.45,
-    icon: 'Bone',
-    unlockRequirement: 0, // Reset
-    requireTech: ['cryptozoology'],
   },
   {
     id: 'akashic_archaeologist', 
@@ -202,31 +178,7 @@ export const HISTORY_BUILDINGS: Building[] = [
     baseProduction: { [ResourceType.ANCIENT_WISDOM]: 0.5, [ResourceType.KNOWLEDGE]: 1.0 },
     costMultiplier: 1.4,
     icon: 'Compass',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['akashic_record_access'],
-  },
-  {
-    id: 'prehuman_ruins',
-    name: '前人类工业废墟',
-    description: '挖掘出的不仅仅是陶罐，而是石化的集成电路和地质层中的同位素异常。',
-    category: BuildingCategory.HISTORY,
-    baseCosts: { [ResourceType.FUNDS]: 100000, [ResourceType.OPS]: 20000 },
-    baseProduction: { [ResourceType.TECH_CAPITAL]: 0.5, [ResourceType.ANCIENT_WISDOM]: 1.0, [ResourceType.FOSSIL]: -1.0 }, // Heavy consumption
-    costMultiplier: 1.5,
-    icon: 'Cpu',
-    unlockRequirement: 0,
-    requireTech: ['silurian_hypothesis'],
-  },
-  {
-    id: 'future_evolution_sim',
-    name: '未来演化沙盘',
-    description: '推演五千万年后的人类形态。肉块、真空生物、或者纯能量体。需要消耗化石样本作为基准。',
-    category: BuildingCategory.HISTORY,
-    baseCosts: { [ResourceType.OPS]: 10000, [ResourceType.FOSSIL]: 50 },
-    baseProduction: { [ResourceType.FOSSIL]: -0.1, [ResourceType.LORE]: 3.0, [ResourceType.PANIC]: 0.8 }, // Consumes now
-    costMultiplier: 1.35,
-    icon: 'Activity', // Represents simulation
-    unlockRequirement: 0,
-    requireTech: ['speculative_biology'],
   }
 ];

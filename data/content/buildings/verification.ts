@@ -32,7 +32,7 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     description: '追踪图片的原始来源。揭露被裁剪的真相。',
     category: BuildingCategory.VERIFICATION,
     baseCosts: { [ResourceType.CODE]: 800, [ResourceType.INFO]: 1500 },
-    baseProduction: { [ResourceType.TRUTH]: 0.05, [ResourceType.INFO]: -20.0, [ResourceType.SPAM]: -1.0 },
+    baseProduction: { [ResourceType.CLUE]: 0.1, [ResourceType.INFO]: -20.0, [ResourceType.SPAM]: -1.0 }, 
     costMultiplier: 1.2,
     icon: 'Image',
     unlockRequirement: 0, // Reset
@@ -104,7 +104,7 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     description: '利用巨大的算力对抗信息熵。将[垃圾信息]湮灭，还原出纯净的[真相]。',
     category: BuildingCategory.VERIFICATION,
     baseCosts: { [ResourceType.OPS]: 10000, [ResourceType.TECH_CAPITAL]: 50 },
-    baseProduction: { [ResourceType.INFO]: 500.0, [ResourceType.TRUTH]: 0.05, [ResourceType.SPAM]: -1000.0, [ResourceType.POWER]: -100.0 }, // Massive Cleaner
+    baseProduction: { [ResourceType.INFO]: 500.0, [ResourceType.SPAM]: -1000.0, [ResourceType.POWER]: -100.0 }, 
     costMultiplier: 1.35,
     icon: 'Activity',
     unlockRequirement: 0, // Reset
@@ -140,7 +140,7 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     description: '通过用词习惯识别匿名作者。没人能真正隐藏自己的写作风格。',
     category: BuildingCategory.VERIFICATION,
     baseCosts: { [ResourceType.CODE]: 3000, [ResourceType.INFO]: 5000 },
-    baseProduction: { [ResourceType.TRUTH]: 0.05, [ResourceType.CLUE]: 0.5, [ResourceType.OPS]: -5.0 },
+    baseProduction: { [ResourceType.CLUE]: 0.5, [ResourceType.OPS]: -5.0 },
     costMultiplier: 1.25,
     icon: 'Fingerprint',
     unlockRequirement: 0, // Reset
@@ -176,7 +176,7 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     description: '通过照片背景中的电线杆形状确定拍摄地点。',
     category: BuildingCategory.VERIFICATION,
     baseCosts: { [ResourceType.CLUE]: 100, [ResourceType.INFO]: 5000 },
-    baseProduction: { [ResourceType.CLUE]: 0.5, [ResourceType.TRUTH]: 0.05 },
+    baseProduction: { [ResourceType.CLUE]: 0.5 },
     costMultiplier: 1.2,
     icon: 'MapPin',
     unlockRequirement: 0, // Reset
@@ -188,7 +188,7 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     description: '在不泄露[秘密]本身的情况下，验证对方是否知道秘密。',
     category: BuildingCategory.VERIFICATION,
     baseCosts: { [ResourceType.CODE]: 8000, [ResourceType.KNOWLEDGE]: 200 },
-    baseProduction: { [ResourceType.CRED]: 1.0, [ResourceType.TRUTH]: 0.1, [ResourceType.OPS]: -15.0 },
+    baseProduction: { [ResourceType.CRED]: 1.0, [ResourceType.TRUTH]: 0.005, [ResourceType.OPS]: -15.0 }, // Nerfed
     costMultiplier: 1.35,
     icon: 'Key',
     unlockRequirement: 0, // Reset
@@ -200,7 +200,7 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     description: '分析视频中的眨眼频率和血流脉冲。',
     category: BuildingCategory.VERIFICATION,
     baseCosts: { [ResourceType.OPS]: 5000, [ResourceType.CODE]: 2000 },
-    baseProduction: { [ResourceType.TRUTH]: 0.1, [ResourceType.RUMORS]: -1.0, [ResourceType.OPS]: -50.0 },
+    baseProduction: { [ResourceType.CLUE]: 0.5, [ResourceType.RUMORS]: -1.0, [ResourceType.OPS]: -50.0 },
     costMultiplier: 1.3,
     icon: 'Eye',
     unlockRequirement: 0, // Reset
@@ -224,7 +224,7 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     description: '追踪洗钱路径。资金流向不会撒谎。',
     category: BuildingCategory.VERIFICATION,
     baseCosts: { [ResourceType.FUNDS]: 20000, [ResourceType.CODE]: 5000 },
-    baseProduction: { [ResourceType.FUNDS]: 50, [ResourceType.TRUTH]: 0.1, [ResourceType.CRED]: -1.0 },
+    baseProduction: { [ResourceType.FUNDS]: 50, [ResourceType.CLUE]: 0.2, [ResourceType.CRED]: -1.0 },
     costMultiplier: 1.3,
     icon: 'Link',
     unlockRequirement: 0, // Reset
@@ -248,7 +248,7 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     description: '开源情报聚合。将公开信息转化为机密情报。',
     category: BuildingCategory.VERIFICATION,
     baseCosts: { [ResourceType.INFO]: 50000, [ResourceType.CODE]: 10000 },
-    baseProduction: { [ResourceType.CLUE]: 1.0, [ResourceType.TRUTH]: 0.2, [ResourceType.INFO]: -1000.0 },
+    baseProduction: { [ResourceType.CLUE]: 1.0, [ResourceType.TRUTH]: 0.005, [ResourceType.INFO]: -1000.0 }, // Nerfed
     costMultiplier: 1.4,
     icon: 'Layout',
     unlockRequirement: 0, // Reset

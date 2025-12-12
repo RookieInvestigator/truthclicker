@@ -1,0 +1,119 @@
+
+import { useEffect } from 'react';
+import { GameState, ResourceType, GameEvent } from '../types';
+import { POSSIBLE_EVENTS } from '../data/events';
+import { CHOICE_EVENTS } from '../data/choiceEvents';
+import { TECHS } from '../data/techs';
+import { generateArtifact } from '../utils/generator';
+import { TICK_RATE, AUTOSAVE_INTERVAL } from '../constants';
+
+export const useGameLoop = (
+    setGameState: React.Dispatch<React.SetStateAction<GameState>>,
+    addLog: (msg: string, type?: any) => void,
+    calculators: any,
+    lastSaveTime: React.MutableRefObject<number>
+) => {
+  const { calculateTotalProduction } = calculators;
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+        setGameState(prev => {
+            const now = Date.now();
+            const deltaSec = TICK_RATE / 1000;
+            const production = calculateTotalProduction(prev);
+            
+            const newRes = { ...prev.resources };
+            Object.entries(production).forEach(([res, amount]) => {
+                newRes[res as ResourceType] += (amount as number) * deltaSec;
+            });
+
+            // --- REALITY MECHANICS ---
+            const reality = newRes[ResourceType.REALITY];
+            
+            // 1. Instability Factor (0.0 to 1.0 when Reality goes from 50 to 0)
+            let instability = 0;
+            if (reality < 50) {
+                instability = (50 - reality) / 50; 
+            }
+
+            // 2. Reality Collapse Penalty (Leakage when Reality <= 0)
+            if (reality <= 0) {
+                newRes[ResourceType.INFO] = Math.max(0, newRes[ResourceType.INFO] * 0.99); // 1% Decay
+                newRes[ResourceType.OPS] = Math.max(0, newRes[ResourceType.OPS] * 0.99);
+                newRes[ResourceType.FUNDS] = Math.max(0, newRes[ResourceType.FUNDS] * 0.99);
+            }
+
+            // Random Events / Artifacts
+            let newArtifacts = [...prev.artifacts];
+            let newActiveEvents = prev.activeEvents.filter(e => (now - e.startTime) < e.duration * 1000);
+            let newPendingChoice = prev.pendingChoice;
+
+            // Artifact Drop Logic
+            let artifactChance = 0.005; 
+            if (prev.luckBoostEndTime > now) artifactChance *= 2;
+            
+            // Instability Boosts Drop Rate (Chaos reveals secrets)
+            artifactChance *= (1 + instability); // Up to 2x bonus at 0 reality
+
+            TECHS.forEach(t => {
+                if (prev.researchedTechs.includes(t.id) && t.effects.artifactChanceMult) {
+                    artifactChance *= (1 + t.effects.artifactChanceMult);
+                }
+            });
+
+            if (Math.random() < artifactChance) {
+                const newArt = generateArtifact(prev.depth, prev.researchedTechs);
+                newArtifacts.push(newArt);
+                if (prev.settings.showCommonArtifactLogs || newArt.rarity !== 'common') {
+                     addLog(`获取物品: ${newArt.name} [${newArt.rarity}]`, 'info');
+                }
+            }
+
+            // Random Events Logic
+            if (!prev.settings.disableChoiceEvents && !newPendingChoice) {
+                // Choice Event Chance
+                if (Math.random() < 0.001) { 
+                     const validChoices = CHOICE_EVENTS.filter(c => (c.minDepth || 0) <= prev.depth);
+                     if (validChoices.length > 0) {
+                         const choice = validChoices[Math.floor(Math.random() * validChoices.length)];
+                         newPendingChoice = choice;
+                     }
+                }
+                
+                // Standard Event Chance
+                let eventProbability = 0.002;
+                // Instability Boosts Event Rate (Chaos causes glitches)
+                eventProbability *= (1 + instability * 3); // Up to 4x event rate at 0 reality
+
+                if (Math.random() < eventProbability) {
+                     const validEvents = POSSIBLE_EVENTS.filter(e => !e.reqTech || e.reqTech.every(t => prev.researchedTechs.includes(t)));
+                     if (validEvents.length > 0) {
+                         const evtDef = validEvents[Math.floor(Math.random() * validEvents.length)];
+                         const newEvt: GameEvent = { ...evtDef, startTime: now };
+                         newActiveEvents.push(newEvt);
+                         addLog(`环境波动: ${newEvt.name}`, evtDef.type === 'negative' ? 'warning' : 'info');
+                     }
+                }
+            }
+
+            // Autosave check
+            if (now - lastSaveTime.current > AUTOSAVE_INTERVAL) {
+                 localStorage.setItem('truth_clicker_save_v2', JSON.stringify({
+                     ...prev, resources: newRes, artifacts: newArtifacts, activeEvents: newActiveEvents
+                 }));
+                 lastSaveTime.current = now;
+            }
+
+            return {
+                ...prev,
+                resources: newRes,
+                artifacts: newArtifacts,
+                activeEvents: newActiveEvents,
+                pendingChoice: newPendingChoice,
+                depth: prev.depth + (production[ResourceType.INFO] > 0 ? ((production[ResourceType.INFO] as number) * deltaSec * 0.001) : 0)
+            };
+        });
+    }, TICK_RATE);
+    return () => clearInterval(timer);
+  }, [calculators, addLog, setGameState, lastSaveTime]);
+};

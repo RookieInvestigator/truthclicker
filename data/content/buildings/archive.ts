@@ -40,7 +40,7 @@ export const ARCHIVE_BUILDINGS: Building[] = [
   },
   {
     id: 'm_disc_archiver',
-    name: '千年光盘 (M-Disc) 阵列',
+    name: '千年光盘阵列',
     description: '将数据蚀刻在类岩石的层面上。号称能保存一千年。',
     category: BuildingCategory.ARCHIVE,
     baseCosts: { [ResourceType.FUNDS]: 8000, [ResourceType.OPS]: 500 },
@@ -92,7 +92,7 @@ export const ARCHIVE_BUILDINGS: Building[] = [
     description: '利用飞秒激光在石英玻璃中记录数据。由于其极高的稳定性，被称为“超人水晶”。',
     category: BuildingCategory.ARCHIVE,
     baseCosts: { [ResourceType.TECH_CAPITAL]: 2000, [ResourceType.OPS]: 5000 },
-    baseProduction: { [ResourceType.KNOWLEDGE]: 5.0, [ResourceType.TRUTH]: 0.1, [ResourceType.POWER]: -50.0 },
+    baseProduction: { [ResourceType.KNOWLEDGE]: 5.0, [ResourceType.TRUTH]: 0.005, [ResourceType.POWER]: -50.0 }, // Nerfed
     costMultiplier: 1.45,
     icon: 'Gem',
     unlockRequirement: 0, // Reset
@@ -116,7 +116,7 @@ export const ARCHIVE_BUILDINGS: Building[] = [
     description: '由 Arch Mission Foundation 建立。包含维基百科的镍片备份，即使地球毁灭也能幸存。',
     category: BuildingCategory.ARCHIVE,
     baseCosts: { [ResourceType.OPS]: 500000, [ResourceType.TECH_CAPITAL]: 5000 },
-    baseProduction: { [ResourceType.KNOWLEDGE]: 10.0, [ResourceType.TRUTH]: 0.3, [ResourceType.FUNDS]: -500.0 },
+    baseProduction: { [ResourceType.KNOWLEDGE]: 10.0, [ResourceType.TRUTH]: 0.005, [ResourceType.FUNDS]: -500.0 }, // Nerfed
     costMultiplier: 1.6,
     icon: 'Moon',
     unlockRequirement: 0, // Reset
@@ -128,10 +128,22 @@ export const ARCHIVE_BUILDINGS: Building[] = [
     description: '停泊在 L4 引力平衡点的数据胶囊。远离地球的政治纷争和物理灾难。',
     category: BuildingCategory.ARCHIVE,
     baseCosts: { [ResourceType.OPS]: 2000000, [ResourceType.TECH_CAPITAL]: 20000 },
-    baseProduction: { [ResourceType.TRUTH]: 0.5, [ResourceType.ANCIENT_WISDOM]: 0.5, [ResourceType.INFO]: 5000.0 },
+    baseProduction: { [ResourceType.TRUTH]: 0.005, [ResourceType.ANCIENT_WISDOM]: 0.5, [ResourceType.INFO]: 5000.0 }, // Nerfed
     costMultiplier: 1.7,
     icon: 'Satellite',
     unlockRequirement: 0, // Reset
     requireTech: ['orbital_mechanics'],
+  },
+  {
+    id: 'planetary_datacenter',
+    name: '行星级数据中心',
+    description: '将地壳挖空，填充以晶体存储介质。整个星球变成了一个硬盘。',
+    category: BuildingCategory.ARCHIVE,
+    baseCosts: { [ResourceType.TECH_CAPITAL]: 200000, [ResourceType.OPS]: 10000000, [ResourceType.POWER]: 5000000 },
+    baseProduction: { [ResourceType.INFO]: 500000.0, [ResourceType.KNOWLEDGE]: 100.0, [ResourceType.BIOMASS]: -500.0 }, 
+    costMultiplier: 2.2,
+    icon: 'Globe',
+    unlockRequirement: 0,
+    requireTech: ['type_ii_civilization'],
   },
 ];

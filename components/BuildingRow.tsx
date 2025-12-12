@@ -71,7 +71,7 @@ const BuildingCard: React.FC<BuildingCardProps> = ({ building, count, canAfford,
                     {building.name}
                 </h3>
                 <span className="text-[9px] text-gray-500 font-mono mt-0.5">
-                    LVL <span className={count > 0 ? "text-term-green" : ""}>{count}</span>
+                    数量 <span className={count > 0 ? "text-term-green" : ""}>{count}</span>
                 </span>
             </div>
         </div>

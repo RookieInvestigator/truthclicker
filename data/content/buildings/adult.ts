@@ -5,7 +5,7 @@ export const ADULT_BUILDINGS: Building[] = [
   {
     id: 'asmr_mic',
     name: 'ASMR 录音棚',
-    description: '用双耳录音麦克风捕捉咀嚼声和耳语。通过听觉刺激产生[快感]。',
+    description: '用双耳麦克风捕捉咀嚼声和耳语。通过听觉刺激产生[快感]。',
     category: BuildingCategory.ADULT,
     baseCosts: { [ResourceType.FUNDS]: 300, [ResourceType.CARDBOARD]: 50 },
     baseProduction: { [ResourceType.PLEASURE]: 0.2, [ResourceType.FUNDS]: 0.5 },
@@ -76,7 +76,7 @@ export const ADULT_BUILDINGS: Building[] = [
   },
   {
     id: 'parasocial_bot',
-    name: '准社会关系机器人',
+    name: '准社会机器人',
     description: '让粉丝觉得你真的是他们的女朋友。批量生成虚假的亲密感。',
     category: BuildingCategory.ADULT,
     baseCosts: { [ResourceType.CODE]: 15000, [ResourceType.PLEASURE]: 1000 },
@@ -88,7 +88,7 @@ export const ADULT_BUILDINGS: Building[] = [
   },
   {
     id: 'teledildonics_rig',
-    name: '远程触觉反馈装置',
+    name: '远程触觉装置',
     description: '通过互联网传输物理触感。赛博性爱硬件。',
     category: BuildingCategory.ADULT,
     baseCosts: { [ResourceType.OPS]: 20000, [ResourceType.TECH_CAPITAL]: 1000 },
@@ -125,7 +125,7 @@ export const ADULT_BUILDINGS: Building[] = [
   {
     id: 'wirehead_chair',
     name: 'Wirehead',
-    description: '直接刺激大脑的快乐中枢。不再需要食物，不再需要睡眠，只需要电流。',
+    description: '刺激大脑快乐中枢。不需要食物睡眠，只需要电流。',
     category: BuildingCategory.ADULT,
     baseCosts: { [ResourceType.TECH_CAPITAL]: 5000, [ResourceType.OPS]: 50000 },
     baseProduction: { [ResourceType.PLEASURE]: 200.0, [ResourceType.BIOMASS]: -50.0, [ResourceType.REALITY]: -0.0002 },

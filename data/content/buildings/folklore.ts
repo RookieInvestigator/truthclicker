@@ -5,7 +5,7 @@ export const FOLKLORE_BUILDINGS: Building[] = [
   {
     id: 'urban_legend_forum', 
     name: '都市传说论坛',
-    description: '只有邀请码才能进入。这里记录了每一个消失的搭车人和下水道鳄鱼。',
+    description: '邀请制论坛。记录每一个消失的搭车人和下水道鳄鱼。',
     category: BuildingCategory.FOLKLORE,
     baseCosts: { [ResourceType.INFO]: 2000, [ResourceType.FUNDS]: 100 },
     baseProduction: { [ResourceType.LORE]: 0.8, [ResourceType.INFO]: 10 },
@@ -17,7 +17,7 @@ export const FOLKLORE_BUILDINGS: Building[] = [
   {
     id: 'occult_magazine_stand',
     name: '神秘学杂志摊',
-    description: '出售《Fate》、《Fortean Times》和《飞碟探索》。记录着旧世界对于未知的探索与迷恋。',
+    description: '出售神秘学杂志。记录旧世界对未知的探索与迷恋。',
     category: BuildingCategory.FOLKLORE,
     baseCosts: { [ResourceType.FUNDS]: 1000, [ResourceType.LORE]: 50 },
     baseProduction: { [ResourceType.LORE]: 1.2, [ResourceType.CLUE]: 0.1 },
@@ -100,7 +100,7 @@ export const FOLKLORE_BUILDINGS: Building[] = [
   },
   {
     id: 'cursed_vhs_duplicator',
-    name: '诅咒录像带复制机',
+    name: '诅咒录像复制',
     description: '七天。这不仅仅是传说，这是一种模因病毒的物理载体。',
     category: BuildingCategory.FOLKLORE,
     baseCosts: { [ResourceType.LORE]: 1500, [ResourceType.OPS]: 5000 },
@@ -113,7 +113,7 @@ export const FOLKLORE_BUILDINGS: Building[] = [
   {
     id: 'elevator_game_setup',
     name: '电梯游戏站点',
-    description: '按照特定顺序按下楼层按钮：4-2-6-2-10-5。通往异世界的入口。',
+    description: '按特定顺序按楼层按钮：4-2-6-2-10-5。通往异世界入口。',
     category: BuildingCategory.FOLKLORE,
     baseCosts: { [ResourceType.LORE]: 2500, [ResourceType.FUNDS]: 5000 },
     baseProduction: { [ResourceType.ANCIENT_WISDOM]: 0.5, [ResourceType.LORE]: 2.0, [ResourceType.BIOMASS]: -2.0 }, 
@@ -160,7 +160,7 @@ export const FOLKLORE_BUILDINGS: Building[] = [
   },
   {
     id: 'cognitohazard_containment',
-    name: '认知危害收容单元',
+    name: '认知危害收容',
     description: '存放那些看一眼就会导致脑死亡的图片。',
     category: BuildingCategory.FOLKLORE,
     baseCosts: { [ResourceType.FUNDS]: 100000, [ResourceType.OPS]: 50000, [ResourceType.LORE]: 10000 },

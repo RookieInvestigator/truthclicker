@@ -5,7 +5,7 @@ export const TIER_7_TECHS: Tech[] = [
   {
     id: 'reality_tunneling', 
     name: '现实隧道',
-    description: '蒂莫西·利里理论的武器化。每个人都活在自己的现实隧道中，而你掌握了切换开关。',
+    description: '蒂莫西·利里理论武器化。每个人活在隧道，你掌握开关。',
     tier: 7,
     category: BuildingCategory.ESOTERIC,
     costs: { [ResourceType.MIND_CONTROL]: 250000, [ResourceType.TRUTH]: 500000 }, 
@@ -18,7 +18,7 @@ export const TIER_7_TECHS: Tech[] = [
   {
     id: 'vacuum_decay',
     name: '伪真空衰变',
-    description: '我们的宇宙处于亚稳态。任何一点微小的能量波动都可能导致物理法则瞬间崩塌。',
+    description: '宇宙处于亚稳态。微小能量波动导致物理法则崩塌。',
     tier: 7,
     category: BuildingCategory.TECHNOCRACY,
     costs: { [ResourceType.OPS]: 50000000000, [ResourceType.TRUTH]: 2500000 }, 
@@ -65,7 +65,7 @@ export const TIER_7_TECHS: Tech[] = [
   {
     id: 'psychohistory',
     name: '心理史学',
-    description: '只要数据量足够大，个体行为的不可预测性就会消失，历史变成可以计算的物理学。',
+    description: '数据量足够大，个体不可预测性消失，历史变成物理学。',
     tier: 7,
     category: BuildingCategory.TECHNOCRACY,
     costs: { [ResourceType.INFO]: 100000000, [ResourceType.KNOWLEDGE]: 1000000 },
@@ -93,7 +93,7 @@ export const TIER_7_TECHS: Tech[] = [
   {
     id: 'quantum_immortality',
     name: '量子永生',
-    description: '你的意识会自动转移到你还没死的时间线上。你永远不会死，这是一种诅咒。',
+    description: '意识转移到没死的时间线。永远不死，这是一种诅咒。',
     tier: 7,
     category: BuildingCategory.ESOTERIC,
     costs: { [ResourceType.BIOMASS]: 1000000, [ResourceType.TRUTH]: 500000 },

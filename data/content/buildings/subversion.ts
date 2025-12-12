@@ -29,8 +29,8 @@ export const SUBVERSION_BUILDINGS: Building[] = [
   },
   {
     id: 'reptilian_mask_factory',
-    name: '蜥蜴人伪装服工厂',
-    description: '生产逼真的人皮面具。他们就生活在我们中间，眼睛会横向眨动。',
+    name: '蜥蜴人伪装厂',
+    description: '生产逼真人皮面具。他们生活在我们中间，眼睛横向眨动。',
     category: BuildingCategory.SUBVERSION,
     baseCosts: { [ResourceType.BIOMASS]: 1000, [ResourceType.FUNDS]: 5000 },
     baseProduction: { [ResourceType.RUMORS]: 3.0, [ResourceType.FUNDS]: 50.0, [ResourceType.TINFOIL]: 0.5 }, // Tinfoil
@@ -44,7 +44,7 @@ export const SUBVERSION_BUILDINGS: Building[] = [
   {
     id: 'birds_drone_jammer',
     name: '鸟类干扰器',
-    description: '鸟类在1986年就被里根政府杀光了，现在的全是监控无人机。干扰它们的信号传输。',
+    description: '鸟类是监控无人机。干扰它们的信号传输。',
     category: BuildingCategory.SUBVERSION,
     baseCosts: { [ResourceType.OPS]: 3000, [ResourceType.TINFOIL]: 50 },
     baseProduction: { [ResourceType.TINFOIL]: 1.5, [ResourceType.INFO]: 20.0, [ResourceType.CRED]: -1.0 }, // Tinfoil
@@ -56,7 +56,7 @@ export const SUBVERSION_BUILDINGS: Building[] = [
   {
     id: 'based_podcast_studio',
     name: '红丸播客工作室',
-    description: '两个对着麦克风抽雪茄的男人。讨论西方文明的衰落和现代性的谎言。',
+    description: '对着麦克风抽雪茄。讨论西方文明的衰落和现代性的谎言。',
     category: BuildingCategory.SUBVERSION,
     baseCosts: { [ResourceType.FUNDS]: 5000, [ResourceType.RED_PILL]: 20 },
     baseProduction: { [ResourceType.RED_PILL]: 0.8, [ResourceType.FOLLOWERS]: 10.0, [ResourceType.FUNDS]: 10.0 }, // Red Pill
@@ -70,7 +70,7 @@ export const SUBVERSION_BUILDINGS: Building[] = [
   {
     id: 'crisis_actor_agency',
     name: '危机演员中介',
-    description: '招募演员在新闻发布会上哭泣。一切都是剧本，一切都是为了控制你。',
+    description: '招募演员在发布会上哭泣。一切都是剧本，为了控制你。',
     category: BuildingCategory.SUBVERSION,
     baseCosts: { [ResourceType.FUNDS]: 10000, [ResourceType.CRED]: 500 },
     baseProduction: { [ResourceType.PANIC]: 2.0, [ResourceType.RUMORS]: 5.0, [ResourceType.RED_PILL]: 0.3, [ResourceType.FUNDS]: -50.0 }, // Red Pill
@@ -108,7 +108,7 @@ export const SUBVERSION_BUILDINGS: Building[] = [
   {
     id: 'mud_fossil_university',
     name: '泥化石大学',
-    description: '那个山脉其实是一个石化的巨人心脏。地质学是谎言，世界是生物构成的。',
+    description: '山脉是石化巨人心脏。地质学是谎言，世界由生物构成。',
     category: BuildingCategory.SUBVERSION,
     baseCosts: { [ResourceType.TINFOIL]: 500, [ResourceType.FOSSIL]: 100 },
     baseProduction: { [ResourceType.TINFOIL]: 2.5, [ResourceType.FOSSIL]: 5.0, [ResourceType.ANCIENT_WISDOM]: 0.2 }, // Tinfoil
@@ -120,7 +120,7 @@ export const SUBVERSION_BUILDINGS: Building[] = [
   {
     id: 'alpha_male_bootcamp',
     name: '阿尔法训练营',
-    description: '通过冰水浴、生吃内脏和吼叫来恢复被现代社会剥夺的男子气概。',
+    description: '通过冰水浴、生吃内脏和吼叫来恢复男子气概。',
     category: BuildingCategory.SUBVERSION,
     baseCosts: { [ResourceType.FUNDS]: 20000, [ResourceType.RED_PILL]: 200 },
     baseProduction: { [ResourceType.RED_PILL]: 2.0, [ResourceType.FUNDS]: 200.0, [ResourceType.BIOMASS]: 10.0 }, // Red Pill
@@ -145,8 +145,8 @@ export const SUBVERSION_BUILDINGS: Building[] = [
   },
   {
     id: 'shadow_ban_algo',
-    name: 'Shadowban算法优化',
-    description: '让不受欢迎的声音消失在虚空中。他们甚至不知道自己被禁言了。',
+    name: '隐形禁言算法',
+    description: '让不受欢迎的声音消失。他们甚至不知道自己被禁言了。',
     category: BuildingCategory.SUBVERSION,
     baseCosts: { [ResourceType.CODE]: 20000, [ResourceType.OPS]: 5000 },
     baseProduction: { [ResourceType.MIND_CONTROL]: 1.0, [ResourceType.SPAM]: -10.0, [ResourceType.RED_PILL]: 0.1, [ResourceType.OPS]: -20.0 }, // Red Pill
@@ -193,7 +193,7 @@ export const SUBVERSION_BUILDINGS: Building[] = [
   },
   {
     id: 'mandela_effect_generator',
-    name: '曼德拉效应发生器',
+    name: '曼德拉发生器',
     description: '微调过去的时间线。到底是“贝伦斯坦熊”还是“贝伦斯特恩熊”？',
     category: BuildingCategory.SUBVERSION,
     baseCosts: { [ResourceType.TECH_CAPITAL]: 5000, [ResourceType.OPS]: 50000 },
@@ -206,7 +206,7 @@ export const SUBVERSION_BUILDINGS: Building[] = [
   {
     id: 'fluoride_injector', 
     name: '氟化物添加系统',
-    description: '将其注入公共供水系统。让松果体钙化，切断人类与灵界的联系。',
+    description: '注入公共供水。让松果体钙化，切断人类与灵界联系。',
     category: BuildingCategory.SUBVERSION,
     baseCosts: { [ResourceType.FUNDS]: 30000, [ResourceType.CRED]: 500 },
     baseProduction: { [ResourceType.MIND_CONTROL]: 3.0, [ResourceType.BIOMASS]: -10.0, [ResourceType.TINFOIL]: 0.8, [ResourceType.FUNDS]: -100.0 }, // Tinfoil
@@ -220,7 +220,7 @@ export const SUBVERSION_BUILDINGS: Building[] = [
   {
     id: 'trad_lifestyle_commune',
     name: '传统生活公社',
-    description: '拒绝现代性，回归农耕。',
+    description: '拒绝现代性，回归农耕。其实是有自动武器的封闭邪教。',
     category: BuildingCategory.SUBVERSION,
     baseCosts: { [ResourceType.FUNDS]: 100000, [ResourceType.RED_PILL]: 1000 },
     baseProduction: { [ResourceType.RED_PILL]: 5.0, [ResourceType.BIOMASS]: 50.0, [ResourceType.FOLLOWERS]: 20.0 }, // Red Pill
@@ -232,7 +232,7 @@ export const SUBVERSION_BUILDINGS: Building[] = [
   {
     id: 'agartha_drill',
     name: '阿加尔塔钻机',
-    description: '在南极洲的冰层下寻找地心世界的入口。',
+    description: '在南极冰层下寻找地心入口。那里住着金发碧眼超人。',
     category: BuildingCategory.SUBVERSION,
     baseCosts: { [ResourceType.OPS]: 100000, [ResourceType.TINFOIL]: 2000 },
     baseProduction: { [ResourceType.TINFOIL]: 8.0, [ResourceType.ANCIENT_WISDOM]: 2.0, [ResourceType.FOSSIL]: -5.0 }, // Tinfoil

@@ -59,7 +59,7 @@ export const TIER_5_TECHS: Tech[] = [
   },
   {
     id: 'atlantean_knowledge', 
-    name: '亚特兰蒂斯几何学',
+    name: '亚特兰蒂斯几何',
     description: '柏拉图描述的完美城市布局实际上是一个能量回路。',
     tier: 5,
     category: BuildingCategory.HISTORY,
@@ -73,7 +73,7 @@ export const TIER_5_TECHS: Tech[] = [
   {
     id: 'silurian_hypothesis',
     name: '志留纪假说',
-    description: '在人类出现之前的几百万年，是否存在过另一个工业文明？化石中不仅有骨头，还有塑料。',
+    description: '人类前几百万年有工业文明吗？化石中不仅有骨头还有塑料。',
     tier: 5,
     category: BuildingCategory.CRYPTID, // Changed
     costs: { [ResourceType.FOSSIL]: 500, [ResourceType.ANCIENT_WISDOM]: 1000 },
@@ -86,7 +86,7 @@ export const TIER_5_TECHS: Tech[] = [
   },
   {
     id: 'mass_psychogenic_illness', 
-    name: '群体性心因性疾病',
+    name: '群体心因病',
     description: '利用[恐慌]和[谣言]引发真实的生理症状。',
     tier: 5,
     category: BuildingCategory.SUBVERSION,
@@ -126,7 +126,7 @@ export const TIER_5_TECHS: Tech[] = [
   {
     id: 'project_blue_beam', 
     name: '蓝光计划',
-    description: '利用全息投影技术在天空中伪造“基督再临”或“外星人入侵”，以建立世界新秩序。',
+    description: '全息伪造“基督再临”或“外星人入侵”，建立新秩序。',
     tier: 5,
     category: BuildingCategory.SUBVERSION,
     costs: { [ResourceType.FUNDS]: 3000000, [ResourceType.OPS]: 800000 }, 
@@ -153,7 +153,7 @@ export const TIER_5_TECHS: Tech[] = [
   {
     id: 'hyperstition',
     name: '超虚构',
-    description: '通过编造故事来改写现实。如果足够多的人相信它，它就会成真。',
+    description: '编造故事改写现实。若足够多人相信，它就会成真。',
     tier: 5,
     category: BuildingCategory.ESOTERIC,
     costs: { [ResourceType.STORY]: 1000, [ResourceType.REALITY]: 50 },
@@ -212,7 +212,7 @@ export const TIER_5_TECHS: Tech[] = [
   {
     id: 'body_pillow_comfort',
     name: '等身抱枕架构',
-    description: '只有二次元老婆是完美的。在冰冷的服务器机房里，它是唯一的温暖来源（也是极好的隔音材料）。',
+    description: '二次元老婆完美。机房里唯一温暖来源，也是隔音材料。',
     tier: 5,
     category: BuildingCategory.ADULT,
     costs: { [ResourceType.PLEASURE]: 2000, [ResourceType.BIOMASS]: 500 },
@@ -226,7 +226,7 @@ export const TIER_5_TECHS: Tech[] = [
   {
     id: 'reality_shifting',
     name: '现实转移',
-    description: '通过编写脚本和听潜意识音乐，试图将意识转移到哈利波特的世界。逃避主义的终极形式。',
+    description: '通过脚本和潜意识音乐转移意识。逃避主义终极形式。',
     tier: 5,
     category: BuildingCategory.ADULT,
     costs: { [ResourceType.MIND_CONTROL]: 1000, [ResourceType.LORE]: 2000 },
@@ -239,7 +239,7 @@ export const TIER_5_TECHS: Tech[] = [
   {
     id: 'idol_trinity',
     name: '偶像三身',
-    description: '同时运营偶像、调查员和阴谋论教主三个账号。三位一体，收割全网。',
+    description: '同时运营偶像、调查员、教主号。三位一体，收割全网。',
     tier: 5,
     category: BuildingCategory.ADULT,
     costs: { [ResourceType.FOLLOWERS]: 100000, [ResourceType.PLEASURE]: 50000, [ResourceType.INFO]: 200000 },
@@ -255,7 +255,7 @@ export const TIER_5_TECHS: Tech[] = [
   {
     id: 'orgone_cloudbuster',
     name: '奥贡云爆器',
-    description: '用铜管引导生命能量来消散化学凝尾。这绝对不是普通的 plumbing。',
+    description: '用铜管引导生命能量消散化学凝尾。绝非普通管道。',
     tier: 5,
     category: BuildingCategory.ESOTERIC,
     costs: { [ResourceType.CARDBOARD]: 2000, [ResourceType.BIOMASS]: 500 },
@@ -294,7 +294,7 @@ export const TIER_5_TECHS: Tech[] = [
   {
     id: 'oxygen_toxicity',
     name: '氧气致幻',
-    description: '氧气不是生命之源，而是让你产生“活着”这一幻觉的慢性毒药。戒断反应就是死亡。',
+    description: '氧气是让你产生“活着”幻觉的毒药。戒断即死亡。',
     tier: 5,
     category: BuildingCategory.ESOTERIC,
     costs: { [ResourceType.KNOWLEDGE]: 5000000 },
@@ -307,8 +307,8 @@ export const TIER_5_TECHS: Tech[] = [
   },
   {
     id: 'tic_tac_uap',
-    name: 'Tic-Tac 异常',
-    description: '没有机翼，没有排气口，瞬间加速到 60 马赫。五角大楼发布的红外视频是真的。',
+    name: 'UAP异常',
+    description: '无机翼排气口，瞬加60马赫。五角大楼视频是真的。',
     tier: 5,
     category: BuildingCategory.VERIFICATION,
     costs: { [ResourceType.TRUTH]: 200, [ResourceType.INFO]: 100000 },
@@ -322,7 +322,7 @@ export const TIER_5_TECHS: Tech[] = [
   {
     id: 'retrocausal_looting',
     name: '逆因果掠夺',
-    description: '那个硬盘在当前时间线已经损坏了？没关系，去它还没坏的昨天拿回来。',
+    description: '硬盘当前损坏？没关系，去它没坏的昨天拿回来。',
     tier: 5,
     category: BuildingCategory.HISTORY,
     costs: { [ResourceType.ANCIENT_WISDOM]: 2000, [ResourceType.OPS]: 50000 },

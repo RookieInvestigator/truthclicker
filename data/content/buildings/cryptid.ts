@@ -29,7 +29,7 @@ export const CRYPTID_BUILDINGS: Building[] = [
   {
     id: 'bigfoot_trap',
     name: '大脚怪陷阱',
-    description: '用培根和信息素作为诱饵。捕捉到的通常只是也是来找大脚怪的游客。',
+    description: '用培根和信息素作诱饵。通常只捉到找大脚怪的游客。',
     category: BuildingCategory.CRYPTID,
     baseCosts: { [ResourceType.CARDBOARD]: 1000, [ResourceType.BIOMASS]: 200 },
     baseProduction: { [ResourceType.LORE]: 0.5, [ResourceType.BIOMASS]: 0.5 },
@@ -53,7 +53,7 @@ export const CRYPTID_BUILDINGS: Building[] = [
   {
     id: 'paleontology_lab',
     name: '古生物实验室',
-    description: '从石头中提取DNA片段和远古气候数据。将无用的骨头转化为真理。',
+    description: '从石头提取DNA和气候数据。将无用骨头转化为真理。',
     category: BuildingCategory.CRYPTID,
     baseCosts: { [ResourceType.FUNDS]: 8000, [ResourceType.OPS]: 1000 },
     baseProduction: { [ResourceType.FOSSIL]: 0.1, [ResourceType.KNOWLEDGE]: 2.5, [ResourceType.ANCIENT_WISDOM]: 0.05 },
@@ -89,7 +89,7 @@ export const CRYPTID_BUILDINGS: Building[] = [
   {
     id: 'reverse_evolution_tank',
     name: '逆向演化槽',
-    description: '通过抑制鸡胚胎中的特定基因，诱导其长出牙齿和尾巴。低成本恐龙制造机。',
+    description: '抑制鸡胚胎特定基因，诱导长出牙齿尾巴。低成本恐龙。',
     category: BuildingCategory.CRYPTID,
     baseCosts: { [ResourceType.FUNDS]: 25000, [ResourceType.BIOMASS]: 5000 },
     baseProduction: { [ResourceType.FOSSIL]: 2.0, [ResourceType.LORE]: 1.0, [ResourceType.BIOMASS]: -5.0 },
@@ -101,7 +101,7 @@ export const CRYPTID_BUILDINGS: Building[] = [
   {
     id: 'crypto_darkroom',
     name: '神秘生物暗房',
-    description: '专门冲洗那些所谓“曝光不足”的怪物照片。从噪点中还原雷鸟的翼展。',
+    description: '冲洗“曝光不足”的怪物照片。从噪点还原雷鸟翼展。',
     category: BuildingCategory.CRYPTID,
     baseCosts: { [ResourceType.FUNDS]: 2000, [ResourceType.LORE]: 100 },
     baseProduction: { [ResourceType.LORE]: 1.0, [ResourceType.CLUE]: 0.2 },
@@ -113,7 +113,7 @@ export const CRYPTID_BUILDINGS: Building[] = [
   {
     id: 'prehuman_ruins',
     name: '前人类工业废墟',
-    description: '挖掘出的不仅仅是陶罐，而是石化的集成电路和地质层中的同位素异常。',
+    description: '挖掘石化的集成电路和地质层中的同位素异常。',
     category: BuildingCategory.CRYPTID,
     baseCosts: { [ResourceType.FUNDS]: 100000, [ResourceType.OPS]: 20000 },
     baseProduction: { [ResourceType.TECH_CAPITAL]: 0.5, [ResourceType.ANCIENT_WISDOM]: 1.0, [ResourceType.FOSSIL]: -1.0 }, 
@@ -125,7 +125,7 @@ export const CRYPTID_BUILDINGS: Building[] = [
   {
     id: 'future_evolution_sim',
     name: '未来演化沙盘',
-    description: '推演五千万年后的人类形态。肉块、真空生物、或者纯能量体。需要消耗化石样本作为基准。',
+    description: '推演未来人类形态。肉块、真空生物或能量体。需化石样本。',
     category: BuildingCategory.CRYPTID,
     baseCosts: { [ResourceType.OPS]: 10000, [ResourceType.FOSSIL]: 50 },
     baseProduction: { [ResourceType.FOSSIL]: -0.1, [ResourceType.LORE]: 3.0, [ResourceType.PANIC]: 0.8 }, 
@@ -137,7 +137,7 @@ export const CRYPTID_BUILDINGS: Building[] = [
   {
     id: 'extinction_reversal_vat',
     name: '拉撒路物种坑',
-    description: '渡渡鸟并没有死，它只是在等待服务器重启。我们正在把它“下载”回来。',
+    description: '渡渡鸟只是在等待服务器重启。我们正在把它“下载”回来。',
     category: BuildingCategory.CRYPTID,
     baseCosts: { [ResourceType.BIOMASS]: 5000, [ResourceType.LORE]: 2000 },
     baseProduction: { [ResourceType.BIOMASS]: 10.0, [ResourceType.LORE]: 2.0, [ResourceType.FOSSIL]: -0.5 },

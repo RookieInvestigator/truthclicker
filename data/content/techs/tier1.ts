@@ -6,7 +6,7 @@ export const TIER_1_TECHS: Tech[] = [
   {
     id: 'doomscrolling',
     name: '末日滚动',
-    description: '你的拇指比眼睛移动得更快。在潜意识层面处理信息流，这是一种数字时代的条件反射。',
+    description: '拇指比眼快。潜意识处理信息流，数字时代的条件反射。',
     tier: 1,
     category: BuildingCategory.NETWORK,
     costs: { [ResourceType.INFO]: 400 },
@@ -66,7 +66,7 @@ export const TIER_1_TECHS: Tech[] = [
   {
     id: 'urban_entomology',
     name: '城市昆虫学',
-    description: '黄粉虫能降解聚苯乙烯泡沫和纤维素。将废弃物转化为卡路里的最高效方式。',
+    description: '黄粉虫降解泡沫。将废弃物转化为卡路里的最高效方式。',
     tier: 1,
     category: BuildingCategory.SURVIVAL,
     costs: { [ResourceType.INFO]: 350, [ResourceType.CARDBOARD]: 20 },
@@ -94,7 +94,7 @@ export const TIER_1_TECHS: Tech[] = [
   {
     id: 'used_hardware_flipping',
     name: '电子垃圾鉴别',
-    description: '那是垃圾还是宝藏？懂得区分炸掉的电容和仅仅是脏了的电路板。',
+    description: '垃圾还是宝藏？区分炸掉的电容和仅仅脏了的电路板。',
     tier: 1,
     category: BuildingCategory.SURVIVAL,
     costs: { [ResourceType.INFO]: 800, [ResourceType.FUNDS]: 100 },
@@ -141,7 +141,7 @@ export const TIER_1_TECHS: Tech[] = [
   {
     id: 'forum_culture',
     name: '论坛潜规则',
-    description: '在发言之前先观察 (Lurk moar)。理解表情包的语法。',
+    description: '发言前先观察。理解表情包语法 (Lurk moar)。',
     tier: 1,
     category: BuildingCategory.INTERNET_CULTURE,
     costs: { [ResourceType.INFO]: 500 },
@@ -155,7 +155,7 @@ export const TIER_1_TECHS: Tech[] = [
   {
     id: 'clickbait_tactics',
     name: '标题党战术',
-    description: '震惊！男人看了会沉默，女人看了会流泪。利用人类的好奇心漏洞。',
+    description: '震惊！利用人类的好奇心漏洞，诱导点击。',
     tier: 1,
     category: BuildingCategory.INTERNET_CULTURE,
     costs: { [ResourceType.INFO]: 1500, [ResourceType.SPAM]: 10 },
@@ -171,7 +171,7 @@ export const TIER_1_TECHS: Tech[] = [
   {
     id: 'basic_scripting',
     name: '基础脚本',
-    description: 'Python 或 Bash。让机器为你工作，而不是你为机器工作。',
+    description: 'Python 或 Bash。让机器为你工作，而非反之。',
     tier: 1,
     category: BuildingCategory.TECHNOCRACY,
     costs: { [ResourceType.INFO]: 2000 },
@@ -201,7 +201,7 @@ export const TIER_1_TECHS: Tech[] = [
   {
     id: 'search_operators',
     name: '高级搜索指令',
-    description: 'site: filetype: intitle: "index of". 大部分人只会用关键字，而你懂得语法。',
+    description: '大部分人只会用关键字，而你懂得 Google Hacking 语法。',
     tier: 1,
     category: BuildingCategory.VERIFICATION,
     costs: { [ResourceType.INFO]: 1000 },

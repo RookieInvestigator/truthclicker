@@ -55,7 +55,7 @@ const ArtifactModal: React.FC<ArtifactModalProps> = ({ artifact, onClose, onRecy
   const colorClass = getRarityColor(artifact.rarity);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-in fade-in zoom-in duration-200" onClick={onClose}>
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-in fade-in zoom-in duration-200" onClick={onClose}>
       <div className={`bg-term-black border w-full max-w-md shadow-[0_0_50px_rgba(0,0,0,0.8)] relative flex flex-col max-h-[90vh] ${colorClass.split(' ')[1]}`} onClick={e => e.stopPropagation()}>
         
         {/* Header - Looks like a window title */}

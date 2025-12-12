@@ -16,7 +16,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
   {
     id: 'mealworm_bin',
     name: '黄粉虫饲养箱',
-    description: '用切碎的废纸箱作为垫材。这些昆虫不挑食，它们将纤维素转化为嘎嘣脆的蛋白质。',
+    description: '用切碎的废纸箱作为垫材。这些昆虫将纤维素转化为蛋白质。',
     category: BuildingCategory.SURVIVAL,
     baseCosts: { [ResourceType.FUNDS]: 50, [ResourceType.CARDBOARD]: 20 },
     baseProduction: { [ResourceType.BIOMASS]: 2.0, [ResourceType.CARDBOARD]: -0.5 }, // 1.2 -> 2.0
@@ -28,7 +28,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
   {
     id: 'mechanical_turk_bot',
     name: '机械土耳其脚本',
-    description: '自动接单系统，完成那些需要“人类智能”的微任务。电子血汗工厂。',
+    description: '自动接单系统，完成需人类智能的微任务。电子血汗工厂。',
     category: BuildingCategory.SURVIVAL,
     baseCosts: { [ResourceType.INFO]: 150, [ResourceType.FUNDS]: 20 }, 
     baseProduction: { [ResourceType.FUNDS]: 1.5, [ResourceType.OPS]: 0.2 }, // 0.8 -> 1.5
@@ -75,7 +75,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
   {
     id: 'cardboard_colony',
     name: '纸箱菌落',
-    description: '将废弃纸板浸泡、杀菌，以此为基质接种平菇。把快递垃圾转化为可食用的蛋白质。',
+    description: '废纸板浸泡杀菌接种平菇。将快递垃圾转化为可食用蛋白质。',
     category: BuildingCategory.SURVIVAL,
     baseCosts: { [ResourceType.CARDBOARD]: 500, [ResourceType.BIOMASS]: 50 },
     baseProduction: { [ResourceType.BIOMASS]: 8.0, [ResourceType.CARDBOARD]: -4.0, [ResourceType.FUNDS]: 2.0 }, // Doubled
@@ -123,7 +123,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
   {
     id: 'flea_market_stall',
     name: '电子黑市摊位',
-    description: '出售翻新硬件、破解版游戏机和来路不明的硬盘。实体交易，不留数字痕迹。',
+    description: '出售翻新硬件和不明硬盘。实体交易，不留数字痕迹。',
     category: BuildingCategory.SURVIVAL,
     baseCosts: { [ResourceType.CARDBOARD]: 2000, [ResourceType.FUNDS]: 3000 },
     baseProduction: { [ResourceType.FUNDS]: 100, [ResourceType.LORE]: 0.5 }, // 30 -> 100
@@ -135,7 +135,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
   {
     id: 'wholesale_procurement',
     name: '大宗物资采购',
-    description: '绕过零售商，直接从仓库购买即将过期的军用口粮和压缩饼干。只要有钱，就不会饿死。',
+    description: '直接从仓库购买临期军用口粮。有钱就不会饿死。',
     category: BuildingCategory.SURVIVAL,
     baseCosts: { [ResourceType.FUNDS]: 5000, [ResourceType.INFO]: 2000 },
     baseProduction: { [ResourceType.BIOMASS]: 100.0, [ResourceType.FUNDS]: -15.0 }, // 30 -> 100
@@ -159,7 +159,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
   {
     id: 'lithium_salvage',
     name: '锂电池重组台',
-    description: '从报废的电子烟和电动车里拆解电池。偶尔会爆炸，但能量是免费的。',
+    description: '拆解电子烟和电动车电池。虽有爆炸风险，但能量免费。',
     category: BuildingCategory.SURVIVAL,
     baseCosts: { [ResourceType.OPS]: 2000, [ResourceType.FUNDS]: 10000 },
     baseProduction: { [ResourceType.POWER]: 150.0, [ResourceType.CARDBOARD]: 10.0 }, // 25 -> 150

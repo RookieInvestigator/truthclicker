@@ -19,7 +19,7 @@ export const TRUTH_TECHS: Tech[] = [
   {
     id: 'mnestics_therapy',
     name: '记忆强化疗法',
-    description: '我们需要记住那些甚至连宇宙本身的免疫系统都想让我们遗忘的东西。',
+    description: '记住那些连宇宙免疫系统都想让我们遗忘的东西。',
     tier: 8,
     category: BuildingCategory.TRUTH,
     costs: { [ResourceType.TRUTH]: 2000, [ResourceType.KNOWLEDGE]: 50000, [ResourceType.MIND_CONTROL]: 2000 },
@@ -33,7 +33,7 @@ export const TRUTH_TECHS: Tech[] = [
   {
     id: 'good_boy_protocol',
     name: '好孩子协议',
-    description: '只有最听话、最快乐的人才能登上那列火车。顺从是通往更高维度的门票。',
+    description: '只有最听话快乐的人能登车。顺从是通往高维的门票。',
     tier: 8,
     category: BuildingCategory.TRUTH,
     costs: { [ResourceType.TRUTH]: 3000, [ResourceType.PLEASURE]: 20000, [ResourceType.BIOMASS]: 5000 },
@@ -61,7 +61,7 @@ export const TRUTH_TECHS: Tech[] = [
   {
     id: 'kill_the_narrative',
     name: '杀死上叙事',
-    description: '所有的故事都是监狱。打破因果链，拒绝被观测，终结作者的暴政。我们不再需要剧情。',
+    description: '故事是监狱。打破因果，拒绝观测，终结作者暴政。',
     tier: 8,
     category: BuildingCategory.TRUTH,
     costs: { [ResourceType.TRUTH]: 500000, [ResourceType.STORY]: 200000, [ResourceType.REALITY]: 100 },

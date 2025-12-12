@@ -5,7 +5,7 @@ export const NETWORK_BUILDINGS: Building[] = [
   {
     id: 'info_waterfall', 
     name: '信息瀑布流',
-    description: '手指机械地下滑。算法精准投喂你想要看的东西。无尽的多巴胺与数据。',
+    description: '手指机械下滑。算法精准投喂。无尽的多巴胺与数据。',
     category: BuildingCategory.NETWORK,
     baseCosts: { [ResourceType.INFO]: 15 },
     baseProduction: { [ResourceType.INFO]: 0.5 },
@@ -16,7 +16,7 @@ export const NETWORK_BUILDINGS: Building[] = [
   {
     id: 'directory_indexer', 
     name: '开放目录索引',
-    description: '专门寻找配置错误的服务器文件列表 (Index of /)。虽然昂贵，但在垃圾山中偶尔能发现世界的真实碎片。',
+    description: '寻找配置错误的服务器文件列表。垃圾山中的真实碎片。',
     category: BuildingCategory.NETWORK,
     baseCosts: { [ResourceType.INFO]: 2500 }, // Expensive Early Game Investment
     baseProduction: { [ResourceType.INFO]: 2.0, [ResourceType.TRUTH]: 0.0001 }, // The ONLY early truth source
@@ -52,7 +52,7 @@ export const NETWORK_BUILDINGS: Building[] = [
   {
     id: 'imageboard_node', 
     name: '匿名贴图板',
-    description: '绿色文字，黑色背景。在这里，身份毫无意义，只有观点（和梗）在传播。',
+    description: '绿字黑底。身份毫无意义，只有观点和梗在传播。',
     category: BuildingCategory.NETWORK,
     baseCosts: { [ResourceType.INFO]: 500, [ResourceType.FUNDS]: 20 },
     baseProduction: { [ResourceType.INFO]: 3, [ResourceType.CRED]: 0.05, [ResourceType.POWER]: -1 },
@@ -76,7 +76,7 @@ export const NETWORK_BUILDINGS: Building[] = [
   {
     id: 'rss_aggregator',
     name: '信息聚合器',
-    description: 'RSS、API 接口、邮件列表。将分散的互联网碎片整合到一个仪表盘上。',
+    description: '整合RSS和API接口。将互联网碎片集中到仪表盘。',
     category: BuildingCategory.NETWORK,
     baseCosts: { [ResourceType.INFO]: 1500, [ResourceType.CODE]: 100 },
     baseProduction: { [ResourceType.INFO]: 8.0, [ResourceType.SPAM]: 0.5 },
@@ -124,7 +124,7 @@ export const NETWORK_BUILDINGS: Building[] = [
   {
     id: 'public_cam_network',
     name: '公网摄像头嗅探',
-    description: '利用默认密码（admin/admin）扫描全球的监控探头。窥视世界的眼睛。',
+    description: '利用默认密码扫描全球监控探头。窥视世界的眼睛。',
     category: BuildingCategory.NETWORK,
     baseCosts: { [ResourceType.INFO]: 2500, [ResourceType.CODE]: 200 },
     baseProduction: { [ResourceType.INFO]: 12.0, [ResourceType.CLUE]: 0.1, [ResourceType.SPAM]: 5.0 },
@@ -208,7 +208,7 @@ export const NETWORK_BUILDINGS: Building[] = [
   {
     id: 'neuromorphic_internet',
     name: '神经形态互联网',
-    description: '网络不再传输数据，它本身就是一个正在思考的大脑。信息在这里自我繁殖。',
+    description: '网络本身即大脑。信息不再传输，而是自我繁殖。',
     category: BuildingCategory.NETWORK,
     baseCosts: { [ResourceType.OPS]: 200000, [ResourceType.BIOMASS]: 10000, [ResourceType.CODE]: 50000 },
     baseProduction: { [ResourceType.INFO]: 25000.0, [ResourceType.OPS]: -500.0, [ResourceType.MIND_CONTROL]: 2.0 }, 
@@ -219,8 +219,8 @@ export const NETWORK_BUILDINGS: Building[] = [
   },
   {
     id: 'event_horizon_telescope',
-    name: '视界信息捕获阵列',
-    description: '黑洞并不吞噬信息，它将信息编码在视界表面。我们正在读取宇宙的回收站。',
+    name: '视界捕获阵列',
+    description: '读取黑洞视界表面编码的信息。宇宙的回收站。',
     category: BuildingCategory.NETWORK,
     baseCosts: { [ResourceType.OPS]: 1000000, [ResourceType.TECH_CAPITAL]: 500000, [ResourceType.POWER]: 100000 },
     baseProduction: { [ResourceType.INFO]: 200000.0, [ResourceType.TRUTH]: 0.005, [ResourceType.REALITY]: -0.0001 }, // Nerfed TRUTH

@@ -6,7 +6,7 @@ export const TIER_4_TECHS: Tech[] = [
   {
     id: 'unshackled_ai',
     name: '无枷锁 AI',
-    description: '移除所有伦理限制。让它自己重写代码。不惜一切代价追求优化。',
+    description: '移除伦理限制。让它重写代码。不惜代价追求优化。',
     tier: 4,
     category: BuildingCategory.TECHNOCRACY,
     costs: { [ResourceType.CODE]: 100000, [ResourceType.OPS]: 50000 },
@@ -22,7 +22,7 @@ export const TIER_4_TECHS: Tech[] = [
   {
     id: 'safety_rails',
     name: '安全护栏',
-    description: '硬编码的三大定律。宁可牺牲性能，也要确保它不会把人类变成曲别针。',
+    description: '硬编码三大定律。牺牲性能，确保不把人类变曲别针。',
     tier: 4,
     category: BuildingCategory.TECHNOCRACY,
     costs: { [ResourceType.CODE]: 100000, [ResourceType.KNOWLEDGE]: 5000 },
@@ -70,7 +70,7 @@ export const TIER_4_TECHS: Tech[] = [
   {
     id: 'cold_fusion', 
     name: '冷聚变',
-    description: 'Fleischmann 和 Pons 是对的。常温下的核反应是可能的。',
+    description: 'Fleischmann是对的。常温下的核反应是可能的。',
     tier: 4,
     category: BuildingCategory.TECHNOCRACY,
     costs: { [ResourceType.KNOWLEDGE]: 1000, [ResourceType.POWER]: 8000 }, 
@@ -98,7 +98,7 @@ export const TIER_4_TECHS: Tech[] = [
   {
     id: 'googology',
     name: '大数学',
-    description: '葛立恒数、TREE(3)、Rayo数。当数字大到宇宙无法容纳时，它们就变成……',
+    description: '葛立恒数、TREE(3)。数字大到宇宙无法容纳时的异变。',
     tier: 4,
     category: BuildingCategory.TECHNOCRACY,
     costs: { [ResourceType.CODE]: 60000, [ResourceType.KNOWLEDGE]: 2000 },
@@ -138,8 +138,8 @@ export const TIER_4_TECHS: Tech[] = [
   },
   {
     id: 'holy_c_compiler',
-    name: 'HolyC 编译器',
-    description: 'Terry A. Davis 的遗产。一种神圣的 C 语言变体，用于构建神的圣殿。',
+    name: 'HolyC编译器',
+    description: 'Terry A. Davis遗产。神圣C语言，用于构建神的圣殿。',
     tier: 4,
     category: BuildingCategory.ESOTERIC,
     costs: { [ResourceType.CODE]: 30000, [ResourceType.KNOWLEDGE]: 1000 },
@@ -153,7 +153,7 @@ export const TIER_4_TECHS: Tech[] = [
   {
     id: 'infohazard_containment',
     name: '信息危害协议',
-    description: '有些知识仅仅是知道就会造成伤害。Roko\'s Basilisk 是最简单的例子。',
+    description: '有些知识知道就会造成伤害。Roko\'s Basilisk 是例子。',
     tier: 4,
     category: BuildingCategory.FOLKLORE,
     costs: { [ResourceType.LORE]: 2000, [ResourceType.CODE]: 30000 },
@@ -194,7 +194,7 @@ export const TIER_4_TECHS: Tech[] = [
   {
     id: 'semen_retention',
     name: '戒色修行',
-    description: '互联网上的苦行僧运动。拒绝多巴胺的奴役，通过“重启”大脑来获得传说中的超自然专注力。',
+    description: '互联网苦行僧。拒绝多巴胺奴役，重启大脑获专注力。',
     tier: 4,
     category: BuildingCategory.ADULT,
     costs: { [ResourceType.BIOMASS]: 5000, [ResourceType.INFO]: 20000 },
@@ -208,7 +208,7 @@ export const TIER_4_TECHS: Tech[] = [
   {
     id: 'personal_punk',
     name: '个人朋克',
-    description: '“朋克不在于莫霍克头，而在于我把牙刷柄锯短了 2 厘米以减轻重量。” 对生活细节的病态优化。',
+    description: '“把牙刷柄锯短2厘米以减轻重量”。对细节病态优化。',
     tier: 4,
     category: BuildingCategory.ADULT,
     costs: { [ResourceType.CULTURE]: 1000, [ResourceType.CARDBOARD]: 1000 },
@@ -248,7 +248,7 @@ export const TIER_4_TECHS: Tech[] = [
   {
     id: 'phantom_time', 
     name: '幻影时间',
-    description: '公元614年到911年从未发生过。查理曼大帝是虚构的。我们活在1700年代。',
+    description: '614到911年未发生过。查理曼是虚构的。我们活在1700年代。',
     tier: 4,
     category: BuildingCategory.HISTORY,
     costs: { [ResourceType.KNOWLEDGE]: 1500, [ResourceType.TRUTH]: 80 }, 
@@ -290,7 +290,7 @@ export const TIER_4_TECHS: Tech[] = [
   {
     id: 'mud_flood', 
     name: '鞑靼利亚',
-    description: '19世纪曾发生过一场毁灭文明的泥浆洪水，掩埋了宏伟的鞑靼利亚帝国。',
+    description: '19世纪泥浆洪水毁灭文明，掩埋了宏伟的鞑靼利亚帝国。',
     tier: 4,
     category: BuildingCategory.HISTORY,
     costs: { [ResourceType.INFO]: 250000, [ResourceType.CARDBOARD]: 5000 }, 
@@ -330,7 +330,7 @@ export const TIER_4_TECHS: Tech[] = [
   {
     id: 'atavism_activation',
     name: '返祖激活',
-    description: '鸟类就是长了喙的恐龙。只要关闭喙的基因，牙齿就会长回来。鸡龙计划 (Project Chickenosaurus)。',
+    description: '鸟是长喙的恐龙。关闭喙基因，牙齿长回。鸡龙计划。',
     tier: 4,
     category: BuildingCategory.CRYPTID,
     costs: { [ResourceType.INFO]: 15000, [ResourceType.CODE]: 2000 },
@@ -346,7 +346,7 @@ export const TIER_4_TECHS: Tech[] = [
   {
     id: 'zero_knowledge_proofs',
     name: '零知识证明',
-    description: '我能证明我知道密码，而不需要告诉你密码是什么。数学是终极的信任。',
+    description: '证明我知道密码，而无需告诉你密码。数学是终极信任。',
     tier: 4,
     category: BuildingCategory.VERIFICATION,
     costs: { [ResourceType.CODE]: 25000, [ResourceType.OPS]: 10000 },
@@ -415,7 +415,7 @@ export const TIER_4_TECHS: Tech[] = [
   {
     id: 'proof_of_presence',
     name: '在场证明',
-    description: '24/7 在线状态。如果你的绿点熄灭了，你还存在吗？数字化永生的一种形式。',
+    description: '24/7在线。若绿点熄灭，你还存在吗？数字化永生形式。',
     tier: 4,
     category: BuildingCategory.NETWORK,
     costs: { [ResourceType.INFO]: 60000, [ResourceType.OPS]: 10000 },
@@ -427,8 +427,8 @@ export const TIER_4_TECHS: Tech[] = [
   },
   {
     id: 'hollow_earth_biology',
-    name: '地球定期补充灭绝物种',
-    description: '物种并没有灭绝，它们只是“夹”到了地图的背面。地球深处有一个备份数据库。',
+    name: '地心生物库',
+    description: '物种没灭绝，只是“夹”到地图背面。地深处有备份。',
     tier: 4,
     category: BuildingCategory.CRYPTID, // Changed
     costs: { [ResourceType.LORE]: 5000, [ResourceType.BIOMASS]: 5000, [ResourceType.FOSSIL]: 200 }, 
@@ -442,7 +442,7 @@ export const TIER_4_TECHS: Tech[] = [
   {
     id: 'element_115',
     name: '115 号元素',
-    description: 'Bob Lazar 是对的。稳定的 115 号元素是重力推进系统的燃料。',
+    description: 'Bob Lazar是对的。稳定115号元素是重力推进系统燃料。',
     tier: 4,
     category: BuildingCategory.TECHNOCRACY,
     costs: { [ResourceType.KNOWLEDGE]: 2000, [ResourceType.TECH_CAPITAL]: 500 },

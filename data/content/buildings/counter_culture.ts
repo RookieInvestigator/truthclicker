@@ -5,7 +5,7 @@ export const COUNTER_CULTURE_BUILDINGS: Building[] = [
   {
     id: 'punk_zine_press',
     name: '地下激进刊物',
-    description: '用偷来的复印机印刷关于无政府主义和反消费主义的粗糙小册子。',
+    description: '用偷来的复印机印刷无政府主义和反消费主义小册子。',
     category: BuildingCategory.COUNTER_CULTURE,
     baseCosts: { [ResourceType.FUNDS]: 500, [ResourceType.CARDBOARD]: 100 },
     baseProduction: { [ResourceType.CULTURE]: 0.3, [ResourceType.FOLLOWERS]: 0.2 },
@@ -28,7 +28,7 @@ export const COUNTER_CULTURE_BUILDINGS: Building[] = [
   },
   {
     id: 'content_farm', 
-    name: '自动生成内容农场',
+    name: '自动内容农场',
     description: 'AI 生成的怪诞儿童视频。它们正在污染人类的集体潜意识。',
     category: BuildingCategory.COUNTER_CULTURE,
     baseCosts: { [ResourceType.FUNDS]: 10000, [ResourceType.OPS]: 2000 },
@@ -53,7 +53,7 @@ export const COUNTER_CULTURE_BUILDINGS: Building[] = [
   {
     id: 'hacker_space',
     name: '无政府黑客空间',
-    description: '充满烟味的地下室，满地都是能量饮料罐。这里不欢迎联邦探员。',
+    description: '充满烟味的地下室，满地能量饮料罐。不欢迎联邦探员。',
     category: BuildingCategory.COUNTER_CULTURE,
     baseCosts: { [ResourceType.FUNDS]: 20000, [ResourceType.INFO]: 10000 },
     baseProduction: { [ResourceType.CODE]: 5.0, [ResourceType.CRED]: 2.0, [ResourceType.OPS]: 10.0 },
@@ -65,7 +65,7 @@ export const COUNTER_CULTURE_BUILDINGS: Building[] = [
   {
     id: 'meme_warfare_center', 
     name: '模因战术中心',
-    description: '将文化资本武器化。通过病毒式传播的图片影响现实。 Pepe 是我们的神。',
+    description: '将文化资本武器化。通过病毒式传播的图片影响现实。',
     category: BuildingCategory.COUNTER_CULTURE,
     baseCosts: { [ResourceType.CULTURE]: 5000, [ResourceType.OPS]: 2000 },
     baseProduction: { [ResourceType.MIND_CONTROL]: 0.5, [ResourceType.RUMORS]: 2.0, [ResourceType.CULTURE]: 1.0, [ResourceType.INFO]: -50.0 },

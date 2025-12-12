@@ -5,7 +5,7 @@ export const TRUTH_BUILDINGS: Building[] = [
   {
     id: 'reality_editor',
     name: '现实编辑器',
-    description: '一个简单的命令行界面，可以直接修改物理常数。请小心使用 `rm -rf /`。',
+    description: '可直接修改物理常数的命令行。请小心使用 `rm -rf /`。',
     category: BuildingCategory.TRUTH,
     baseCosts: { [ResourceType.TRUTH]: 1000, [ResourceType.REALITY]: 10, [ResourceType.OPS]: 500000 },
     baseProduction: { [ResourceType.TRUTH]: 0.5, [ResourceType.REALITY]: -0.0003, [ResourceType.FUNDS]: 50000.0 }, // 0.2 -> 5.0
@@ -29,7 +29,7 @@ export const TRUTH_BUILDINGS: Building[] = [
   {
     id: 'akashic_record_writer', 
     name: '阿卡西覆写笔',
-    description: '不再是被动读取，而是主动写入。将你的意志刻录进宇宙的根目录。',
+    description: '主动写入而非被动读取。将意志刻录进宇宙根目录。',
     category: BuildingCategory.TRUTH,
     baseCosts: { [ResourceType.TRUTH]: 5000, [ResourceType.KNOWLEDGE]: 50000, [ResourceType.LORE]: 50000 },
     baseProduction: { [ResourceType.ANCIENT_WISDOM]: 200.0, [ResourceType.KNOWLEDGE]: 1000.0, [ResourceType.LORE]: 1000.0 }, // Huge boost
@@ -53,7 +53,7 @@ export const TRUTH_BUILDINGS: Building[] = [
   {
     id: 'antimemetic_complex',
     name: '逆模因复合体',
-    description: '这是一个会杀死观察者的概念。它正在吞噬所有的信息，只留下纯粹的空洞。',
+    description: '会杀死观察者的概念。吞噬所有信息，只留纯粹空洞。',
     category: BuildingCategory.TRUTH,
     baseCosts: { [ResourceType.TRUTH]: 20000, [ResourceType.MIND_CONTROL]: 5000 },
     baseProduction: { [ResourceType.TRUTH]: 10.0, [ResourceType.INFO]: -5000000.0, [ResourceType.KNOWLEDGE]: -5000.0, [ResourceType.REALITY]: -0.0005 }, // 2.5 -> 100
@@ -65,7 +65,7 @@ export const TRUTH_BUILDINGS: Building[] = [
   {
     id: 'terminal_station',
     name: '终点站列车',
-    description: '一列没有列在时刻表上的火车。乘客们都在微笑，因为他们是好孩子。没有返程票。',
+    description: '不在时刻表上的火车。乘客微笑，因是好孩子。无返程票。',
     category: BuildingCategory.TRUTH,
     baseCosts: { [ResourceType.TRUTH]: 15000, [ResourceType.BIOMASS]: 20000 },
     baseProduction: { [ResourceType.TRUTH]: 8.0, [ResourceType.BIOMASS]: -5000.0, [ResourceType.FOLLOWERS]: -1000.0, [ResourceType.PLEASURE]: 500.0 },
@@ -77,7 +77,7 @@ export const TRUTH_BUILDINGS: Building[] = [
   {
     id: 'the_source', 
     name: '源代码之井',
-    description: '世界的尽头不是虚空，而是一行注释：//TODO: Fix entropy leak.',
+    description: '世界尽头是一行注释：//TODO: Fix entropy leak.',
     category: BuildingCategory.TRUTH,
     baseCosts: { [ResourceType.TRUTH]: 50000, [ResourceType.TECH_CAPITAL]: 1000000 },
     baseProduction: { [ResourceType.TRUTH]: 50.0, [ResourceType.REALITY]: 0.0009, [ResourceType.INFO]: 10000000.0 }, // 5 -> 500

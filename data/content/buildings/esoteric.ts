@@ -17,7 +17,7 @@ export const ESOTERIC_BUILDINGS: Building[] = [
   {
     id: 'temple_os_rig',
     name: '第三圣殿主机',
-    description: '一台完全运行 TempleOS 的机器。在 640x480 的 16 色画面中聆听神的随机数。',
+    description: '运行TempleOS。在低清画面中聆听神的随机数。',
     category: BuildingCategory.ESOTERIC,
     baseCosts: { [ResourceType.CODE]: 10000, [ResourceType.ANCIENT_WISDOM]: 500 },
     baseProduction: { [ResourceType.TRUTH]: 0.001, [ResourceType.CODE]: 10.0, [ResourceType.ANCIENT_WISDOM]: 1.0 }, // 0.001 OK
@@ -52,7 +52,7 @@ export const ESOTERIC_BUILDINGS: Building[] = [
   },
   {
     id: 'reality_stabilizer',
-    name: '最终用户许可协议',
+    name: '现实稳定协议',
     description: '防止世界因为过多的[正概率]滥用而解体。',
     category: BuildingCategory.ESOTERIC,
     baseCosts: { [ResourceType.TECH_CAPITAL]: 500, [ResourceType.OPS]: 20000 },
@@ -65,7 +65,7 @@ export const ESOTERIC_BUILDINGS: Building[] = [
   {
     id: 'bicameral_temple', 
     name: '神之声广播塔',
-    description: '利用二分心智理论，向大众右脑广播“神的指令”。消耗[民俗学]作为燃料。',
+    description: '利用二分心智，向大众右脑广播“神令”。消耗[民俗学]。',
     category: BuildingCategory.ESOTERIC,
     baseCosts: { [ResourceType.KNOWLEDGE]: 1000, [ResourceType.OPS]: 10000 },
     baseProduction: { [ResourceType.FOLLOWERS]: 100, [ResourceType.CULTURE]: 5.0, [ResourceType.MIND_CONTROL]: 10.0, [ResourceType.POWER]: -500.0, [ResourceType.LORE]: -10.0 }, 
@@ -137,7 +137,7 @@ export const ESOTERIC_BUILDINGS: Building[] = [
   {
     id: 'anaerobic_meditation_chamber',
     name: '厌氧冥想室',
-    description: '移除房间内的氧气。在这种濒死状态下，你终于看清了世界的本质。',
+    description: '移除房间氧气。在濒死状态下，你终于看清世界本质。',
     category: BuildingCategory.ESOTERIC,
     baseCosts: { [ResourceType.FUNDS]: 20000, [ResourceType.KNOWLEDGE]: 1000 },
     baseProduction: { [ResourceType.KNOWLEDGE]: 1000.0, [ResourceType.OXYGEN]: -2000.0, [ResourceType.REALITY]: -0.0001 }, 

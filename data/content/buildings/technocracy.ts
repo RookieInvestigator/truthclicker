@@ -5,7 +5,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
   {
     id: 'script_kiddie',
     name: '脚本工具箱',
-    description: 'GitHub 上的代码是现代工具。只需复制粘贴，无需理解原理即可生效。',
+    description: 'GitHub代码是现代工具。复制粘贴，无需理解原理。',
     category: BuildingCategory.TECHNOCRACY,
     baseCosts: { [ResourceType.INFO]: 100, [ResourceType.FUNDS]: 50 },
     baseProduction: { [ResourceType.CODE]: 0.5 }, // 0.1 -> 0.5
@@ -76,7 +76,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
   },
   {
     id: 'fpga_mining_rig',
-    name: 'FPGA 算力阵列',
+    name: 'FPGA算力阵列',
     description: '现场可编程门阵列。专门为特定算法优化的硬件，比 GPU 更纯粹。',
     category: BuildingCategory.TECHNOCRACY,
     baseCosts: { [ResourceType.FUNDS]: 8000, [ResourceType.CODE]: 1000 },
@@ -89,7 +89,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
   {
     id: '5g_tower', 
     name: '私设 5G 基站',
-    description: '不仅仅是通讯设施。高频微波可以用来传输数据，或者... 别的。',
+    description: '不仅是通讯设施。高频微波传输数据，或者...别的。',
     category: BuildingCategory.TECHNOCRACY,
     baseCosts: { [ResourceType.FUNDS]: 15000, [ResourceType.OPS]: 2000 },
     baseProduction: { [ResourceType.INFO]: 500.0, [ResourceType.MIND_CONTROL]: 1.0, [ResourceType.POWER]: -150.0 }, // 100 -> 500
@@ -112,7 +112,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
   },
   {
     id: 'biocompute_substrate',
-    name: '脑类器官计算单元',
+    name: '生物计算单元',
     description: '在培养皿中生长的神经元比硅芯片更高效。它们有时候会尖叫。',
     category: BuildingCategory.TECHNOCRACY,
     baseCosts: { [ResourceType.OPS]: 40000, [ResourceType.BIOMASS]: 2000 },
@@ -136,7 +136,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
   },
   {
     id: 'ai_training_cluster',
-    name: '黑盒 AI 训练集群',
+    name: '黑盒AI集群',
     description: '我们在用数学训练一个我们无法控制的黑盒模型。',
     category: BuildingCategory.TECHNOCRACY,
     baseCosts: { [ResourceType.FUNDS]: 100000, [ResourceType.TECH_CAPITAL]: 500 },
@@ -184,7 +184,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
   },
   {
     id: 'von_neumann_probe',
-    name: '冯·诺依曼探测器',
+    name: '自我复制探测器',
     description: '自我复制的太空探测器。利用小行星带的资源建造副本。',
     category: BuildingCategory.TECHNOCRACY,
     baseCosts: { [ResourceType.OPS]: 2000000, [ResourceType.TECH_CAPITAL]: 50000 },
@@ -208,7 +208,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
   },
   {
     id: 'time_loop_repo',
-    name: '莫比乌斯 Git 仓库',
+    name: '闭环Git仓库',
     description: '代码在提交之前就已经修复了。逆因果版本控制。',
     category: BuildingCategory.TECHNOCRACY,
     baseCosts: { [ResourceType.CODE]: 1000000, [ResourceType.OPS]: 500000 },

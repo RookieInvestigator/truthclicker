@@ -87,7 +87,7 @@ export const HISTORY_BUILDINGS: Building[] = [
   },
   {
     id: 'grassy_knoll_sim', 
-    name: 'Grassy Knoll 弹道模拟',
+    name: '草丘弹道模拟',
     description: '重现达拉斯 1963 年的那一刻。寻找第二枪手。',
     category: BuildingCategory.HISTORY,
     baseCosts: { [ResourceType.OPS]: 2000, [ResourceType.CLUE]: 50 },
@@ -135,7 +135,7 @@ export const HISTORY_BUILDINGS: Building[] = [
   },
   {
     id: 'antikythera_sim',
-    name: '安提基特拉模拟器',
+    name: '天文计算模拟',
     description: '运行这台2000年前的模拟计算机。预测天体位置。',
     category: BuildingCategory.HISTORY,
     baseCosts: { [ResourceType.CODE]: 5000, [ResourceType.KNOWLEDGE]: 200 },

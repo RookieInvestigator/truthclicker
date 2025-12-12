@@ -21,7 +21,7 @@ const ChoiceEventModal: React.FC<ChoiceEventModalProps> = ({ event, resources, o
   }, [event.id]); // Only re-shuffle if it's a completely different event ID
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
       <div className="bg-term-black border border-gray-700 w-full max-w-2xl shadow-[0_10px_50px_rgba(0,0,0,0.8)] relative flex flex-col overflow-hidden rounded-sm">
         
         {/* Header */}

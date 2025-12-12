@@ -38,7 +38,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ settings, onToggle, onClo
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4" onClick={onClose}>
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4" onClick={onClose}>
       <div className="bg-term-black border border-term-gray w-full max-w-md shadow-[0_0_50px_rgba(0,0,0,0.5)] animate-in fade-in zoom-in duration-200" onClick={e => e.stopPropagation()}>
         
         {/* Header */}

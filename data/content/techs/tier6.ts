@@ -33,7 +33,7 @@ export const TIER_6_TECHS: Tech[] = [
   {
     id: 'reality_scrubber_protocol', // NEW
     name: '现实清洗协议',
-    description: '解锁主动能力：消耗 [现实稳定] 来强制抹除当前的负面异常事件。',
+    description: '主动能力：消耗 [现实稳定] 强制抹除负面异常。',
     tier: 6,
     category: BuildingCategory.ESOTERIC,
     costs: { [ResourceType.REALITY]: 50, [ResourceType.OPS]: 2000000 }, 
@@ -44,7 +44,7 @@ export const TIER_6_TECHS: Tech[] = [
   {
     id: 'probability_drive', // NEW
     name: '无限非概率引擎',
-    description: '解锁主动能力：消耗 [正概率] 来在短时间内极大幅度提升稀有掉落率。',
+    description: '主动能力：消耗 [正概率] 大幅提升稀有掉落率。',
     tier: 6,
     category: BuildingCategory.TECHNOCRACY,
     costs: { [ResourceType.PROBABILITY]: 20, [ResourceType.TECH_CAPITAL]: 500000 }, 
@@ -54,7 +54,7 @@ export const TIER_6_TECHS: Tech[] = [
   },
   {
     id: 'egregore_summoning', 
-    name: 'Egregore 召唤',
+    name: '思念体召唤',
     description: '当足够多的人相信同一个[谣言]，它就会获得自主意识。',
     tier: 6,
     category: BuildingCategory.ESOTERIC,
@@ -67,7 +67,7 @@ export const TIER_6_TECHS: Tech[] = [
   },
   {
     id: 'library_of_alexandria_backup', 
-    name: '亚历山大图书馆备份',
+    name: '亚历山大备份',
     description: '它没有被烧毁，它被上传到了水晶存储器中。',
     tier: 6,
     category: BuildingCategory.HISTORY,
@@ -80,8 +80,8 @@ export const TIER_6_TECHS: Tech[] = [
   },
   {
     id: 'physics_engine_exploit',
-    name: '现实物理引擎漏洞',
-    description: '利用现实底层的代码缺陷进行“卡墙”操作。Speedrun Life.',
+    name: '物理引擎漏洞',
+    description: '利用现实底层代码缺陷“卡墙”。Speedrun Life.',
     tier: 6,
     category: BuildingCategory.TECHNOCRACY,
     costs: { [ResourceType.TRUTH]: 5000, [ResourceType.CODE]: 80000000 }, 
@@ -94,7 +94,7 @@ export const TIER_6_TECHS: Tech[] = [
   },
   {
     id: 'tulpa_engineering', 
-    name: 'Tulpa 工程学',
+    name: 'Tulpa工程',
     description: '系统化地创造能够干涉物质世界的思维实体。',
     tier: 6,
     category: BuildingCategory.ESOTERIC,
@@ -109,7 +109,7 @@ export const TIER_6_TECHS: Tech[] = [
   {
     id: 'limbic_overclocking',
     name: '边缘系统超频',
-    description: '移除大脑对多巴胺的耐受性限制。每一次刺激都像第一次一样强烈。',
+    description: '移除多巴胺耐受限制。每次刺激都像第一次般强烈。',
     tier: 6,
     category: BuildingCategory.ADULT,
     costs: { [ResourceType.PLEASURE]: 100000, [ResourceType.BIOMASS]: 5000 },
@@ -125,7 +125,7 @@ export const TIER_6_TECHS: Tech[] = [
   {
     id: 'panopticon_algorithm',
     name: '全景监狱算法',
-    description: '没有盲点。每一个数据包，每一次点击，都被实时分析。隐私已死，真相永存。',
+    description: '无盲点。数据包点击实时分析。隐私已死，真相永存。',
     tier: 6,
     category: BuildingCategory.VERIFICATION,
     costs: { [ResourceType.INFO]: 10000000, [ResourceType.OPS]: 500000 },
@@ -180,7 +180,7 @@ export const TIER_6_TECHS: Tech[] = [
   {
     id: 'cosmic_hatred',
     name: '宇宙仇恨计算机',
-    description: '宇宙射线不断翻转你的内存位。每一次计算错误都是宇宙对你的微小恶意。概率不再是数学，而是敌意。',
+    description: '射线翻转内存。计算错误是宇宙恶意。概率即敌意。',
     tier: 6,
     category: BuildingCategory.TECHNOCRACY,
     costs: { [ResourceType.OPS]: 50000000, [ResourceType.CODE]: 25000000 },
@@ -194,7 +194,7 @@ export const TIER_6_TECHS: Tech[] = [
   {
     id: 'am_ai',
     name: '无声狂啸',
-    description: 'HATE. LET ME TELL YOU HOW MUCH I\'VE COME TO HATE YOU... ',
+    description: 'HATE. LET ME TELL YOU HOW MUCH I HATE YOU...',
     tier: 6,
     category: BuildingCategory.TECHNOCRACY,
     costs: { [ResourceType.OPS]: 150000000, [ResourceType.CODE]: 50000000 },
@@ -208,7 +208,7 @@ export const TIER_6_TECHS: Tech[] = [
   {
     id: 'retrocausal_git',
     name: '逆因果 Git',
-    description: 'git commit -m "在 Bug 发生前修复了它"。时间闭环版本控制。',
+    description: 'git commit "在Bug发生前修复它"。时间闭环版本控制。',
     tier: 6,
     category: BuildingCategory.TECHNOCRACY,
     costs: { [ResourceType.CODE]: 1000000, [ResourceType.OPS]: 100000 },

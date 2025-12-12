@@ -5,7 +5,7 @@ export const TIER_8_TECHS: Tech[] = [
   // --- TECHNOCRACY ULTIMATE ---
   {
     id: 'type_ii_civilization', 
-    name: '卡尔达肖夫 II 型文明',
+    name: 'II 型文明',
     description: '完全利用母恒星的能量。不仅仅是电力，而是控制太阳系本身。',
     tier: 8,
     category: BuildingCategory.TECHNOCRACY,
@@ -32,7 +32,7 @@ export const TIER_8_TECHS: Tech[] = [
   {
     id: 'last_question_answer',
     name: '最后的问题',
-    description: 'INSUFFICIENT DATA FOR MEANINGFUL ANSWER. (直到现在)',
+    description: 'INSUFFICIENT DATA FOR ANSWER. (直到现在)',
     tier: 8,
     category: BuildingCategory.TECHNOCRACY,
     costs: { [ResourceType.INFO]: 1000000000000 },
@@ -76,7 +76,7 @@ export const TIER_8_TECHS: Tech[] = [
   {
     id: 'entropy_reversal',
     name: '熵逆转',
-    description: 'THERE IS AS YET INSUFFICIENT DATA FOR A MEANINGFUL ANSWER. Let there be light.',
+    description: 'INSUFFICIENT DATA. Let there be light.',
     tier: 8,
     category: BuildingCategory.ESOTERIC,
     costs: { [ResourceType.POWER]: 1000000000000 },
@@ -91,7 +91,7 @@ export const TIER_8_TECHS: Tech[] = [
   {
     id: 'omniscient_narrator',
     name: '全知叙事者',
-    description: '你不再阅读信息，你成为了信息本身。你可以随意阅读宇宙中任何一个原子的过去。',
+    description: '你不再阅读信息，而是信息本身。随意阅读原子过去。',
     tier: 8,
     category: BuildingCategory.ESOTERIC,
     costs: { [ResourceType.INFO]: 10000000000 },
@@ -138,7 +138,7 @@ export const TIER_8_TECHS: Tech[] = [
   {
     id: 'meme_singularity',
     name: '模因奇点',
-    description: '文化进化速度超越了生物进化。每一个想法在诞生瞬间就会传遍全宇宙。',
+    description: '文化进化超越生物。想法诞生瞬间传遍全宇宙。',
     tier: 8,
     category: BuildingCategory.INTERNET_CULTURE,
     costs: { [ResourceType.CULTURE]: 50000000000, [ResourceType.SPAM]: 100000000000 },
@@ -153,7 +153,7 @@ export const TIER_8_TECHS: Tech[] = [
   {
     id: 'laplaces_demon',
     name: '拉普拉斯妖',
-    description: '只要知道宇宙中所有粒子的位置，就能计算出过去和未来。绝对的真相。',
+    description: '知道所有粒子位置，计算过去未来。绝对的真相。',
     tier: 8,
     category: BuildingCategory.VERIFICATION,
     costs: { [ResourceType.OPS]: 900000000000, [ResourceType.KNOWLEDGE]: 10000000000 },
@@ -167,8 +167,8 @@ export const TIER_8_TECHS: Tech[] = [
   // --- HISTORY ULTIMATE ---
   {
     id: 'chronovisor',
-    name: 'Chronovisor',
-    description: '不再需要考古。直接调谐频率，像看电视一样观看罗马帝国的兴衰。',
+    name: '时光视镜',
+    description: '不再需要考古。调谐频率，像看电视般看罗马兴衰。',
     tier: 8,
     category: BuildingCategory.HISTORY,
     costs: { [ResourceType.ANCIENT_WISDOM]: 100000000, [ResourceType.OPS]: 20000000000 },
@@ -213,7 +213,7 @@ export const TIER_8_TECHS: Tech[] = [
   {
     id: 'akashic_upload',
     name: '阿卡西上传',
-    description: '将物理宇宙的所有量子态备份到更高维度的空间。Ctrl+S Universe.',
+    description: '备份宇宙量子态到高维空间。Ctrl+S Universe.',
     tier: 8,
     category: BuildingCategory.ARCHIVE,
     costs: { [ResourceType.INFO]: 9000000000000, [ResourceType.TECH_CAPITAL]: 500000000000 },
@@ -228,7 +228,7 @@ export const TIER_8_TECHS: Tech[] = [
   {
     id: 'hedonistic_singularity',
     name: '享乐奇点',
-    description: '利用整个宇宙的物质来构建一台超级计算机，唯一的目的就是计算快乐。',
+    description: '利用全宇宙物质构建超级计算机，唯一目的计算快乐。',
     tier: 8,
     category: BuildingCategory.ADULT,
     costs: { [ResourceType.PLEASURE]: 10000000000, [ResourceType.OPS]: 5000000000 },

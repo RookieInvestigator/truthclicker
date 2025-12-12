@@ -54,7 +54,7 @@ export const TIER_3_TECHS: Tech[] = [
   {
     id: 'cultural_pessimism',
     name: '文化悲观主义',
-    description: '相信文明正在经历不可逆转的衰退。只有回归传统才能拯救我们。',
+    description: '文明正不可逆转地衰退。只有回归传统才能拯救我们。',
     tier: 3,
     category: BuildingCategory.SUBVERSION,
     costs: { [ResourceType.RED_PILL]: 10, [ResourceType.CULTURE]: 500 },
@@ -111,7 +111,7 @@ export const TIER_3_TECHS: Tech[] = [
   },
   {
     id: 'dead_theory_bot', 
-    name: '死理论验证机器人',
+    name: '死理论机器人',
     description: '如果互联网已死，那就利用尸体。',
     tier: 3,
     category: BuildingCategory.NETWORK,
@@ -166,8 +166,8 @@ export const TIER_3_TECHS: Tech[] = [
   },
   {
     id: 'geocities_excavation',
-    name: 'GeoCities 挖掘',
-    description: '从网络废墟中恢复闪烁的 GIF 和 <blink> 标签。那些死去的个人主页里藏着灵魂。',
+    name: '老网页挖掘',
+    description: '恢复闪烁的GIF和标签。死去的个人主页里藏着灵魂。',
     tier: 3,
     category: BuildingCategory.ARCHIVE,
     costs: { [ResourceType.INFO]: 10000 },
@@ -182,7 +182,7 @@ export const TIER_3_TECHS: Tech[] = [
   {
     id: 'liminal_space_theory',
     name: '阈限空间',
-    description: 'Kenopsia：那种通常熙熙攘攘但现在空无一人的场所所带来的诡异氛围。',
+    description: '熙熙攘攘但现在空无一人的场所带来的诡异氛围。',
     tier: 3,
     category: BuildingCategory.FOLKLORE,
     costs: { [ResourceType.LORE]: 300, [ResourceType.INFO]: 8000 },
@@ -224,7 +224,7 @@ export const TIER_3_TECHS: Tech[] = [
   {
     id: 'digital_dowsing',
     name: '数字探龙针',
-    description: '用鼠标在屏幕上画五角星。如果光标微微颤抖，说明下方埋藏着高价值文件。',
+    description: '鼠标画五角星。若光标颤抖，说明埋藏着高价值文件。',
     tier: 3,
     category: BuildingCategory.FOLKLORE,
     costs: { [ResourceType.LORE]: 800, [ResourceType.INFO]: 5000 },
@@ -284,7 +284,7 @@ export const TIER_3_TECHS: Tech[] = [
   {
     id: 'oopart_studies', 
     name: '欧帕兹研究',
-    description: 'Out-of-place artifacts。这些文物不应该存在于那个时代。',
+    description: 'OOPArt。这些文物不应该存在于那个时代。',
     tier: 3,
     category: BuildingCategory.HISTORY,
     costs: { [ResourceType.CLUE]: 200, [ResourceType.KNOWLEDGE]: 100 }, 
@@ -298,7 +298,7 @@ export const TIER_3_TECHS: Tech[] = [
   {
     id: 'paleo_virology',
     name: '古病毒学',
-    description: '随着永久冻土的融化，沉睡了三万年的巨型病毒正在苏醒。潘多拉魔盒其实是个冰块。',
+    description: '冻土融化，古老病毒苏醒。潘多拉魔盒其实是个冰块。',
     tier: 3,
     category: BuildingCategory.CRYPTID,
     costs: { [ResourceType.INFO]: 8000, [ResourceType.BIOMASS]: 500 },
@@ -311,7 +311,7 @@ export const TIER_3_TECHS: Tech[] = [
   },
   {
     id: 'majestic_12', 
-    name: 'Majestic-12 文件',
+    name: 'MJ-12 文件',
     description: '1947年成立的秘密委员会。负责回收外星飞船。',
     tier: 3,
     category: BuildingCategory.HISTORY,
@@ -339,7 +339,7 @@ export const TIER_3_TECHS: Tech[] = [
   },
   {
     id: 'atmospheric_geoengineering', 
-    name: '平流层气溶胶注入',
+    name: '气溶胶注入',
     description: '所谓的“化学凝尾”其实是改变气候的工程计划。',
     tier: 3,
     category: BuildingCategory.SUBVERSION, // Root
@@ -354,7 +354,7 @@ export const TIER_3_TECHS: Tech[] = [
   {
     id: 'fluoride_calcification', 
     name: '松果体钙化研究',
-    description: '水中的氟化物不仅仅为了牙齿健康，它是为了封闭你的“第三只眼”。',
+    description: '水中的氟化物不只为牙齿，而是为了封闭“第三只眼”。',
     tier: 3,
     category: BuildingCategory.SUBVERSION,
     costs: { [ResourceType.INFO]: 25000, [ResourceType.BIOMASS]: 250 }, 
@@ -368,7 +368,7 @@ export const TIER_3_TECHS: Tech[] = [
   {
     id: 'asmr_psyops',
     name: 'ASMR 心理战',
-    description: '将低语和咀嚼声武器化。通过极致的放松来瓦解目标的防御机制。',
+    description: '将低语和咀嚼声武器化。通过极致放松瓦解防御机制。',
     tier: 3,
     category: BuildingCategory.SUBVERSION,
     costs: { [ResourceType.PLEASURE]: 100, [ResourceType.MIND_CONTROL]: 50 },
@@ -408,7 +408,7 @@ export const TIER_3_TECHS: Tech[] = [
   {
     id: 'targeted_individuals', 
     name: '受控个体',
-    description: '不是你在发疯，而是真的有一群人在街角用红颜色车灯给你发信号。',
+    description: '不是发疯，真的有一群人在街角用红车灯给你发信号。',
     tier: 3,
     category: BuildingCategory.SUBVERSION,
     costs: { [ResourceType.INFO]: 35000, [ResourceType.CRED]: 250 }, 
@@ -449,7 +449,7 @@ export const TIER_3_TECHS: Tech[] = [
   },
   {
     id: 'simp_economics',
-    name: 'Simp 经济学',
+    name: '舔狗经济学',
     description: '为了听一句“谢谢大哥”而倾家荡产。',
     tier: 3,
     category: BuildingCategory.ADULT,
@@ -464,7 +464,7 @@ export const TIER_3_TECHS: Tech[] = [
   {
     id: 'character_worship',
     name: '怪谈崇拜',
-    description: '杰夫杀手 (Jeff the Killer) 不是怪物，他是被误解的偶像。在硬盘深处为他建立祭坛。',
+    description: '杰夫杀手是被误解的偶像。在硬盘深处为他建立祭坛。',
     tier: 3,
     category: BuildingCategory.ADULT,
     costs: { [ResourceType.LORE]: 200, [ResourceType.PLEASURE]: 50 },
@@ -547,7 +547,7 @@ export const TIER_3_TECHS: Tech[] = [
   {
     id: 'aesthetics_police',
     name: '视觉风格纠察',
-    description: '“那是 Outrun，不是 Vaporwave！” 对美学标签的病态执着。',
+    description: '“是Outrun不是Vaporwave！” 对美学标签的病态执着。',
     tier: 3,
     category: BuildingCategory.INTERNET_CULTURE,
     costs: { [ResourceType.CULTURE]: 200, [ResourceType.SPAM]: 500 },
@@ -560,7 +560,7 @@ export const TIER_3_TECHS: Tech[] = [
   {
     id: 'speculative_biology',
     name: '猜想演化',
-    description: '《Man After Man》。如果人类被基因工程改造成肉块会怎样？推演未来的恐怖生态。',
+    description: '人类被基因改造会怎样？推演未来的恐怖生态。',
     tier: 3,
     category: BuildingCategory.CRYPTID, // Changed
     costs: { [ResourceType.BIOMASS]: 500, [ResourceType.INFO]: 15000, [ResourceType.FOSSIL]: 50 }, 
@@ -573,8 +573,8 @@ export const TIER_3_TECHS: Tech[] = [
   },
   {
     id: 'foo_fighters',
-    name: 'Foo Fighters 档案',
-    description: '二战飞行员报告的发光球体。它们不是纳粹的秘密武器，也不是盟军的。',
+    name: '不明飞行物档案',
+    description: '二战飞行员报告的发光球体。既非纳粹也非盟军武器。',
     tier: 3,
     category: BuildingCategory.HISTORY,
     costs: { [ResourceType.KNOWLEDGE]: 100, [ResourceType.LORE]: 200 },
@@ -588,7 +588,7 @@ export const TIER_3_TECHS: Tech[] = [
   {
     id: 'simulation_realism',
     name: '模拟真实主义',
-    description: '为了赢得论坛上关于坦克装甲厚度的争论，有人发送了真实的军事机密文件。',
+    description: '为赢坦克装甲厚度的争论，发送真实的军事机密文件。',
     tier: 3,
     category: BuildingCategory.SUBVERSION,
     costs: { [ResourceType.CODE]: 5000, [ResourceType.CRED]: 500 },

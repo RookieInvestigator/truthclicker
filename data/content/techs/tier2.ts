@@ -6,7 +6,7 @@ export const TIER_2_TECHS: Tech[] = [
   {
     id: 'black_hat_seo',
     name: '黑帽 SEO',
-    description: '关键词堆砌、隐藏文本、链接农场。不在乎用户体验，只要搜索引擎的排名。',
+    description: '堆砌关键词、隐藏文本。不在乎体验，只要搜索排名。',
     tier: 2,
     category: BuildingCategory.NETWORK,
     costs: { [ResourceType.CODE]: 2000, [ResourceType.SPAM]: 100 },
@@ -22,7 +22,7 @@ export const TIER_2_TECHS: Tech[] = [
   {
     id: 'white_hat_seo',
     name: '白帽 SEO',
-    description: '遵循规则，提供优质内容。虽然见效慢，但不会被算法突然降权封杀。',
+    description: '遵循规则提供优质内容。见效慢，但不会被算法封杀。',
     tier: 2,
     category: BuildingCategory.NETWORK,
     costs: { [ResourceType.CODE]: 2000, [ResourceType.CRED]: 50 },
@@ -39,7 +39,7 @@ export const TIER_2_TECHS: Tech[] = [
   // --- NETWORK EXPANSION ---
   {
     id: 'usenet_access', 
-    name: 'Usenet 访问',
+    name: 'Usenet访问',
     description: '新闻组是互联网的活化石。所有现代梗的起源都在这里。',
     tier: 2,
     category: BuildingCategory.NETWORK,
@@ -122,7 +122,7 @@ export const TIER_2_TECHS: Tech[] = [
   // --- FOLKLORE & CULTURE ---
   {
     id: 'creepypasta_analysis', 
-    name: 'Creepypasta 分析',
+    name: '都市传说分析',
     description: '分析 Slender Man 和 Jeff the Killer 的传播路径。',
     tier: 2,
     category: BuildingCategory.FOLKLORE, // Root
@@ -137,7 +137,7 @@ export const TIER_2_TECHS: Tech[] = [
   {
     id: 'geospatial_anomalies',
     name: '地理空间异常',
-    description: '谷歌地图上有些地方被打了马赛克。有些岛屿只存在于地图上。桑迪岛 (Sandy Island) 去哪了？',
+    description: '地图上的马赛克区域。有些岛屿只存在于数据中。',
     tier: 2,
     category: BuildingCategory.FOLKLORE,
     costs: { [ResourceType.INFO]: 3500, [ResourceType.LORE]: 20 },
@@ -165,7 +165,7 @@ export const TIER_2_TECHS: Tech[] = [
   {
     id: 'pareidolia_filter',
     name: '空想性错视滤镜',
-    description: '从随机的噪点中识别人脸。你看见的到底是大脑的修饰，还是真实的...？',
+    description: '从随机噪点中识别人脸。是大脑修饰，还是真实存在？',
     tier: 2,
     category: BuildingCategory.FOLKLORE,
     costs: { [ResourceType.CODE]: 1500, [ResourceType.LORE]: 20 },
@@ -193,7 +193,7 @@ export const TIER_2_TECHS: Tech[] = [
   {
     id: 'leetspeak_decoding',
     name: '黑客语解码',
-    description: 'n00b, pwned, w00t. 熟练阅读这种古老的黑客方言，从中提取有效信息。',
+    description: 'n00b, pwned. 熟练阅读黑客方言，提取信息。',
     tier: 2,
     category: BuildingCategory.INTERNET_CULTURE,
     costs: { [ResourceType.INFO]: 2000 },
@@ -206,7 +206,7 @@ export const TIER_2_TECHS: Tech[] = [
   {
     id: 'rng_manipulation',
     name: '随机数操控',
-    description: '如果能在特定的微秒按下鼠标，就能强行让随机数生成器吐出我们想要的结果。',
+    description: '在特定微秒操作，强行让随机数生成器吐出想要结果。',
     tier: 2,
     category: BuildingCategory.INTERNET_CULTURE,
     costs: { [ResourceType.CODE]: 3000, [ResourceType.SPAM]: 200 },
@@ -354,7 +354,7 @@ export const TIER_2_TECHS: Tech[] = [
   {
     id: 'cryptozoology', 
     name: '神秘动物学',
-    description: '相信天蛾人和大脚怪的存在并非迷信，而是对已知生物学的补充。',
+    description: '天蛾人和大脚怪并非迷信，而是对已知生物学的补充。',
     tier: 2,
     category: BuildingCategory.CRYPTID, // Changed
     costs: { [ResourceType.INFO]: 4500, [ResourceType.CLUE]: 25 }, 
@@ -467,7 +467,7 @@ export const TIER_2_TECHS: Tech[] = [
   {
     id: 'rule_34',
     name: '第34条法则',
-    description: '如果它存在，就有关于它的... 你懂的。这是互联网的原动力。',
+    description: '若存在，则必有关于它的色情内容。互联网原动力。',
     tier: 2,
     category: BuildingCategory.ADULT,
     costs: { [ResourceType.INFO]: 5000, [ResourceType.FUNDS]: 200 },
@@ -480,7 +480,7 @@ export const TIER_2_TECHS: Tech[] = [
   {
     id: 'plushie_therapy',
     name: '毛绒疗法',
-    description: 'IKEA 鲨鱼是唯一理解你的人。软绵绵的拥抱能缓解现实的尖锐棱角。',
+    description: 'IKEA鲨鱼唯一理解你。拥抱缓解现实的尖锐棱角。',
     tier: 2,
     category: BuildingCategory.ADULT,
     costs: { [ResourceType.FUNDS]: 300, [ResourceType.PLEASURE]: 20 },
@@ -549,7 +549,7 @@ export const TIER_2_TECHS: Tech[] = [
   {
     id: 'thunderbird_photo',
     name: '雷鸟照片鉴别',
-    description: '那张 19 世纪牛仔举着巨大翼龙的照片真的存在吗？还是我们集体的曼德拉效应？',
+    description: '19世纪牛仔举着翼龙的照片存在吗？还是曼德拉效应？',
     tier: 2,
     category: BuildingCategory.CRYPTID, // Changed
     costs: { [ResourceType.LORE]: 30, [ResourceType.INFO]: 4000 },

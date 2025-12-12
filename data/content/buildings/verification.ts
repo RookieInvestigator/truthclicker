@@ -17,7 +17,7 @@ export const VERIFICATION_BUILDINGS: Building[] = [
   {
     id: 'schizo_board',
     name: '连线板',
-    description: '在软木板上钉满剪报，用红毛线连接看似无关的事件。模式开始显现。',
+    description: '用红毛线连接软木板上的剪报。模式开始显现。',
     category: BuildingCategory.VERIFICATION,
     baseCosts: { [ResourceType.CARDBOARD]: 100, [ResourceType.INFO]: 300 },
     baseProduction: { [ResourceType.CLUE]: 0.3, [ResourceType.RUMORS]: 0.5 },
@@ -41,7 +41,7 @@ export const VERIFICATION_BUILDINGS: Building[] = [
   {
     id: 'spectrogram_decoder',
     name: '频谱图解码器',
-    description: '在音频文件的声谱中寻找隐藏的人脸或文字。Cicada 3301 的常用手段。',
+    description: '在音频声谱中寻找隐藏信息。Cicada 3301 常用手段。',
     category: BuildingCategory.VERIFICATION,
     baseCosts: { [ResourceType.CODE]: 2000, [ResourceType.INFO]: 5000 },
     baseProduction: { [ResourceType.CLUE]: 0.5, [ResourceType.CODE]: 0.2 },
@@ -101,7 +101,7 @@ export const VERIFICATION_BUILDINGS: Building[] = [
   {
     id: 'entropy_filter_station', 
     name: '熵减去噪塔',
-    description: '利用巨大的算力对抗信息熵。将[垃圾信息]湮灭，还原出纯净的[真相]。',
+    description: '利用算力对抗信息熵。湮灭垃圾信息，还原真相。',
     category: BuildingCategory.VERIFICATION,
     baseCosts: { [ResourceType.OPS]: 10000, [ResourceType.TECH_CAPITAL]: 50 },
     baseProduction: { [ResourceType.INFO]: 500.0, [ResourceType.SPAM]: -1000.0, [ResourceType.POWER]: -100.0 }, 
@@ -125,7 +125,7 @@ export const VERIFICATION_BUILDINGS: Building[] = [
   {
     id: 'algo_auditor', 
     name: '算法审计员',
-    description: '逆向工程社交媒体的推荐算法，过滤[垃圾信息]并提取有效[代码]。',
+    description: '逆向推荐算法，过滤垃圾信息并提取有效代码。',
     category: BuildingCategory.VERIFICATION,
     baseCosts: { [ResourceType.CODE]: 2000, [ResourceType.OPS]: 500 },
     baseProduction: { [ResourceType.CODE]: 1.0, [ResourceType.SPAM]: -50.0, [ResourceType.OPS]: -10.0 }, 

@@ -187,7 +187,9 @@ export interface BoardReply {
   author: string;
   timestamp: string;
   content: string;
-  image?: string; // Icon name
+  image?: string; 
+  postNumber: number; // FIXED: Static post number
+  reqTech?: string[]; // NEW: Replies can now require tech to be visible
 }
 
 export interface BoardPost {
@@ -195,9 +197,12 @@ export interface BoardPost {
   title: string;
   author: string;
   timestamp: string;
-  content: string; // Supports simple formatting like >greentext
-  image: string; // Icon name as placeholder for the "OP image"
+  content: string; 
+  image: string; 
+  fileSize: string; // FIXED: Static string (e.g. "230KB")
+  filename: string; // FIXED: Static filename
+  postNumber: number; // FIXED: Static post number to prevent jumping
   replies: BoardReply[];
-  reqTech?: string[]; // Unlocks when these techs are researched
+  reqTech?: string[]; 
   minDepth?: number;
 }

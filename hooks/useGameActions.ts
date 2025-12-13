@@ -1,10 +1,11 @@
 
-import { useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { GameState, ResourceType, LogEntry, Artifact, ChoiceOption, GameEvent } from '../types';
 import { BUILDINGS } from '../data/buildings';
 import { TECHS } from '../data/techs';
 import { UNIQUE_ARTIFACTS } from '../data/artifacts';
 import { POSSIBLE_EVENTS } from '../data/events';
+import { CHOICE_EVENTS, TECH_TRIGGER_MAP } from '../data/choiceEvents';
 import { RESOURCE_INFO } from '../constants';
 
 export const useGameActions = (
@@ -134,10 +135,24 @@ export const useGameActions = (
               addLog(tech.effects.unlockMessage, 'rare');
           }
 
+          // --- TECH TRIGGER LOGIC ---
+          let newPendingChoice = prev.pendingChoice;
+          const triggeredEventId = TECH_TRIGGER_MAP[id];
+          
+          if (triggeredEventId && !prev.settings.disableChoiceEvents) {
+              const eventDef = CHOICE_EVENTS.find(e => e.id === triggeredEventId);
+              if (eventDef) {
+                  newPendingChoice = eventDef;
+                  // Optional: Add a log indicating an event was triggered
+                  // addLog(`TRIGGER: ${eventDef.title}`, 'warning'); 
+              }
+          }
+
           return {
               ...prev,
               resources: newResources,
-              researchedTechs: [...prev.researchedTechs, id]
+              researchedTechs: [...prev.researchedTechs, id],
+              pendingChoice: newPendingChoice
           };
       });
   }, [addLog, setGameState]);

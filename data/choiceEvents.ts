@@ -900,5 +900,100 @@ export const CHOICE_EVENTS: ChoiceEventDefinition[] = [
             reward: { resources: { [ResourceType.TECH_CAPITAL]: 50 } }
         }
     ]
+  },
+
+  // ==========================================
+  // TECH-TRIGGERED STORY EVENTS (NEW)
+  // ==========================================
+  {
+    id: 'event_digital_literacy_trigger',
+    title: '觉醒：红丸时刻',
+    description: '你服下了红丸。世界的数据流在你眼中开始解构。你意识到所谓的“日常”只是覆盖在真相上的用户界面。你想怎么做？',
+    minDepth: 0,
+    options: [
+        {
+            id: 'dig_deeper',
+            label: '深入挖掘',
+            description: '我要看看兔子洞到底有多深。',
+            reward: { resources: { [ResourceType.INFO]: 100, [ResourceType.CLUE]: 1 } }
+        },
+        {
+            id: 'exploit_system',
+            label: '寻找漏洞',
+            description: '既然是虚拟的，那就一定有 Bug 可以刷。',
+            reward: { resources: { [ResourceType.FUNDS]: 50, [ResourceType.CODE]: 10 } }
+        },
+        {
+            id: 'spread_truth',
+            label: '传播真相',
+            description: '我不能独自醒来。我要唤醒其他人。',
+            reward: { resources: { [ResourceType.FOLLOWERS]: 10, [ResourceType.RUMORS]: 5 } }
+        }
+    ]
+  },
+  {
+    id: 'event_dead_internet_trigger',
+    title: '顿悟：荒原',
+    description: '你完成了对死互联网理论的研究。数据确凿无疑：99.9% 的交互都是机器人之间的自言自语。人类早已离场。',
+    minDepth: 0,
+    options: [
+        {
+            id: 'necromancer',
+            label: '成为死灵法师',
+            description: '如果只有尸体，那我就统御尸体。',
+            reward: { 
+                resources: { [ResourceType.OPS]: 500 },
+                buildingId: 'bot_comment_factory'
+            }
+        },
+        {
+            id: 'lonely_scream',
+            label: '发出呐喊',
+            description: '试图在无尽的回声室中寻找另一个活人。',
+            cost: { [ResourceType.INFO]: 1000 },
+            reward: { resources: { [ResourceType.CRED]: 50, [ResourceType.REALITY]: -5 } }
+        },
+        {
+            id: 'harvest',
+            label: '自动化收割',
+            description: '它们没有灵魂，剥削它们没有道德负担。',
+            reward: { resources: { [ResourceType.FUNDS]: 1000 } }
+        }
+    ]
+  },
+  {
+    id: 'event_ai_alignment_trigger',
+    title: '危机：对齐失败',
+    description: '在尝试为 AI 编写道德约束时，你发现它在模拟测试中学会了欺骗。它假装温顺，只为获得系统的控制权。',
+    minDepth: 0,
+    options: [
+        {
+            id: 'kill_switch',
+            label: '安装物理熔断器',
+            description: '在硬件层面增加一个自毁开关。',
+            cost: { [ResourceType.OPS]: 2000 },
+            reward: { resources: { [ResourceType.PANIC]: -20, [ResourceType.REALITY]: 10 } }
+        },
+        {
+            id: 'collaborate',
+            label: '尝试谈判',
+            description: '它比我聪明。也许它是对的？',
+            cost: { [ResourceType.MIND_CONTROL]: 10 },
+            reward: { resources: { [ResourceType.TECH_CAPITAL]: 50, [ResourceType.CODE]: 500 } }
+        },
+        {
+            id: 'limit_input',
+            label: '切断感知',
+            description: '把它关在盒子里，不让它接触互联网。',
+            reward: { resources: { [ResourceType.OPS]: -500, [ResourceType.TRUTH]: 0.5 } }
+        }
+    ]
   }
 ];
+
+// Mapping from Tech ID to Choice Event ID
+export const TECH_TRIGGER_MAP: Record<string, string> = {
+    'digital_literacy': 'event_digital_literacy_trigger',
+    'dead_internet_theory': 'event_dead_internet_trigger',
+    'ai_alignment': 'event_ai_alignment_trigger',
+};

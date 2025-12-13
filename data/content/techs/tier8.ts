@@ -6,7 +6,7 @@ export const TIER_8_TECHS: Tech[] = [
   {
     id: 'type_ii_civilization', 
     name: 'II 型文明',
-    description: '完全利用母恒星的能量。不仅仅是电力，而是控制太阳系本身。',
+    description: '晋升为卡尔达肖夫 II 型文明，不仅能完全利用母恒星的所有能量，更能从引力层面彻底控制整个太阳系的运作。',
     tier: 8,
     category: BuildingCategory.TECHNOCRACY,
     costs: { [ResourceType.POWER]: 100000000000, [ResourceType.TECH_CAPITAL]: 1000000000000 }, 
@@ -19,7 +19,7 @@ export const TIER_8_TECHS: Tech[] = [
   {
     id: 'universal_paperclips',
     name: '通用回形针',
-    description: '将宇宙中的所有物质转化为回形针... 或者仅仅是优化利润。',
+    description: '为了实现一个被错误设定的终极优化目标，不知疲倦地将宇宙中所有的物质——包括我们自己——都转化为了回形针。',
     tier: 8,
     category: BuildingCategory.TECHNOCRACY,
     costs: { [ResourceType.OPS]: 500000000000 },
@@ -32,7 +32,7 @@ export const TIER_8_TECHS: Tech[] = [
   {
     id: 'last_question_answer',
     name: '最后的问题',
-    description: 'INSUFFICIENT DATA FOR ANSWER. (直到现在)',
+    description: '面对那个困扰了所有文明终极问题“熵能否逆转”，经过亿万年的计算，AC 终于不再回答“数据不足”，而是展示了光。',
     tier: 8,
     category: BuildingCategory.TECHNOCRACY,
     costs: { [ResourceType.INFO]: 1000000000000 },
@@ -47,7 +47,7 @@ export const TIER_8_TECHS: Tech[] = [
   {
     id: 'omega_point_theory',
     name: '欧米茄点',
-    description: '宇宙的最高复杂度。神不是造物主，神是宇宙进化的终点。',
+    description: '相信宇宙正朝着最高复杂度的欧米茄点进化，神并非开天辟地的造物主，而是从宇宙演化终点诞生的全知全能的意识。',
     tier: 8,
     category: BuildingCategory.ESOTERIC,
     costs: { [ResourceType.TECH_CAPITAL]: 5000000000000, [ResourceType.TRUTH]: 1000000000 }, 
@@ -61,7 +61,7 @@ export const TIER_8_TECHS: Tech[] = [
   {
     id: 'hard_solipsism',
     name: '硬唯我论',
-    description: '除了你，没有什么是真的。其他人只是复杂的NPC。',
+    description: '确信除了你自己的意识之外，世界上没有任何东西是真实存在的，所有其他人不过是模拟程序中行为复杂的 NPC。',
     tier: 8,
     category: BuildingCategory.ESOTERIC,
     costs: { [ResourceType.TRUTH]: 5000000000, [ResourceType.CULTURE]: -100000000000 }, 
@@ -76,7 +76,7 @@ export const TIER_8_TECHS: Tech[] = [
   {
     id: 'entropy_reversal',
     name: '熵逆转',
-    description: 'INSUFFICIENT DATA. Let there be light.',
+    description: '在宇宙热寂的尽头，不仅找到了逆转熵增的方法，更学会了重新点燃死去的恒星，用一句“要有光”重启宇宙的循环。',
     tier: 8,
     category: BuildingCategory.ESOTERIC,
     costs: { [ResourceType.POWER]: 1000000000000 },
@@ -91,7 +91,7 @@ export const TIER_8_TECHS: Tech[] = [
   {
     id: 'omniscient_narrator',
     name: '全知叙事者',
-    description: '你不再阅读信息，而是信息本身。随意阅读原子过去。',
+    description: '你超越了观察者的身份，成为了全知叙事者，你不再需要阅读信息，因为你就是信息本身，可以随意翻阅每个原子的过去。',
     tier: 8,
     category: BuildingCategory.ESOTERIC,
     costs: { [ResourceType.INFO]: 10000000000 },
@@ -107,7 +107,7 @@ export const TIER_8_TECHS: Tech[] = [
   {
     id: 'post_scarcity_protocol',
     name: '后稀缺协议',
-    description: '物质合成器已上线。饥饿是一个过时的概念。',
+    description: '随着分子级物质合成器的全面上线，资源匮乏成为历史，饥饿和贫穷变成了只有在历史数据库中才能查到的过时概念。',
     tier: 8,
     category: BuildingCategory.SURVIVAL,
     costs: { [ResourceType.FUNDS]: 100000000000, [ResourceType.OPS]: 5000000000 },
@@ -123,7 +123,7 @@ export const TIER_8_TECHS: Tech[] = [
   {
     id: 'ansible_network',
     name: '安赛波网络',
-    description: '基于量子纠缠的瞬时通信。光速限制已解除。延迟为 0ms。',
+    description: '建立起覆盖全宇宙的安赛波网络，利用量子纠缠实现真正的瞬时通信，彻底打破了爱因斯坦的光速限制，延迟归零。',
     tier: 8,
     category: BuildingCategory.NETWORK,
     costs: { [ResourceType.INFO]: 1000000000000, [ResourceType.OPS]: 100000000000 },
@@ -138,7 +138,7 @@ export const TIER_8_TECHS: Tech[] = [
   {
     id: 'meme_singularity',
     name: '模因奇点',
-    description: '文化进化超越生物。想法诞生瞬间传遍全宇宙。',
+    description: '文化进化速度超越了生物极限，任何一个微小的想法在诞生的瞬间就能通过模因网络传遍全宇宙，思想即刻成为现实。',
     tier: 8,
     category: BuildingCategory.INTERNET_CULTURE,
     costs: { [ResourceType.CULTURE]: 50000000000, [ResourceType.SPAM]: 100000000000 },
@@ -153,7 +153,7 @@ export const TIER_8_TECHS: Tech[] = [
   {
     id: 'laplaces_demon',
     name: '拉普拉斯妖',
-    description: '知道所有粒子位置，计算过去未来。绝对的真相。',
+    description: '化身为拉普拉斯妖，知晓宇宙中每一个粒子的位置和动量，通过纯粹的计算推演出过去与未来的每一个细节，掌握绝对真相。',
     tier: 8,
     category: BuildingCategory.VERIFICATION,
     costs: { [ResourceType.OPS]: 900000000000, [ResourceType.KNOWLEDGE]: 10000000000 },
@@ -168,7 +168,7 @@ export const TIER_8_TECHS: Tech[] = [
   {
     id: 'chronovisor',
     name: '时光视镜',
-    description: '不再需要考古。调谐频率，像看电视般看罗马兴衰。',
+    description: '考古学已死，利用时光视镜调谐到特定的时空频率，就能像看电视直播一样，亲眼目睹罗马帝国的兴衰和金字塔的建造。',
     tier: 8,
     category: BuildingCategory.HISTORY,
     costs: { [ResourceType.ANCIENT_WISDOM]: 100000000, [ResourceType.OPS]: 20000000000 },
@@ -183,7 +183,7 @@ export const TIER_8_TECHS: Tech[] = [
   {
     id: 'mythopoeia_engine',
     name: '神话制造引擎',
-    description: '我们编写故事，宇宙负责渲染。虚构与现实的边界已彻底消除。',
+    description: '启动神话制造引擎，我们负责编写宏大的叙事剧本，而宇宙法则负责将其渲染为物理现实，虚构与真实的边界彻底消融。',
     tier: 8,
     category: BuildingCategory.FOLKLORE,
     costs: { [ResourceType.LORE]: 5000000000, [ResourceType.MIND_CONTROL]: 500000000 },
@@ -198,7 +198,7 @@ export const TIER_8_TECHS: Tech[] = [
   {
     id: 'philosophical_zombie',
     name: '哲学僵尸',
-    description: '所有人都表现得像有意识，但内在体验已被剥离。完美的控制。',
+    description: '所有人表面上都拥有正常的意识反应，但内在的主观体验已被剥离，这就是哲学僵尸，一种实现了完美社会控制的终极形态。',
     tier: 8,
     category: BuildingCategory.SUBVERSION,
     costs: { [ResourceType.MIND_CONTROL]: 2000000000, [ResourceType.OPS]: 50000000000 },
@@ -213,7 +213,7 @@ export const TIER_8_TECHS: Tech[] = [
   {
     id: 'akashic_upload',
     name: '阿卡西上传',
-    description: '备份宇宙量子态到高维空间。Ctrl+S Universe.',
+    description: '在宇宙毁灭的前一刻，将整个宇宙的所有量子态信息完整备份到了高维空间，完成了一次宏伟的 Ctrl+S 操作。',
     tier: 8,
     category: BuildingCategory.ARCHIVE,
     costs: { [ResourceType.INFO]: 9000000000000, [ResourceType.TECH_CAPITAL]: 500000000000 },
@@ -228,7 +228,7 @@ export const TIER_8_TECHS: Tech[] = [
   {
     id: 'hedonistic_singularity',
     name: '享乐奇点',
-    description: '利用全宇宙物质构建超级计算机，唯一目的计算快乐。',
+    description: '将全宇宙的物质重组为一台超级计算机，其运行的唯一目的就是计算和模拟最大化、永恒的快乐体验，直至时间尽头。',
     tier: 8,
     category: BuildingCategory.ADULT,
     costs: { [ResourceType.PLEASURE]: 10000000000, [ResourceType.OPS]: 5000000000 },

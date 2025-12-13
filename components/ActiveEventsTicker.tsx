@@ -64,8 +64,8 @@ const ActiveEventsTicker: React.FC<ActiveEventsTickerProps> = ({ events }) => {
                             {evt.multipliers && Object.entries(evt.multipliers).map(([res, mult]) => (
                                 <div key={res} className={`flex flex-col items-center justify-center min-w-[24px] px-1 py-0.5 rounded bg-white/5 border border-white/5`}>
                                     <span className={`text-[8px] font-bold leading-none ${RESOURCE_INFO[res as ResourceType].color} opacity-70`}>{RESOURCE_INFO[res as ResourceType].name.substring(0,1)}</span>
-                                    <span className={`text-[8px] font-bold leading-none flex items-center ${mult > 1 ? 'text-term-green' : 'text-red-400'}`}>
-                                        {mult > 1 ? '+' : ''}{Math.round((mult - 1) * 100)}%
+                                    <span className={`text-[8px] font-bold leading-none flex items-center ${(mult as number) > 1 ? 'text-term-green' : 'text-red-400'}`}>
+                                        {(mult as number) > 1 ? '+' : ''}{Math.round(((mult as number) - 1) * 100)}%
                                     </span>
                                 </div>
                             ))}

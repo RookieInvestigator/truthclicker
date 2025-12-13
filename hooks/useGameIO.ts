@@ -1,5 +1,5 @@
 
-import { useCallback, useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { GameState, LogEntry, ResourceType } from '../types';
 import { INITIAL_STATE } from '../data/initialState';
 

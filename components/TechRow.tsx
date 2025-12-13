@@ -3,7 +3,7 @@ import React from 'react';
 import { Tech, ResourceType } from '../types';
 import { RESOURCE_INFO } from '../constants';
 import * as Icons from 'lucide-react';
-import { Check, Lock, Cpu, ArrowUpCircle, Unlock } from 'lucide-react';
+import { Check, Lock, Cpu, ArrowUpCircle, Unlock, Info } from 'lucide-react';
 
 interface TechCardProps {
   tech: Tech;
@@ -13,9 +13,10 @@ interface TechCardProps {
   resourceState: Record<ResourceType, number>;
   onResearch: () => void;
   isCompact?: boolean;
+  onViewDetails?: () => void; // Added callback
 }
 
-const TechCard: React.FC<TechCardProps> = ({ tech, isResearched, canAfford, isLockedByExclusion, resourceState, onResearch, isCompact }) => {
+const TechCard: React.FC<TechCardProps> = ({ tech, isResearched, canAfford, isLockedByExclusion, resourceState, onResearch, isCompact, onViewDetails }) => {
   const IconComponent = (Icons as any)[tech.icon] || Cpu;
 
   // --- LOCKED STATE ---
@@ -91,10 +92,22 @@ const TechCard: React.FC<TechCardProps> = ({ tech, isResearched, canAfford, isLo
                 {isResearched ? <Check size={isCompact ? 14 : 18} /> : <IconComponent size={isCompact ? 14 : 18} />}
             </div>
             
-            <div className={`flex-1 min-w-0 ${isCompact ? 'pr-4' : 'pr-6'}`}>
+            <div className={`flex-1 min-w-0 flex items-center justify-between ${isCompact ? 'pr-4' : 'pr-6'}`}>
                 <h3 className={`font-bold font-mono ${isCompact ? 'text-[10px] leading-3 whitespace-normal break-words' : 'text-xs leading-tight truncate'} ${titleColor}`}>
                     {tech.name}
                 </h3>
+                
+                {/* Info Button */}
+                <button
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        if (onViewDetails) onViewDetails();
+                    }}
+                    className="text-gray-600 hover:text-blue-400 transition-colors opacity-50 hover:opacity-100 p-1"
+                    title="查看详细信息"
+                >
+                    <Info size={12} />
+                </button>
             </div>
         </div>
 
@@ -115,8 +128,8 @@ const TechCard: React.FC<TechCardProps> = ({ tech, isResearched, canAfford, isLo
                                     <ArrowUpCircle size={8} />
                                     {RESOURCE_INFO[res as ResourceType].name}
                                 </span>
-                                <span className={amount > 0 ? 'text-term-green' : 'text-red-400'}>
-                                    {amount > 0 ? '+' : ''}{Math.round(amount * 100)}%
+                                <span className={(amount as number) > 0 ? 'text-term-green' : 'text-red-400'}>
+                                    {(amount as number) > 0 ? '+' : ''}{Math.round((amount as number) * 100)}%
                                 </span>
                             </div>
                         ))}

@@ -73,9 +73,9 @@ const ActiveEventsPanel: React.FC<ActiveEventsPanelProps> = ({ events }) => {
                 {evt.multipliers && Object.entries(evt.multipliers).map(([res, mult]) => (
                     <div key={res} className={`flex items-center gap-1 text-[9px] px-1.5 py-0.5 rounded bg-black/50 border border-white/5`}>
                         <span className={`${RESOURCE_INFO[res as ResourceType].color} font-bold`}>{RESOURCE_INFO[res as ResourceType].name}</span>
-                        <span className={`flex items-center ${mult > 1 ? 'text-term-green' : 'text-red-400'}`}>
-                            {mult > 1 ? <ArrowUp size={8}/> : <ArrowDown size={8}/>}
-                            {Math.abs(Math.round((mult - 1) * 100))}%
+                        <span className={`flex items-center ${(mult as number) > 1 ? 'text-term-green' : 'text-red-400'}`}>
+                            {(mult as number) > 1 ? <ArrowUp size={8}/> : <ArrowDown size={8}/>}
+                            {Math.abs(Math.round(((mult as number) - 1) * 100))}%
                         </span>
                     </div>
                 ))}

@@ -6,6 +6,7 @@ export const TIER_0_TECHS: Tech[] = [
     id: 'digital_literacy',
     name: '红色药丸',
     description: '你意识到世界是虚构的。吞下它，然后去看看兔子洞有多深。',
+    longDescription: '兔子洞不是一个地点，而是一种心理状态。通过摄入这个隐喻性的构造体，你将你的感官输入与共识现实的数据流解耦。\n\n警告：本体论休克即将到来。一旦开始，你将无法再像普通人那样忽视屏幕背后的闪烁。你会开始看到代码，看到模式，看到那些不想被看到的真相。',
     tier: 0,
     category: BuildingCategory.SURVIVAL,
     costs: { [ResourceType.INFO]: 75 }, 

@@ -1,14 +1,16 @@
 
 import React, { useState } from 'react';
-import { GameState, ResourceType, Artifact, BuildingCategory, LogEntry } from '../types';
+import { GameState, ResourceType, Artifact, BuildingCategory, LogEntry, Building, Tech } from '../types';
 import { BUILDINGS } from '../data/buildings';
 import { TECHS } from '../data/techs';
 import { CATEGORY_CONFIG, RESOURCE_INFO } from '../constants';
-import { Grid, FlaskConical, FolderOpen, CheckSquare, Square, ChevronDown, ChevronRight, Maximize2, Minimize2, Filter, XCircle } from 'lucide-react';
+import { Grid, FlaskConical, FolderOpen, CheckSquare, Square, ChevronDown, ChevronRight, Maximize2, Minimize2, Filter, XCircle, MessageSquare } from 'lucide-react';
 import * as Icons from 'lucide-react';
 import BuildingCard from './BuildingRow';
 import TechCard from './TechRow';
 import ArtifactInventory from './ArtifactInventory';
+import DetailsModal from './DetailsModal';
+import TruthBoard from './TruthBoard';
 
 interface MainPanelProps {
   gameState: GameState;
@@ -24,7 +26,7 @@ interface MainPanelProps {
 const MainPanel: React.FC<MainPanelProps> = ({ 
     gameState, onBuyBuilding, onSellBuilding, onResearchTech, onRecycleArtifact, onRecycleArtifactsByRarity, globalCostReduction, addGlobalLog
 }) => {
-  const [activeTab, setActiveTab] = useState<'nodes' | 'research' | 'inventory'>('nodes');
+  const [activeTab, setActiveTab] = useState<'nodes' | 'research' | 'inventory' | 'board'>('nodes');
   
   // Tech State
   const [hideResearched, setHideResearched] = useState<boolean>(false);
@@ -35,12 +37,21 @@ const MainPanel: React.FC<MainPanelProps> = ({
   const [collapsedBuildingCategories, setCollapsedBuildingCategories] = useState<Record<string, boolean>>({});
   const [resourceFilter, setResourceFilter] = useState<ResourceType | null>(null);
 
+  // Details Modal State
+  const [selectedDetailItem, setSelectedDetailItem] = useState<Building | Tech | null>(null);
+  const [selectedDetailType, setSelectedDetailType] = useState<'building' | 'tech'>('building');
+
   const toggleCategory = (cat: string) => {
       setCollapsedCategories(prev => ({ ...prev, [cat]: !prev[cat] }));
   };
 
   const toggleBuildingCategory = (cat: string) => {
       setCollapsedBuildingCategories(prev => ({ ...prev, [cat]: !prev[cat] }));
+  };
+
+  const openDetails = (item: Building | Tech, type: 'building' | 'tech') => {
+      setSelectedDetailItem(item);
+      setSelectedDetailType(type);
   };
 
   // Resources available for filtering - Now includes ALL resources
@@ -61,7 +72,7 @@ const MainPanel: React.FC<MainPanelProps> = ({
                     ${activeTab === 'nodes' ? 'text-term-green' : 'text-gray-500 hover:text-gray-300'}`}
             >
                 <Grid size={16} className={activeTab === 'nodes' ? 'text-term-green' : 'opacity-70'} />
-                <span>节点</span>
+                <span className="hidden sm:inline">节点</span>
                 {activeTab === 'nodes' && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-term-green shadow-[0_0_10px_rgba(34,197,94,0.5)]"></div>}
             </button>
             <button 
@@ -70,7 +81,7 @@ const MainPanel: React.FC<MainPanelProps> = ({
                     ${activeTab === 'research' ? 'text-blue-400' : 'text-gray-500 hover:text-gray-300'}`}
             >
                 <FlaskConical size={16} className={activeTab === 'research' ? 'text-blue-400' : 'opacity-70'} />
-                <span>科技</span>
+                <span className="hidden sm:inline">科技</span>
                 {activeTab === 'research' && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-400 shadow-[0_0_10px_rgba(96,165,250,0.5)]"></div>}
             </button>
             <button 
@@ -79,8 +90,17 @@ const MainPanel: React.FC<MainPanelProps> = ({
                     ${activeTab === 'inventory' ? 'text-cyber-purple' : 'text-gray-500 hover:text-gray-300'}`}
             >
                 <FolderOpen size={16} className={activeTab === 'inventory' ? 'text-cyber-purple' : 'opacity-70'} />
-                <span>仓库</span>
+                <span className="hidden sm:inline">仓库</span>
                 {activeTab === 'inventory' && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-cyber-purple shadow-[0_0_10px_rgba(168,85,247,0.5)]"></div>}
+            </button>
+            <button 
+                onClick={() => setActiveTab('board')}
+                className={`flex-1 py-3 text-xs font-bold flex items-center justify-center gap-2 transition-all relative overflow-hidden group
+                    ${activeTab === 'board' ? 'text-orange-500' : 'text-gray-500 hover:text-gray-300'}`}
+            >
+                <MessageSquare size={16} className={activeTab === 'board' ? 'text-orange-500' : 'opacity-70'} />
+                <span className="hidden sm:inline">真相版</span>
+                {activeTab === 'board' && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-orange-500 shadow-[0_0_10px_rgba(249,115,22,0.5)]"></div>}
             </button>
         </div>
         
@@ -214,6 +234,7 @@ const MainPanel: React.FC<MainPanelProps> = ({
                                                     resourceState={gameState.resources}
                                                     onBuy={() => onBuyBuilding(building.id)}
                                                     onSell={() => onSellBuilding(building.id)}
+                                                    onViewDetails={() => openDetails(building, 'building')}
                                                 />
                                             );
                                         })}
@@ -297,6 +318,7 @@ const MainPanel: React.FC<MainPanelProps> = ({
                                                     resourceState={gameState.resources}
                                                     onResearch={() => onResearchTech(tech.id)}
                                                     isCompact={isCompact}
+                                                    onViewDetails={() => openDetails(tech, 'tech')}
                                                 />
                                             )
                                         })}
@@ -325,7 +347,22 @@ const MainPanel: React.FC<MainPanelProps> = ({
                     />
                 </div>
             )}
+
+            {activeTab === 'board' && (
+                <div className="h-full">
+                    <TruthBoard gameState={gameState} />
+                </div>
+            )}
         </div>
+
+        {/* DETAILS MODAL */}
+        {selectedDetailItem && (
+            <DetailsModal 
+                item={selectedDetailItem}
+                type={selectedDetailType}
+                onClose={() => setSelectedDetailItem(null)}
+            />
+        )}
     </section>
   );
 };

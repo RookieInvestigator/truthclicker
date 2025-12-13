@@ -3,7 +3,7 @@ import React from 'react';
 import { Building, ResourceType } from '../types';
 import { CATEGORY_COLORS, RESOURCE_INFO } from '../constants';
 import * as Icons from 'lucide-react';
-import { ArrowBigUp, HelpCircle, MinusCircle, TrendingUp, TrendingDown } from 'lucide-react';
+import { ArrowBigUp, HelpCircle, MinusCircle, TrendingUp, TrendingDown, Info } from 'lucide-react';
 
 interface BuildingCardProps {
   building: Building;
@@ -12,9 +12,10 @@ interface BuildingCardProps {
   onBuy: () => void;
   onSell: () => void;
   resourceState: Record<ResourceType, number>; 
+  onViewDetails?: () => void; // Added callback
 }
 
-const BuildingCard: React.FC<BuildingCardProps> = ({ building, count, canAfford, onBuy, onSell, resourceState }) => {
+const BuildingCard: React.FC<BuildingCardProps> = ({ building, count, canAfford, onBuy, onSell, resourceState, onViewDetails }) => {
   // Safe icon resolution
   const IconComponent = (Icons as any)[building.icon] || HelpCircle;
 
@@ -67,9 +68,23 @@ const BuildingCard: React.FC<BuildingCardProps> = ({ building, count, canAfford,
                 <IconComponent size={18} />
             </div>
             <div className="flex flex-col min-w-0">
-                <h3 className={`font-bold font-mono text-xs leading-tight truncate ${canAfford ? 'text-gray-100' : 'text-gray-500'}`}>
-                    {building.name}
-                </h3>
+                <div className="flex items-center gap-2">
+                    <h3 className={`font-bold font-mono text-xs leading-tight truncate ${canAfford ? 'text-gray-100' : 'text-gray-500'}`}>
+                        {building.name}
+                    </h3>
+                    
+                    {/* Info Button */}
+                    <button
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            if (onViewDetails) onViewDetails();
+                        }}
+                        className="text-gray-600 hover:text-blue-400 transition-colors opacity-50 hover:opacity-100"
+                        title="查看详细信息"
+                    >
+                        <Info size={12} />
+                    </button>
+                </div>
                 <span className="text-[9px] text-gray-500 font-mono mt-0.5">
                     数量 <span className={count > 0 ? "text-term-green" : ""}>{count}</span>
                 </span>

@@ -6,7 +6,7 @@ export const TIER_1_TECHS: Tech[] = [
   {
     id: 'doomscrolling',
     name: '末日滚动',
-    description: '拇指比眼快。潜意识处理信息流，数字时代的条件反射。',
+    description: '拇指滑动屏幕的速度早已超越了思维，这是一种数字时代特有的、刻在潜意识里的条件反射。',
     tier: 1,
     category: BuildingCategory.NETWORK,
     costs: { [ResourceType.INFO]: 400 },
@@ -20,7 +20,7 @@ export const TIER_1_TECHS: Tech[] = [
   {
     id: 'spam_algorithms', 
     name: '垃圾邮件算法',
-    description: '通过大量发送无意义信息来掩盖你的真实踪迹。数据干扰战术。',
+    description: '通过向网络洪水般倾泻无意义的垃圾数据，制造混乱的噪音来完美掩盖你真实的数字踪迹。',
     tier: 1,
     category: BuildingCategory.NETWORK,
     costs: { [ResourceType.INFO]: 600 }, 
@@ -34,7 +34,7 @@ export const TIER_1_TECHS: Tech[] = [
   {
     id: 'rss_feeds',
     name: 'RSS 订阅',
-    description: '真正简单聚合。去中心化的阅读方式，不被算法裹挟。',
+    description: '回归去中心化的阅读本质，建立专属的信息管道，不再被那些旨在劫持注意力的算法所裹挟。',
     tier: 1,
     category: BuildingCategory.NETWORK,
     costs: { [ResourceType.INFO]: 1000 },
@@ -50,7 +50,7 @@ export const TIER_1_TECHS: Tech[] = [
   {
     id: 'cardboard_architecture',
     name: '纸板工程学',
-    description: '精通如何用废纸箱搭建防水、隔热的临时庇护所。',
+    description: '掌握了将废弃纸箱改造成防水隔热庇护所的工程学技巧，这是城市流浪者必备的生存智慧。',
     tier: 1,
     category: BuildingCategory.SURVIVAL,
     costs: { [ResourceType.CARDBOARD]: 50, [ResourceType.INFO]: 200 },
@@ -66,7 +66,7 @@ export const TIER_1_TECHS: Tech[] = [
   {
     id: 'urban_entomology',
     name: '城市昆虫学',
-    description: '黄粉虫降解泡沫。将废弃物转化为卡路里的最高效方式。',
+    description: '利用黄粉虫高效降解不可回收的泡沫塑料，并将其转化为在末日废土中至关重要的蛋白质来源。',
     tier: 1,
     category: BuildingCategory.SURVIVAL,
     costs: { [ResourceType.INFO]: 350, [ResourceType.CARDBOARD]: 20 },
@@ -80,7 +80,7 @@ export const TIER_1_TECHS: Tech[] = [
   {
     id: 'wire_splicing',
     name: '非法接线',
-    description: '不用付费就能获取电力和网络。风险自负。',
+    description: '学会了绕过计费仪表直接接入市政电网和光缆，虽然伴随着极高的触电风险，但收益是巨大的。',
     tier: 1,
     category: BuildingCategory.SURVIVAL,
     costs: { [ResourceType.CARDBOARD]: 100, [ResourceType.FUNDS]: 50 },
@@ -94,7 +94,7 @@ export const TIER_1_TECHS: Tech[] = [
   {
     id: 'used_hardware_flipping',
     name: '电子垃圾鉴别',
-    description: '垃圾还是宝藏？区分炸掉的电容和仅仅脏了的电路板。',
+    description: '练就了一双在电子垃圾堆中慧眼识珠的火眼金睛，能瞬间分辨出哪些电路板只需清洗即可重启。',
     tier: 1,
     category: BuildingCategory.SURVIVAL,
     costs: { [ResourceType.INFO]: 800, [ResourceType.FUNDS]: 100 },
@@ -111,7 +111,7 @@ export const TIER_1_TECHS: Tech[] = [
   {
     id: 'e_commerce_logic',
     name: '电商逻辑',
-    description: '理解如何利用平台规则。刷单、假评论、流量劫持。',
+    description: '深刻洞察平台算法的漏洞，通过刷单和流量劫持等灰色手段，将毫无价值的商品包装成爆款。',
     tier: 1,
     category: BuildingCategory.CAPITAL, // Changed
     costs: { [ResourceType.FUNDS]: 500, [ResourceType.SPAM]: 20 },
@@ -125,7 +125,7 @@ export const TIER_1_TECHS: Tech[] = [
   {
     id: 'blockchain_basics',
     name: '区块链基础',
-    description: '分布式账本。信任的去中心化。',
+    description: '理解了分布式账本的核心逻辑，在这个缺乏信任的世界里，依靠数学和加密算法构建不可篡改的真理。',
     tier: 1,
     category: BuildingCategory.CAPITAL, // Changed
     costs: { [ResourceType.INFO]: 2000, [ResourceType.POWER]: 100 },
@@ -141,7 +141,7 @@ export const TIER_1_TECHS: Tech[] = [
   {
     id: 'forum_culture',
     name: '论坛潜规则',
-    description: '发言前先观察。理解表情包语法 (Lurk moar)。',
+    description: '深谙网络社区的潜规则和黑话，懂得在发言前先潜水观察，以免因不懂表情包语法而被原住民围攻。',
     tier: 1,
     category: BuildingCategory.INTERNET_CULTURE,
     costs: { [ResourceType.INFO]: 500 },
@@ -155,7 +155,7 @@ export const TIER_1_TECHS: Tech[] = [
   {
     id: 'clickbait_tactics',
     name: '标题党战术',
-    description: '震惊！利用人类的好奇心漏洞，诱导点击。',
+    description: '精心设计那些利用人类好奇心漏洞的惊悚标题，引诱用户不由自主地点击，哪怕内容空洞无物。',
     tier: 1,
     category: BuildingCategory.INTERNET_CULTURE,
     costs: { [ResourceType.INFO]: 1500, [ResourceType.SPAM]: 10 },
@@ -171,7 +171,7 @@ export const TIER_1_TECHS: Tech[] = [
   {
     id: 'basic_scripting',
     name: '基础脚本',
-    description: 'Python 或 Bash。让机器为你工作，而非反之。',
+    description: '掌握了 Python 或 Bash 的基础语法，开始编写自动化脚本让机器为你工作，不再做重复劳动的奴隶。',
     tier: 1,
     category: BuildingCategory.TECHNOCRACY,
     costs: { [ResourceType.INFO]: 2000 },
@@ -185,7 +185,7 @@ export const TIER_1_TECHS: Tech[] = [
   {
     id: 'mechanical_keyboards',
     name: '机械轴体',
-    description: '青轴的咔哒声是赛博空间的节拍器。触觉反馈能提升输入效率。',
+    description: '青轴清脆的咔哒声如同赛博空间的节拍器，这种极致的触觉反馈能显著提升你编写代码的效率。',
     tier: 1,
     category: BuildingCategory.TECHNOCRACY,
     costs: { [ResourceType.FUNDS]: 300, [ResourceType.OPS]: 10 },
@@ -201,7 +201,7 @@ export const TIER_1_TECHS: Tech[] = [
   {
     id: 'search_operators',
     name: '高级搜索指令',
-    description: '大部分人只会用关键字，而你懂得 Google Hacking 语法。',
+    description: '不再局限于简单的关键词，而是熟练运用复杂的布尔逻辑和高级指令，从搜索引擎的深处挖掘秘密。',
     tier: 1,
     category: BuildingCategory.VERIFICATION,
     costs: { [ResourceType.INFO]: 1000 },
@@ -215,7 +215,7 @@ export const TIER_1_TECHS: Tech[] = [
   {
     id: 'ocr_basics',
     name: 'OCR 识别',
-    description: '将图片中的文字转化为可检索的数据。',
+    description: '利用光学字符识别技术，将模糊图片中冻结的文字转化为可被检索和编辑的流动数据。',
     tier: 1,
     category: BuildingCategory.VERIFICATION,
     costs: { [ResourceType.INFO]: 1500, [ResourceType.CODE]: 50 },
@@ -229,7 +229,7 @@ export const TIER_1_TECHS: Tech[] = [
   {
     id: 'data_hoarding_basics',
     name: '数字囤积症',
-    description: '永远不要删除任何东西。硬盘很便宜，记忆很昂贵。',
+    description: '坚信硬盘空间有价而数据记忆无价，患上了拒绝删除任何文件的数字囤积症，因为未来皆可回溯。',
     tier: 1,
     category: BuildingCategory.ARCHIVE,
     costs: { [ResourceType.INFO]: 1200, [ResourceType.CARDBOARD]: 20 },
@@ -246,7 +246,7 @@ export const TIER_1_TECHS: Tech[] = [
   {
     id: 'abandonware_archeology',
     name: '废弃软件考古',
-    description: '寻找那些公司倒闭后留下的无主软件。',
+    description: '像考古学家一样在死去的服务器中挖掘，寻找那些因公司倒闭而被遗忘、不再受版权保护的软件遗产。',
     tier: 1,
     category: BuildingCategory.HISTORY,
     costs: { [ResourceType.INFO]: 800 },
@@ -260,7 +260,7 @@ export const TIER_1_TECHS: Tech[] = [
   {
     id: 'numerology_basics',
     name: '数字命理学入门',
-    description: '23. 11:11. 寻找数字中的巧合。',
+    description: '开始敏锐地捕捉生活中反复出现的特定数字组合，试图在这些看似随机的巧合中解读出宇宙的隐藏代码。',
     tier: 1,
     category: BuildingCategory.ESOTERIC,
     costs: { [ResourceType.INFO]: 1000 },
@@ -274,7 +274,7 @@ export const TIER_1_TECHS: Tech[] = [
   {
     id: 'port_scanner_bot',
     name: '端口扫描',
-    description: '敲每一扇门，看哪扇没锁。',
+    description: '部署自动化脚本日夜不休地敲击网络上的每一扇数字大门，寻找那些因管理员疏忽而未上锁的端口。',
     tier: 1,
     category: BuildingCategory.NETWORK,
     costs: { [ResourceType.CODE]: 500, [ResourceType.INFO]: 1000 },
@@ -288,7 +288,7 @@ export const TIER_1_TECHS: Tech[] = [
   {
     id: 'directory_traversal',
     name: '目录遍历',
-    description: '../.. 只要往上走得够远，就能看到根目录。',
+    description: '利用路径解析漏洞不断向上层目录回溯，只要走得够远，就能越过权限的高墙一窥服务器的根目录。',
     tier: 1,
     category: BuildingCategory.NETWORK,
     costs: { [ResourceType.INFO]: 800 },

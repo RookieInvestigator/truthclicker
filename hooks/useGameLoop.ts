@@ -1,5 +1,5 @@
 
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { GameState, ResourceType, GameEvent } from '../types';
 import { POSSIBLE_EVENTS } from '../data/events';
 import { CHOICE_EVENTS } from '../data/choiceEvents';

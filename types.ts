@@ -85,6 +85,7 @@ export interface Building {
   id: string;
   name: string;
   description: string;
+  longDescription?: string; // New field for detailed lore
   category: BuildingCategory;
   baseCosts: { [key in ResourceType]?: number }; 
   costMultiplier: number;
@@ -110,6 +111,7 @@ export interface Tech {
   id: string;
   name: string;
   description: string;
+  longDescription?: string; // New field for detailed lore
   tier: number; 
   costs: { [key in ResourceType]?: number };
   effects: TechEffects;
@@ -177,5 +179,25 @@ export interface ChoiceEventDefinition {
   description: string;
   options: ChoiceOption[]; 
   reqTech?: string[];
+  minDepth?: number;
+}
+
+export interface BoardReply {
+  id: string;
+  author: string;
+  timestamp: string;
+  content: string;
+  image?: string; // Icon name
+}
+
+export interface BoardPost {
+  id: string;
+  title: string;
+  author: string;
+  timestamp: string;
+  content: string; // Supports simple formatting like >greentext
+  image: string; // Icon name as placeholder for the "OP image"
+  replies: BoardReply[];
+  reqTech?: string[]; // Unlocks when these techs are researched
   minDepth?: number;
 }

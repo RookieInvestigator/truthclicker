@@ -16,6 +16,18 @@ export const BOARD_POSTS: BoardPost[] = [
     ]
   },
   {
+    id: 'no_image',
+    title: '这里怎么发不出图片？',
+    author: 'Anonymous',
+    timestamp: '2024/03/04(Mon)00:00:00',
+    image: 'Image',
+    content: ">贴图版\n>所有图片都变成了莫名其妙的ico",
+    replies: [
+        { id: 'r1', author: 'Anonymous', timestamp: '...', content: "如果你吃过红丸的话就知道图片是虚构的" },
+        { id: 'r2', author: 'Anonymous', timestamp: '...', content: "让人们相信图片是掩盖工程的一部分，毫无疑问" },
+    ]
+  },
+  {
     id: 'red_pill_thread',
     title: '我刚刚吃了那个...',
     author: 'Anonymous',

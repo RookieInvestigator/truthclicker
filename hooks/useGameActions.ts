@@ -30,6 +30,19 @@ export const useGameActions = (
     });
   }, [calculateClickPower, setGameState]);
 
+  // --- DEBUG CHEAT (NEW) ---
+  const debugCheat = useCallback(() => {
+      setGameState(prev => ({
+          ...prev,
+          resources: {
+              ...prev.resources,
+              [ResourceType.INFO]: prev.resources[ResourceType.INFO] + 10000000,
+              [ResourceType.FUNDS]: prev.resources[ResourceType.FUNDS] + 100000
+          }
+      }));
+      addLog("DEBUG: 资源注入成功 (10M INFO, 100K FUNDS)", "glitch");
+  }, [setGameState, addLog]);
+
   const markAsSeen = useCallback((ids: string[]) => {
       setGameState(prev => {
           const newSeen = [...prev.seenItemIds];
@@ -431,6 +444,7 @@ export const useGameActions = (
     handleMakeChoice,
     dismissNotification,
     markAsSeen,
-    checkMissingEvents // Exported for Settings Panel
+    checkMissingEvents,
+    debugCheat // Exported
   };
 };

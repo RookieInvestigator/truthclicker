@@ -144,11 +144,12 @@ export const useGameLogic = () => {
     handleMakeChoice: actions.handleMakeChoice,
     dismissNotification: actions.dismissNotification, 
     markAsSeen: actions.markAsSeen,
-    checkMissingEvents: actions.checkMissingEvents, // NEW
+    checkMissingEvents: actions.checkMissingEvents,
+    debugCheat: actions.debugCheat, // Exposed
     // IO
     saveGame,
     resetGame,
-    prestigeGame, // Exposed
+    prestigeGame, 
     importSave,
     exportSave,
     // Offline

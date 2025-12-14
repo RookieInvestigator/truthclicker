@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Eye, Radio, Save, RefreshCw, Settings as SettingsIcon, Database, Terminal, Cpu, HardDrive } from 'lucide-react';
+import { Eye, Radio, Save, RefreshCw, Settings as SettingsIcon, Database, Terminal, Cpu, HardDrive, Zap } from 'lucide-react';
 import { useGameLogic } from './hooks/useGameLogic';
 import TerminalLog from './components/TerminalLog';
 import ResourcesPanel from './components/ResourcesPanel';
@@ -36,7 +36,8 @@ const App: React.FC = () => {
     importSave,
     exportSave,
     markAsSeen,
-    checkMissingEvents, // NEW
+    checkMissingEvents,
+    debugCheat, // NEW
     offlineEarnings,
     clearOfflineEarnings,
   } = useGameLogic();
@@ -122,6 +123,14 @@ const App: React.FC = () => {
 
           {/* System Menu */}
           <div className="flex items-center gap-1">
+              <button 
+                onClick={debugCheat}
+                className="p-1 text-gray-500 hover:text-yellow-400 hover:bg-yellow-900/20 rounded transition-all"
+                title="[DEBUG] Inject Resources"
+              >
+                <Zap size={14} />
+              </button>
+
               <button 
                 onClick={saveGame}
                 className="p-1 text-gray-500 hover:text-term-green hover:bg-term-green/10 rounded transition-all group relative"

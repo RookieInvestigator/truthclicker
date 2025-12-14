@@ -1,7 +1,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { GameSettings } from '../types';
-import { X, CheckSquare, Square, Terminal, FileText, MessageSquare, Save, Zap, List, Upload, Download, Copy, Check, Repeat, AlertTriangle } from 'lucide-react';
+import { X, CheckSquare, Square, Terminal, FileText, MessageSquare, Save, Zap, List, Upload, Download, Copy, Check, Repeat, AlertTriangle, PlayCircle } from 'lucide-react';
 
 interface SettingsModalProps {
   settings: GameSettings;
@@ -10,13 +10,14 @@ interface SettingsModalProps {
   onImport: (data: string) => boolean;
   onExport: () => string;
   onPrestige?: () => void;
-  currentInfo?: number; // CHANGED: Renamed from totalInfoMined to currentInfo
+  onCheckEvents?: () => void; // Added
+  currentInfo?: number; 
   currentDejaVu?: number;
 }
 
 const SettingsModal: React.FC<SettingsModalProps> = ({ 
     settings, onToggle, onClose, onImport, onExport, 
-    onPrestige, currentInfo = 0, currentDejaVu = 0 
+    onPrestige, onCheckEvents, currentInfo = 0, currentDejaVu = 0 
 }) => {
   const [importString, setImportString] = useState("");
   const [exportString, setExportString] = useState("");
@@ -80,6 +81,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
         {/* Content */}
         <div className="p-4 space-y-4 font-mono">
             
+            {/* ... Toggles ... */}
             <div 
                 className="flex items-center justify-between cursor-pointer group select-none hover:bg-white/5 p-2 rounded"
                 onClick={() => onToggle('showCommonArtifactLogs')}
@@ -174,6 +176,16 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                     {settings.disableChoiceEvents ? <CheckSquare size={20} /> : <Square size={20} />}
                 </div>
             </div>
+
+            {/* DEBUG / RECOVERY */}
+            {onCheckEvents && (
+                <button 
+                    onClick={() => { onCheckEvents(); onClose(); }}
+                    className="w-full py-2 border border-blue-900/50 bg-blue-900/10 hover:bg-blue-900/20 text-blue-400 text-xs font-bold rounded flex items-center justify-center gap-2 transition-colors"
+                >
+                    <PlayCircle size={14} /> 强制自检：查找遗漏事件
+                </button>
+            )}
 
             {/* PRESTIGE SECTION */}
             {onPrestige && (

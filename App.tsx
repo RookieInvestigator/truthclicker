@@ -36,6 +36,7 @@ const App: React.FC = () => {
     importSave,
     exportSave,
     markAsSeen,
+    checkMissingEvents, // NEW
     offlineEarnings,
     clearOfflineEarnings,
   } = useGameLogic();
@@ -245,6 +246,7 @@ const App: React.FC = () => {
             onImport={importSave} 
             onExport={exportSave}
             onPrestige={prestigeGame} // Added
+            onCheckEvents={checkMissingEvents} // Added
             currentInfo={gameState.resources[ResourceType.INFO]} // CHANGED: Pass current INFO
             currentDejaVu={gameState.resources[ResourceType.DEJAVU]} // Added
         />

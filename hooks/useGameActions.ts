@@ -7,7 +7,7 @@ import { UNIQUE_ARTIFACTS } from '../data/artifacts';
 import { POSSIBLE_EVENTS } from '../data/events';
 import { CHOICE_EVENTS, TECH_TRIGGER_MAP, COMBO_EVENT_TRIGGERS } from '../data/choiceEvents';
 import { RESOURCE_INFO } from '../constants';
-import { generateArtifact } from '../utils/generator'; // Import generator for recursive discovery
+import { generateArtifact } from '../utils/generator';
 
 export const useGameActions = (
     setGameState: React.Dispatch<React.SetStateAction<GameState>>, 
@@ -46,7 +46,6 @@ export const useGameActions = (
   }, [setGameState]);
 
   const buyBuilding = useCallback((id: string) => {
-    // Also mark as seen when bought
     markAsSeen([id]);
 
     setGameState(prev => {
@@ -160,17 +159,16 @@ export const useGameActions = (
           const newResearchedTechs = [...prev.researchedTechs, id];
           let newPendingChoice = prev.pendingChoice;
 
-          // --- COMBO TRIGGER LOGIC (NEW) ---
+          // --- COMBO TRIGGER LOGIC (UPDATED) ---
           COMBO_EVENT_TRIGGERS.forEach(combo => {
-              const hasAllNow = combo.reqTechs.every(t => newResearchedTechs.includes(t));
-              const hadAllBefore = combo.reqTechs.every(t => prev.researchedTechs.includes(t));
+              const hasAllReqs = combo.reqTechs.every(t => newResearchedTechs.includes(t));
+              const isRelevantUpdate = combo.reqTechs.includes(id); // Only trigger if the CURRENT tech is part of the combo
               
-              // Trigger ONLY when the set is JUST completed
-              if (hasAllNow && !hadAllBefore && !prev.settings.disableChoiceEvents) {
+              if (hasAllReqs && isRelevantUpdate && !prev.settings.disableChoiceEvents) {
                    const eventDef = CHOICE_EVENTS.find(e => e.id === combo.eventId);
                    if (eventDef) {
                        newPendingChoice = eventDef;
-                       addLog(`!!! 系统奇点临近: 组合条件达成 !!!`, 'rare');
+                       addLog(`!!! 奇点临近: 协议冲突检测 !!!`, 'rare');
                    }
               }
           });
@@ -193,6 +191,49 @@ export const useGameActions = (
       });
   }, [addLog, setGameState, markAsSeen]);
 
+  // --- MANUAL CHECK FOR MISSED EVENTS (NEW) ---
+  const checkMissingEvents = useCallback(() => {
+      setGameState(prev => {
+          let newPendingChoice = prev.pendingChoice;
+          let foundMissing = false;
+
+          if (!newPendingChoice && !prev.settings.disableChoiceEvents) {
+              COMBO_EVENT_TRIGGERS.forEach(combo => {
+                  // Do we have all required techs?
+                  const hasAllReqs = combo.reqTechs.every(t => prev.researchedTechs.includes(t));
+                  
+                  // Do we ALREADY have the outcome? (This prevents re-triggering if already completed)
+                  // We check if the event options unlock any techs that we ALREADY have.
+                  const eventDef = CHOICE_EVENTS.find(e => e.id === combo.eventId);
+                  let alreadyCompleted = false;
+                  if (eventDef) {
+                      eventDef.options.forEach(opt => {
+                          if (opt.reward.unlockTechId && prev.researchedTechs.includes(opt.reward.unlockTechId)) {
+                              alreadyCompleted = true;
+                          }
+                      });
+                  }
+
+                  if (hasAllReqs && !alreadyCompleted && eventDef) {
+                      newPendingChoice = eventDef;
+                      addLog(`系统自检: 发现未触发的关键事件`, 'warning');
+                      foundMissing = true;
+                  }
+              });
+          }
+
+          if (!foundMissing) {
+              addLog("系统自检: 未发现遗漏事件", "info");
+              return prev;
+          }
+
+          return {
+              ...prev,
+              pendingChoice: newPendingChoice
+          };
+      });
+  }, [addLog, setGameState]);
+
   const investigateArtifact = useCallback((target: Artifact, onResult?: (msg: string, type: LogEntry['type']) => void) => {
     setGameState(prev => {
        const remaining = prev.artifacts.filter(a => a.id !== target.id);
@@ -203,14 +244,9 @@ export const useGameActions = (
        
        let efficiency = calculateRecycleEfficiency();
 
-       // Check if it's a REAL Unique Item (story item)
        const isRealUniqueLoot = target.hiddenLootId && target.hiddenLootId !== 'resource_bundle';
        const isStaticUnique = !target.isProcedural;
 
-       // ... (Artifact logic remains same as before, simplified for diff view) ...
-       // ---------------------------------------------------------
-       // CASE 1: REAL UNIQUE LOOT (Story/Collection items)
-       // ---------------------------------------------------------
        if (isRealUniqueLoot) {
            const lootItem = UNIQUE_ARTIFACTS.find(u => u.id === target.hiddenLootId);
            const alreadyHas = prev.artifacts.some(a => a.id === lootItem?.id);
@@ -239,8 +275,6 @@ export const useGameActions = (
            logType = 'success';
        } 
        else {
-           // ... (Standard procedural logic) ...
-           // Re-implementing simplified version to ensure function works
            let baseInfo = Math.floor(Math.random() * 145) + 5;
            if (target.hiddenLootId === 'resource_bundle') baseInfo *= 5;
            
@@ -251,7 +285,6 @@ export const useGameActions = (
            res[ResourceType.INFO] += primaryAmount;
            logMsg = `分析完成: +${primaryAmount} 信息流`;
            
-           // Recursive
            if (['file', 'hardware', 'media'].includes(target.subtype) && Math.random() < 0.05) {
                const recursiveArt = generateArtifact(prev.depth, prev.researchedTechs);
                newArtifacts.push(recursiveArt);
@@ -352,7 +385,7 @@ export const useGameActions = (
               }
           }
 
-          // Tech Unlock Reward (NEW for Branching Paths)
+          // Tech Unlock Reward
           const newResearchedTechs = [...prev.researchedTechs];
           if (option.reward.unlockTechId) {
               if (!newResearchedTechs.includes(option.reward.unlockTechId)) {
@@ -360,7 +393,6 @@ export const useGameActions = (
                   const tech = TECHS.find(t => t.id === option.reward.unlockTechId);
                   const techName = tech?.name || option.reward.unlockTechId;
                   addLog(`技术路线确立: ${techName}`, 'rare');
-                  // Also unlock notification logic could go here
                   if (tech && tech.effects.unlockMessage) {
                       addLog(tech.effects.unlockMessage, 'rare');
                   }
@@ -398,6 +430,7 @@ export const useGameActions = (
     triggerProbabilityDrive,
     handleMakeChoice,
     dismissNotification,
-    markAsSeen // Exported
+    markAsSeen,
+    checkMissingEvents // Exported for Settings Panel
   };
 };

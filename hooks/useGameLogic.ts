@@ -144,6 +144,7 @@ export const useGameLogic = () => {
     handleMakeChoice: actions.handleMakeChoice,
     dismissNotification: actions.dismissNotification, 
     markAsSeen: actions.markAsSeen,
+    checkMissingEvents: actions.checkMissingEvents, // NEW
     // IO
     saveGame,
     resetGame,

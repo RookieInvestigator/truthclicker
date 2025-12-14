@@ -124,8 +124,8 @@ export const ESOTERIC_BUILDINGS: Building[] = [
   },
   {
     id: 'reality_anchor', 
-    name: '现实锚点',
-    description: '消耗[真相]来防止因过度探索而导致的现实崩溃。',
+    name: '本体论稳定器',
+    description: '产生一个绝对真实的“真理场”，防止周围的现实结构因过度探索而发生溶解。',
     category: BuildingCategory.ESOTERIC,
     baseCosts: { [ResourceType.TECH_CAPITAL]: 100, [ResourceType.ANCIENT_WISDOM]: 50 },
     baseProduction: { [ResourceType.REALITY]: 0.0005, [ResourceType.POWER]: -1000.0 }, // Removed TRUTH consumption

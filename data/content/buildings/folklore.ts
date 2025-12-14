@@ -124,8 +124,8 @@ export const FOLKLORE_BUILDINGS: Building[] = [
   },
   {
     id: 'scp_db_mirror',
-    name: 'SCP 数据库镜像',
-    description: '控制，收容，保护。虽然是虚构的，但有些条目过于真实。',
+    name: '联邦控制局档案',
+    description: '从太屋（The Oldest House）泄露的机密文件。记录了数千种“异变物品”和“能量之地”。',
     category: BuildingCategory.FOLKLORE,
     baseCosts: { [ResourceType.INFO]: 20000, [ResourceType.CODE]: 5000 },
     baseProduction: { [ResourceType.LORE]: 3.0, [ResourceType.CULTURE]: 1.0, [ResourceType.INFO]: 50 },
@@ -160,8 +160,8 @@ export const FOLKLORE_BUILDINGS: Building[] = [
   },
   {
     id: 'cognitohazard_containment',
-    name: '认知危害收容',
-    description: '存放那些看一眼就会导致脑死亡的图片。',
+    name: '模因触媒隔离间',
+    description: '存放那些看一眼就会导致大脑结构重组的诅咒图像。如 smile.jpg 的原始未压缩版本。',
     category: BuildingCategory.FOLKLORE,
     baseCosts: { [ResourceType.FUNDS]: 100000, [ResourceType.OPS]: 50000, [ResourceType.LORE]: 10000 },
     baseProduction: { [ResourceType.LORE]: 10.0, [ResourceType.ANCIENT_WISDOM]: 1.0, [ResourceType.POWER]: -200.0 },

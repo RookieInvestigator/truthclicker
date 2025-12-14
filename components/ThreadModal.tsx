@@ -1,7 +1,7 @@
 
 import React, { useMemo, useEffect, useRef } from 'react';
 import { BoardPost } from '../types';
-import { X, CornerDownRight } from 'lucide-react';
+import { X, CornerDownRight, ArrowLeft } from 'lucide-react';
 
 interface ThreadModalProps {
   post: BoardPost;
@@ -58,21 +58,21 @@ const ThreadModal: React.FC<ThreadModalProps> = ({ post, onClose, researchedTech
   };
 
   return (
-    <div className="fixed inset-0 z-[2000] flex items-center justify-center bg-black/90 p-0 md:p-4 animate-in fade-in duration-200" onClick={onClose}>
-      <div 
-        ref={modalRef}
-        className="bg-[#222] w-full max-w-6xl h-full md:h-[95vh] shadow-2xl relative flex flex-col md:rounded-sm overflow-hidden border border-[#333] text-[#ccc] font-sans"
-        onClick={e => e.stopPropagation()}
-      >
+    <div className="w-full h-full flex flex-col bg-[#222] text-[#ccc] font-sans animate-in fade-in zoom-in duration-200">
         
         {/* Thread Header */}
-        <div className="flex items-center justify-between px-4 py-2 border-b border-[#333] bg-[#222] shrink-0">
+        <div className="flex items-center justify-between px-4 py-2 border-b border-[#333] bg-[#222] shrink-0 sticky top-0 z-10">
             <div className="flex items-center gap-4 text-xs font-bold text-[#34345C]">
+                <button 
+                    onClick={onClose} 
+                    className="hover:text-red-400 flex items-center gap-1"
+                >
+                    <ArrowLeft size={12} /> [Return]
+                </button>
                 <span className="text-[#cc3b3b]">/t/ - Truth</span>
                 <span className="hidden sm:inline">Thread No.{post.postNumber}</span>
-                <span className="hover:text-red-400 cursor-pointer" onClick={onClose}>[Return]</span>
-                <span className="hover:text-red-400 cursor-pointer">[Catalog]</span>
-                <span className="hover:text-red-400 cursor-pointer">[Bottom]</span>
+                <span className="hover:text-red-400 cursor-pointer hidden sm:inline">[Catalog]</span>
+                <span className="hover:text-red-400 cursor-pointer hidden sm:inline">[Bottom]</span>
             </div>
             <button 
                 onClick={onClose} 
@@ -96,7 +96,7 @@ const ThreadModal: React.FC<ThreadModalProps> = ({ post, onClose, researchedTech
             </div>
 
             {/* --- OP POST --- */}
-            <div className="mb-8 clear-both">
+            <div className="mb-8 clear-both table w-full">
                 {/* OP Image */}
                 <div className="float-left mr-4 mb-2">
                     <div className="text-[10px] text-gray-500 truncate max-w-[200px] mb-0.5">
@@ -182,7 +182,6 @@ const ThreadModal: React.FC<ThreadModalProps> = ({ post, onClose, researchedTech
                 </div>
             </div>
         </div>
-      </div>
     </div>
   );
 };

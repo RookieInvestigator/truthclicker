@@ -48,6 +48,18 @@ const TruthBoard: React.FC<TruthBoardProps> = ({ gameState, markAsSeen }) => {
       markAsSeen([post.id]);
   };
 
+  // --- RENDER THREAD VIEW (INLINE) ---
+  if (selectedPost) {
+      return (
+          <ThreadModal 
+              post={selectedPost} 
+              onClose={() => setSelectedPost(null)} 
+              researchedTechs={gameState.researchedTechs}
+          />
+      );
+  }
+
+  // --- RENDER CATALOG VIEW ---
   return (
     <div className="flex-1 h-full bg-[#222] font-sans text-[13px] leading-snug relative overflow-y-auto scrollbar-thin scrollbar-thumb-[#333] scrollbar-track-[#1a1a1b]">
         
@@ -193,15 +205,6 @@ const TruthBoard: React.FC<TruthBoardProps> = ({ gameState, markAsSeen }) => {
                 })
             )}
         </div>
-
-        {/* THREAD MODAL OVERLAY */}
-        {selectedPost && (
-            <ThreadModal 
-                post={selectedPost} 
-                onClose={() => setSelectedPost(null)} 
-                researchedTechs={gameState.researchedTechs}
-            />
-        )}
     </div>
   );
 };

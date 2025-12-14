@@ -321,6 +321,120 @@ export const UNIQUE_ARTIFACTS: Artifact[] = [
     bonusValue: 0.02, // Nerfed from 0.8
     dropChanceWeight: 5,
     linkedProceduralType: 'image'
+  },
+  // ==========================================
+  // ADDED NEW UNIQUE ARTIFACTS
+  // ==========================================
+  {
+    id: 'lake_city_quiet_pills',
+    name: 'LCQP_Index.html',
+    subtype: 'bookmark',
+    details: '404 Not Found',
+    description: '传说中的 Lake City Quiet Pills 网站缓存。表面是甚至有点温馨的军事爱好者论坛。',
+    history: '这是一个著名的 Reddit 谜团。LCQP 看起来是一个普通的老兵论坛，但在 HTML 源代码和隐藏页面中，人们发现了暗杀任务的日志、军火交易记录和护照扫描件。那个名为 Milo 的管理员在发布最后一条消息后神秘死亡。它是雇佣兵的暗网中继站吗？',
+    flavorText: 'Status: 10-7',
+    category: BuildingCategory.NETWORK,
+    rarity: 'legendary',
+    bonusType: 'production_multiplier',
+    targetResource: ResourceType.OPS,
+    bonusValue: 0.04,
+    dropChanceWeight: 2,
+    linkedProceduralType: 'document'
+  },
+  {
+    id: 'montauk_monster_carcass',
+    name: 'Montauk_Sample_01.bio',
+    subtype: 'creature',
+    details: 'Bio-Hazard Class 4',
+    description: '2008 年冲上蒙托克海滩的那个生物的组织样本。它看起来像剥了皮的浣熊，但又完全不对劲。',
+    history: '官方解释说那是腐烂的浣熊尸体。但 Plum Island 动物疾病中心就在几英里外。那个地方一直被传言在进行秘密的基因杂交实验。这个样本的 DNA 序列与任何已知地球物种都不匹配。它的骨骼结构是为了双足行走而设计的。',
+    flavorText: 'Origin: Plum Island?',
+    category: BuildingCategory.CRYPTID,
+    rarity: 'rare',
+    bonusType: 'production_multiplier',
+    targetResource: ResourceType.BIOMASS,
+    bonusValue: 0.03,
+    dropChanceWeight: 4,
+    linkedProceduralType: 'image'
+  },
+  {
+    id: 'gateway_process_report',
+    name: 'CIA-RDP96-00788R.pdf',
+    subtype: 'file',
+    details: '29 MB',
+    description: '美国陆军关于“门户进程”的解密文件。科学地解释了灵魂出窍和全息宇宙。',
+    history: '这份文件详细记录了 CIA 如何利用双耳节拍技术诱导大脑半球同步，从而让人类意识脱离肉体，进入超越时空的领域。它不仅证实了遥视的可行性，还通过量子物理学论证了我们生活在一个巨大的全息投影中。',
+    flavorText: 'Focus: Focus 12',
+    category: BuildingCategory.TRUTH,
+    rarity: 'mythic',
+    bonusType: 'production_multiplier',
+    targetResource: ResourceType.REALITY,
+    bonusValue: 0.05,
+    dropChanceWeight: 2,
+    linkedProceduralType: 'document'
+  },
+  {
+    id: 'time_cube_source',
+    name: 'timecube_com.html',
+    subtype: 'file',
+    details: '1.2 MB',
+    description: 'Otis Eugene Ray 编写的 Time Cube 网站完整源码。纯文本，居中对齐，逻辑混乱。',
+    history: '这是互联网上最著名的疯人院。Ray 宣称地球在一天内自转同时产生 4 天，而学术界都在合谋隐瞒这一“自然立方体法则”。虽然内容语无伦次且充满攻击性，但在那无尽滚动的彩色大号字体中，似乎隐藏着某种打破线性时间观念的数学真理。',
+    flavorText: '4 Simultaneous Days',
+    category: BuildingCategory.ESOTERIC,
+    rarity: 'rare',
+    bonusType: 'production_multiplier',
+    targetResource: ResourceType.TRUTH,
+    bonusValue: 0.02,
+    dropChanceWeight: 6,
+    linkedProceduralType: 'code'
+  },
+  {
+    id: 'killdozer_blueprints',
+    name: 'Komatsu_Armor_Plan.cad',
+    subtype: 'file',
+    details: '45 MB',
+    description: 'Marvin Heemeyer 的推土机装甲改造图纸。这是对官僚主义最极致的物理反抗。',
+    history: '一个理智的人被逼到绝境能做出什么？他把一台小松 D355A 推土机改造成了坚不可摧的坦克，里面装有摄像头、枪眼和两英尺厚的混凝土复合装甲。这些图纸展示了惊人的工程学天赋。有时候，合理的做法就是推平一切。',
+    flavorText: 'Reasonable Man',
+    category: BuildingCategory.COUNTER_CULTURE,
+    rarity: 'legendary',
+    bonusType: 'click_power',
+    bonusValue: 0.04,
+    dropChanceWeight: 3,
+    linkedProceduralType: 'image'
+  },
+  {
+    id: 'polybius_pcb',
+    name: 'Polybius_Mainboard.sch',
+    subtype: 'hardware',
+    details: 'Unknown Architecture',
+    description: '传说中 Polybius 街机的电路板原理图。芯片型号被磨掉了。',
+    history: '80 年代出现在波特兰游乐场的神秘街机。孩子们在玩过之后会出现失忆、失眠和夜惊，甚至自杀。据目击者称，经常有黑衣人来收集机器的数据。这张原理图显示它的视频输出电路连接了一个奇怪的次声波发生器，显然是为了进行某种心理操控。',
+    flavorText: 'Property of US Govt',
+    category: BuildingCategory.FOLKLORE,
+    rarity: 'mythic',
+    bonusType: 'production_multiplier',
+    targetResource: ResourceType.MIND_CONTROL,
+    bonusValue: 0.05,
+    dropChanceWeight: 1,
+    linkedProceduralType: 'image'
+  },
+  {
+    id: 'frazzledrip_file',
+    name: 'frazzledrip.avi',
+    subtype: 'media',
+    details: 'CORRUPTED',
+    description: '一个被高度加密的视频文件。文件名本身就是暗网传说中最黑暗的词汇。',
+    history: '这是 QAnon 阴谋论中最恶名昭著的传言。据说视频内容涉及极高层的政客进行恐怖的仪式。虽然大部分人认为这只是都市传说或 deepfake，但这文件的元数据包含了一些令人不安的真实签名。无论真假，它都是数字时代恐慌的具象化。',
+    flavorText: 'DO NOT WATCH',
+    category: BuildingCategory.ADULT,
+    rarity: 'cursed', // Special rarity just for flavor (treated as mythic in logic usually or unique)
+    bonusType: 'production_multiplier',
+    targetResource: ResourceType.PANIC,
+    bonusValue: 0.06,
+    dropChanceWeight: 1,
+    linkedProceduralType: 'image'
   }
 ];
 
@@ -576,7 +690,7 @@ export const TECH_LORE_INJECTIONS: Record<string, {
         templates: ["OCR 识别错误率高达 40%，几乎无法阅读。", "扫描件的边缘有明显的手指遮挡痕迹。"]
     },
     'spam_algorithms': {
-        topics: ['伟哥广告', '尼日利亚王子', '彩票中奖', '热辣单身主妇'],
+        topics: ['夜总会广告', '尼日利亚王子', '彩票中奖', '热辣单身主妇'],
         templates: ["这封邮件试图用糟糕的语法骗取你的信用卡号。", "标题是：‘RE: 你的 {topic} 到了’。"]
     },
     'railfan_logistics': {
@@ -590,7 +704,7 @@ export const TECH_LORE_INJECTIONS: Record<string, {
         templates: ["这东西在水里泡了至少 {year} 年。", "上面覆盖着厚厚的藻类和藤壶。"]
     },
     'creepypasta_analysis': {
-        topics: ['Slender Man', 'Jeff the Killer', 'SCP-173', '微笑狗', '紫苑镇音调'],
+        topics: ['Slender Man', 'Jeff the Killer', 'The Rake', '微笑狗', '紫苑镇音调'],
         templates: ["这是一个关于 {topic} 的诅咒图片，据说看过的人都死了。", "音频倒放后能听到‘救命’的声音。"]
     },
     'steganography': {

@@ -258,26 +258,7 @@ const UniversalDetailsModal: React.FC<UniversalDetailsModalProps> = ({ item, typ
                 {item.description}
             </div>
 
-            {/* Stats & Costs Container - Compact Mode */}
-            <div>
-                <div className="flex items-center gap-2 text-[9px] font-bold text-gray-600 uppercase tracking-widest mb-2 opacity-80">
-                    <Activity size={10} /> Technical Specifications
-                </div>
-                <div className={`grid grid-cols-1 ${type !== 'artifact' ? 'md:grid-cols-2' : ''} gap-3`}>
-                    {/* LEFT: Stats */}
-                    <div>
-                        {renderStats()}
-                    </div>
-                    {/* RIGHT: Costs (If applicable) */}
-                    {type !== 'artifact' && (
-                        <div>
-                            {renderCosts()}
-                        </div>
-                    )}
-                </div>
-            </div>
-
-            {/* Lore / History (Full Width & Enhanced Readability) */}
+            {/* Lore / History (Moved Above Stats) */}
             <div className="bg-black/40 rounded border border-gray-800 p-5 relative overflow-hidden min-h-[120px]">
                 <div className="absolute top-0 right-0 p-3 opacity-5 pointer-events-none">
                     <BookOpen size={64} />
@@ -300,6 +281,25 @@ const UniversalDetailsModal: React.FC<UniversalDetailsModalProps> = ({ item, typ
                         "{ (item as Artifact).flavorText }"
                     </div>
                 )}
+            </div>
+
+            {/* Stats & Costs Container */}
+            <div>
+                <div className="flex items-center gap-2 text-[9px] font-bold text-gray-600 uppercase tracking-widest mb-2 opacity-80">
+                    <Activity size={10} /> Technical Specifications
+                </div>
+                <div className={`grid grid-cols-1 ${type !== 'artifact' ? 'md:grid-cols-2' : ''} gap-3`}>
+                    {/* LEFT: Stats */}
+                    <div>
+                        {renderStats()}
+                    </div>
+                    {/* RIGHT: Costs (If applicable) */}
+                    {type !== 'artifact' && (
+                        <div>
+                            {renderCosts()}
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
 

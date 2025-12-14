@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { createPortal } from 'react-dom';
 import { Building, Tech, Artifact, ResourceType } from '../types';
 import { RESOURCE_INFO, CATEGORY_CONFIG } from '../constants';
 import * as Icons from 'lucide-react';
@@ -69,12 +70,12 @@ const UniversalDetailsModal: React.FC<UniversalDetailsModalProps> = ({ item, typ
           if (art.bonusType === 'none') return null;
           
           return (
-              <div className={`p-3 rounded border bg-black/40 ${borderColor} relative overflow-hidden group`}>
+              <div className={`p-2 rounded border bg-black/40 ${borderColor} relative overflow-hidden group h-full flex flex-col justify-center`}>
                   <div className={`absolute inset-0 opacity-10 bg-current`}></div>
                   <div className="flex justify-between items-center relative z-10">
                       <div className="flex flex-col">
-                          <span className="text-[10px] uppercase font-bold opacity-70">System Effect</span>
-                          <span className="text-xs font-mono font-bold">
+                          <span className="text-[9px] uppercase font-bold opacity-60">System Effect</span>
+                          <span className="text-[11px] font-mono font-bold">
                               {art.bonusType === 'production_multiplier' && 'Output Boost'}
                               {art.bonusType === 'click_power' && 'Click Mining'}
                               {art.bonusType === 'luck' && 'Probability'}
@@ -82,13 +83,13 @@ const UniversalDetailsModal: React.FC<UniversalDetailsModalProps> = ({ item, typ
                           </span>
                       </div>
                       <div className="text-right">
-                          <span className={`text-xl font-bold font-mono ${textColor}`}>
+                          <span className={`text-lg font-bold font-mono ${textColor}`}>
                               {art.bonusType === 'cost_reduction' ? '-' : '+'}
                               {art.bonusType === 'click_power' ? art.bonusValue : Math.round(art.bonusValue * 100)}
                               {art.bonusType !== 'click_power' && '%'}
                           </span>
                           {art.targetResource && (
-                              <div className={`text-[10px] font-bold ${RESOURCE_INFO[art.targetResource].color}`}>
+                              <div className={`text-[9px] font-bold ${RESOURCE_INFO[art.targetResource].color}`}>
                                   {RESOURCE_INFO[art.targetResource].name}
                               </div>
                           )}
@@ -101,13 +102,13 @@ const UniversalDetailsModal: React.FC<UniversalDetailsModalProps> = ({ item, typ
       if (type === 'building') {
           const b = item as Building;
           return (
-              <div className="space-y-2">
+              <div className="space-y-1.5 h-full">
                   {b.baseProduction && Object.keys(b.baseProduction).length > 0 && (
-                      <div className="p-3 bg-[#111] border border-gray-800 rounded">
-                          <span className="text-[10px] text-gray-500 uppercase font-bold block mb-2">Base Output / Tick</span>
-                          <div className="grid grid-cols-2 gap-2">
+                      <div className="p-2 bg-[#111] border border-gray-800 rounded h-full">
+                          <span className="text-[9px] text-gray-500 uppercase font-bold block mb-1">Base Output / Tick</span>
+                          <div className="grid grid-cols-2 gap-x-2 gap-y-1">
                               {Object.entries(b.baseProduction).map(([res, val]) => (
-                                  <div key={res} className="flex justify-between items-center text-xs font-mono">
+                                  <div key={res} className="flex justify-between items-center text-[10px] font-mono">
                                       <span className={RESOURCE_INFO[res as ResourceType].color}>{RESOURCE_INFO[res as ResourceType].name}</span>
                                       <span className={val > 0 ? 'text-term-green' : 'text-red-400'}>
                                           {val > 0 ? '+' : ''}{val}
@@ -128,25 +129,25 @@ const UniversalDetailsModal: React.FC<UniversalDetailsModalProps> = ({ item, typ
           if (!hasEffects) return null;
 
           return (
-              <div className="p-3 bg-[#111] border border-gray-800 rounded space-y-2">
-                  <span className="text-[10px] text-gray-500 uppercase font-bold block">Research Outcome</span>
+              <div className="p-2 bg-[#111] border border-gray-800 rounded space-y-1.5 h-full">
+                  <span className="text-[9px] text-gray-500 uppercase font-bold block">Research Outcome</span>
                   
                   {t.effects.unlockMessage && (
-                      <div className="flex items-start gap-2 text-xs text-yellow-200/80 border-b border-gray-800 pb-2 mb-2">
-                          <ArrowUpRight size={14} className="mt-0.5 shrink-0" />
-                          <span>{t.effects.unlockMessage}</span>
+                      <div className="flex items-start gap-1.5 text-[10px] text-yellow-200/80 border-b border-gray-800 pb-1.5 mb-1.5">
+                          <ArrowUpRight size={12} className="mt-0.5 shrink-0" />
+                          <span className="leading-tight">{t.effects.unlockMessage}</span>
                       </div>
                   )}
 
-                  <div className="space-y-1">
+                  <div className="space-y-0.5">
                       {t.effects.resourceMultipliers && Object.entries(t.effects.resourceMultipliers).map(([res, val]) => (
-                          <div key={res} className="flex justify-between text-xs font-mono">
+                          <div key={res} className="flex justify-between text-[10px] font-mono">
                               <span className={RESOURCE_INFO[res as ResourceType].color}>{RESOURCE_INFO[res as ResourceType].name} Prod.</span>
                               <span className="text-term-green">+{Math.round((val as number) * 100)}%</span>
                           </div>
                       ))}
                       {t.effects.globalCostReduction && (
-                          <div className="flex justify-between text-xs font-mono">
+                          <div className="flex justify-between text-[10px] font-mono">
                               <span className="text-blue-400">Global Cost</span>
                               <span className="text-term-green">-{Math.round(t.effects.globalCostReduction * 100)}%</span>
                           </div>
@@ -164,15 +165,17 @@ const UniversalDetailsModal: React.FC<UniversalDetailsModalProps> = ({ item, typ
       const costs = type === 'building' ? (item as Building).baseCosts : (item as Tech).costs;
       
       return (
-          <div className="mt-4">
-              <span className="text-[10px] text-gray-600 uppercase font-bold block mb-1.5">Resource Requirements</span>
-              <div className="flex flex-wrap gap-2">
-                  {Object.entries(costs).map(([res, val]) => (
-                      <div key={res} className="px-2 py-1 bg-black border border-gray-800 rounded flex items-center gap-2 text-xs font-mono">
-                          <span className={RESOURCE_INFO[res as ResourceType].color}>{RESOURCE_INFO[res as ResourceType].name}</span>
-                          <span className="text-gray-400">{val}</span>
-                      </div>
-                  ))}
+          <div className="h-full">
+              <div className="p-2 bg-[#111] border border-gray-800 rounded h-full">
+                <span className="text-[9px] text-gray-600 uppercase font-bold block mb-1.5">Requirements</span>
+                <div className="flex flex-wrap gap-1.5">
+                    {Object.entries(costs).map(([res, val]) => (
+                        <div key={res} className="px-1.5 py-0.5 bg-black border border-gray-800 rounded flex items-center gap-1.5 text-[10px] font-mono">
+                            <span className={RESOURCE_INFO[res as ResourceType].color}>{RESOURCE_INFO[res as ResourceType].name}</span>
+                            <span className="text-gray-400">{val}</span>
+                        </div>
+                    ))}
+                </div>
               </div>
           </div>
       );
@@ -214,8 +217,8 @@ const UniversalDetailsModal: React.FC<UniversalDetailsModalProps> = ({ item, typ
       return (item as Building | Tech).longDescription;
   };
 
-  return (
-    <div className="fixed inset-0 z-[1050] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-in fade-in zoom-in duration-200" onClick={onClose}>
+  return createPortal(
+    <div className="fixed inset-0 z-[1050] flex items-center justify-center bg-black/95 backdrop-blur-md p-4 animate-in fade-in zoom-in duration-200" onClick={onClose}>
       <div 
         className={`bg-[#0a0a0a] w-full max-w-2xl max-h-[90vh] flex flex-col rounded-sm shadow-2xl relative overflow-hidden border ${borderColor}`} 
         onClick={e => e.stopPropagation()}
@@ -255,40 +258,48 @@ const UniversalDetailsModal: React.FC<UniversalDetailsModalProps> = ({ item, typ
                 {item.description}
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                
-                {/* LEFT: Stats & Costs */}
-                <div>
-                    <div className="flex items-center gap-2 text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-3">
-                        <Activity size={12} /> Technical Specifications
-                    </div>
-                    {renderStats()}
-                    {renderCosts()}
+            {/* Stats & Costs Container - Compact Mode */}
+            <div>
+                <div className="flex items-center gap-2 text-[9px] font-bold text-gray-600 uppercase tracking-widest mb-2 opacity-80">
+                    <Activity size={10} /> Technical Specifications
                 </div>
-
-                {/* RIGHT: Lore / History */}
-                <div className="bg-[#111] rounded border border-gray-800 p-4 relative overflow-hidden">
-                    <div className="absolute top-0 right-0 p-2 opacity-10">
-                        <BookOpen size={48} />
+                <div className={`grid grid-cols-1 ${type !== 'artifact' ? 'md:grid-cols-2' : ''} gap-3`}>
+                    {/* LEFT: Stats */}
+                    <div>
+                        {renderStats()}
                     </div>
-                    <div className="flex items-center gap-2 text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-3 relative z-10">
-                        <Database size={12} /> Decrypted Archive
-                    </div>
-                    
-                    <div className="text-xs text-gray-400 font-mono leading-relaxed whitespace-pre-wrap relative z-10">
-                        {getLoreText() ? getLoreText() : (
-                            <span className="italic text-gray-600 opacity-50">
-                                [ No additional data available in the archives. ]
-                            </span>
-                        )}
-                    </div>
-                    
-                    {type === 'artifact' && (item as Artifact).flavorText && (
-                        <div className="mt-4 pt-4 border-t border-gray-800/50 text-[10px] text-gray-500 font-mono italic">
-                            "{(item as Artifact).flavorText}"
+                    {/* RIGHT: Costs (If applicable) */}
+                    {type !== 'artifact' && (
+                        <div>
+                            {renderCosts()}
                         </div>
                     )}
                 </div>
+            </div>
+
+            {/* Lore / History (Full Width & Enhanced Readability) */}
+            <div className="bg-black/40 rounded border border-gray-800 p-5 relative overflow-hidden min-h-[120px]">
+                <div className="absolute top-0 right-0 p-3 opacity-5 pointer-events-none">
+                    <BookOpen size={64} />
+                </div>
+                
+                <div className="flex items-center gap-2 text-xs font-bold text-gray-400 uppercase tracking-widest mb-4 relative z-10 border-b border-gray-800/50 pb-2">
+                    <Database size={14} className="text-gray-500" /> Decrypted Archive
+                </div>
+                
+                <div className="text-sm text-gray-300 font-mono leading-7 whitespace-pre-wrap relative z-10 selection:bg-gray-700 selection:text-white">
+                    {getLoreText() ? getLoreText() : (
+                        <span className="italic text-gray-600 opacity-50">
+                            [ No additional data available in the archives. ]
+                        </span>
+                    )}
+                </div>
+                
+                {type === 'artifact' && (item as Artifact).flavorText && (
+                    <div className="mt-6 pt-4 border-t border-gray-800/30 text-xs text-gray-500 font-mono italic flex justify-end opacity-70">
+                        "{ (item as Artifact).flavorText }"
+                    </div>
+                )}
             </div>
         </div>
 
@@ -321,7 +332,8 @@ const UniversalDetailsModal: React.FC<UniversalDetailsModalProps> = ({ item, typ
         )}
 
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 

@@ -38,6 +38,7 @@ export interface GameState {
   unlockedItemIds: string[]; // Tracks IDs of buildings/posts already notified
   seenItemIds: string[]; // NEW: Tracks items user has acknowledged/clicked
   foundUniqueItemIds: string[]; // Tracks history of all unique items ever found
+  eventUnlockedPosts: string[]; // NEW: Tracks posts unlocked via choice events
   notifications: AppNotification[]; // Active notifications queue
 }
 
@@ -188,6 +189,8 @@ export interface ChoiceOption {
     resources?: { [key in ResourceType]?: number };
     triggerEventId?: string; 
     buildingId?: string; 
+    unlockPostId?: string; 
+    unlockTechId?: string; // NEW: Unlocks a specific technology directly
   };
 }
 
@@ -227,4 +230,5 @@ export interface BoardPost {
   reqTech?: string[]; 
   hideIfTech?: string[]; // NEW: Posts can now be hidden if tech is present
   minDepth?: number;
+  isEventLocked?: boolean; // NEW: If true, only unlocked via ChoiceOption
 }

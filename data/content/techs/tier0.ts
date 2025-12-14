@@ -44,4 +44,92 @@ export const TIER_0_TECHS: Tech[] = [
     icon: 'Coffee', 
     preRequisiteTech: 'digital_literacy',
   },
+
+  // --- COMBO TRIGGER PRE-REQUISITES (TEST) ---
+  {
+    id: 'triad_hardware',
+    name: '【测试】三位一体：硬件',
+    description: '组合组件 A。只有集齐全部三个组件，才能开启真理之门。',
+    tier: 0,
+    category: BuildingCategory.TECHNOCRACY,
+    costs: { [ResourceType.INFO]: 300 },
+    effects: { unlockMessage: '组件 1/3 已就绪' },
+    icon: 'Cpu',
+    preRequisiteTech: 'digital_literacy'
+  },
+  {
+    id: 'triad_software',
+    name: '【测试】三位一体：软件',
+    description: '组合组件 B。只有集齐全部三个组件，才能开启真理之门。',
+    tier: 0,
+    category: BuildingCategory.TECHNOCRACY,
+    costs: { [ResourceType.INFO]: 300 },
+    effects: { unlockMessage: '组件 2/3 已就绪' },
+    icon: 'Code',
+    preRequisiteTech: 'digital_literacy'
+  },
+  {
+    id: 'triad_wetware',
+    name: '【测试】三位一体：湿件',
+    description: '组合组件 C。只有集齐全部三个组件，才能开启真理之门。',
+    tier: 0,
+    category: BuildingCategory.TECHNOCRACY,
+    costs: { [ResourceType.INFO]: 300 },
+    effects: { unlockMessage: '组件 3/3 已就绪' },
+    icon: 'Brain',
+    preRequisiteTech: 'digital_literacy'
+  },
+
+  // --- COMBO TRIGGER OUTCOMES (MUTUALLY EXCLUSIVE) ---
+  {
+    id: 'path_mechanical',
+    name: '机械飞升协议',
+    description: '你选择了钢铁。肉体是软弱的，唯有机械永恒。',
+    longDescription: '通过将意识上传至去中心化的钢铁军团，你彻底摒弃了生物学的限制。这种形态拥有极致的物理强度和生存能力，但代价是失去了做梦的能力。',
+    tier: 0,
+    category: BuildingCategory.TECHNOCRACY,
+    costs: { [ResourceType.OPS]: 9999999 }, // Unbuyable normally
+    effects: {
+        resourceMultipliers: { [ResourceType.OPS]: 2.0, [ResourceType.POWER]: 0.5 },
+        globalCostReduction: 0.2,
+        unlockMessage: '血肉苦弱，机械飞升'
+    },
+    icon: 'Settings',
+    exclusiveWith: ['path_digital', 'path_biological'],
+    highlight: true
+  },
+  {
+    id: 'path_digital',
+    name: '数字永生协议',
+    description: '你选择了代码。物质是累赘，唯有数据永存。',
+    longDescription: '你将自己格式化为一段自我复制的波函数，栖息在互联网的底层协议中。你无处不在，却又无处可寻。世界对你来说只是可读写的变量。',
+    tier: 0,
+    category: BuildingCategory.TECHNOCRACY,
+    costs: { [ResourceType.INFO]: 9999999 },
+    effects: {
+        resourceMultipliers: { [ResourceType.INFO]: 2.0, [ResourceType.CODE]: 0.5 },
+        clickPowerMult: 2.0,
+        unlockMessage: '物质消解，数据永存'
+    },
+    icon: 'Wifi',
+    exclusiveWith: ['path_mechanical', 'path_biological'],
+    highlight: true
+  },
+  {
+    id: 'path_biological',
+    name: '血肉群巢协议',
+    description: '你选择了基因。技术是死路，唯有进化永续。',
+    longDescription: '通过基因重组和癌细胞控制技术，你将自己变成了一个不断增殖、适应、吞噬的生物群落。你不需要机器，因为你可以长出更有用的器官。',
+    tier: 0,
+    category: BuildingCategory.TECHNOCRACY,
+    costs: { [ResourceType.BIOMASS]: 9999999 },
+    effects: {
+        resourceMultipliers: { [ResourceType.BIOMASS]: 2.0, [ResourceType.FUNDS]: 0.5 },
+        artifactChanceMult: 0.5,
+        unlockMessage: '无限增殖，完美进化'
+    },
+    icon: 'Dna',
+    exclusiveWith: ['path_mechanical', 'path_digital'],
+    highlight: true
+  },
 ];

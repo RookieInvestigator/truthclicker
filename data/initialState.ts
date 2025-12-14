@@ -55,5 +55,6 @@ export const INITIAL_STATE: GameState = {
   unlockedItemIds: [],
   seenItemIds: [], 
   foundUniqueItemIds: [], 
+  eventUnlockedPosts: [], // NEW
   notifications: [],
 };

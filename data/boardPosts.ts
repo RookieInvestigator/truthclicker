@@ -352,5 +352,43 @@ export const BOARD_POSTS: BoardPost[] = [
     replies: [
         { id: 'r1', author: 'YOU', timestamp: 'NOW', postNumber: 0, content: "我是唯一的观测者。" }
     ]
+  },
+
+  // ==========================================
+  // EVENT-UNLOCKED POSTS (CHOICE DRIVEN)
+  // ==========================================
+  {
+    id: 'insider_recruitment_thread',
+    title: '欢迎加入内部圈层',
+    author: 'Handler',
+    timestamp: 'Now',
+    image: 'Users',
+    imageDescription: '图片展示了一个高档会议室的内部。桌子上放着一份没有封面的文件和一杯水。窗外是倒置的城市景象。',
+    fileSize: '1KB',
+    filename: 'invite.txt',
+    postNumber: 999999,
+    isEventLocked: true, // Only visible via Choice
+    content: "你接了电话。这是明智的选择。\n\n你的任务很简单：继续挖掘。但从现在开始，你要把发现的每一个异常先发给我们。\n作为回报，我们会确保你的“意外保险”依然有效。",
+    replies: [
+        { id: 'r1', author: 'You', timestamp: 'Now', postNumber: 1000000, content: "为了真相... 还是为了生存？" },
+        { id: 'r2', author: 'Handler', timestamp: 'Now', postNumber: 1000001, content: "在这行里，这两者没有区别。" }
+    ]
+  },
+  {
+    id: 'surveillance_log_leak',
+    title: '[LEAK] 目标 #892 的监控日志',
+    author: 'Anonymous',
+    timestamp: 'Now',
+    image: 'Eye',
+    imageDescription: '图片展示了一份打印出来的日志文件。上面用红色记号笔圈出了你的IP地址和最近的搜索记录。',
+    fileSize: '5MB',
+    filename: 'my_life.log',
+    postNumber: 666666,
+    isEventLocked: true, // Only visible via Choice
+    content: "我反向追踪了信号。看看我发现了什么。\n\n这就是他们一直在看着我的证据。\n他们知道我几点睡觉，知道我喜欢吃什么口味的披萨，甚至知道我现在正在打这行字。\n\n你们也是目标。快跑。",
+    replies: [
+        { id: 'r1', author: 'Anonymous', timestamp: '...', postNumber: 666667, content: "这看起来像是... 你的浏览器历史记录？" },
+        { id: 'r2', author: 'System', timestamp: '...', postNumber: 666668, content: "该用户已被标记为高风险。清理小组已派出。" }
+    ]
   }
 ];

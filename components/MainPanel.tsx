@@ -67,12 +67,17 @@ const MainPanel: React.FC<MainPanelProps> = ({
 
   const newPostIds = useMemo(() => {
       return BOARD_POSTS.filter(p => {
+          // Special Case: Event Locked Posts
+          if (p.isEventLocked) {
+              return (gameState.eventUnlockedPosts || []).includes(p.id) && !gameState.seenItemIds.includes(p.id);
+          }
+
           const hasReqTech = !p.reqTech || p.reqTech.every(t => gameState.researchedTechs.includes(t));
           const isHidden = p.hideIfTech && p.hideIfTech.some(t => gameState.researchedTechs.includes(t));
           const hasDepth = !p.minDepth || gameState.depth >= p.minDepth;
           return hasReqTech && !isHidden && hasDepth && !gameState.seenItemIds.includes(p.id);
       }).map(p => p.id);
-  }, [gameState.researchedTechs, gameState.depth, gameState.seenItemIds]);
+  }, [gameState.researchedTechs, gameState.depth, gameState.seenItemIds, gameState.eventUnlockedPosts]);
 
   const handleTouchStart = (tab: typeof activeTab) => {
       isLongPress.current = false;

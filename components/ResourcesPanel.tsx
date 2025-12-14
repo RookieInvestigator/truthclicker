@@ -65,7 +65,7 @@ const ResourcesPanel: React.FC<ExtendedResourcesPanelProps> = ({
           id: 'abstract', 
           label: '现实底层', 
           icon: Zap,
-          resources: [ResourceType.PROBABILITY, ResourceType.REALITY, ResourceType.OXYGEN, ResourceType.TRUTH] 
+          resources: [ResourceType.PROBABILITY, ResourceType.REALITY, ResourceType.OXYGEN, ResourceType.TRUTH, ResourceType.DEJAVU] 
       },
   ], []);
 
@@ -132,6 +132,9 @@ const ResourcesPanel: React.FC<ExtendedResourcesPanelProps> = ({
                     // Filter visible resources
                     const visibleResources = group.resources.filter(res => {
                         if (res === ResourceType.OXYGEN && !showOxygen) return false;
+                        // Always show DEJAVU if user has it, or if it's producing (consuming)
+                        if (res === ResourceType.DEJAVU && resources[res] <= 0 && productionRates[res] === 0) return false;
+                        
                         return resources[res] > 0 || productionRates[res] !== 0 || (res === ResourceType.FUNDS && totalInfoMined > 100);
                     });
 
@@ -197,7 +200,7 @@ const ResourcesPanel: React.FC<ExtendedResourcesPanelProps> = ({
                                                     </span>
                                                     {rate !== 0 && (
                                                         <span className={`text-[8px] ${rate > 0 ? 'text-term-green' : 'text-red-400'}`}>
-                                                            {rate > 0 ? '+' : ''}{rate.toFixed(1)}/s
+                                                            {rate > 0 ? '+' : ''}{rate.toFixed(3)}/s
                                                         </span>
                                                     )}
                                                 </div>

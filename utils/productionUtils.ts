@@ -18,6 +18,10 @@ export const calculateProductionRates = (state: GameState): Record<ResourceType,
         grossConsumption[r] = 0;
     });
 
+    // CONSTANT DECAY FOR DEJAVU (Memories fading away)
+    // This makes the prestige currency slowly degrade over time.
+    grossConsumption[ResourceType.DEJAVU] = -0.001;
+
     // 1. Accumulate Base Values (Separated)
     Object.entries(state.buildings).forEach(([bId, count]) => {
         if (count <= 0) return;

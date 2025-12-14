@@ -30,6 +30,7 @@ export const useGameIO = (
           ...INITIAL_STATE, 
           ...parsed, 
           resources: safeResources, 
+          eventUnlockedPosts: parsed.eventUnlockedPosts || [], // Load unlocked posts
           settings: { ...INITIAL_STATE.settings, ...parsed.settings } 
         };
       } catch (e) {

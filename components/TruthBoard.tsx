@@ -18,6 +18,12 @@ const TruthBoard: React.FC<TruthBoardProps> = ({ gameState, markAsSeen }) => {
   // Filter unlocked posts
   const unlockedPosts = useMemo(() => {
       return BOARD_POSTS.filter(post => {
+          // Special Case: Event Locked Posts
+          if (post.isEventLocked) {
+              // Only show if explicitly unlocked via choice event
+              return (gameState.eventUnlockedPosts || []).includes(post.id);
+          }
+
           const hasReqTech = !post.reqTech || post.reqTech.every(t => gameState.researchedTechs.includes(t));
           const isHidden = post.hideIfTech && post.hideIfTech.some(t => gameState.researchedTechs.includes(t));
           const hasDepth = !post.minDepth || gameState.depth >= post.minDepth;
@@ -27,7 +33,7 @@ const TruthBoard: React.FC<TruthBoardProps> = ({ gameState, markAsSeen }) => {
 
           return true;
       }).reverse();
-  }, [gameState.researchedTechs, gameState.depth, gameState.seenItemIds, showUnreadOnly]);
+  }, [gameState.researchedTechs, gameState.depth, gameState.seenItemIds, showUnreadOnly, gameState.eventUnlockedPosts]);
 
   const renderContent = (text: string) => {
       return text.split('\n').map((line, idx) => {

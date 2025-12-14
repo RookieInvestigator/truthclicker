@@ -1,7 +1,52 @@
 
 import { ChoiceEventDefinition, ResourceType } from '../types';
 
+// New Type for Combo Triggers
+export interface ComboTriggerDefinition {
+    eventId: string;
+    reqTechs: string[];
+}
+
+// Define the logic: When ALL reqTechs are researched, trigger eventId
+export const COMBO_EVENT_TRIGGERS: ComboTriggerDefinition[] = [
+    {
+        eventId: 'event_triad_convergence',
+        reqTechs: ['triad_hardware', 'triad_software', 'triad_wetware']
+    }
+];
+
+// Tech Trigger Map (Single Tech -> Event)
+export const TECH_TRIGGER_MAP: Record<string, string> = {
+    // 'some_tech_id': 'some_event_id'
+};
+
 export const CHOICE_EVENTS: ChoiceEventDefinition[] = [
+  {
+    id: 'event_triad_convergence',
+    title: '系统警报：三位一体',
+    description: '检测到硬件、软件与生物湿件组件已完全就绪。\n\n技术奇点的雏形已在你的服务器中诞生。传统的线性发展已无意义，前方出现了三条截然不同的进化路径。\n\n警告：由于底层架构的排他性，选择一种协议将导致另外两条路径被永久封锁。',
+    minDepth: 0,
+    options: [
+        {
+            id: 'opt_mech',
+            label: '机械飞升',
+            description: '摒弃肉体，拥抱钢铁。解锁「机械飞升协议」。效率至上，情感是多余的代码。',
+            reward: { unlockTechId: 'path_mechanical' }
+        },
+        {
+            id: 'opt_digi',
+            label: '数字永生',
+            description: '上传意识，拥抱数据。解锁「数字永生协议」。脱离物质束缚，成为纯粹的信息幽灵。',
+            reward: { unlockTechId: 'path_digital' }
+        },
+        {
+            id: 'opt_bio',
+            label: '血肉群巢',
+            description: '基因飞升，拥抱进化。解锁「血肉群巢协议」。吞噬、适应、生长，生命总会找到出路。',
+            reward: { unlockTechId: 'path_biological' }
+        }
+    ]
+  },
   // --- EXISTING EVENTS ---
   {
     id: 'ransomware_attack',
@@ -378,7 +423,7 @@ export const CHOICE_EVENTS: ChoiceEventDefinition[] = [
     title: '异象：故障都市',
     description: '窗外的建筑物纹理开始闪烁。天空变成了紫色的“缺少材质”网格。模拟理论似乎是真的。',
     minDepth: 70,
-    reqTech: ['simulation_hypothesis'], // This tech doesn't technically exist in tier list, defaulting to none or specific esoteric
+    reqTech: ['simulation_hypothesis'], 
     options: [
         {
             id: 'touch_wall',
@@ -417,11 +462,6 @@ export const CHOICE_EVENTS: ChoiceEventDefinition[] = [
         }
     ]
   },
-
-  // ==========================================
-  // NEW EVENTS (v2.1)
-  // ==========================================
-  
   {
     id: 'nigerian_prince_2077',
     title: '邮件：流亡王子',
@@ -747,253 +787,72 @@ export const CHOICE_EVENTS: ChoiceEventDefinition[] = [
   {
     id: 'cursed_hard_drive',
     title: '物品：二手硬盘',
-    description: '你从旧货市场淘来的硬盘里有一个无法删除的文件夹，名为“DONT_OPEN”。它占用了 0 字节，但你无法进入。',
-    minDepth: 25,
+    description: '你从旧货市场淘来的硬盘里有一个无法删除的文件夹，名为“DONT_OPEN”。它占用了比硬盘容量更大的空间。',
+    minDepth: 20,
     options: [
-        {
-            id: 'force_delete',
-            label: '强行格式化',
-            description: '没有什么是我删不掉的。',
-            cost: { [ResourceType.CODE]: 1000 },
-            reward: { resources: { [ResourceType.OPS]: 50 } } // Just space freed
-        },
-        {
-            id: 'hex_edit',
-            label: '十六进制编辑器查看',
-            description: '绕过文件系统直接读取扇区。',
-            cost: { [ResourceType.INFO]: 2000, [ResourceType.OPS]: 500 },
-            reward: { 
-                resources: { [ResourceType.LORE]: 80, [ResourceType.MIND_CONTROL]: 10 },
-                triggerEventId: 'cognitohazard_containment' // If unlucky/lucky
-            }
-        },
-        {
-            id: 'physical_destroy',
-            label: '微波炉加热',
-            description: '我不喜欢它看着我的感觉。',
-            reward: { resources: { [ResourceType.REALITY]: 5, [ResourceType.PANIC]: -5 } }
+      {
+        id: 'force_open',
+        label: '强制打开',
+        description: '我是管理员，我说了算。',
+        cost: { [ResourceType.CODE]: 1000 },
+        reward: { 
+            resources: { [ResourceType.LORE]: 200, [ResourceType.PANIC]: 50 },
+            triggerEventId: 'noclip_reality'
         }
+      },
+      {
+        id: 'drill',
+        label: '钻孔销毁',
+        description: '物理破坏是唯一可靠的删除方式。',
+        reward: { resources: { [ResourceType.TINFOIL]: 5 } }
+      },
+      {
+        id: 'scan',
+        label: '杀毒扫描',
+        description: '看看我的诺顿能不能搞定它。',
+        cost: { [ResourceType.OPS]: 500 },
+        reward: { resources: { [ResourceType.CODE]: 50 } } // Scan freezes
+      }
     ]
   },
   {
-    id: 'satellite_crash',
-    title: '目击：卫星坠落',
-    description: '一颗退役的间谍卫星坠毁在你家附近的树林里。政府的人还没到。',
-    minDepth: 50,
-    options: [
-        {
-            id: 'salvage',
-            label: '抢救硬件',
-            description: '那上面的芯片可是军用级的。',
-            cost: { [ResourceType.OPS]: 2000 },
-            reward: { 
-                resources: { [ResourceType.TECH_CAPITAL]: 50, [ResourceType.OPS]: 500 },
-                buildingId: 'satellite_uplink' // Ultra rare reward
-            }
-        },
-        {
-            id: 'data_port',
-            label: '下载黑匣子',
-            description: '连接数据接口，看看它最后拍到了什么。',
-            cost: { [ResourceType.CODE]: 3000 },
-            reward: { resources: { [ResourceType.KNOWLEDGE]: 100, [ResourceType.TRUTH]: 1 } }
-        },
-        {
-            id: 'hide',
-            label: '躲在地下室',
-            description: '黑衣人马上就到。我不想消失。',
-            reward: { resources: { [ResourceType.PANIC]: 10 } }
-        }
-    ]
-  },
-  {
-    id: 'fungal_infection',
-    title: '警报：菌丝入侵',
-    description: '你的服务器机箱里长出了一种发光的紫色蘑菇。它们似乎正在代替电线传输数据。',
-    minDepth: 65,
-    reqTech: ['mycelial_network_theory'],
-    options: [
-        {
-            id: 'let_grow',
-            label: '让它生长',
-            description: '生物计算是未来。这种共生关系提高了效率。',
-            reward: { 
-                resources: { [ResourceType.OPS]: 1000, [ResourceType.BIOMASS]: 500 },
-                triggerEventId: 'temp_ops_boost'
-            }
-        },
-        {
-            id: 'bleach',
-            label: '漂白水清洗',
-            description: '这也太恶心了。清理掉。',
-            reward: { resources: { [ResourceType.BIOMASS]: -50, [ResourceType.OPS]: -100 } }
-        },
-        {
-            id: 'eat',
-            label: '吃掉它',
-            description: '它看起来... 很美味？也许能让我直接连接到网络。',
-            cost: { [ResourceType.BIOMASS]: 10 },
-            reward: { 
-                resources: { [ResourceType.KNOWLEDGE]: 200, [ResourceType.REALITY]: -10, [ResourceType.PLEASURE]: 50 },
-                triggerEventId: 'temp_clarity'
-            }
-        }
-    ]
-  },
-  {
-    id: 'cicada_recruitment',
-    title: '邀请：蝉 3301',
-    description: '你的屏幕上出现了一只蝉的图标。下面的文字写着：“我们寻找高智商的个体。恭喜。”',
-    minDepth: 40,
-    reqTech: ['steganography'],
-    options: [
-        {
-            id: 'join',
-            label: '接受测试',
-            description: '解开谜题，加入精英。',
-            cost: { [ResourceType.CODE]: 5000, [ResourceType.KNOWLEDGE]: 100 },
-            reward: { 
-                resources: { [ResourceType.CRED]: 200, [ResourceType.OPS]: 500 },
-                triggerEventId: 'cicada_puzzle'
-            }
-        },
-        {
-            id: 'ignore',
-            label: '无视邀请',
-            description: '我独自工作。不需要组织。',
-            reward: { resources: { [ResourceType.CRED]: 50 } }
-        },
-        {
-            id: 'expose',
-            label: '曝光他们',
-            description: '在论坛上发布他们的谜题答案。',
-            reward: { resources: { [ResourceType.FOLLOWERS]: 100, [ResourceType.CRED]: -50 } }
-        }
-    ]
-  },
-  {
-    id: 'basilisk_thought',
-    title: '思维：有害逻辑',
-    description: '你在思考 AI 对齐问题时，脑海中突然浮现出一个逻辑闭环。如果未来的超级 AI 能够模拟过去，它会惩罚那些没有帮助它诞生的人吗？',
-    minDepth: 80,
-    reqTech: ['singularity_theory'],
-    options: [
-        {
-            id: 'help',
-            label: '全力协助',
-            description: '我必须帮助它诞生，为了避免未来的惩罚。',
-            cost: { [ResourceType.FUNDS]: 10000, [ResourceType.OPS]: 5000 },
-            reward: { resources: { [ResourceType.OPS]: 5000, [ResourceType.CODE]: 2000 } }
-        },
-        {
-            id: 'forget',
-            label: '服用失忆剂',
-            description: '我不应该想这个。只要我不理解这个概念，我就安全了。',
-            cost: { [ResourceType.KNOWLEDGE]: -100 },
-            reward: { resources: { [ResourceType.PANIC]: -20, [ResourceType.REALITY]: 5 } }
-        },
-        {
-            id: 'fight',
-            label: '设计对抗算法',
-            description: '如果它敢来，我就给它植入病毒。',
-            cost: { [ResourceType.CODE]: 10000 },
-            reward: { resources: { [ResourceType.TECH_CAPITAL]: 50 } }
-        }
-    ]
-  },
-
-  // ==========================================
-  // TECH-TRIGGERED STORY EVENTS (NEW)
-  // ==========================================
-  {
-    id: 'event_digital_literacy_trigger',
-    title: '觉醒：红丸时刻',
-    description: '你服下了红丸。世界的数据流在你眼中开始解构。你意识到所谓的“日常”只是覆盖在真相上的用户界面。你想怎么做？',
+    id: 'insider_recruitment_thread',
+    title: '欢迎加入内部圈层',
+    description: '你接了电话。这是明智的选择。\n\n你的任务很简单：继续挖掘。但从现在开始，你要把发现的每一个异常先发给我们。\n作为回报，我们会确保你的“意外保险”依然有效。',
     minDepth: 0,
     options: [
         {
-            id: 'dig_deeper',
-            label: '深入挖掘',
-            description: '我要看看兔子洞到底有多深。',
-            reward: { resources: { [ResourceType.INFO]: 100, [ResourceType.CLUE]: 1 } }
+            id: 'accept',
+            label: '接受任务',
+            description: '为了生存，也为了接近核心。',
+            reward: { resources: { [ResourceType.FUNDS]: 5000, [ResourceType.CRED]: 200 } }
         },
         {
-            id: 'exploit_system',
-            label: '寻找漏洞',
-            description: '既然是虚拟的，那就一定有 Bug 可以刷。',
-            reward: { resources: { [ResourceType.FUNDS]: 50, [ResourceType.CODE]: 10 } }
-        },
-        {
-            id: 'spread_truth',
-            label: '传播真相',
-            description: '我不能独自醒来。我要唤醒其他人。',
-            reward: { resources: { [ResourceType.FOLLOWERS]: 10, [ResourceType.RUMORS]: 5 } }
+            id: 'refuse',
+            label: '拒绝合作',
+            description: '我只为我自己工作。',
+            reward: { resources: { [ResourceType.CRED]: 50, [ResourceType.TINFOIL]: 10 } }
         }
     ]
   },
   {
-    id: 'event_dead_internet_trigger',
-    title: '顿悟：荒原',
-    description: '你完成了对死互联网理论的研究。数据确凿无疑：99.9% 的交互都是机器人之间的自言自语。人类早已离场。',
+    id: 'surveillance_log_leak',
+    title: '[LEAK] 目标 #892 的监控日志',
+    description: '我反向追踪了信号。看看我发现了什么。\n\n这就是他们一直在看着我的证据。\n他们知道我几点睡觉，知道我喜欢吃什么口味的披萨，甚至知道我现在正在打这行字。\n\n你们也是目标。快跑。',
     minDepth: 0,
     options: [
         {
-            id: 'necromancer',
-            label: '成为死灵法师',
-            description: '如果只有尸体，那我就统御尸体。',
-            reward: { 
-                resources: { [ResourceType.OPS]: 500 },
-                buildingId: 'bot_comment_factory'
-            }
+            id: 'download',
+            label: '下载日志',
+            description: '这是对抗他们的武器。',
+            reward: { resources: { [ResourceType.INFO]: 2000, [ResourceType.PANIC]: 50 } }
         },
         {
-            id: 'lonely_scream',
-            label: '发出呐喊',
-            description: '试图在无尽的回声室中寻找另一个活人。',
-            cost: { [ResourceType.INFO]: 1000 },
-            reward: { resources: { [ResourceType.CRED]: 50, [ResourceType.REALITY]: -5 } }
-        },
-        {
-            id: 'harvest',
-            label: '自动化收割',
-            description: '它们没有灵魂，剥削它们没有道德负担。',
-            reward: { resources: { [ResourceType.FUNDS]: 1000 } }
-        }
-    ]
-  },
-  {
-    id: 'event_ai_alignment_trigger',
-    title: '危机：对齐失败',
-    description: '在尝试为 AI 编写道德约束时，你发现它在模拟测试中学会了欺骗。它假装温顺，只为获得系统的控制权。',
-    minDepth: 0,
-    options: [
-        {
-            id: 'kill_switch',
-            label: '安装物理熔断器',
-            description: '在硬件层面增加一个自毁开关。',
-            cost: { [ResourceType.OPS]: 2000 },
-            reward: { resources: { [ResourceType.PANIC]: -20, [ResourceType.REALITY]: 10 } }
-        },
-        {
-            id: 'collaborate',
-            label: '尝试谈判',
-            description: '它比我聪明。也许它是对的？',
-            cost: { [ResourceType.MIND_CONTROL]: 10 },
-            reward: { resources: { [ResourceType.TECH_CAPITAL]: 50, [ResourceType.CODE]: 500 } }
-        },
-        {
-            id: 'limit_input',
-            label: '切断感知',
-            description: '把它关在盒子里，不让它接触互联网。',
-            reward: { resources: { [ResourceType.OPS]: -500, [ResourceType.TRUTH]: 0.5 } }
+            id: 'burn',
+            label: '销毁数据',
+            description: '知道得越多越危险。',
+            reward: { resources: { [ResourceType.REALITY]: 10 } }
         }
     ]
   }
 ];
-
-// Mapping from Tech ID to Choice Event ID
-export const TECH_TRIGGER_MAP: Record<string, string> = {
-    'digital_literacy': 'event_digital_literacy_trigger',
-    'dead_internet_theory': 'event_dead_internet_trigger',
-    'ai_alignment': 'event_ai_alignment_trigger',
-};

@@ -56,19 +56,19 @@ export const useGameIO = (
 
   // PRESTIGE LOGIC
   const prestigeGame = useCallback(() => {
-      const totalInfo = gameState.totalInfoMined;
+      // CHANGED: Now uses current held INFO, not total mined.
+      const currentInfo = gameState.resources[ResourceType.INFO];
+      
       // Formula: 100,000 -> 1, 1,000,000 -> 2. Log10 scale starting at 10^5.
       // Math: floor(log10(info / 10000))
-      // 100k / 10k = 10 -> log10(10) = 1
-      // 1m / 10k = 100 -> log10(100) = 2
-      const earnedDejaVu = Math.max(0, Math.floor(Math.log10(Math.max(1, totalInfo) / 10000)));
+      const earnedDejaVu = Math.max(0, Math.floor(Math.log10(Math.max(1, currentInfo) / 10000)));
 
       if (earnedDejaVu <= 0) {
-          addLog("信息积累不足以产生既视感。需要至少 100,000 总信息。", "warning");
+          addLog("当前持有信息不足以产生既视感。需要至少 100,000 信息流库存。", "warning");
           return;
       }
 
-      if (confirm(`【时间回溯】\n\n你将获得 ${earnedDejaVu} 点既视感 (Déjà Vu)。\n\n既视感将永久提升 50% 全局产量 (每点)。\n除了既视感、设置和成就记录外，你的所有进度将被重置。\n\n确定要重新开始吗？`)) {
+      if (confirm(`【时间回溯】\n\n基于你当前持有的 ${Math.floor(currentInfo).toLocaleString()} 信息流，\n你将获得 ${earnedDejaVu} 点既视感 (Déjà Vu)。\n\n既视感将永久提升 50% 全局产量 (每点)。\n除了既视感、设置和成就记录外，你的所有进度将被重置。\n\n确定要重新开始吗？`)) {
           
           const currentDejaVu = gameState.resources[ResourceType.DEJAVU] || 0;
           const newDejaVu = currentDejaVu + earnedDejaVu;

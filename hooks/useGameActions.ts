@@ -7,6 +7,7 @@ import { UNIQUE_ARTIFACTS } from '../data/artifacts';
 import { POSSIBLE_EVENTS } from '../data/events';
 import { CHOICE_EVENTS, TECH_TRIGGER_MAP } from '../data/choiceEvents';
 import { RESOURCE_INFO } from '../constants';
+import { generateArtifact } from '../utils/generator'; // Import generator for recursive discovery
 
 export const useGameActions = (
     setGameState: React.Dispatch<React.SetStateAction<GameState>>, 
@@ -185,158 +186,210 @@ export const useGameActions = (
        
        let efficiency = calculateRecycleEfficiency();
 
-       if (target.hiddenLootId) {
-           if (target.hiddenLootId === 'resource_bundle') {
+       // Check if it's a REAL Unique Item (story item)
+       // We allow 'resource_bundle' to fall through to the procedural logic now for more randomness
+       const isRealUniqueLoot = target.hiddenLootId && target.hiddenLootId !== 'resource_bundle';
+       const isStaticUnique = !target.isProcedural;
+
+       // ---------------------------------------------------------
+       // CASE 1: REAL UNIQUE LOOT (Story/Collection items)
+       // ---------------------------------------------------------
+       if (isRealUniqueLoot) {
+           const lootItem = UNIQUE_ARTIFACTS.find(u => u.id === target.hiddenLootId);
+           const alreadyHas = prev.artifacts.some(a => a.id === lootItem?.id);
+           
+           if (lootItem && !alreadyHas) {
+               newArtifacts.push(lootItem);
+               logMsg = `重大发现: 从 [${target.name}] 中提取出唯一物品 [${lootItem.name}]!`;
+               logType = 'rare';
+           } else {
+               // Fallback if already have it
+               res[ResourceType.KNOWLEDGE] += 10;
                res[ResourceType.FUNDS] += 500;
-               res[ResourceType.CLUE] += 5;
-               logMsg = `调查发现: 包含加密账户数据 (+500 Funds)`;
+               logMsg = `调查发现: 包含重复的高价值数据 (+10 Knowledge, +500 Funds)`;
                logType = 'success';
-           } else {
-               const lootItem = UNIQUE_ARTIFACTS.find(u => u.id === target.hiddenLootId);
-               const alreadyHas = prev.artifacts.some(a => a.id === lootItem?.id);
-               
-               if (lootItem && !alreadyHas) {
-                   newArtifacts.push(lootItem);
-                   logMsg = `重大发现: 提取出唯一物品 [${lootItem.name}]!`;
-                   logType = 'rare';
-               } else {
-                   res[ResourceType.KNOWLEDGE] += 10;
-                   logMsg = `调查发现: 包含重复的高价值数据 (+10 Knowledge)`;
-                   logType = 'success';
-               }
            }
-       } else {
-           if (!target.isProcedural) {
-               // Selling Unique Artifacts
-               let baseValue = 500;
-               if (target.rarity === 'rare') baseValue = 1000;
-               if (target.rarity === 'legendary') baseValue = 3000;
-               if (target.rarity === 'mythic') baseValue = 10000;
+       } 
+       // ---------------------------------------------------------
+       // CASE 2: SELLING PRE-DEFINED UNIQUES (The item itself is unique)
+       // ---------------------------------------------------------
+       else if (isStaticUnique) {
+           let baseValue = 500;
+           if (target.rarity === 'rare') baseValue = 1000;
+           if (target.rarity === 'legendary') baseValue = 3000;
+           if (target.rarity === 'mythic') baseValue = 10000;
+           
+           const randomFactor = 0.8 + (Math.random() * 0.6);
+           const finalAmount = Math.floor(baseValue * randomFactor * efficiency);
+           res[ResourceType.FUNDS] += finalAmount;
+           logMsg = `出售珍品: ${target.name} (+${finalAmount} Funds)`;
+           logType = 'success';
+       } 
+       // ---------------------------------------------------------
+       // CASE 3: PROCEDURAL ITEMS (THE NEW WILD SYSTEM)
+       // ---------------------------------------------------------
+       else {
+           // Helper to pick random array element
+           const pick = <T>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
+
+           // A. Manic Volatility Check (15% Chance)
+           const isManic = Math.random() < 0.15;
+           const volatility = isManic
+               ? 0.1 + Math.random() * 7.9  // Manic: 0.1x to 8.0x
+               : 0.8 + Math.random() * 0.7; // Normal: 0.8x to 1.5x
+
+           // B. Outcome Determination
+           const outcomeRoll = Math.random();
+           let outcomeType: 'standard' | 'hazard' | 'glitch' | 'dud' = 'standard';
+
+           if (outcomeRoll < 0.05) outcomeType = 'hazard';        // 5% Hazard (High Risk/High Reward)
+           else if (outcomeRoll < 0.10) outcomeType = 'glitch';   // 5% Glitch (Pure Chaos)
+           else if (outcomeRoll < 0.20) outcomeType = 'dud';      // 10% Dud (Fail)
+           else outcomeType = 'standard';                         // 80% Standard
+
+           // Rarity Multiplier
+           const rarityMultMap: Record<string, number> = {
+               'common': 1, 'rare': 3, 'legendary': 8, 'mythic': 20, 'anomaly': 50
+           };
+           const rarityMult = rarityMultMap[target.rarity] || 1;
+
+           // Base Info Calculation
+           let baseInfo = Math.floor(Math.random() * 145) + 5;
+           
+           // Apply Bundle Bonus if applicable (moved from Case 1)
+           if (target.hiddenLootId === 'resource_bundle') {
+               baseInfo *= 5; // Bundles are rich
+           }
+
+           let primaryAmount = Math.floor(baseInfo * rarityMult * efficiency * volatility);
+
+           // --- PROCESS OUTCOMES ---
+
+           if (outcomeType === 'dud') {
+               // DUD: Failed to extract meaningful data
+               primaryAmount = Math.max(1, Math.floor(primaryAmount * 0.05)); // 5% of potential
+               const junkAmt = Math.floor(Math.random() * 5) + 1;
+               res[ResourceType.CARDBOARD] += junkAmt;
+               logMsg = `数据损坏 [DUD]: +${primaryAmount} 信息流, +${junkAmt} 废纸箱`;
+               logType = 'info'; // Dim log
+           } 
+           else if (outcomeType === 'hazard') {
+               // HAZARD: Massive Info but System Damage
+               primaryAmount = Math.floor(primaryAmount * 2.5);
                
-               // Randomness: 0.8x to 1.4x
-               const randomFactor = 0.8 + (Math.random() * 0.6);
+               // Pick a penalty
+               const penaltyType = pick(['funds', 'cred', 'reality', 'ops']);
+               let penaltyText = '';
                
-               const finalAmount = Math.floor(baseValue * randomFactor * efficiency);
-               res[ResourceType.FUNDS] += finalAmount;
-               logMsg = `出售珍品: ${target.name} (+${finalAmount} Funds)`;
-           } else {
-               // --- GENERAL ITEM LOGIC (ENHANCED RANDOMNESS) ---
+               if (penaltyType === 'funds') {
+                   const loss = Math.floor(res[ResourceType.FUNDS] * 0.05) + 100;
+                   res[ResourceType.FUNDS] = Math.max(0, res[ResourceType.FUNDS] - loss);
+                   penaltyText = `-${loss} 资金`;
+               } else if (penaltyType === 'cred') {
+                   const loss = Math.floor(res[ResourceType.CRED] * 0.1) + 10;
+                   res[ResourceType.CRED] = Math.max(0, res[ResourceType.CRED] - loss);
+                   penaltyText = `-${loss} 信誉`;
+               } else if (penaltyType === 'reality') {
+                   res[ResourceType.REALITY] = Math.max(0, res[ResourceType.REALITY] - 5);
+                   penaltyText = `-5 现实稳定`;
+               } else if (penaltyType === 'ops') {
+                   res[ResourceType.OPS] = Math.max(0, res[ResourceType.OPS] * 0.8);
+                   penaltyText = `算力流失`;
+               }
+
+               logMsg = `⚠️ 危险数据 [HAZARD]: +${primaryAmount} 信息流, ${penaltyText}`;
+               logType = 'warning';
+           } 
+           else if (outcomeType === 'glitch') {
+               // GLITCH: Two completely random resources
+               primaryAmount = Math.floor(primaryAmount * 1.2); // Slight boost
+               const allRes = Object.values(ResourceType).filter(r => r !== ResourceType.DEJAVU && r !== ResourceType.INFO);
                
-               const roll = Math.random();
-               const isJackpot = roll > 0.98; // 2% Jackpot
-               const isCrit = !isJackpot && roll > 0.85; // 13% Crit
-               const isJunk = roll < 0.15; // 15% Junk
-               // Glitch: 10% chance for normal items to produce randomized resources
-               const isGlitch = !isJackpot && !isCrit && !isJunk && Math.random() < 0.10; 
+               const resA = pick(allRes);
+               const resB = pick(allRes);
+               const amtA = Math.floor((Math.random() * 20 + 1) * rarityMult);
+               const amtB = Math.floor((Math.random() * 20 + 1) * rarityMult);
 
-               // Rarity scaling (Boosted for high tiers)
-               let rarityMult = 1;
-               if (target.rarity === 'rare') rarityMult = 3.0; 
-               if (target.rarity === 'legendary') rarityMult = 8.0;
-               if (target.rarity === 'mythic') rarityMult = 20.0;
-               if (target.rarity === 'anomaly') rarityMult = 50.0;
+               res[resA] = (res[resA] || 0) + amtA;
+               res[resB] = (res[resB] || 0) + amtB;
 
-               // Volatility: A random multiplier between 0.1x and 3.0x
-               // This ensures even common items can sometimes be surprisingly valuable (or useless)
-               const volatility = 0.1 + (Math.random() * 2.9);
-
-               // Primary Reward: INFO (High Variance Base: 5 - 150)
-               let baseInfo = Math.floor(Math.random() * 145) + 5;
-               let primaryAmount = Math.floor(baseInfo * rarityMult * efficiency * volatility);
-
-               // Secondary Reward
+               logMsg = `⚡ 逻辑故障 [GLITCH]: +${primaryAmount} Info, +${amtA} ${RESOURCE_INFO[resA].name}, +${amtB} ${RESOURCE_INFO[resB].name}`;
+               logType = 'rare'; // Purple text
+           } 
+           else {
+               // STANDARD: Subtype based logic
                let secondaryRes: ResourceType | null = null;
                let secondaryAmount = 0;
-               
-               // Helper to pick random array element
-               const pick = <T>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
 
-               if (isGlitch) {
-                   // Glitch: Pick ANY resource from the game
-                   const allRes = Object.values(ResourceType);
-                   secondaryRes = pick(allRes);
-                   secondaryAmount = Math.floor((Math.random() * 10 + 1) * rarityMult * efficiency);
-               } else {
-                   // Standard Subtype Logic
-                   switch (target.subtype) {
-                       case 'file':
-                           // Files yield data/code/spam
-                           if (Math.random() > 0.3) { 
-                               secondaryRes = pick([ResourceType.CODE, ResourceType.SPAM, ResourceType.FUNDS]);
-                               secondaryAmount = Math.floor((Math.random() * 8 + 1) * rarityMult);
-                           }
-                           break;
-                       case 'bookmark':
-                           // Bookmarks yield lore/funds/clues
-                           secondaryRes = pick([ResourceType.FUNDS, ResourceType.LORE, ResourceType.CLUE]);
-                           secondaryAmount = Math.floor((Math.random() * 12 + 2) * rarityMult);
-                           break;
-                       case 'hardware':
-                           // Hardware yields ops/power/tech/cardboard
-                           secondaryRes = pick([ResourceType.OPS, ResourceType.POWER, ResourceType.TECH_CAPITAL, ResourceType.CARDBOARD]);
-                           secondaryAmount = Math.floor((Math.random() * 10 + 1) * rarityMult * efficiency);
-                           break;
-                       case 'media':
-                           // Media yields culture/lore/story
-                           secondaryRes = pick([ResourceType.CULTURE, ResourceType.LORE, ResourceType.STORY]);
-                           secondaryAmount = Math.floor((Math.random() * 6 + 1) * rarityMult * efficiency);
-                           break;
-                       case 'creature':
-                           // Creatures yield biomass/fossil
-                           secondaryRes = pick([ResourceType.BIOMASS, ResourceType.FOSSIL]);
-                           secondaryAmount = Math.floor((Math.random() * 8 + 2) * rarityMult * efficiency);
-                           break;
-                       case 'signal':
-                           // Signals yield code/panic/rumors
-                           secondaryRes = pick([ResourceType.CODE, ResourceType.PANIC, ResourceType.RUMORS]);
-                           secondaryAmount = Math.floor((Math.random() * 8 + 2) * rarityMult * efficiency);
-                           break;
+               switch (target.subtype) {
+                   case 'file':
+                       // Files: Code, Spam, Funds, Truth (rarely)
+                       secondaryRes = pick([ResourceType.CODE, ResourceType.SPAM, ResourceType.FUNDS, ResourceType.FUNDS]);
+                       break;
+                   case 'bookmark':
+                       // Bookmarks: Lore, Funds, Clue, Culture
+                       secondaryRes = pick([ResourceType.FUNDS, ResourceType.LORE, ResourceType.CLUE, ResourceType.CULTURE]);
+                       break;
+                   case 'hardware':
+                       // Hardware: Ops, Power, Tech, Cardboard
+                       secondaryRes = pick([ResourceType.OPS, ResourceType.POWER, ResourceType.TECH_CAPITAL, ResourceType.CARDBOARD]);
+                       break;
+                   case 'media':
+                       // Media: Culture, Lore, Story, Pleasure
+                       secondaryRes = pick([ResourceType.CULTURE, ResourceType.LORE, ResourceType.STORY, ResourceType.PLEASURE]);
+                       break;
+                   case 'creature':
+                       // Creature: Biomass, Fossil, Mind Control
+                       secondaryRes = pick([ResourceType.BIOMASS, ResourceType.FOSSIL, ResourceType.MIND_CONTROL]);
+                       break;
+                   case 'signal':
+                       // Signal: Code, Panic, Rumors, Truth
+                       secondaryRes = pick([ResourceType.CODE, ResourceType.PANIC, ResourceType.RUMORS, ResourceType.TRUTH]);
+                       break;
+               }
+
+               if (secondaryRes) {
+                   secondaryAmount = Math.floor((Math.random() * 8 + 1) * rarityMult * efficiency);
+                   
+                   // Bundle Bonus for Secondary
+                   if (target.hiddenLootId === 'resource_bundle') {
+                       secondaryAmount *= 3;
                    }
-               }
 
-               // Apply Modifiers & Construct Logs
-               if (isJackpot) {
-                   primaryAmount = Math.floor(primaryAmount * 10);
-                   if (secondaryAmount > 0) secondaryAmount = Math.floor(secondaryAmount * 5);
-                   
-                   // Bonus Jackpot Resource (High tier)
-                   const bonusRes = pick([ResourceType.KNOWLEDGE, ResourceType.TRUTH, ResourceType.TECH_CAPITAL]);
-                   const bonusAmt = Math.floor(Math.random() * 5 * rarityMult) + 1;
-                   res[bonusRes] = (res[bonusRes] || 0) + bonusAmt;
-                   
-                   let secondaryText = secondaryRes ? `, +${secondaryAmount} ${RESOURCE_INFO[secondaryRes].name}` : '';
-                   logMsg = `🔥 传说级解析 [JACKPOT]: +${primaryAmount} 信息流${secondaryText}, +${bonusAmt} ${RESOURCE_INFO[bonusRes].name}`;
-                   logType = 'rare';
-               } else if (isCrit) {
-                   primaryAmount = Math.floor(primaryAmount * 3);
-                   if (secondaryAmount > 0) secondaryAmount = Math.floor(secondaryAmount * 2);
-                   res[ResourceType.CLUE] = (res[ResourceType.CLUE] || 0) + 2;
-                   
-                   let secondaryText = secondaryRes ? `, +${secondaryAmount} ${RESOURCE_INFO[secondaryRes].name}` : '';
-                   logMsg = `完美解析 [CRIT]: +${primaryAmount} 信息流${secondaryText}, +2 线索`;
-                   logType = 'success';
-               } else if (isGlitch) {
-                   primaryAmount = Math.floor(primaryAmount * 1.5);
-                   let secondaryText = secondaryRes ? `, +${secondaryAmount} ${RESOURCE_INFO[secondaryRes].name}` : '';
-                   logMsg = `解析异常 [GLITCH]: +${primaryAmount} 信息流${secondaryText}`;
-                   logType = 'warning';
-               } else if (isJunk) {
-                   primaryAmount = Math.max(1, Math.floor(primaryAmount * 0.1));
-                   secondaryRes = ResourceType.CARDBOARD;
-                   secondaryAmount = Math.floor(Math.random() * 5) + 1;
-                   logMsg = `数据损坏 [JUNK]: +${primaryAmount} 信息流, +${secondaryAmount} 废纸箱`;
-                   logType = 'info'; // Dim log
-               } else {
-                   // Normal
-                   let secondaryText = secondaryRes ? `, +${secondaryAmount} ${RESOURCE_INFO[secondaryRes].name}` : '';
-                   logMsg = `分析完成: +${primaryAmount} 信息流${secondaryText}`;
-                   logType = 'info';
-               }
-
-               res[ResourceType.INFO] += primaryAmount;
-               if (secondaryRes && secondaryAmount > 0) {
                    res[secondaryRes] = (res[secondaryRes] || 0) + secondaryAmount;
                }
+
+               // 10% Chance for Third Random Drop OR guaranteed if bundle
+               let thirdDropText = '';
+               if (Math.random() < 0.10 || target.hiddenLootId === 'resource_bundle') {
+                   const extraRes = pick(Object.values(ResourceType).filter(r => r !== ResourceType.INFO && r !== ResourceType.DEJAVU));
+                   const extraAmt = Math.floor((Math.random() * 5 + 1) * rarityMult);
+                   res[extraRes] = (res[extraRes] || 0) + extraAmt;
+                   thirdDropText = `, +${extraAmt} ${RESOURCE_INFO[extraRes].name}`;
+               }
+
+               const manicText = isManic ? ' (躁狂!)' : '';
+               const secondaryText = secondaryRes ? `, +${secondaryAmount} ${RESOURCE_INFO[secondaryRes].name}` : '';
+               
+               logMsg = `分析完成${manicText}: +${primaryAmount} 信息流${secondaryText}${thirdDropText}`;
+               
+               if (isManic && primaryAmount > 1000) logType = 'rare';
+               else logType = 'info';
+           }
+
+           // Add Primary Info
+           res[ResourceType.INFO] += primaryAmount;
+
+           // ---------------------------------------------------------
+           // RECURSIVE DISCOVERY (5%)
+           // ---------------------------------------------------------
+           if (['file', 'hardware', 'media'].includes(target.subtype) && Math.random() < 0.05) {
+               const recursiveArt = generateArtifact(prev.depth, prev.researchedTechs);
+               newArtifacts.push(recursiveArt);
+               // Append to log
+               logMsg += ` | ↳ 发现新物品!`;
+               // Flash log type if not already special
+               if (logType === 'info') logType = 'success';
            }
        }
        

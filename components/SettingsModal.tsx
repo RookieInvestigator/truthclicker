@@ -9,14 +9,14 @@ interface SettingsModalProps {
   onClose: () => void;
   onImport: (data: string) => boolean;
   onExport: () => string;
-  onPrestige?: () => void; // New prop
-  totalInfoMined?: number; // New prop
-  currentDejaVu?: number; // New prop
+  onPrestige?: () => void;
+  currentInfo?: number; // CHANGED: Renamed from totalInfoMined to currentInfo
+  currentDejaVu?: number;
 }
 
 const SettingsModal: React.FC<SettingsModalProps> = ({ 
     settings, onToggle, onClose, onImport, onExport, 
-    onPrestige, totalInfoMined = 0, currentDejaVu = 0 
+    onPrestige, currentInfo = 0, currentDejaVu = 0 
 }) => {
   const [importString, setImportString] = useState("");
   const [exportString, setExportString] = useState("");
@@ -24,16 +24,16 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
   const [showExportOutput, setShowExportOutput] = useState(false);
   const [copyFeedback, setCopyFeedback] = useState("");
 
-  // Calculate potential prestige gain
+  // Calculate potential prestige gain based on CURRENT info
   const potentialDejaVu = useMemo(() => {
-      return Math.max(0, Math.floor(Math.log10(Math.max(1, totalInfoMined) / 10000)));
-  }, [totalInfoMined]);
+      return Math.max(0, Math.floor(Math.log10(Math.max(1, currentInfo) / 10000)));
+  }, [currentInfo]);
 
   const nextLevelReq = useMemo(() => {
       // Inverse of formula: Req = 10^(potential + 1) * 10000
-      const currentLevel = Math.max(0, Math.floor(Math.log10(Math.max(1, totalInfoMined) / 10000)));
+      const currentLevel = Math.max(0, Math.floor(Math.log10(Math.max(1, currentInfo) / 10000)));
       return Math.pow(10, currentLevel + 1) * 10000;
-  }, [totalInfoMined]);
+  }, [currentInfo]);
 
   const handleGenerateExport = () => {
       const data = onExport();
@@ -184,8 +184,8 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                     
                     <div className="bg-fuchsia-900/10 border border-fuchsia-500/30 p-3 rounded mb-3">
                         <div className="flex justify-between items-center mb-2">
-                            <span className="text-[10px] text-gray-400">当前累计信息:</span>
-                            <span className="text-xs font-bold text-white font-mono">{Math.floor(totalInfoMined).toLocaleString()}</span>
+                            <span className="text-[10px] text-gray-400">当前持有信息:</span>
+                            <span className="text-xs font-bold text-white font-mono">{Math.floor(currentInfo).toLocaleString()}</span>
                         </div>
                         <div className="flex justify-between items-center mb-2">
                             <span className="text-[10px] text-gray-400">当前持有既视感:</span>
@@ -194,11 +194,11 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                         <div className="w-full h-1 bg-gray-800 rounded-full overflow-hidden mb-1">
                             <div 
                                 className="h-full bg-fuchsia-500 transition-all duration-500"
-                                style={{ width: `${Math.min(100, (totalInfoMined / nextLevelReq) * 100)}%` }}
+                                style={{ width: `${Math.min(100, (currentInfo / nextLevelReq) * 100)}%` }}
                             ></div>
                         </div>
                         <div className="text-[9px] text-gray-500 text-right">
-                            下一点需要: {nextLevelReq.toLocaleString()} 信息
+                            下一点需要持有: {nextLevelReq.toLocaleString()} 信息
                         </div>
                     </div>
 

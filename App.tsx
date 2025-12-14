@@ -245,7 +245,7 @@ const App: React.FC = () => {
             onImport={importSave} 
             onExport={exportSave}
             onPrestige={prestigeGame} // Added
-            totalInfoMined={gameState.totalInfoMined} // Added
+            currentInfo={gameState.resources[ResourceType.INFO]} // CHANGED: Pass current INFO
             currentDejaVu={gameState.resources[ResourceType.DEJAVU]} // Added
         />
       )}

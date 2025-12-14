@@ -35,7 +35,8 @@ export interface GameState {
   
   // New Content Tracking
   unlockedItemIds: string[]; // Tracks IDs of buildings/posts already notified
-  foundUniqueItemIds: string[]; // NEW: Tracks history of all unique items ever found
+  seenItemIds: string[]; // NEW: Tracks items user has acknowledged/clicked
+  foundUniqueItemIds: string[]; // Tracks history of all unique items ever found
   notifications: AppNotification[]; // Active notifications queue
 }
 
@@ -202,6 +203,7 @@ export interface BoardReply {
   timestamp: string;
   content: string;
   image?: string; 
+  imageDescription?: string; // Text description of the image
   postNumber: number; // FIXED: Static post number
   reqTech?: string[]; // NEW: Replies can now require tech to be visible
   hideIfTech?: string[]; // NEW: Replies can now be hidden if tech is present
@@ -214,6 +216,7 @@ export interface BoardPost {
   timestamp: string;
   content: string; 
   image: string; 
+  imageDescription?: string; // Text description of the image
   fileSize: string; // FIXED: Static string (e.g. "230KB")
   filename: string; // FIXED: Static filename
   postNumber: number; // FIXED: Static post number to prevent jumping

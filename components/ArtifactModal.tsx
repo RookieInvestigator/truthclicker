@@ -55,7 +55,7 @@ const ArtifactModal: React.FC<ArtifactModalProps> = ({ artifact, onClose, onRecy
   const colorClass = getRarityColor(artifact.rarity);
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-in fade-in zoom-in duration-200" onClick={onClose}>
+    <div className="fixed inset-0 z-[1050] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-in fade-in zoom-in duration-200" onClick={onClose}>
       <div className={`bg-term-black border w-full max-w-md shadow-[0_0_50px_rgba(0,0,0,0.8)] relative flex flex-col max-h-[90vh] ${colorClass.split(' ')[1]}`} onClick={e => e.stopPropagation()}>
         
         {/* Header - Looks like a window title */}
@@ -127,8 +127,9 @@ const ArtifactModal: React.FC<ArtifactModalProps> = ({ artifact, onClose, onRecy
                   <div className={`flex items-center gap-2 p-3 rounded border border-gray-800 bg-gray-900/50 ${colorClass.split(' ')[0]}`}>
                     <span className="font-bold text-xl">
                     {artifact.bonusType === 'cost_reduction' ? '-' : '+'}
+                    {/* Fixed Percentage Calculation */}
                     {artifact.bonusType === 'production_multiplier' || artifact.bonusType === 'cost_reduction' || artifact.bonusType === 'luck' 
-                        ? Math.round((artifact.bonusValue - (artifact.bonusType === 'cost_reduction' ? 0 : 1)) * 100) 
+                        ? Math.round(artifact.bonusValue * 100)
                         : artifact.bonusValue}
                     {artifact.bonusType !== 'click_power' && '%'}
                     </span>

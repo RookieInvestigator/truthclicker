@@ -51,6 +51,7 @@ export const INITIAL_STATE: GameState = {
   luckBoostEndTime: 0,
   
   unlockedItemIds: [],
-  foundUniqueItemIds: [], // Added
+  seenItemIds: [], // Added
+  foundUniqueItemIds: [], 
   notifications: [],
 };

@@ -3,7 +3,7 @@ import React from 'react';
 import { Tech, ResourceType } from '../types';
 import { RESOURCE_INFO } from '../constants';
 import * as Icons from 'lucide-react';
-import { Check, Lock, Cpu, ArrowUpCircle, Unlock, Info } from 'lucide-react';
+import { Check, Lock, Cpu, ArrowUpCircle, Unlock, Info, Sparkles } from 'lucide-react';
 
 interface TechCardProps {
   tech: Tech;
@@ -13,10 +13,11 @@ interface TechCardProps {
   resourceState: Record<ResourceType, number>;
   onResearch: () => void;
   isCompact?: boolean;
-  onViewDetails?: () => void; // Added callback
+  onViewDetails?: () => void;
+  isNew?: boolean; // Added
 }
 
-const TechCard: React.FC<TechCardProps> = ({ tech, isResearched, canAfford, isLockedByExclusion, resourceState, onResearch, isCompact, onViewDetails }) => {
+const TechCard: React.FC<TechCardProps> = ({ tech, isResearched, canAfford, isLockedByExclusion, resourceState, onResearch, isCompact, onViewDetails, isNew }) => {
   const IconComponent = (Icons as any)[tech.icon] || Cpu;
 
   // --- LOCKED STATE ---
@@ -71,9 +72,18 @@ const TechCard: React.FC<TechCardProps> = ({ tech, isResearched, canAfford, isLo
             ${isCompact ? 'p-2' : 'p-0 min-h-[140px]'}
         `}
     >
-        {/* TIER BADGE (Corner Mark) */}
+        {/* NEW BADGE */}
+        {isNew && !isResearched && (
+            <div className="absolute top-0 right-0 z-20">
+                <div className="bg-term-green text-black text-[9px] font-bold px-1.5 py-0.5 rounded-bl shadow-[0_0_8px_rgba(34,197,94,0.6)] flex items-center gap-1 animate-pulse">
+                    <Sparkles size={8} /> NEW
+                </div>
+            </div>
+        )}
+
+        {/* TIER BADGE (Corner Mark) - Position adjusted if new */}
         <div className={`
-            absolute top-0 right-0 font-bold font-mono text-[9px] px-1.5 py-0.5 border-b border-l rounded-bl-sm z-10
+            absolute top-0 ${isNew && !isResearched ? 'right-12 border-r' : 'right-0'} font-bold font-mono text-[9px] px-1.5 py-0.5 border-b border-l rounded-bl-sm z-10
             ${isResearched 
                 ? 'bg-term-green text-black border-term-green' 
                 : 'bg-black/50 text-gray-600 border-gray-800'}

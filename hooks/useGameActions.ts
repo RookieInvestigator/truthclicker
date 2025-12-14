@@ -29,7 +29,25 @@ export const useGameActions = (
     });
   }, [calculateClickPower, setGameState]);
 
+  const markAsSeen = useCallback((ids: string[]) => {
+      setGameState(prev => {
+          const newSeen = [...prev.seenItemIds];
+          let changed = false;
+          ids.forEach(id => {
+              if (!newSeen.includes(id)) {
+                  newSeen.push(id);
+                  changed = true;
+              }
+          });
+          if (!changed) return prev;
+          return { ...prev, seenItemIds: newSeen };
+      });
+  }, [setGameState]);
+
   const buyBuilding = useCallback((id: string) => {
+    // Also mark as seen when bought
+    markAsSeen([id]);
+
     setGameState(prev => {
         const building = BUILDINGS.find(b => b.id === id);
         if (!building) return prev;
@@ -73,7 +91,7 @@ export const useGameActions = (
             buildings: { ...prev.buildings, [id]: count + 1 }
         };
     });
-  }, [addLog, setGameState]);
+  }, [addLog, setGameState, markAsSeen]);
 
   const sellBuilding = useCallback((id: string) => {
      setGameState(prev => {
@@ -103,6 +121,8 @@ export const useGameActions = (
   }, [addLog, setGameState]);
 
   const researchTech = useCallback((id: string) => {
+      markAsSeen([id]);
+      
       setGameState(prev => {
           if (prev.researchedTechs.includes(id)) return prev;
           const tech = TECHS.find(t => t.id === id);
@@ -153,7 +173,7 @@ export const useGameActions = (
               pendingChoice: newPendingChoice
           };
       });
-  }, [addLog, setGameState]);
+  }, [addLog, setGameState, markAsSeen]);
 
   const investigateArtifact = useCallback((target: Artifact, onResult?: (msg: string, type: LogEntry['type']) => void) => {
     setGameState(prev => {
@@ -187,74 +207,100 @@ export const useGameActions = (
            }
        } else {
            if (!target.isProcedural) {
-               let rewardAmount = 500;
-               if (target.rarity === 'legendary') rewardAmount = 2000;
-               const finalAmount = Math.floor(rewardAmount * efficiency);
+               // Selling Unique Artifacts
+               let baseValue = 500;
+               if (target.rarity === 'rare') baseValue = 1000;
+               if (target.rarity === 'legendary') baseValue = 3000;
+               if (target.rarity === 'mythic') baseValue = 10000;
+               
+               // Randomness: 0.8x to 1.4x
+               const randomFactor = 0.8 + (Math.random() * 0.6);
+               
+               const finalAmount = Math.floor(baseValue * randomFactor * efficiency);
                res[ResourceType.FUNDS] += finalAmount;
                logMsg = `出售珍品: ${target.name} (+${finalAmount} Funds)`;
            } else {
+               // --- GENERAL ITEM LOGIC ---
+               // Prioritize INFO, with randomized amounts
+               
                const roll = Math.random();
                const isCrit = roll > 0.90;
                const isJunk = roll < 0.15;
 
-               let primaryRes = ResourceType.INFO;
-               let primaryBase = Math.floor(Math.random() * 40) + 30;
+               // Rarity scaling
+               let rarityMult = 1;
+               if (target.rarity === 'rare') rarityMult = 2.5;
+               if (target.rarity === 'legendary') rarityMult = 6;
+               if (target.rarity === 'mythic') rarityMult = 15;
+               if (target.rarity === 'anomaly') rarityMult = 30;
+
+               // Primary Reward: INFO (High Variance)
+               // Random Base: 10 - 110
+               let baseInfo = Math.floor(Math.random() * 100) + 10;
+               let primaryAmount = Math.floor(baseInfo * rarityMult * efficiency);
+               res[ResourceType.INFO] += primaryAmount;
+
+               // Secondary Reward based on Subtype
                let secondaryRes: ResourceType | null = null;
                let secondaryAmount = 0;
+               
+               // Helper to pick random array element
+               const pick = <T>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
 
                switch (target.subtype) {
                    case 'file':
-                       primaryRes = ResourceType.INFO;
-                       primaryBase += 20;
-                       if (Math.random() > 0.5) { secondaryRes = ResourceType.SPAM; secondaryAmount = 2; }
+                       // Files yield data/code/spam
+                       if (Math.random() > 0.4) {
+                           secondaryRes = pick([ResourceType.CODE, ResourceType.SPAM, ResourceType.FUNDS]);
+                           secondaryAmount = Math.floor((Math.random() * 5 + 1) * rarityMult);
+                       }
                        break;
                    case 'bookmark':
-                       primaryRes = ResourceType.INFO;
-                       if (Math.random() > 0.7) { secondaryRes = ResourceType.FUNDS; secondaryAmount = 5; }
+                       // Bookmarks yield lore/funds/clues
+                       secondaryRes = pick([ResourceType.FUNDS, ResourceType.LORE, ResourceType.CLUE]);
+                       secondaryAmount = Math.floor((Math.random() * 8 + 2) * rarityMult);
                        break;
                    case 'hardware':
-                       primaryRes = ResourceType.OPS;
-                       primaryBase = Math.floor(primaryBase / 5);
-                       if (Math.random() > 0.5) { secondaryRes = ResourceType.CARDBOARD; secondaryAmount = 3; }
+                       // Hardware yields ops/power/tech/cardboard
+                       secondaryRes = pick([ResourceType.OPS, ResourceType.POWER, ResourceType.TECH_CAPITAL, ResourceType.CARDBOARD]);
+                       secondaryAmount = Math.floor((Math.random() * 6 + 1) * rarityMult * efficiency);
                        break;
                    case 'media':
-                       primaryRes = ResourceType.CULTURE;
-                       primaryBase = Math.floor(primaryBase / 10);
-                       if (Math.random() > 0.5) { secondaryRes = ResourceType.LORE; secondaryAmount = 0.5; }
+                       // Media yields culture/lore/story
+                       secondaryRes = pick([ResourceType.CULTURE, ResourceType.LORE, ResourceType.STORY]);
+                       secondaryAmount = Math.floor((Math.random() * 4 + 1) * rarityMult * efficiency);
                        break;
                    case 'creature':
-                       primaryRes = ResourceType.BIOMASS;
-                       primaryBase = Math.floor(primaryBase / 2);
-                       if (Math.random() > 0.5) { secondaryRes = ResourceType.LORE; secondaryAmount = 1; }
-                       if (Math.random() > 0.8) { secondaryRes = ResourceType.FOSSIL; secondaryAmount = 1; }
+                       // Creatures yield biomass/fossil
+                       secondaryRes = pick([ResourceType.BIOMASS, ResourceType.FOSSIL]);
+                       secondaryAmount = Math.floor((Math.random() * 5 + 2) * rarityMult * efficiency);
                        break;
                    case 'signal':
-                       primaryRes = ResourceType.CODE;
-                       primaryBase = Math.floor(primaryBase / 5);
-                       if (Math.random() > 0.5) { secondaryRes = ResourceType.INFO; secondaryAmount = 20; }
+                       // Signals yield code/panic/rumors
+                       secondaryRes = pick([ResourceType.CODE, ResourceType.PANIC, ResourceType.RUMORS]);
+                       secondaryAmount = Math.floor((Math.random() * 5 + 2) * rarityMult * efficiency);
                        break;
                }
 
+               // Crit / Junk Logic
                if (isCrit) {
-                   primaryBase *= 2;
+                   primaryAmount *= 2;
                    if (secondaryAmount > 0) secondaryAmount *= 2;
                    res[ResourceType.CLUE] = (res[ResourceType.CLUE] || 0) + 1;
                } else if (isJunk) {
-                   primaryBase = Math.max(1, Math.floor(primaryBase * 0.2));
+                   primaryAmount = Math.max(1, Math.floor(primaryAmount * 0.2));
                    secondaryRes = ResourceType.CARDBOARD;
                    secondaryAmount = 1;
                }
 
-               primaryBase = Math.max(1, Math.floor(primaryBase * efficiency));
-               
-               res[primaryRes] += primaryBase;
                if (secondaryRes && secondaryAmount > 0) {
                    res[secondaryRes] = (res[secondaryRes] || 0) + secondaryAmount;
                }
 
+               // Log construction
                let secondaryText = secondaryRes ? `, +${secondaryAmount} ${RESOURCE_INFO[secondaryRes].name}` : '';
                let critText = isCrit ? ' [完美解析]' : isJunk ? ' [损坏]' : '';
-               logMsg = `分析完成${critText}: (+${primaryBase} ${RESOURCE_INFO[primaryRes].name}${secondaryText})`;
+               logMsg = `分析完成${critText}: (+${primaryAmount} 信息流${secondaryText})`;
            }
        }
        
@@ -369,6 +415,7 @@ export const useGameActions = (
     triggerRealityFlush,
     triggerProbabilityDrive,
     handleMakeChoice,
-    dismissNotification
+    dismissNotification,
+    markAsSeen // Exported
   };
 };

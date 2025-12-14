@@ -16,7 +16,7 @@ export const UNIQUE_ARTIFACTS: Artifact[] = [
     category: BuildingCategory.TECHNOCRACY,
     rarity: 'legendary',
     bonusType: 'cost_reduction',
-    bonusValue: 0.05,
+    bonusValue: 0.03, // Nerfed from 0.05
     dropChanceWeight: 5,
     linkedProceduralType: 'archive'
   },
@@ -32,7 +32,7 @@ export const UNIQUE_ARTIFACTS: Artifact[] = [
     rarity: 'mythic',
     bonusType: 'production_multiplier',
     targetResource: ResourceType.FUNDS,
-    bonusValue: 2.5,
+    bonusValue: 0.05, // Nerfed from 2.5
     dropChanceWeight: 2,
     linkedProceduralType: 'data'
   },
@@ -48,7 +48,7 @@ export const UNIQUE_ARTIFACTS: Artifact[] = [
     rarity: 'legendary',
     bonusType: 'production_multiplier',
     targetResource: ResourceType.KNOWLEDGE,
-    bonusValue: 1.3,
+    bonusValue: 0.03, // Nerfed from 1.3
     dropChanceWeight: 3,
     linkedProceduralType: 'data'
   },
@@ -64,7 +64,7 @@ export const UNIQUE_ARTIFACTS: Artifact[] = [
     rarity: 'rare',
     bonusType: 'production_multiplier',
     targetResource: ResourceType.CODE,
-    bonusValue: 0.2,
+    bonusValue: 0.02, // Nerfed from 0.2
     dropChanceWeight: 8,
     linkedProceduralType: 'image'
   },
@@ -79,7 +79,7 @@ export const UNIQUE_ARTIFACTS: Artifact[] = [
     category: BuildingCategory.HISTORY,
     rarity: 'legendary',
     bonusType: 'luck',
-    bonusValue: 1.1,
+    bonusValue: 0.05, // Nerfed from 1.1
     dropChanceWeight: 4,
     linkedProceduralType: 'document'
   },
@@ -95,7 +95,7 @@ export const UNIQUE_ARTIFACTS: Artifact[] = [
     rarity: 'legendary',
     bonusType: 'production_multiplier',
     targetResource: ResourceType.CODE,
-    bonusValue: 1.5,
+    bonusValue: 0.03, // Nerfed from 1.5
     dropChanceWeight: 3,
     linkedProceduralType: 'archive'
   },
@@ -111,7 +111,7 @@ export const UNIQUE_ARTIFACTS: Artifact[] = [
     rarity: 'rare',
     bonusType: 'production_multiplier',
     targetResource: ResourceType.TRUTH,
-    bonusValue: 0.5,
+    bonusValue: 0.01, // Nerfed from 0.5
     dropChanceWeight: 6,
     linkedProceduralType: 'document'
   },
@@ -127,7 +127,7 @@ export const UNIQUE_ARTIFACTS: Artifact[] = [
     rarity: 'rare',
     bonusType: 'production_multiplier',
     targetResource: ResourceType.ANCIENT_WISDOM,
-    bonusValue: 0.3,
+    bonusValue: 0.02, // Nerfed from 0.3
     dropChanceWeight: 7,
     linkedProceduralType: 'image'
   },
@@ -143,7 +143,7 @@ export const UNIQUE_ARTIFACTS: Artifact[] = [
     rarity: 'mythic',
     bonusType: 'production_multiplier',
     targetResource: ResourceType.PLEASURE,
-    bonusValue: 5.0,
+    bonusValue: 0.05, // Nerfed from 5.0
     dropChanceWeight: 1,
     linkedProceduralType: 'archive'
   },
@@ -158,7 +158,7 @@ export const UNIQUE_ARTIFACTS: Artifact[] = [
     category: BuildingCategory.TECHNOCRACY,
     rarity: 'legendary',
     bonusType: 'click_power',
-    bonusValue: 2.0,
+    bonusValue: 0.05, // Nerfed from 2.0
     dropChanceWeight: 3,
     linkedProceduralType: 'code'
   },
@@ -175,7 +175,7 @@ export const UNIQUE_ARTIFACTS: Artifact[] = [
     rarity: 'legendary',
     bonusType: 'production_multiplier',
     targetResource: ResourceType.FUNDS,
-    bonusValue: 1.5,
+    bonusValue: 0.03, // Nerfed from 1.5
     dropChanceWeight: 2,
     linkedProceduralType: 'data'
   },
@@ -191,7 +191,7 @@ export const UNIQUE_ARTIFACTS: Artifact[] = [
     rarity: 'rare',
     bonusType: 'production_multiplier',
     targetResource: ResourceType.OPS,
-    bonusValue: 0.8,
+    bonusValue: 0.02, // Nerfed from 0.8
     dropChanceWeight: 4,
     linkedProceduralType: 'document'
   },
@@ -207,7 +207,7 @@ export const UNIQUE_ARTIFACTS: Artifact[] = [
     rarity: 'mythic',
     bonusType: 'production_multiplier',
     targetResource: ResourceType.KNOWLEDGE,
-    bonusValue: 2.0,
+    bonusValue: 0.05, // Nerfed from 2.0
     dropChanceWeight: 1,
     linkedProceduralType: 'archive'
   },
@@ -223,7 +223,7 @@ export const UNIQUE_ARTIFACTS: Artifact[] = [
     rarity: 'rare',
     bonusType: 'production_multiplier',
     targetResource: ResourceType.SPAM,
-    bonusValue: 2.0,
+    bonusValue: 0.03, // Nerfed from 2.0
     dropChanceWeight: 5,
     linkedProceduralType: 'code'
   },
@@ -239,7 +239,7 @@ export const UNIQUE_ARTIFACTS: Artifact[] = [
     rarity: 'legendary',
     bonusType: 'production_multiplier',
     targetResource: ResourceType.CULTURE,
-    bonusValue: 1.2,
+    bonusValue: 0.03, // Nerfed from 1.2
     dropChanceWeight: 3,
     linkedProceduralType: 'image'
   },
@@ -255,7 +255,7 @@ export const UNIQUE_ARTIFACTS: Artifact[] = [
     rarity: 'mythic',
     bonusType: 'production_multiplier',
     targetResource: ResourceType.LORE,
-    bonusValue: 1.5,
+    bonusValue: 0.05, // Nerfed from 1.5
     dropChanceWeight: 2,
     linkedProceduralType: 'image'
   },
@@ -271,7 +271,7 @@ export const UNIQUE_ARTIFACTS: Artifact[] = [
     rarity: 'rare',
     bonusType: 'production_multiplier',
     targetResource: ResourceType.CODE,
-    bonusValue: 0.5,
+    bonusValue: 0.02, // Nerfed from 0.5
     dropChanceWeight: 6,
     linkedProceduralType: 'log'
   },
@@ -287,7 +287,7 @@ export const UNIQUE_ARTIFACTS: Artifact[] = [
     rarity: 'rare',
     bonusType: 'production_multiplier',
     targetResource: ResourceType.LORE,
-    bonusValue: 0.4,
+    bonusValue: 0.02, // Nerfed from 0.4
     dropChanceWeight: 7,
     linkedProceduralType: 'document'
   },
@@ -302,7 +302,7 @@ export const UNIQUE_ARTIFACTS: Artifact[] = [
     category: BuildingCategory.CAPITAL,
     rarity: 'mythic',
     bonusType: 'cost_reduction',
-    bonusValue: 0.1,
+    bonusValue: 0.05, // Nerfed from 0.1 (Max 5% global cost reduction is reasonable)
     dropChanceWeight: 1,
     linkedProceduralType: 'data'
   },
@@ -318,7 +318,7 @@ export const UNIQUE_ARTIFACTS: Artifact[] = [
     rarity: 'rare',
     bonusType: 'production_multiplier',
     targetResource: ResourceType.PANIC,
-    bonusValue: 0.8,
+    bonusValue: 0.02, // Nerfed from 0.8
     dropChanceWeight: 5,
     linkedProceduralType: 'image'
   }

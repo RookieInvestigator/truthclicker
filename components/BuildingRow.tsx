@@ -3,7 +3,7 @@ import React from 'react';
 import { Building, ResourceType } from '../types';
 import { CATEGORY_COLORS, RESOURCE_INFO } from '../constants';
 import * as Icons from 'lucide-react';
-import { ArrowBigUp, HelpCircle, MinusCircle, TrendingUp, TrendingDown, Info } from 'lucide-react';
+import { ArrowBigUp, HelpCircle, MinusCircle, TrendingUp, TrendingDown, Info, Sparkles } from 'lucide-react';
 
 interface BuildingCardProps {
   building: Building;
@@ -12,10 +12,11 @@ interface BuildingCardProps {
   onBuy: () => void;
   onSell: () => void;
   resourceState: Record<ResourceType, number>; 
-  onViewDetails?: () => void; // Added callback
+  onViewDetails?: () => void;
+  isNew?: boolean; // Added
 }
 
-const BuildingCard: React.FC<BuildingCardProps> = ({ building, count, canAfford, onBuy, onSell, resourceState, onViewDetails }) => {
+const BuildingCard: React.FC<BuildingCardProps> = ({ building, count, canAfford, onBuy, onSell, resourceState, onViewDetails, isNew }) => {
   // Safe icon resolution
   const IconComponent = (Icons as any)[building.icon] || HelpCircle;
 
@@ -58,6 +59,15 @@ const BuildingCard: React.FC<BuildingCardProps> = ({ building, count, canAfford,
         ${canAfford ? 'border-term-gray' : 'border-gray-800'}
       `}
     >
+      {/* NEW BADGE */}
+      {isNew && (
+          <div className="absolute top-0 right-0 z-20">
+              <div className="bg-term-green text-black text-[9px] font-bold px-1.5 py-0.5 rounded-bl shadow-[0_0_8px_rgba(34,197,94,0.6)] flex items-center gap-1 animate-pulse">
+                  <Sparkles size={8} /> NEW
+              </div>
+          </div>
+      )}
+
       {/* Header Area */}
       <div className="flex justify-between items-start p-3 border-b border-white/5 bg-white/5">
         <div className="flex items-center gap-3">

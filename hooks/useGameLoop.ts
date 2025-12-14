@@ -48,7 +48,6 @@ export const useGameLoop = (
 
             // --- UNLOCK CHECK SYSTEM ---
             const newUnlockedIds: string[] = [];
-            const newNotifications: AppNotification[] = [];
             const safeUnlockedItemIds = prev.unlockedItemIds || [];
 
             // Check Buildings
@@ -60,13 +59,6 @@ export const useGameLoop = (
                 
                 if (isUnlocked) {
                     newUnlockedIds.push(b.id);
-                    newNotifications.push({ 
-                        id: `notif_${Date.now()}_${Math.random()}`, 
-                        title: '新节点解锁', 
-                        message: b.name, 
-                        type: 'unlock',
-                        timestamp: now
-                    });
                 }
             });
 
@@ -80,13 +72,6 @@ export const useGameLoop = (
 
                 if (hasReqTech && !isHidden && hasDepth) {
                     newUnlockedIds.push(p.id);
-                    newNotifications.push({ 
-                        id: `notif_${Date.now()}_${Math.random()}`, 
-                        title: '新情报披露', 
-                        message: p.title, 
-                        type: 'unlock',
-                        timestamp: now
-                    });
                 }
             });
 
@@ -114,12 +99,6 @@ export const useGameLoop = (
                 newArtifacts.push(newArt);
                 
                 // Track discovered unique items
-                const isUnique = UNIQUE_ARTIFACTS.some(u => u.name === newArt.name && u.description === newArt.description); // Simple heuristic or id check
-                // Actually, procedural uniques have random IDs. Real uniques have fixed IDs in UNIQUE_ARTIFACTS but when added via investigateArtifact, they keep them.
-                // NOTE: generateArtifact does NOT return unique artifacts directly usually, they come from investigating hidden loot.
-                // However, let's ensure we track if it happens via events or other means.
-                // Real tracking happens in investigateArtifact mostly.
-                
                 if (prev.settings.showCommonArtifactLogs || newArt.rarity !== 'common') {
                      addLog(`获取物品: ${newArt.name} [${newArt.rarity}]`, 'info');
                 }
@@ -181,7 +160,6 @@ export const useGameLoop = (
                 pendingChoice: newPendingChoice,
                 depth: prev.depth + (production[ResourceType.INFO] > 0 ? ((production[ResourceType.INFO] as number) * deltaSec * 0.001) : 0),
                 unlockedItemIds: [...safeUnlockedItemIds, ...newUnlockedIds],
-                notifications: [...(prev.notifications || []), ...newNotifications],
                 foundUniqueItemIds: updatedFoundUniqueIds
             };
         });

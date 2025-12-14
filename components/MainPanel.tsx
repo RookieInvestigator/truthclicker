@@ -1,10 +1,11 @@
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { GameState, ResourceType, Artifact, BuildingCategory, LogEntry, Building, Tech } from '../types';
 import { BUILDINGS } from '../data/buildings';
 import { TECHS } from '../data/techs';
+import { BOARD_POSTS } from '../data/boardPosts';
 import { CATEGORY_CONFIG, RESOURCE_INFO } from '../constants';
-import { Grid, FlaskConical, FolderOpen, CheckSquare, Square, ChevronDown, ChevronRight, Maximize2, Minimize2, Filter, XCircle, MessageSquare } from 'lucide-react';
+import { Grid, FlaskConical, FolderOpen, CheckSquare, Square, ChevronDown, ChevronRight, Maximize2, Minimize2, Filter, XCircle, MessageSquare, Sparkles } from 'lucide-react';
 import * as Icons from 'lucide-react';
 import BuildingCard from './BuildingRow';
 import TechCard from './TechRow';
@@ -21,10 +22,11 @@ interface MainPanelProps {
   onRecycleArtifactsByRarity: (rarity: string) => void;
   globalCostReduction: number;
   addGlobalLog: (msg: string, type?: LogEntry['type']) => void;
+  markAsSeen: (ids: string[]) => void; // New prop
 }
 
 const MainPanel: React.FC<MainPanelProps> = ({ 
-    gameState, onBuyBuilding, onSellBuilding, onResearchTech, onRecycleArtifact, onRecycleArtifactsByRarity, globalCostReduction, addGlobalLog
+    gameState, onBuyBuilding, onSellBuilding, onResearchTech, onRecycleArtifact, onRecycleArtifactsByRarity, globalCostReduction, addGlobalLog, markAsSeen
 }) => {
   const [activeTab, setActiveTab] = useState<'nodes' | 'research' | 'inventory' | 'board'>('nodes');
   
@@ -32,10 +34,12 @@ const MainPanel: React.FC<MainPanelProps> = ({
   const [hideResearched, setHideResearched] = useState<boolean>(false);
   const [isCompact, setIsCompact] = useState<boolean>(false); 
   const [collapsedCategories, setCollapsedCategories] = useState<Record<string, boolean>>({});
+  const [showNewTechOnly, setShowNewTechOnly] = useState<boolean>(false);
 
   // Building State
   const [collapsedBuildingCategories, setCollapsedBuildingCategories] = useState<Record<string, boolean>>({});
   const [resourceFilter, setResourceFilter] = useState<ResourceType | null>(null);
+  const [showNewBuildingOnly, setShowNewBuildingOnly] = useState<boolean>(false);
 
   // Details Modal State
   const [selectedDetailItem, setSelectedDetailItem] = useState<Building | Tech | null>(null);
@@ -52,10 +56,48 @@ const MainPanel: React.FC<MainPanelProps> = ({
   const openDetails = (item: Building | Tech, type: 'building' | 'tech') => {
       setSelectedDetailItem(item);
       setSelectedDetailType(type);
+      markAsSeen([item.id]);
   };
 
   // Resources available for filtering - Now includes ALL resources
   const filterableResources = Object.values(ResourceType);
+
+  // --- UNREAD BADGE CALCULATIONS ---
+  // Helper: Item is "New" if it is in unlockedItemIds BUT NOT in seenItemIds
+  // Also, for buildings/techs, they might not be in unlockedItemIds if they are starter items or unlocked by default logic (though logic usually pushes them)
+  // Let's rely on the definition: Is it visible/unlocked? If yes, is it in seenItemIds?
+  // NOTE: unlockedItemIds is pushed by useGameLoop notifications.
+  
+  const newBuildingCount = useMemo(() => {
+      return BUILDINGS.filter(b => {
+          const isUnlocked = (gameState.totalInfoMined >= b.unlockRequirement * 0.5 || b.unlockRequirement === 0) &&
+                             (!b.requireTech || b.requireTech.every(t => gameState.researchedTechs.includes(t)));
+          if (!isUnlocked) return false;
+          return !gameState.seenItemIds.includes(b.id);
+      }).length;
+  }, [gameState.totalInfoMined, gameState.researchedTechs, gameState.seenItemIds]);
+
+  const newTechCount = useMemo(() => {
+      return TECHS.filter(t => {
+          const isUnlocked = !t.preRequisiteTech || gameState.researchedTechs.includes(t.preRequisiteTech);
+          // Also hide if already researched? Usually "New" implies available to research.
+          const isResearched = gameState.researchedTechs.includes(t.id);
+          if (isResearched || !isUnlocked) return false;
+          return !gameState.seenItemIds.includes(t.id);
+      }).length;
+  }, [gameState.researchedTechs, gameState.seenItemIds]);
+
+  const newPostCount = useMemo(() => {
+      return BOARD_POSTS.filter(p => {
+          const hasReqTech = !p.reqTech || p.reqTech.every(t => gameState.researchedTechs.includes(t));
+          const isHidden = p.hideIfTech && p.hideIfTech.some(t => gameState.researchedTechs.includes(t));
+          const hasDepth = !p.minDepth || gameState.depth >= p.minDepth;
+          
+          if (!hasReqTech || isHidden || !hasDepth) return false;
+          return !gameState.seenItemIds.includes(p.id);
+      }).length;
+  }, [gameState.researchedTechs, gameState.depth, gameState.seenItemIds]);
+
 
   return (
     <section className="flex-1 flex flex-col bg-term-black min-w-0 h-full overflow-hidden relative">
@@ -71,7 +113,10 @@ const MainPanel: React.FC<MainPanelProps> = ({
                 className={`flex-1 py-3 text-xs font-bold flex items-center justify-center gap-2 transition-all relative overflow-hidden group
                     ${activeTab === 'nodes' ? 'text-term-green' : 'text-gray-500 hover:text-gray-300'}`}
             >
-                <Grid size={16} className={activeTab === 'nodes' ? 'text-term-green' : 'opacity-70'} />
+                <div className="relative">
+                    <Grid size={16} className={activeTab === 'nodes' ? 'text-term-green' : 'opacity-70'} />
+                    {newBuildingCount > 0 && <div className="absolute -top-1 -right-2 w-2 h-2 bg-term-green rounded-full animate-pulse"></div>}
+                </div>
                 <span className="hidden sm:inline">节点</span>
                 {activeTab === 'nodes' && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-term-green shadow-[0_0_10px_rgba(34,197,94,0.5)]"></div>}
             </button>
@@ -80,7 +125,10 @@ const MainPanel: React.FC<MainPanelProps> = ({
                 className={`flex-1 py-3 text-xs font-bold flex items-center justify-center gap-2 transition-all relative overflow-hidden group
                     ${activeTab === 'research' ? 'text-blue-400' : 'text-gray-500 hover:text-gray-300'}`}
             >
-                <FlaskConical size={16} className={activeTab === 'research' ? 'text-blue-400' : 'opacity-70'} />
+                <div className="relative">
+                    <FlaskConical size={16} className={activeTab === 'research' ? 'text-blue-400' : 'opacity-70'} />
+                    {newTechCount > 0 && <div className="absolute -top-1 -right-2 w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>}
+                </div>
                 <span className="hidden sm:inline">科技</span>
                 {activeTab === 'research' && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-400 shadow-[0_0_10px_rgba(96,165,250,0.5)]"></div>}
             </button>
@@ -98,7 +146,10 @@ const MainPanel: React.FC<MainPanelProps> = ({
                 className={`flex-1 py-3 text-xs font-bold flex items-center justify-center gap-2 transition-all relative overflow-hidden group
                     ${activeTab === 'board' ? 'text-orange-500' : 'text-gray-500 hover:text-gray-300'}`}
             >
-                <MessageSquare size={16} className={activeTab === 'board' ? 'text-orange-500' : 'opacity-70'} />
+                <div className="relative">
+                    <MessageSquare size={16} className={activeTab === 'board' ? 'text-orange-500' : 'opacity-70'} />
+                    {newPostCount > 0 && <div className="absolute -top-1 -right-2 w-2 h-2 bg-term-green rounded-full animate-pulse"></div>}
+                </div>
                 <span className="hidden sm:inline">真相版</span>
                 {activeTab === 'board' && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-orange-500 shadow-[0_0_10px_rgba(249,115,22,0.5)]"></div>}
             </button>
@@ -107,13 +158,23 @@ const MainPanel: React.FC<MainPanelProps> = ({
         {/* Sub-Header for Research Filters */}
         {activeTab === 'research' && (
             <div className="px-4 py-2 bg-term-black/90 border-b border-term-gray/30 flex justify-between items-center select-none z-20 shrink-0 relative backdrop-blur-sm">
-                <button 
-                    onClick={() => setIsCompact(!isCompact)}
-                    className="flex items-center gap-2 text-[10px] md:text-xs text-gray-500 hover:text-white transition-colors"
-                >
-                    {isCompact ? <Maximize2 size={14} /> : <Minimize2 size={14} />}
-                    {isCompact ? '大图' : '紧凑'}
-                </button>
+                <div className="flex gap-4">
+                    <button 
+                        onClick={() => setIsCompact(!isCompact)}
+                        className="flex items-center gap-2 text-[10px] md:text-xs text-gray-500 hover:text-white transition-colors"
+                    >
+                        {isCompact ? <Maximize2 size={14} /> : <Minimize2 size={14} />}
+                        {isCompact ? '大图' : '紧凑'}
+                    </button>
+
+                    <button 
+                        onClick={() => setShowNewTechOnly(!showNewTechOnly)}
+                        className={`flex items-center gap-2 text-[10px] md:text-xs transition-colors ${showNewTechOnly ? 'text-term-green font-bold' : 'text-gray-500 hover:text-white'}`}
+                    >
+                        <Sparkles size={14} />
+                        仅显示新内容
+                    </button>
+                </div>
 
                 <button 
                     onClick={() => setHideResearched(!hideResearched)}
@@ -128,6 +189,16 @@ const MainPanel: React.FC<MainPanelProps> = ({
         {/* Sub-Header for Building Filters */}
         {activeTab === 'nodes' && (
             <div className="px-4 py-2 bg-term-black/90 border-b border-term-gray/30 flex items-center gap-3 overflow-x-auto whitespace-nowrap scrollbar-hide z-20 shrink-0 relative backdrop-blur-sm">
+                {/* NEW Filter */}
+                <button 
+                    onClick={() => setShowNewBuildingOnly(!showNewBuildingOnly)}
+                    className={`flex items-center gap-1.5 px-2 py-1 rounded text-[10px] font-bold uppercase transition-all border shrink-0
+                        ${showNewBuildingOnly ? 'bg-term-green/20 text-term-green border-term-green/50' : 'text-gray-500 border-transparent hover:bg-gray-800'}`}
+                >
+                    <Sparkles size={12} /> 新解锁
+                </button>
+                <div className="w-px h-4 bg-gray-800 shrink-0"></div>
+
                 <div className="flex items-center gap-2 text-xs text-gray-500 mr-2 shrink-0">
                     <Filter size={14} />
                     <span className="hidden sm:inline">产出:</span>
@@ -181,6 +252,10 @@ const MainPanel: React.FC<MainPanelProps> = ({
                                 b.baseProduction && (b.baseProduction[resourceFilter] || 0) > 0
                             );
                         }
+
+                        if (showNewBuildingOnly) {
+                            categoryBuildings = categoryBuildings.filter(b => !gameState.seenItemIds.includes(b.id));
+                        }
                         
                         if (categoryBuildings.length === 0) return null;
 
@@ -207,6 +282,7 @@ const MainPanel: React.FC<MainPanelProps> = ({
                                     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 p-4">
                                         {categoryBuildings.map(building => {
                                             const count = gameState.buildings[building.id] || 0;
+                                            const isNew = !gameState.seenItemIds.includes(building.id);
                                             let canAfford = true;
                                             (Object.entries(building.baseCosts) as [ResourceType, number][]).forEach(([res, base]) => {
                                                 let cost = Math.floor(base * Math.pow(building.costMultiplier, count));
@@ -235,6 +311,7 @@ const MainPanel: React.FC<MainPanelProps> = ({
                                                     onBuy={() => onBuyBuilding(building.id)}
                                                     onSell={() => onSellBuilding(building.id)}
                                                     onViewDetails={() => openDetails(building, 'building')}
+                                                    isNew={isNew}
                                                 />
                                             );
                                         })}
@@ -244,7 +321,7 @@ const MainPanel: React.FC<MainPanelProps> = ({
                         );
                     })}
                     
-                    {resourceFilter && (
+                    {(resourceFilter || showNewBuildingOnly) && (
                         <div className="flex flex-col items-center justify-center py-10 text-gray-600 gap-2">
                             <span className="text-xs opacity-50">--- 筛选结束 ---</span>
                         </div>
@@ -268,10 +345,11 @@ const MainPanel: React.FC<MainPanelProps> = ({
                              const isResearched = gameState.researchedTechs.includes(tech.id);
                              if (hideResearched && isResearched) return false;
                              const isUnlocked = !tech.preRequisiteTech || gameState.researchedTechs.includes(tech.preRequisiteTech);
+                             if (showNewTechOnly && gameState.seenItemIds.includes(tech.id)) return false;
                              return isUnlocked;
                         });
 
-                        if (visibleTechs.length === 0 && hideResearched) return null;
+                        if (visibleTechs.length === 0 && (hideResearched || showNewTechOnly)) return null;
 
                         const isCollapsed = collapsedCategories[cat];
                         const meta = CATEGORY_CONFIG[cat];
@@ -296,6 +374,7 @@ const MainPanel: React.FC<MainPanelProps> = ({
                                     <div className={`grid gap-3 p-4 ${isCompact ? 'grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'}`}>
                                         {visibleTechs.map(tech => {
                                             const isResearched = gameState.researchedTechs.includes(tech.id);
+                                            const isNew = !gameState.seenItemIds.includes(tech.id);
                                             let isLockedByExclusion = false;
                                             if (tech.exclusiveWith) {
                                                 isLockedByExclusion = tech.exclusiveWith.some(conflictId => gameState.researchedTechs.includes(conflictId));
@@ -319,11 +398,12 @@ const MainPanel: React.FC<MainPanelProps> = ({
                                                     onResearch={() => onResearchTech(tech.id)}
                                                     isCompact={isCompact}
                                                     onViewDetails={() => openDetails(tech, 'tech')}
+                                                    isNew={isNew}
                                                 />
                                             )
                                         })}
                                         
-                                        {visibleTechs.length === 0 && !hideResearched && (
+                                        {visibleTechs.length === 0 && !hideResearched && !showNewTechOnly && (
                                             <div className="col-span-full py-4 text-center text-xs text-gray-600 border border-dashed border-gray-800 rounded">
                                                 待解锁前置科技...
                                             </div>
@@ -350,7 +430,7 @@ const MainPanel: React.FC<MainPanelProps> = ({
 
             {activeTab === 'board' && (
                 <div className="h-full">
-                    <TruthBoard gameState={gameState} />
+                    <TruthBoard gameState={gameState} markAsSeen={markAsSeen} />
                 </div>
             )}
         </div>

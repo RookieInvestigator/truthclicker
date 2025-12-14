@@ -9,7 +9,6 @@ import ArtifactGrid from './components/ArtifactGrid';
 import SettingsModal from './components/SettingsModal';
 import ActiveEventsTicker from './components/ActiveEventsTicker';
 import ChoiceEventModal from './components/ChoiceEventModal';
-import NotificationManager from './components/NotificationManager';
 import { ResourceType } from './types';
 
 const App: React.FC = () => {
@@ -34,17 +33,8 @@ const App: React.FC = () => {
     handleMakeChoice,
     importSave,
     exportSave,
-    // Add dismiss from hook
-    // Note: useGameLogic needs to export this. Wait, I updated useGameActions but need to expose it in useGameLogic.
-    // Since useGameLogic returns `...actions`, and actions now includes `dismissNotification`.
-    // I need to update useGameLogic.ts to destructure or pass through dismissNotification.
-    // Let's assume useGameLogic updates naturally if I update useGameActions and how it's returned.
-    // Checking useGameLogic... it returns { ...actions }. Good.
+    markAsSeen,
   } = useGameLogic();
-
-  // TypeScript hack because I can't easily see if useGameLogic was fully updated in the XML context without the file content of useGameLogic.
-  // Assuming useGameLogic spreads actions.
-  const dismissNotification = (useGameLogic() as any).dismissNotification || (() => {});
 
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   // Mobile Tab State: 'resources' | 'main' | 'system'
@@ -65,12 +55,6 @@ const App: React.FC = () => {
         ${isRealityCollapsing ? 'sepia-[0.3] hue-rotate-[-10deg]' : ''}
     `}>
       
-      {/* Notifications Layer */}
-      <NotificationManager 
-          notifications={gameState.notifications || []} 
-          onDismiss={dismissNotification} 
-      />
-
       {/* CRT Scanline Overlay */}
       <div className="pointer-events-none fixed inset-0 z-[60] scanlines opacity-10"></div>
       
@@ -94,75 +78,67 @@ const App: React.FC = () => {
       )}
 
       {/* Header */}
-      <header className="h-14 border-b border-term-gray/60 flex items-center justify-between px-4 bg-black z-20 shrink-0 select-none relative shadow-[0_2px_10px_rgba(0,0,0,0.5)]">
+      <header className="h-10 border-b border-term-gray/60 flex items-center justify-between px-3 bg-black z-20 shrink-0 select-none relative shadow-[0_2px_10px_rgba(0,0,0,0.5)]">
         {/* Logo Section */}
-        <div className="flex items-center gap-3 shrink-0 mr-4">
+        <div className="flex items-center gap-2 shrink-0 mr-4">
           <div className={`
-            relative flex items-center justify-center w-9 h-9 rounded border bg-term-green/5 
+            relative flex items-center justify-center w-6 h-6 rounded border bg-term-green/5 
             ${isRealityCollapsing ? 'animate-spin border-red-500 bg-red-900/10' : 'border-term-green/30'}
           `}>
-             <Eye size={20} className={`transition-colors ${isRealityCollapsing ? 'text-red-500' : 'text-term-green drop-shadow-[0_0_5px_rgba(34,197,94,0.6)]'}`} />
+             <Eye size={14} className={`transition-colors ${isRealityCollapsing ? 'text-red-500' : 'text-term-green drop-shadow-[0_0_5px_rgba(34,197,94,0.6)]'}`} />
           </div>
-          <div className="flex flex-col justify-center leading-none hidden sm:flex">
-            <h1 className="text-sm font-bold tracking-[0.2em] text-gray-200 text-glow">
+          <div className="flex items-center gap-2 leading-none hidden sm:flex">
+            <h1 className="text-xs font-bold tracking-[0.2em] text-gray-200 text-glow">
               TRUTH<span className="text-term-green">_CLICKER</span>
             </h1>
-            <div className="flex items-center gap-2 mt-1">
-                <span className="text-[8px] text-gray-600 font-mono tracking-widest uppercase">
-                v2.1.0
-                </span>
-                <div className="flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-term-green animate-pulse"></span>
-                    <span className="text-[8px] text-term-green/70 font-mono uppercase">ONLINE</span>
-                </div>
-            </div>
+            <span className="text-[8px] text-term-green/70 font-mono uppercase bg-term-green/10 px-1 rounded">V2.1.2</span>
           </div>
         </div>
         
         {/* Center: Event Ticker */}
-        <div className="flex-1 max-w-3xl mx-auto h-full flex items-center overflow-hidden relative border-x border-gray-900 bg-black/50">
+        <div className="flex-1 max-w-2xl mx-auto h-full flex items-center overflow-hidden relative border-x border-gray-900 bg-black/50">
              <ActiveEventsTicker events={gameState.activeEvents} />
         </div>
 
         {/* Right: Controls */}
-        <div className="flex items-center gap-4 shrink-0 w-auto justify-end ml-4">
+        <div className="flex items-center gap-3 shrink-0 w-auto justify-end ml-4">
           
           {/* Depth Meter */}
-          <div className="hidden md:flex items-center gap-3 px-3 py-1.5 rounded-sm bg-gray-900 border border-gray-800 text-xs font-mono group hover:border-cyber-purple/50 transition-colors">
-            <div className="flex items-center gap-2 text-cyber-purple/80">
-                <Radio size={12} className="animate-pulse" />
-                <span className="text-[10px] font-bold tracking-wider opacity-70">DEPTH</span>
+          <div className="hidden md:flex items-center gap-2 px-2 py-1 rounded-sm bg-gray-900 border border-gray-800 text-[10px] font-mono group hover:border-cyber-purple/50 transition-colors">
+            <div className="flex items-center gap-1 text-cyber-purple/80">
+                <Radio size={10} className="animate-pulse" />
+                <span className="font-bold tracking-wider opacity-70">DEPTH</span>
             </div>
-            <div className="h-3 w-px bg-gray-700"></div>
+            <div className="h-2 w-px bg-gray-700"></div>
             <span className="text-gray-200 font-bold tabular-nums text-shadow-purple">{Math.floor(gameState.depth / 10)}m</span>
           </div>
           
-          <div className="h-6 w-px bg-gray-800 hidden sm:block"></div>
+          <div className="h-4 w-px bg-gray-800 hidden sm:block"></div>
 
           {/* System Menu */}
           <div className="flex items-center gap-1">
               <button 
                 onClick={saveGame}
-                className="p-2 text-gray-500 hover:text-term-green hover:bg-term-green/10 rounded transition-all group relative"
+                className="p-1 text-gray-500 hover:text-term-green hover:bg-term-green/10 rounded transition-all group relative"
                 title="Save Data [Ctrl+S]"
               >
-                <HardDrive size={18} />
+                <HardDrive size={14} />
               </button>
 
               <button 
                 onClick={() => setIsSettingsOpen(true)}
-                className="p-2 text-gray-500 hover:text-white hover:bg-white/10 rounded transition-all"
+                className="p-1 text-gray-500 hover:text-white hover:bg-white/10 rounded transition-all"
                 title="System Configuration"
               >
-                <SettingsIcon size={18} />
+                <SettingsIcon size={14} />
               </button>
               
               <button 
                 onClick={resetGame}
-                className="p-2 text-gray-500 hover:text-red-500 hover:bg-red-900/20 rounded transition-all"
+                className="p-1 text-gray-500 hover:text-red-500 hover:bg-red-900/20 rounded transition-all"
                 title="Hard Reset / Wipe"
               >
-                <RefreshCw size={18} />
+                <RefreshCw size={14} />
               </button>
           </div>
         </div>
@@ -205,6 +181,7 @@ const App: React.FC = () => {
                 onRecycleArtifactsByRarity={batchInvestigate}
                 globalCostReduction={costReduction}
                 addGlobalLog={addGlobalLog}
+                markAsSeen={markAsSeen}
             />
         </div>
 

@@ -1,4 +1,3 @@
-
 import { useState, useCallback } from 'react';
 import { GameState, LogEntry } from '../types';
 import { useGameCalculators } from './useGameCalculators';
@@ -72,6 +71,7 @@ export const useGameLogic = () => {
     triggerProbabilityDrive: actions.triggerProbabilityDrive,
     handleMakeChoice: actions.handleMakeChoice,
     dismissNotification: actions.dismissNotification, // Exported!
+    markAsSeen: actions.markAsSeen,
     // IO
     saveGame,
     resetGame,

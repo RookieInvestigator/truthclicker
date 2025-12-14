@@ -30,6 +30,7 @@ export interface GameState {
   pendingChoice: ChoiceEventDefinition | null; 
   settings: GameSettings;
   startTime: number;
+  lastSaveTime: number; // Added: For offline progress calculation
   depth: number;
   luckBoostEndTime: number; 
   
@@ -75,6 +76,8 @@ export enum ResourceType {
   CLUE = 'CLUE',           
   KNOWLEDGE = 'KNOWLEDGE', 
   TRUTH = 'TRUTH',         
+  
+  DEJAVU = 'DEJAVU',       // NEW: Prestige Resource
 }
 
 export enum BuildingCategory {

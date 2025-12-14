@@ -220,87 +220,123 @@ export const useGameActions = (
                res[ResourceType.FUNDS] += finalAmount;
                logMsg = `出售珍品: ${target.name} (+${finalAmount} Funds)`;
            } else {
-               // --- GENERAL ITEM LOGIC ---
-               // Prioritize INFO, with randomized amounts
+               // --- GENERAL ITEM LOGIC (ENHANCED RANDOMNESS) ---
                
                const roll = Math.random();
-               const isCrit = roll > 0.90;
-               const isJunk = roll < 0.15;
+               const isJackpot = roll > 0.98; // 2% Jackpot
+               const isCrit = !isJackpot && roll > 0.85; // 13% Crit
+               const isJunk = roll < 0.15; // 15% Junk
+               // Glitch: 10% chance for normal items to produce randomized resources
+               const isGlitch = !isJackpot && !isCrit && !isJunk && Math.random() < 0.10; 
 
-               // Rarity scaling
+               // Rarity scaling (Boosted for high tiers)
                let rarityMult = 1;
-               if (target.rarity === 'rare') rarityMult = 2.5;
-               if (target.rarity === 'legendary') rarityMult = 6;
-               if (target.rarity === 'mythic') rarityMult = 15;
-               if (target.rarity === 'anomaly') rarityMult = 30;
+               if (target.rarity === 'rare') rarityMult = 3.0; 
+               if (target.rarity === 'legendary') rarityMult = 8.0;
+               if (target.rarity === 'mythic') rarityMult = 20.0;
+               if (target.rarity === 'anomaly') rarityMult = 50.0;
 
-               // Primary Reward: INFO (High Variance)
-               // Random Base: 10 - 110
-               let baseInfo = Math.floor(Math.random() * 100) + 10;
-               let primaryAmount = Math.floor(baseInfo * rarityMult * efficiency);
-               res[ResourceType.INFO] += primaryAmount;
+               // Volatility: A random multiplier between 0.1x and 3.0x
+               // This ensures even common items can sometimes be surprisingly valuable (or useless)
+               const volatility = 0.1 + (Math.random() * 2.9);
 
-               // Secondary Reward based on Subtype
+               // Primary Reward: INFO (High Variance Base: 5 - 150)
+               let baseInfo = Math.floor(Math.random() * 145) + 5;
+               let primaryAmount = Math.floor(baseInfo * rarityMult * efficiency * volatility);
+
+               // Secondary Reward
                let secondaryRes: ResourceType | null = null;
                let secondaryAmount = 0;
                
                // Helper to pick random array element
                const pick = <T>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
 
-               switch (target.subtype) {
-                   case 'file':
-                       // Files yield data/code/spam
-                       if (Math.random() > 0.4) {
-                           secondaryRes = pick([ResourceType.CODE, ResourceType.SPAM, ResourceType.FUNDS]);
-                           secondaryAmount = Math.floor((Math.random() * 5 + 1) * rarityMult);
-                       }
-                       break;
-                   case 'bookmark':
-                       // Bookmarks yield lore/funds/clues
-                       secondaryRes = pick([ResourceType.FUNDS, ResourceType.LORE, ResourceType.CLUE]);
-                       secondaryAmount = Math.floor((Math.random() * 8 + 2) * rarityMult);
-                       break;
-                   case 'hardware':
-                       // Hardware yields ops/power/tech/cardboard
-                       secondaryRes = pick([ResourceType.OPS, ResourceType.POWER, ResourceType.TECH_CAPITAL, ResourceType.CARDBOARD]);
-                       secondaryAmount = Math.floor((Math.random() * 6 + 1) * rarityMult * efficiency);
-                       break;
-                   case 'media':
-                       // Media yields culture/lore/story
-                       secondaryRes = pick([ResourceType.CULTURE, ResourceType.LORE, ResourceType.STORY]);
-                       secondaryAmount = Math.floor((Math.random() * 4 + 1) * rarityMult * efficiency);
-                       break;
-                   case 'creature':
-                       // Creatures yield biomass/fossil
-                       secondaryRes = pick([ResourceType.BIOMASS, ResourceType.FOSSIL]);
-                       secondaryAmount = Math.floor((Math.random() * 5 + 2) * rarityMult * efficiency);
-                       break;
-                   case 'signal':
-                       // Signals yield code/panic/rumors
-                       secondaryRes = pick([ResourceType.CODE, ResourceType.PANIC, ResourceType.RUMORS]);
-                       secondaryAmount = Math.floor((Math.random() * 5 + 2) * rarityMult * efficiency);
-                       break;
+               if (isGlitch) {
+                   // Glitch: Pick ANY resource from the game
+                   const allRes = Object.values(ResourceType);
+                   secondaryRes = pick(allRes);
+                   secondaryAmount = Math.floor((Math.random() * 10 + 1) * rarityMult * efficiency);
+               } else {
+                   // Standard Subtype Logic
+                   switch (target.subtype) {
+                       case 'file':
+                           // Files yield data/code/spam
+                           if (Math.random() > 0.3) { 
+                               secondaryRes = pick([ResourceType.CODE, ResourceType.SPAM, ResourceType.FUNDS]);
+                               secondaryAmount = Math.floor((Math.random() * 8 + 1) * rarityMult);
+                           }
+                           break;
+                       case 'bookmark':
+                           // Bookmarks yield lore/funds/clues
+                           secondaryRes = pick([ResourceType.FUNDS, ResourceType.LORE, ResourceType.CLUE]);
+                           secondaryAmount = Math.floor((Math.random() * 12 + 2) * rarityMult);
+                           break;
+                       case 'hardware':
+                           // Hardware yields ops/power/tech/cardboard
+                           secondaryRes = pick([ResourceType.OPS, ResourceType.POWER, ResourceType.TECH_CAPITAL, ResourceType.CARDBOARD]);
+                           secondaryAmount = Math.floor((Math.random() * 10 + 1) * rarityMult * efficiency);
+                           break;
+                       case 'media':
+                           // Media yields culture/lore/story
+                           secondaryRes = pick([ResourceType.CULTURE, ResourceType.LORE, ResourceType.STORY]);
+                           secondaryAmount = Math.floor((Math.random() * 6 + 1) * rarityMult * efficiency);
+                           break;
+                       case 'creature':
+                           // Creatures yield biomass/fossil
+                           secondaryRes = pick([ResourceType.BIOMASS, ResourceType.FOSSIL]);
+                           secondaryAmount = Math.floor((Math.random() * 8 + 2) * rarityMult * efficiency);
+                           break;
+                       case 'signal':
+                           // Signals yield code/panic/rumors
+                           secondaryRes = pick([ResourceType.CODE, ResourceType.PANIC, ResourceType.RUMORS]);
+                           secondaryAmount = Math.floor((Math.random() * 8 + 2) * rarityMult * efficiency);
+                           break;
+                   }
                }
 
-               // Crit / Junk Logic
-               if (isCrit) {
-                   primaryAmount *= 2;
-                   if (secondaryAmount > 0) secondaryAmount *= 2;
-                   res[ResourceType.CLUE] = (res[ResourceType.CLUE] || 0) + 1;
+               // Apply Modifiers & Construct Logs
+               if (isJackpot) {
+                   primaryAmount = Math.floor(primaryAmount * 10);
+                   if (secondaryAmount > 0) secondaryAmount = Math.floor(secondaryAmount * 5);
+                   
+                   // Bonus Jackpot Resource (High tier)
+                   const bonusRes = pick([ResourceType.KNOWLEDGE, ResourceType.TRUTH, ResourceType.TECH_CAPITAL]);
+                   const bonusAmt = Math.floor(Math.random() * 5 * rarityMult) + 1;
+                   res[bonusRes] = (res[bonusRes] || 0) + bonusAmt;
+                   
+                   let secondaryText = secondaryRes ? `, +${secondaryAmount} ${RESOURCE_INFO[secondaryRes].name}` : '';
+                   logMsg = `🔥 传说级解析 [JACKPOT]: +${primaryAmount} 信息流${secondaryText}, +${bonusAmt} ${RESOURCE_INFO[bonusRes].name}`;
+                   logType = 'rare';
+               } else if (isCrit) {
+                   primaryAmount = Math.floor(primaryAmount * 3);
+                   if (secondaryAmount > 0) secondaryAmount = Math.floor(secondaryAmount * 2);
+                   res[ResourceType.CLUE] = (res[ResourceType.CLUE] || 0) + 2;
+                   
+                   let secondaryText = secondaryRes ? `, +${secondaryAmount} ${RESOURCE_INFO[secondaryRes].name}` : '';
+                   logMsg = `完美解析 [CRIT]: +${primaryAmount} 信息流${secondaryText}, +2 线索`;
+                   logType = 'success';
+               } else if (isGlitch) {
+                   primaryAmount = Math.floor(primaryAmount * 1.5);
+                   let secondaryText = secondaryRes ? `, +${secondaryAmount} ${RESOURCE_INFO[secondaryRes].name}` : '';
+                   logMsg = `解析异常 [GLITCH]: +${primaryAmount} 信息流${secondaryText}`;
+                   logType = 'warning';
                } else if (isJunk) {
-                   primaryAmount = Math.max(1, Math.floor(primaryAmount * 0.2));
+                   primaryAmount = Math.max(1, Math.floor(primaryAmount * 0.1));
                    secondaryRes = ResourceType.CARDBOARD;
-                   secondaryAmount = 1;
+                   secondaryAmount = Math.floor(Math.random() * 5) + 1;
+                   logMsg = `数据损坏 [JUNK]: +${primaryAmount} 信息流, +${secondaryAmount} 废纸箱`;
+                   logType = 'info'; // Dim log
+               } else {
+                   // Normal
+                   let secondaryText = secondaryRes ? `, +${secondaryAmount} ${RESOURCE_INFO[secondaryRes].name}` : '';
+                   logMsg = `分析完成: +${primaryAmount} 信息流${secondaryText}`;
+                   logType = 'info';
                }
 
+               res[ResourceType.INFO] += primaryAmount;
                if (secondaryRes && secondaryAmount > 0) {
                    res[secondaryRes] = (res[secondaryRes] || 0) + secondaryAmount;
                }
-
-               // Log construction
-               let secondaryText = secondaryRes ? `, +${secondaryAmount} ${RESOURCE_INFO[secondaryRes].name}` : '';
-               let critText = isCrit ? ' [完美解析]' : isJunk ? ' [损坏]' : '';
-               logMsg = `分析完成${critText}: (+${primaryAmount} 信息流${secondaryText})`;
            }
        }
        

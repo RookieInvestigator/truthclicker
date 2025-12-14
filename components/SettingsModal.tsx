@@ -1,7 +1,7 @@
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { GameSettings } from '../types';
-import { X, CheckSquare, Square, Terminal, FileText, MessageSquare, Save, Zap, List, Upload, Download, Copy, Check } from 'lucide-react';
+import { X, CheckSquare, Square, Terminal, FileText, MessageSquare, Save, Zap, List, Upload, Download, Copy, Check, Repeat, AlertTriangle } from 'lucide-react';
 
 interface SettingsModalProps {
   settings: GameSettings;
@@ -9,14 +9,31 @@ interface SettingsModalProps {
   onClose: () => void;
   onImport: (data: string) => boolean;
   onExport: () => string;
+  onPrestige?: () => void; // New prop
+  totalInfoMined?: number; // New prop
+  currentDejaVu?: number; // New prop
 }
 
-const SettingsModal: React.FC<SettingsModalProps> = ({ settings, onToggle, onClose, onImport, onExport }) => {
+const SettingsModal: React.FC<SettingsModalProps> = ({ 
+    settings, onToggle, onClose, onImport, onExport, 
+    onPrestige, totalInfoMined = 0, currentDejaVu = 0 
+}) => {
   const [importString, setImportString] = useState("");
   const [exportString, setExportString] = useState("");
   const [showImportInput, setShowImportInput] = useState(false);
   const [showExportOutput, setShowExportOutput] = useState(false);
   const [copyFeedback, setCopyFeedback] = useState("");
+
+  // Calculate potential prestige gain
+  const potentialDejaVu = useMemo(() => {
+      return Math.max(0, Math.floor(Math.log10(Math.max(1, totalInfoMined) / 10000)));
+  }, [totalInfoMined]);
+
+  const nextLevelReq = useMemo(() => {
+      // Inverse of formula: Req = 10^(potential + 1) * 10000
+      const currentLevel = Math.max(0, Math.floor(Math.log10(Math.max(1, totalInfoMined) / 10000)));
+      return Math.pow(10, currentLevel + 1) * 10000;
+  }, [totalInfoMined]);
 
   const handleGenerateExport = () => {
       const data = onExport();
@@ -48,10 +65,10 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ settings, onToggle, onClo
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4" onClick={onClose}>
-      <div className="bg-term-black border border-term-gray w-full max-w-md shadow-[0_0_50px_rgba(0,0,0,0.5)] animate-in fade-in zoom-in duration-200" onClick={e => e.stopPropagation()}>
+      <div className="bg-term-black border border-term-gray w-full max-w-md max-h-[90vh] overflow-y-auto shadow-[0_0_50px_rgba(0,0,0,0.5)] animate-in fade-in zoom-in duration-200 scrollbar-thin scrollbar-thumb-gray-800" onClick={e => e.stopPropagation()}>
         
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-term-gray bg-gray-900/50">
+        <div className="flex items-center justify-between p-4 border-b border-term-gray bg-gray-900/50 sticky top-0 z-10 backdrop-blur-md">
           <h2 className="text-lg font-bold text-white flex items-center gap-2 font-mono">
             <Terminal size={18} /> SYSTEM_CONFIG
           </h2>
@@ -158,6 +175,52 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ settings, onToggle, onClo
                 </div>
             </div>
 
+            {/* PRESTIGE SECTION */}
+            {onPrestige && (
+                <div className="pt-4 border-t border-gray-800">
+                    <h3 className="text-xs font-bold text-fuchsia-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+                        <Repeat size={12} /> 时间回溯 (Prestige)
+                    </h3>
+                    
+                    <div className="bg-fuchsia-900/10 border border-fuchsia-500/30 p-3 rounded mb-3">
+                        <div className="flex justify-between items-center mb-2">
+                            <span className="text-[10px] text-gray-400">当前累计信息:</span>
+                            <span className="text-xs font-bold text-white font-mono">{Math.floor(totalInfoMined).toLocaleString()}</span>
+                        </div>
+                        <div className="flex justify-between items-center mb-2">
+                            <span className="text-[10px] text-gray-400">当前持有既视感:</span>
+                            <span className="text-xs font-bold text-fuchsia-300 font-mono">{currentDejaVu} (+{Math.round(currentDejaVu * 50)}% 产出)</span>
+                        </div>
+                        <div className="w-full h-1 bg-gray-800 rounded-full overflow-hidden mb-1">
+                            <div 
+                                className="h-full bg-fuchsia-500 transition-all duration-500"
+                                style={{ width: `${Math.min(100, (totalInfoMined / nextLevelReq) * 100)}%` }}
+                            ></div>
+                        </div>
+                        <div className="text-[9px] text-gray-500 text-right">
+                            下一点需要: {nextLevelReq.toLocaleString()} 信息
+                        </div>
+                    </div>
+
+                    <button 
+                        onClick={onPrestige}
+                        disabled={potentialDejaVu <= 0}
+                        className={`w-full py-3 border rounded text-xs font-bold uppercase tracking-widest transition-all flex items-center justify-center gap-2 mb-2
+                            ${potentialDejaVu > 0 
+                                ? 'bg-fuchsia-500 text-black border-fuchsia-400 hover:bg-white hover:border-white shadow-[0_0_15px_rgba(232,121,249,0.3)]' 
+                                : 'bg-gray-900 text-gray-600 border-gray-800 cursor-not-allowed'}
+                        `}
+                    >
+                        <Repeat size={14} /> 
+                        {potentialDejaVu > 0 ? `重置并获得 +${potentialDejaVu} 既视感` : '积累不足无法重置'}
+                    </button>
+                    <p className="text-[9px] text-gray-500 text-center leading-relaxed">
+                        <AlertTriangle size={10} className="inline mr-1 text-yellow-500" />
+                        警告：此操作将重置所有资源、建筑和科技。保留设置、既视感和已发现的独特物品记录。
+                    </p>
+                </div>
+            )}
+
             {/* SAVE MANAGEMENT */}
             <div className="pt-4 border-t border-gray-800">
                 <h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">存档管理 (DATA_IO)</h3>
@@ -233,7 +296,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ settings, onToggle, onClo
         </div>
         
         <div className="p-3 border-t border-term-gray bg-gray-900/30 text-center">
-            <span className="text-[10px] text-gray-600 uppercase tracking-widest">v2.1.2-build-fix</span>
+            <span className="text-[10px] text-gray-600 uppercase tracking-widest">v2.2.0-prestige</span>
         </div>
       </div>
     </div>

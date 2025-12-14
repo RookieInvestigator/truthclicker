@@ -18,9 +18,14 @@ export const useGameIO = (
       try {
         const parsed = JSON.parse(saved);
         const safeResources = { ...INITIAL_STATE.resources, ...parsed.resources };
+        // Ensure new resources like Oxygen/DejaVu exist
         if (parsed.resources && parsed.resources[ResourceType.OXYGEN] === undefined) {
             safeResources[ResourceType.OXYGEN] = 1000000;
         }
+        if (parsed.resources && parsed.resources[ResourceType.DEJAVU] === undefined) {
+            safeResources[ResourceType.DEJAVU] = 0;
+        }
+
         return { 
           ...INITIAL_STATE, 
           ...parsed, 
@@ -41,17 +46,64 @@ export const useGameIO = (
   }, [gameState, addLog]);
 
   const resetGame = useCallback(() => {
-      if(confirm("Reset game?")) {
+      if(confirm("HARD RESET: This will wipe EVERYTHING, including unique artifacts and Deja Vu. Are you sure?")) {
           setGameState(INITIAL_STATE);
           setLogs([]);
           localStorage.removeItem('truth_clicker_save_v2');
+          window.location.reload();
       }
   }, [setGameState, setLogs]);
+
+  // PRESTIGE LOGIC
+  const prestigeGame = useCallback(() => {
+      const totalInfo = gameState.totalInfoMined;
+      // Formula: 100,000 -> 1, 1,000,000 -> 2. Log10 scale starting at 10^5.
+      // Math: floor(log10(info / 10000))
+      // 100k / 10k = 10 -> log10(10) = 1
+      // 1m / 10k = 100 -> log10(100) = 2
+      const earnedDejaVu = Math.max(0, Math.floor(Math.log10(Math.max(1, totalInfo) / 10000)));
+
+      if (earnedDejaVu <= 0) {
+          addLog("信息积累不足以产生既视感。需要至少 100,000 总信息。", "warning");
+          return;
+      }
+
+      if (confirm(`【时间回溯】\n\n你将获得 ${earnedDejaVu} 点既视感 (Déjà Vu)。\n\n既视感将永久提升 50% 全局产量 (每点)。\n除了既视感、设置和成就记录外，你的所有进度将被重置。\n\n确定要重新开始吗？`)) {
+          
+          const currentDejaVu = gameState.resources[ResourceType.DEJAVU] || 0;
+          const newDejaVu = currentDejaVu + earnedDejaVu;
+          const foundUniqueIds = gameState.foundUniqueItemIds || [];
+
+          const newState: GameState = {
+              ...INITIAL_STATE,
+              // Keep settings
+              settings: gameState.settings,
+              // Keep unique artifact history (pokedex)
+              foundUniqueItemIds: foundUniqueIds,
+              // Keep Deja Vu
+              resources: {
+                  ...INITIAL_STATE.resources,
+                  [ResourceType.DEJAVU]: newDejaVu
+              },
+              // Reset time
+              startTime: Date.now(),
+              lastSaveTime: Date.now()
+          };
+
+          setGameState(newState);
+          setLogs([]);
+          localStorage.setItem('truth_clicker_save_v2', JSON.stringify(newState));
+          
+          // Force a slight delay to ensure UI updates cleanly or just reload
+          setTimeout(() => {
+              window.location.reload();
+          }, 500);
+      }
+  }, [gameState, setGameState, setLogs, addLog]);
 
   const exportSave = useCallback(() => {
       try {
           const json = JSON.stringify(gameState);
-          // Encode Unicode correctly for base64
           return btoa(encodeURIComponent(json).replace(/%([0-9A-F]{2})/g,
               function toSolidBytes(match, p1) {
                   return String.fromCharCode(parseInt(p1, 16));
@@ -64,7 +116,6 @@ export const useGameIO = (
 
   const importSave = useCallback((saveData: string) => {
       try {
-          // Decode Unicode correctly from base64
           const decoded = decodeURIComponent(atob(saveData).split('').map(function(c) {
               return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
           }).join(''));
@@ -98,6 +149,7 @@ export const useGameIO = (
     loadInitialState,
     saveGame,
     resetGame,
+    prestigeGame, // Exported
     exportSave,
     importSave,
     lastSaveTime

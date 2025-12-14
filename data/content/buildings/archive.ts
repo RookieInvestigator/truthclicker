@@ -104,7 +104,7 @@ export const ARCHIVE_BUILDINGS: Building[] = [
     description: '利用真菌的地下网络传递电信号。生物互联网是自我修复的。',
     category: BuildingCategory.ARCHIVE,
     baseCosts: { [ResourceType.BIOMASS]: 20000, [ResourceType.LORE]: 5000, [ResourceType.INFO]: 30000 }, // Added INFO cost
-    baseProduction: { [ResourceType.INFO]: 400.0, [ResourceType.BIOMASS]: 10.0, [ResourceType.LORE]: 1.0, [ResourceType.OXYGEN]: -10.0 }, // Prod 200 -> 400
+    baseProduction: { [ResourceType.INFO]: 400.0, [ResourceType.BIOMASS]: 10.0, [ResourceType.LORE]: 1.0 }, // Prod 200 -> 400
     costMultiplier: 1.4,
     icon: 'Network',
     unlockRequirement: 0, // Reset
@@ -140,7 +140,7 @@ export const ARCHIVE_BUILDINGS: Building[] = [
     description: '将地壳挖空，填充以晶体存储介质。整个星球变成了一个硬盘。',
     category: BuildingCategory.ARCHIVE,
     baseCosts: { [ResourceType.TECH_CAPITAL]: 200000, [ResourceType.OPS]: 10000000, [ResourceType.POWER]: 5000000 },
-    baseProduction: { [ResourceType.INFO]: 800000.0, [ResourceType.KNOWLEDGE]: 100.0, [ResourceType.BIOMASS]: -500.0, [ResourceType.POWER]: -10000.0 }, // Prod 500k -> 800k
+    baseProduction: { [ResourceType.INFO]: 80000.0, [ResourceType.KNOWLEDGE]: 100.0, [ResourceType.BIOMASS]: -500.0, [ResourceType.POWER]: -5000.0 }, // Prod 500k -> 800k
     costMultiplier: 2.2,
     icon: 'Globe',
     unlockRequirement: 0,

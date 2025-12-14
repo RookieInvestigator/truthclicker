@@ -1,8 +1,8 @@
 
 import { useCallback } from 'react';
-import { GameState, ResourceType } from '../types';
-import { BUILDINGS } from '../data/buildings';
+import { GameState } from '../types';
 import { TECHS } from '../data/techs';
+import { calculateProductionRates } from '../utils/productionUtils';
 
 export const useGameCalculators = (gameState: GameState) => {
   
@@ -42,60 +42,9 @@ export const useGameCalculators = (gameState: GameState) => {
     return power;
   }, [gameState.researchedTechs, gameState.artifacts]);
 
+  // Use the utility function to keep logic in one place
   const calculateTotalProduction = useCallback((state: GameState) => {
-    const production: Record<ResourceType, number> = {} as any;
-    Object.values(ResourceType).forEach(r => production[r] = 0);
-
-    Object.entries(state.buildings).forEach(([bId, count]) => {
-        if (count <= 0) return;
-        const building = BUILDINGS.find(b => b.id === bId);
-        if (!building || !building.baseProduction) return;
-        
-        Object.entries(building.baseProduction).forEach(([res, amount]) => {
-             production[res as ResourceType] += amount * count;
-        });
-    });
-
-    Object.keys(production).forEach(resKey => {
-        const res = resKey as ResourceType;
-        let mult = 1.0;
-
-        TECHS.forEach(tech => {
-            if (state.researchedTechs.includes(tech.id)) {
-                if (tech.effects.resourceMultipliers && tech.effects.resourceMultipliers[res]) {
-                    mult += tech.effects.resourceMultipliers[res]!;
-                }
-            }
-        });
-
-        state.artifacts.forEach(art => {
-            if (art.bonusType === 'production_multiplier' && art.targetResource === res) {
-                mult += art.bonusValue;
-            }
-        });
-
-        state.activeEvents.forEach(evt => {
-            if (evt.multipliers && evt.multipliers[res]) {
-                mult *= evt.multipliers[res]!;
-            }
-        });
-
-        if (production[res] > 0) {
-            production[res] *= mult;
-        }
-    });
-
-    // Reality Stability Bonus (>120 Reality gives 10% Global Production Bonus to positive outputs)
-    if (state.resources[ResourceType.REALITY] > 120) {
-        Object.keys(production).forEach(resKey => {
-            const res = resKey as ResourceType;
-            if (production[res] > 0) {
-                production[res] *= 1.1;
-            }
-        });
-    }
-    
-    return production;
+    return calculateProductionRates(state);
   }, []);
 
   return {

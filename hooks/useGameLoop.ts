@@ -141,15 +141,20 @@ export const useGameLoop = (
 
             // Autosave check
             if (now - lastSaveTime.current > AUTOSAVE_INTERVAL) {
-                 localStorage.setItem('truth_clicker_save_v2', JSON.stringify({
+                 const saveState = {
                      ...prev, 
                      resources: newRes, 
                      artifacts: newArtifacts, 
                      activeEvents: newActiveEvents,
                      unlockedItemIds: [...safeUnlockedItemIds, ...newUnlockedIds],
-                     foundUniqueItemIds: updatedFoundUniqueIds
-                 }));
+                     foundUniqueItemIds: updatedFoundUniqueIds,
+                     lastSaveTime: now // Update save time
+                 };
+                 localStorage.setItem('truth_clicker_save_v2', JSON.stringify(saveState));
                  lastSaveTime.current = now;
+                 if (prev.settings.showAutoSaveLogs) {
+                     // Optionally log autosave (kept silent usually to avoid spam)
+                 }
             }
 
             return {
@@ -160,7 +165,8 @@ export const useGameLoop = (
                 pendingChoice: newPendingChoice,
                 depth: prev.depth + (production[ResourceType.INFO] > 0 ? ((production[ResourceType.INFO] as number) * deltaSec * 0.001) : 0),
                 unlockedItemIds: [...safeUnlockedItemIds, ...newUnlockedIds],
-                foundUniqueItemIds: updatedFoundUniqueIds
+                foundUniqueItemIds: updatedFoundUniqueIds,
+                lastSaveTime: now // Update in state mostly for consistency, IO usually handles persistence
             };
         });
     }, TICK_RATE);

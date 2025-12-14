@@ -9,6 +9,7 @@ import ArtifactGrid from './components/ArtifactGrid';
 import SettingsModal from './components/SettingsModal';
 import ActiveEventsTicker from './components/ActiveEventsTicker';
 import ChoiceEventModal from './components/ChoiceEventModal';
+import OfflineModal from './components/OfflineModal'; 
 import { ResourceType } from './types';
 
 const App: React.FC = () => {
@@ -27,6 +28,7 @@ const App: React.FC = () => {
     batchInvestigate,
     saveGame,
     resetGame,
+    prestigeGame, // Added
     toggleSetting,
     triggerRealityFlush, 
     triggerProbabilityDrive,
@@ -34,6 +36,8 @@ const App: React.FC = () => {
     importSave,
     exportSave,
     markAsSeen,
+    offlineEarnings,
+    clearOfflineEarnings,
   } = useGameLogic();
 
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -91,7 +95,7 @@ const App: React.FC = () => {
             <h1 className="text-xs font-bold tracking-[0.2em] text-gray-200 text-glow">
               TRUTH<span className="text-term-green">_CLICKER</span>
             </h1>
-            <span className="text-[8px] text-term-green/70 font-mono uppercase bg-term-green/10 px-1 rounded">V2.1.2</span>
+            <span className="text-[8px] text-term-green/70 font-mono uppercase bg-term-green/10 px-1 rounded">V2.2.0</span>
           </div>
         </div>
         
@@ -232,6 +236,7 @@ const App: React.FC = () => {
         </button>
       </nav>
 
+      {/* Modals */}
       {isSettingsOpen && (
         <SettingsModal 
             settings={gameState.settings} 
@@ -239,6 +244,9 @@ const App: React.FC = () => {
             onClose={() => setIsSettingsOpen(false)}
             onImport={importSave} 
             onExport={exportSave}
+            onPrestige={prestigeGame} // Added
+            totalInfoMined={gameState.totalInfoMined} // Added
+            currentDejaVu={gameState.resources[ResourceType.DEJAVU]} // Added
         />
       )}
 
@@ -248,6 +256,15 @@ const App: React.FC = () => {
             event={gameState.pendingChoice}
             resources={gameState.resources}
             onChoose={handleMakeChoice}
+        />
+      )}
+
+      {/* Offline Earnings Popup */}
+      {offlineEarnings && (
+        <OfflineModal 
+            time={offlineEarnings.time}
+            resources={offlineEarnings.resources}
+            onClose={clearOfflineEarnings}
         />
       )}
     </div>

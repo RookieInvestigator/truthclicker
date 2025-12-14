@@ -14,7 +14,7 @@ export const INITIAL_STATE: GameState = {
     [ResourceType.BIOMASS]: 0,
     [ResourceType.POWER]: 0,
     [ResourceType.CARDBOARD]: 0,
-    [ResourceType.TINFOIL]: 0, // NEW
+    [ResourceType.TINFOIL]: 0, 
     [ResourceType.SPAM]: 0,
     [ResourceType.FOSSIL]: 0, 
     [ResourceType.LORE]: 0,
@@ -23,7 +23,7 @@ export const INITIAL_STATE: GameState = {
     [ResourceType.RUMORS]: 0,
     [ResourceType.PANIC]: 0,
     [ResourceType.MIND_CONTROL]: 0,
-    [ResourceType.RED_PILL]: 0, // NEW
+    [ResourceType.RED_PILL]: 0, 
     [ResourceType.PLEASURE]: 0,
     [ResourceType.PROBABILITY]: 0,
     [ResourceType.REALITY]: 100, 
@@ -31,6 +31,7 @@ export const INITIAL_STATE: GameState = {
     [ResourceType.CLUE]: 0,
     [ResourceType.KNOWLEDGE]: 0,
     [ResourceType.TRUTH]: 0,
+    [ResourceType.DEJAVU]: 0, // NEW
   },
   totalInfoMined: 0,
   buildings: {},
@@ -47,11 +48,12 @@ export const INITIAL_STATE: GameState = {
     showDetailedBatchLogs: false,
   },
   startTime: Date.now(),
+  lastSaveTime: Date.now(), // Initialize with current time
   depth: 0,
   luckBoostEndTime: 0,
   
   unlockedItemIds: [],
-  seenItemIds: [], // Added
+  seenItemIds: [], 
   foundUniqueItemIds: [], 
   notifications: [],
 };

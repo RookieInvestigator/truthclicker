@@ -40,6 +40,8 @@ export const RESOURCE_INFO: Record<ResourceType, { name: string; color: string; 
   [ResourceType.CLUE]:         { name: '线索', color: 'text-yellow-400', icon: 'Search' }, 
   [ResourceType.KNOWLEDGE]:    { name: '隐秘知识', color: 'text-violet-400', icon: 'BookOpen' }, 
   [ResourceType.TRUTH]:        { name: '真相', color: 'text-red-600', icon: 'Eye' }, 
+  
+  [ResourceType.DEJAVU]:       { name: '既视感', color: 'text-fuchsia-300', icon: 'Repeat' }, // NEW
 };
 
 // Category Metadata

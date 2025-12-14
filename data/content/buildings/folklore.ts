@@ -123,9 +123,9 @@ export const FOLKLORE_BUILDINGS: Building[] = [
     requireTech: ['ritual_protocols'],
   },
   {
-    id: 'scp_db_mirror',
+    id: 'bureau_of_control_archive', 
     name: '联邦控制局档案',
-    description: '从太屋（The Oldest House）泄露的机密文件。记录了数千种“异变物品”和“能量之地”。',
+    description: '客观来说这类档案的可信度都不高，但谁知道呢？也许里面就有一条是真的。',
     category: BuildingCategory.FOLKLORE,
     baseCosts: { [ResourceType.INFO]: 20000, [ResourceType.CODE]: 5000 },
     baseProduction: { [ResourceType.LORE]: 3.0, [ResourceType.CULTURE]: 1.0, [ResourceType.INFO]: 50 },

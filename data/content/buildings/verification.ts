@@ -7,11 +7,11 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     name: '事实核查机器人',
     description: '自动反驳虚假信息。需要不断输入新的[信息]来进行比对。',
     category: BuildingCategory.VERIFICATION,
-    baseCosts: { [ResourceType.CODE]: 500, [ResourceType.INFO]: 1000 },
+    baseCosts: { [ResourceType.CODE]: 500, [ResourceType.INFO]: 2500 }, // Cost 1000 -> 2500
     baseProduction: { [ResourceType.STORY]: 0.5, [ResourceType.PANIC]: -0.1, [ResourceType.SPAM]: -2.0, [ResourceType.INFO]: -50.0 }, 
     costMultiplier: 1.2,
     icon: 'ShieldCheck',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['search_operators'],
   },
   {
@@ -19,10 +19,10 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     name: '连线板',
     description: '用红毛线连接软木板上的剪报。模式开始显现。',
     category: BuildingCategory.VERIFICATION,
-    baseCosts: { [ResourceType.CARDBOARD]: 100, [ResourceType.INFO]: 300 },
-    baseProduction: { [ResourceType.CLUE]: 0.3, [ResourceType.RUMORS]: 0.5 },
+    baseCosts: { [ResourceType.CARDBOARD]: 100, [ResourceType.INFO]: 800 }, // Cost 300 -> 800
+    baseProduction: { [ResourceType.CLUE]: 0.3, [ResourceType.RUMORS]: 0.5, [ResourceType.INFO]: -5.0 }, // Consumes Info
     costMultiplier: 1.2,
-    icon: 'Network', // Looks like connections
+    icon: 'Network',
     unlockRequirement: 0,
     requireTech: ['pattern_recognition'],
   },
@@ -31,11 +31,11 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     name: '反向搜图爬虫',
     description: '追踪图片的原始来源。揭露被裁剪的真相。',
     category: BuildingCategory.VERIFICATION,
-    baseCosts: { [ResourceType.CODE]: 800, [ResourceType.INFO]: 1500 },
+    baseCosts: { [ResourceType.CODE]: 800, [ResourceType.INFO]: 3500 }, // Cost 1500 -> 3500
     baseProduction: { [ResourceType.CLUE]: 0.1, [ResourceType.INFO]: -20.0, [ResourceType.SPAM]: -1.0 }, 
     costMultiplier: 1.2,
     icon: 'Image',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['search_operators'],
   },
   {
@@ -43,8 +43,8 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     name: '频谱图解码器',
     description: '在音频声谱中寻找隐藏信息。Cicada 3301 常用手段。',
     category: BuildingCategory.VERIFICATION,
-    baseCosts: { [ResourceType.CODE]: 2000, [ResourceType.INFO]: 5000 },
-    baseProduction: { [ResourceType.CLUE]: 0.5, [ResourceType.CODE]: 0.2 },
+    baseCosts: { [ResourceType.CODE]: 2000, [ResourceType.INFO]: 8000 }, // Cost 5000 -> 8000
+    baseProduction: { [ResourceType.CLUE]: 0.5, [ResourceType.CODE]: 0.2, [ResourceType.INFO]: -30.0 }, // Consumes Info
     costMultiplier: 1.25,
     icon: 'Activity',
     unlockRequirement: 0,
@@ -55,11 +55,11 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     name: '元数据提取器',
     description: '从文档中提取 EXIF 数据和编辑历史。',
     category: BuildingCategory.VERIFICATION,
-    baseCosts: { [ResourceType.CODE]: 1500, [ResourceType.OPS]: 200 },
+    baseCosts: { [ResourceType.CODE]: 1500, [ResourceType.OPS]: 200, [ResourceType.INFO]: 1000 }, // Added Info Cost
     baseProduction: { [ResourceType.CLUE]: 0.2, [ResourceType.CODE]: 0.5, [ResourceType.INFO]: -10.0 },
     costMultiplier: 1.2,
     icon: 'FileText',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['ocr_basics'],
   },
   {
@@ -67,11 +67,11 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     name: '引用关系绘图仪',
     description: '可视化学术论文和新闻报道的引用链，寻找循环论证的源头。',
     category: BuildingCategory.VERIFICATION,
-    baseCosts: { [ResourceType.INFO]: 2500, [ResourceType.CODE]: 500 },
-    baseProduction: { [ResourceType.KNOWLEDGE]: 0.2, [ResourceType.CLUE]: 0.3 },
+    baseCosts: { [ResourceType.INFO]: 6000, [ResourceType.CODE]: 500 }, // Cost 2500 -> 6000
+    baseProduction: { [ResourceType.KNOWLEDGE]: 0.2, [ResourceType.CLUE]: 0.3, [ResourceType.INFO]: -50.0 }, // Consumes Info
     costMultiplier: 1.2,
     icon: 'Network',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['search_operators'],
   },
   {
@@ -79,11 +79,11 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     name: '谣言磨坊',
     description: '专门生产半真半假的阴谋论。消耗大量[信息]素材来编造谎言。',
     category: BuildingCategory.VERIFICATION,
-    baseCosts: { [ResourceType.INFO]: 3000, [ResourceType.FUNDS]: 1000 },
+    baseCosts: { [ResourceType.INFO]: 5000, [ResourceType.FUNDS]: 1000 }, // Cost 3000 -> 5000
     baseProduction: { [ResourceType.RUMORS]: 1.0, [ResourceType.PANIC]: 0.2, [ResourceType.INFO]: -150.0, [ResourceType.FUNDS]: -5.0 }, 
     costMultiplier: 1.25,
     icon: 'Megaphone',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['social_engineering'],
   },
   {
@@ -91,11 +91,11 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     name: 'Whois 批量查询',
     description: '揭示域名的注册者信息。连接看似无关的网站。',
     category: BuildingCategory.VERIFICATION,
-    baseCosts: { [ResourceType.CODE]: 1000, [ResourceType.INFO]: 2000 },
+    baseCosts: { [ResourceType.CODE]: 1000, [ResourceType.INFO]: 3000 }, // Cost 2000 -> 3000
     baseProduction: { [ResourceType.INFO]: 10, [ResourceType.CLUE]: 0.1 },
     costMultiplier: 1.15,
     icon: 'Search',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['search_operators'],
   },
   {
@@ -103,11 +103,11 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     name: '熵减去噪塔',
     description: '利用算力对抗信息熵。湮灭垃圾信息，还原真相。',
     category: BuildingCategory.VERIFICATION,
-    baseCosts: { [ResourceType.OPS]: 10000, [ResourceType.TECH_CAPITAL]: 50 },
+    baseCosts: { [ResourceType.OPS]: 10000, [ResourceType.TECH_CAPITAL]: 50, [ResourceType.INFO]: 15000 }, // Added Info Cost
     baseProduction: { [ResourceType.INFO]: 500.0, [ResourceType.SPAM]: -1000.0, [ResourceType.POWER]: -100.0 }, 
     costMultiplier: 1.35,
     icon: 'Activity',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['deduplication'],
   },
   {
@@ -115,11 +115,11 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     name: '叙事纺织机',
     description: '将碎片化的[线索]和海量[信息]编织成引人入胜的[故事]。',
     category: BuildingCategory.VERIFICATION,
-    baseCosts: { [ResourceType.CULTURE]: 200, [ResourceType.INFO]: 2000 },
-    baseProduction: { [ResourceType.STORY]: 1.0, [ResourceType.CLUE]: -0.1, [ResourceType.INFO]: -500.0 }, 
+    baseCosts: { [ResourceType.CULTURE]: 200, [ResourceType.INFO]: 8000 }, // Cost 2000 -> 8000
+    baseProduction: { [ResourceType.STORY]: 1.0, [ResourceType.CLUE]: -0.1, [ResourceType.INFO]: -500.0 }, // High info consumption
     costMultiplier: 1.25,
     icon: 'BookOpen',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['memetics'],
   },
   {
@@ -127,11 +127,11 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     name: '算法审计员',
     description: '逆向推荐算法，过滤垃圾信息并提取有效代码。',
     category: BuildingCategory.VERIFICATION,
-    baseCosts: { [ResourceType.CODE]: 2000, [ResourceType.OPS]: 500 },
+    baseCosts: { [ResourceType.CODE]: 2000, [ResourceType.OPS]: 500, [ResourceType.INFO]: 2000 }, // Added Info Cost
     baseProduction: { [ResourceType.CODE]: 1.0, [ResourceType.SPAM]: -50.0, [ResourceType.OPS]: -10.0 }, 
     costMultiplier: 1.3,
     icon: 'Filter',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['spam_algorithms'],
   },
   {
@@ -139,11 +139,11 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     name: '语言指纹分析器',
     description: '通过用词习惯识别匿名作者。没人能真正隐藏自己的写作风格。',
     category: BuildingCategory.VERIFICATION,
-    baseCosts: { [ResourceType.CODE]: 3000, [ResourceType.INFO]: 5000 },
-    baseProduction: { [ResourceType.CLUE]: 0.5, [ResourceType.OPS]: -5.0 },
+    baseCosts: { [ResourceType.CODE]: 3000, [ResourceType.INFO]: 15000 }, // Cost 5000 -> 15000
+    baseProduction: { [ResourceType.CLUE]: 0.5, [ResourceType.OPS]: -5.0, [ResourceType.INFO]: -100.0 }, // Consumes Info
     costMultiplier: 1.25,
     icon: 'Fingerprint',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['linguistic_fingerprinting'],
   },
   {
@@ -151,11 +151,11 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     name: '时光机镜像',
     description: '抓取已删除的网页快照。互联网是有记忆的。',
     category: BuildingCategory.VERIFICATION,
-    baseCosts: { [ResourceType.INFO]: 5000, [ResourceType.OPS]: 1000 },
+    baseCosts: { [ResourceType.INFO]: 20000, [ResourceType.OPS]: 1000 }, // Cost 5000 -> 20000
     baseProduction: { [ResourceType.INFO]: 50, [ResourceType.LORE]: 0.2, [ResourceType.OPS]: -20.0 },
     costMultiplier: 1.25,
     icon: 'History',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['gopher_protocol'],
   },
   {
@@ -163,11 +163,11 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     name: '辟谣频道',
     description: '利用大众的[恐慌]来赚取流量。消耗[信息]流来制作视频。',
     category: BuildingCategory.VERIFICATION,
-    baseCosts: { [ResourceType.FUNDS]: 2000, [ResourceType.FOLLOWERS]: 100 },
-    baseProduction: { [ResourceType.FUNDS]: 20, [ResourceType.CRED]: 0.5, [ResourceType.PANIC]: -0.5, [ResourceType.INFO]: -200.0 }, 
+    baseCosts: { [ResourceType.FUNDS]: 2000, [ResourceType.FOLLOWERS]: 100, [ResourceType.INFO]: 5000 }, // Added Info Cost
+    baseProduction: { [ResourceType.FUNDS]: 20, [ResourceType.CRED]: 0.5, [ResourceType.PANIC]: -0.5, [ResourceType.INFO]: -200.0 }, // Consumes Info
     costMultiplier: 1.25,
     icon: 'Video',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['content_farm'], 
   },
   {
@@ -175,11 +175,11 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     name: '地理定位专家',
     description: '通过照片背景中的电线杆形状确定拍摄地点。',
     category: BuildingCategory.VERIFICATION,
-    baseCosts: { [ResourceType.CLUE]: 100, [ResourceType.INFO]: 5000 },
-    baseProduction: { [ResourceType.CLUE]: 0.5 },
+    baseCosts: { [ResourceType.CLUE]: 100, [ResourceType.INFO]: 12000 }, // Cost 5000 -> 12000
+    baseProduction: { [ResourceType.CLUE]: 0.5, [ResourceType.INFO]: -20.0 },
     costMultiplier: 1.2,
     icon: 'MapPin',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['social_engineering'],
   },
   {
@@ -187,11 +187,11 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     name: '零知识验证器',
     description: '在不泄露[秘密]本身的情况下，验证对方是否知道秘密。',
     category: BuildingCategory.VERIFICATION,
-    baseCosts: { [ResourceType.CODE]: 8000, [ResourceType.KNOWLEDGE]: 200 },
-    baseProduction: { [ResourceType.CRED]: 1.0, [ResourceType.TRUTH]: 0.005, [ResourceType.OPS]: -15.0 }, // Nerfed
+    baseCosts: { [ResourceType.CODE]: 8000, [ResourceType.KNOWLEDGE]: 200, [ResourceType.INFO]: 25000 }, // Added Info Cost
+    baseProduction: { [ResourceType.CRED]: 1.0, [ResourceType.TRUTH]: 0.005, [ResourceType.OPS]: -15.0, [ResourceType.INFO]: -300.0 }, // Nerfed
     costMultiplier: 1.35,
     icon: 'Key',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['zero_knowledge_proofs'],
   },
   {
@@ -199,11 +199,11 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     name: '深伪鉴别器',
     description: '分析视频中的眨眼频率和血流脉冲。',
     category: BuildingCategory.VERIFICATION,
-    baseCosts: { [ResourceType.OPS]: 5000, [ResourceType.CODE]: 2000 },
-    baseProduction: { [ResourceType.CLUE]: 0.5, [ResourceType.RUMORS]: -1.0, [ResourceType.OPS]: -50.0 },
+    baseCosts: { [ResourceType.OPS]: 5000, [ResourceType.CODE]: 2000, [ResourceType.INFO]: 10000 }, // Added Info Cost
+    baseProduction: { [ResourceType.CLUE]: 0.5, [ResourceType.RUMORS]: -1.0, [ResourceType.OPS]: -50.0, [ResourceType.INFO]: -100.0 },
     costMultiplier: 1.3,
     icon: 'Eye',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['generative_adversarial_networks'],
   },
   {
@@ -211,11 +211,11 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     name: '情感分析 AI',
     description: '监控全网情绪波动。预测骚乱和股市崩盘。',
     category: BuildingCategory.VERIFICATION,
-    baseCosts: { [ResourceType.OPS]: 10000, [ResourceType.INFO]: 20000 },
-    baseProduction: { [ResourceType.CODE]: 2.0, [ResourceType.PANIC]: -0.5, [ResourceType.OPS]: -100.0 },
+    baseCosts: { [ResourceType.OPS]: 10000, [ResourceType.INFO]: 60000 }, // Cost 20000 -> 60000
+    baseProduction: { [ResourceType.CODE]: 2.0, [ResourceType.PANIC]: -0.5, [ResourceType.OPS]: -100.0, [ResourceType.INFO]: -500.0 },
     costMultiplier: 1.35,
     icon: 'BarChart',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['ai_alignment'],
   },
   {
@@ -223,11 +223,11 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     name: '链上分析师',
     description: '追踪洗钱路径。资金流向不会撒谎。',
     category: BuildingCategory.VERIFICATION,
-    baseCosts: { [ResourceType.FUNDS]: 20000, [ResourceType.CODE]: 5000 },
-    baseProduction: { [ResourceType.FUNDS]: 50, [ResourceType.CLUE]: 0.2, [ResourceType.CRED]: -1.0 },
+    baseCosts: { [ResourceType.FUNDS]: 20000, [ResourceType.CODE]: 5000, [ResourceType.INFO]: 5000 }, // Added Info Cost
+    baseProduction: { [ResourceType.FUNDS]: 50, [ResourceType.CLUE]: 0.2, [ResourceType.CRED]: -1.0, [ResourceType.INFO]: -100.0 },
     costMultiplier: 1.3,
     icon: 'Link',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['blockchain_basics'],
   },
   {
@@ -235,11 +235,11 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     name: '恐慌指数分析室',
     description: '量化社会的恐惧。吞噬海量数据以预测[恐慌]趋势。',
     category: BuildingCategory.VERIFICATION,
-    baseCosts: { [ResourceType.OPS]: 5000, [ResourceType.INFO]: 10000 },
-    baseProduction: { [ResourceType.CODE]: 5.0, [ResourceType.PANIC]: -1.0, [ResourceType.POWER]: -50.0, [ResourceType.INFO]: -2000.0 }, 
+    baseCosts: { [ResourceType.OPS]: 5000, [ResourceType.INFO]: 40000 }, // Cost 10000 -> 40000
+    baseProduction: { [ResourceType.CODE]: 5.0, [ResourceType.PANIC]: -1.0, [ResourceType.POWER]: -50.0, [ResourceType.INFO]: -2000.0 }, // Massive info consumption
     costMultiplier: 1.4,
     icon: 'BarChart2',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['social_engineering'],
   },
   {
@@ -247,11 +247,11 @@ export const VERIFICATION_BUILDINGS: Building[] = [
     name: 'OSINT 仪表盘',
     description: '开源情报聚合。将公开信息转化为机密情报。',
     category: BuildingCategory.VERIFICATION,
-    baseCosts: { [ResourceType.INFO]: 50000, [ResourceType.CODE]: 10000 },
-    baseProduction: { [ResourceType.CLUE]: 1.0, [ResourceType.TRUTH]: 0.005, [ResourceType.INFO]: -1000.0 }, // Nerfed
+    baseCosts: { [ResourceType.INFO]: 150000, [ResourceType.CODE]: 10000 }, // Cost 50k -> 150k
+    baseProduction: { [ResourceType.CLUE]: 1.0, [ResourceType.TRUTH]: 0.005, [ResourceType.INFO]: -1000.0, [ResourceType.OPS]: -50.0 }, // Nerfed
     costMultiplier: 1.4,
     icon: 'Layout',
-    unlockRequirement: 0, // Reset
+    unlockRequirement: 0, 
     requireTech: ['search_operators'],
   },
 ];

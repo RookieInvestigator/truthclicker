@@ -8,11 +8,11 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     description: '在城市缝隙中收集铝罐和废纸板。这是最基础的生存方式。',
     category: BuildingCategory.SURVIVAL,
     baseCosts: { [ResourceType.INFO]: 10 }, 
-    baseProduction: { [ResourceType.FUNDS]: 0.5, [ResourceType.CARDBOARD]: 0.2 }, // Boosted
-    costMultiplier: 1.2, // 1.15 -> 1.2
+    baseProduction: { [ResourceType.FUNDS]: 0.4, [ResourceType.CARDBOARD]: 0.2 }, 
+    costMultiplier: 1.2, 
     icon: 'Recycle',
     unlockRequirement: 0, 
-    requireTech: ['scavenger_intuition'], // NEW REQUIREMENT
+    requireTech: ['scavenger_intuition'], 
   },
   {
     id: 'mealworm_bin',
@@ -20,7 +20,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     description: '用切碎的废纸箱作为垫材。这些昆虫将纤维素转化为蛋白质。',
     category: BuildingCategory.SURVIVAL,
     baseCosts: { [ResourceType.FUNDS]: 50, [ResourceType.CARDBOARD]: 20 },
-    baseProduction: { [ResourceType.BIOMASS]: 2.0, [ResourceType.CARDBOARD]: -0.5 }, // 1.2 -> 2.0
+    baseProduction: { [ResourceType.BIOMASS]: 2.0, [ResourceType.CARDBOARD]: -0.5 }, 
     costMultiplier: 1.2,
     icon: 'Bug',
     unlockRequirement: 0,
@@ -32,11 +32,11 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     description: '自动接单系统，完成需人类智能的微任务。电子血汗工厂。',
     category: BuildingCategory.SURVIVAL,
     baseCosts: { [ResourceType.INFO]: 150, [ResourceType.FUNDS]: 20 }, 
-    baseProduction: { [ResourceType.FUNDS]: 1.5, [ResourceType.OPS]: 0.2 }, // 0.8 -> 1.5
+    baseProduction: { [ResourceType.FUNDS]: 1.2, [ResourceType.OPS]: 0.1 }, 
     costMultiplier: 1.2,
     icon: 'Bot',
     unlockRequirement: 50, 
-    requireTech: ['crowdsourcing_api'], // NEW REQUIREMENT
+    requireTech: ['crowdsourcing_api'], 
   },
   {
     id: 'public_wifi_leech',
@@ -44,8 +44,8 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     description: '用品客薯片桶改装的长距离 Wi-Fi 接收器。',
     category: BuildingCategory.SURVIVAL,
     baseCosts: { [ResourceType.CARDBOARD]: 40, [ResourceType.FUNDS]: 15 },
-    baseProduction: { [ResourceType.INFO]: 5.0 }, // 2.0 -> 5.0
-    costMultiplier: 1.25, // Increased scaling
+    baseProduction: { [ResourceType.INFO]: 5.0 }, 
+    costMultiplier: 1.25, 
     icon: 'Wifi',
     unlockRequirement: 0, 
     requireTech: ['digital_literacy'],
@@ -56,7 +56,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     description: '将动能转化为电能。虽然效率低下，但这能让你在停电时保持在线。',
     category: BuildingCategory.SURVIVAL,
     baseCosts: { [ResourceType.FUNDS]: 200, [ResourceType.CARDBOARD]: 50 }, 
-    baseProduction: { [ResourceType.POWER]: 3.0, [ResourceType.BIOMASS]: -0.2 }, // 1.5 -> 3.0
+    baseProduction: { [ResourceType.POWER]: 3.0, [ResourceType.BIOMASS]: -0.5 }, // Consumes Biomass (User Energy)
     costMultiplier: 1.25,
     icon: 'Bike',
     unlockRequirement: 0, 
@@ -68,7 +68,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     description: '收集电子垃圾和人们以此遮蔽思想的材料。你知道哪里有最好的垃圾。',
     category: BuildingCategory.SURVIVAL,
     baseCosts: { [ResourceType.INFO]: 500, [ResourceType.FUNDS]: 50 }, 
-    baseProduction: { [ResourceType.CARDBOARD]: 1.5, [ResourceType.FUNDS]: 1.5, [ResourceType.OPS]: 0.5, [ResourceType.TINFOIL]: 0.5 }, 
+    baseProduction: { [ResourceType.CARDBOARD]: 1.5, [ResourceType.FUNDS]: 1.2, [ResourceType.OPS]: 0.5, [ResourceType.TINFOIL]: 0.5 },
     costMultiplier: 1.3,
     icon: 'Trash2',
     unlockRequirement: 0, 
@@ -80,7 +80,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     description: '废纸板浸泡杀菌接种平菇。将快递垃圾转化为可食用蛋白质。',
     category: BuildingCategory.SURVIVAL,
     baseCosts: { [ResourceType.CARDBOARD]: 500, [ResourceType.BIOMASS]: 50 },
-    baseProduction: { [ResourceType.BIOMASS]: 8.0, [ResourceType.CARDBOARD]: -4.0, [ResourceType.FUNDS]: 2.0 }, // Doubled
+    baseProduction: { [ResourceType.BIOMASS]: 8.0, [ResourceType.CARDBOARD]: -4.0, [ResourceType.FUNDS]: 1.5 }, 
     costMultiplier: 1.3,
     icon: 'Sprout',
     unlockRequirement: 0,
@@ -92,7 +92,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     description: '在废弃轮胎里种植土豆和西红柿。城市里的自给自足。',
     category: BuildingCategory.SURVIVAL,
     baseCosts: { [ResourceType.FUNDS]: 800, [ResourceType.CARDBOARD]: 200 },
-    baseProduction: { [ResourceType.BIOMASS]: 5.0, [ResourceType.FUNDS]: -0.5 }, 
+    baseProduction: { [ResourceType.BIOMASS]: 5.0, [ResourceType.FUNDS]: -0.5 }, // Maintenance cost
     costMultiplier: 1.3,
     icon: 'Sprout',
     unlockRequirement: 0, 
@@ -104,7 +104,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     description: '从废弃建筑的墙壁里抽走电线。这是一种现代炼金术。',
     category: BuildingCategory.SURVIVAL,
     baseCosts: { [ResourceType.FUNDS]: 1200, [ResourceType.OPS]: 50 },
-    baseProduction: { [ResourceType.FUNDS]: 15.0, [ResourceType.CARDBOARD]: 2.0 }, // 5 -> 15
+    baseProduction: { [ResourceType.FUNDS]: 12.0, [ResourceType.CARDBOARD]: 2.0, [ResourceType.CRED]: -0.5 }, // Reputation loss
     costMultiplier: 1.35,
     icon: 'ZapOff',
     unlockRequirement: 0, 
@@ -116,7 +116,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     description: '直接接入路灯或邻居的电表。高风险，免费能源。',
     category: BuildingCategory.SURVIVAL,
     baseCosts: { [ResourceType.CARDBOARD]: 500, [ResourceType.FUNDS]: 200 },
-    baseProduction: { [ResourceType.POWER]: 20.0, [ResourceType.CRED]: -0.5 }, // 8 -> 20
+    baseProduction: { [ResourceType.POWER]: 15.0, [ResourceType.CRED]: -1.0 }, // Reputation loss
     costMultiplier: 1.4,
     icon: 'Zap',
     unlockRequirement: 0, 
@@ -128,7 +128,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     description: '出售翻新硬件和不明硬盘。实体交易，不留数字痕迹。',
     category: BuildingCategory.SURVIVAL,
     baseCosts: { [ResourceType.CARDBOARD]: 2000, [ResourceType.FUNDS]: 3000 },
-    baseProduction: { [ResourceType.FUNDS]: 100, [ResourceType.LORE]: 0.5 }, // 30 -> 100
+    baseProduction: { [ResourceType.FUNDS]: 80, [ResourceType.LORE]: 0.5, [ResourceType.OPS]: -2.0 }, // Consumes Ops (Refurbishing)
     costMultiplier: 1.4,
     icon: 'ShoppingBag',
     unlockRequirement: 0, 
@@ -140,7 +140,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     description: '直接从仓库购买临期军用口粮。有钱就不会饿死。',
     category: BuildingCategory.SURVIVAL,
     baseCosts: { [ResourceType.FUNDS]: 5000, [ResourceType.INFO]: 2000 },
-    baseProduction: { [ResourceType.BIOMASS]: 100.0, [ResourceType.FUNDS]: -15.0 }, // 30 -> 100
+    baseProduction: { [ResourceType.BIOMASS]: 100.0, [ResourceType.FUNDS]: -20.0 }, // Ongoing cost
     costMultiplier: 1.4,
     icon: 'ShoppingCart',
     unlockRequirement: 0, 
@@ -152,7 +152,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     description: '自来水里有氟化物（政府控制思想的药物）。必须喝过滤雨水。',
     category: BuildingCategory.SURVIVAL,
     baseCosts: { [ResourceType.CARDBOARD]: 5000, [ResourceType.BIOMASS]: 500 },
-    baseProduction: { [ResourceType.BIOMASS]: 15.0, [ResourceType.FUNDS]: 15.0 },
+    baseProduction: { [ResourceType.BIOMASS]: 15.0, [ResourceType.FUNDS]: 10.0, [ResourceType.TINFOIL]: 0.1 }, 
     costMultiplier: 1.4,
     icon: 'Droplets',
     unlockRequirement: 0, 
@@ -164,7 +164,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     description: '拆解电子烟和电动车电池。虽有爆炸风险，但能量免费。',
     category: BuildingCategory.SURVIVAL,
     baseCosts: { [ResourceType.OPS]: 2000, [ResourceType.FUNDS]: 10000 },
-    baseProduction: { [ResourceType.POWER]: 150.0, [ResourceType.CARDBOARD]: 10.0 }, // 25 -> 150
+    baseProduction: { [ResourceType.POWER]: 120.0, [ResourceType.CARDBOARD]: 10.0, [ResourceType.BIOMASS]: -5.0 }, // Health hazard
     costMultiplier: 1.5,
     icon: 'BatteryCharging',
     unlockRequirement: 0, 
@@ -176,7 +176,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     description: '改造的集装箱，埋在地下。里面堆满了罐头和硬盘备份。',
     category: BuildingCategory.SURVIVAL,
     baseCosts: { [ResourceType.FUNDS]: 100000, [ResourceType.CARDBOARD]: 10000, [ResourceType.OPS]: 5000 },
-    baseProduction: { [ResourceType.BIOMASS]: 200.0, [ResourceType.REALITY]: 0.0001, [ResourceType.PANIC]: -5.0 }, // 10 -> 200
+    baseProduction: { [ResourceType.BIOMASS]: 200.0, [ResourceType.REALITY]: 0.0001, [ResourceType.PANIC]: -5.0, [ResourceType.POWER]: -50.0 }, // Power consumption
     costMultiplier: 1.8,
     icon: 'Shield',
     unlockRequirement: 0, 

@@ -61,8 +61,8 @@ export const generateArtifact = (depth: number, researchedTechs: string[]): Arti
     
     if (Math.random() < investigationChance) {
         const secretRoll = Math.random();
-        if (secretRoll < 0.3) {
-            // 30% chance of hidden loot being a UNIQUE item
+        if (secretRoll < 0.1) { // NERFED: 30% -> 10% chance of UNIQUE
+            // 10% chance of hidden loot being a UNIQUE item
             const targetUnique = pick(UNIQUE_ARTIFACTS);
             hiddenLootId = targetUnique.id;
             // FORCE TYPE to match hidden loot if it specifies one
@@ -71,7 +71,7 @@ export const generateArtifact = (depth: number, researchedTechs: string[]): Arti
                 if (forcedProceduralType) subtype = 'file'; // Most uniques hide in files
             }
         } else {
-            // 70% chance of just being a "High Value" resource bundle
+            // 90% chance of just being a "High Value" resource bundle
             hiddenLootId = 'resource_bundle';
         }
         

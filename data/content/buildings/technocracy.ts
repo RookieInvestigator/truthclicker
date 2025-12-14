@@ -8,7 +8,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     description: 'GitHub代码是现代工具。复制粘贴，无需理解原理。',
     category: BuildingCategory.TECHNOCRACY,
     baseCosts: { [ResourceType.INFO]: 100, [ResourceType.FUNDS]: 50 },
-    baseProduction: { [ResourceType.CODE]: 0.5 }, // 0.1 -> 0.5
+    baseProduction: { [ResourceType.CODE]: 0.5 }, 
     costMultiplier: 1.25,
     icon: 'Terminal',
     unlockRequirement: 0, 
@@ -20,7 +20,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     description: '用宜家桌子改造的机架。运行着 Pi-hole 和私有云。',
     category: BuildingCategory.TECHNOCRACY,
     baseCosts: { [ResourceType.FUNDS]: 500, [ResourceType.CARDBOARD]: 50 },
-    baseProduction: { [ResourceType.OPS]: 10.0, [ResourceType.POWER]: -2.0 }, // 2 -> 10
+    baseProduction: { [ResourceType.OPS]: 8.0, [ResourceType.POWER]: -2.0 }, // Power cost
     costMultiplier: 1.3,
     icon: 'Server',
     unlockRequirement: 0, 
@@ -32,7 +32,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     description: '32个单板计算机堆叠在一起。低功耗，高并发（理论上）。',
     category: BuildingCategory.TECHNOCRACY,
     baseCosts: { [ResourceType.FUNDS]: 1200, [ResourceType.CODE]: 100 },
-    baseProduction: { [ResourceType.OPS]: 25.0, [ResourceType.POWER]: -5.0 }, // 5 -> 25
+    baseProduction: { [ResourceType.OPS]: 20.0, [ResourceType.POWER]: -5.0 }, // Power cost
     costMultiplier: 1.3,
     icon: 'Grid',
     unlockRequirement: 0, 
@@ -44,7 +44,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     description: '不再依赖电网。从恒星直接汲取能量。',
     category: BuildingCategory.TECHNOCRACY,
     baseCosts: { [ResourceType.FUNDS]: 2000, [ResourceType.OPS]: 50 },
-    baseProduction: { [ResourceType.POWER]: 50.0 }, // 10 -> 50
+    baseProduction: { [ResourceType.POWER]: 30.0 }, // Nerfed 50 -> 30
     costMultiplier: 1.35,
     icon: 'Sun',
     unlockRequirement: 0, 
@@ -56,7 +56,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     description: '燃烧化石燃料。噪音很大，味道难闻，但这是最后的防线。',
     category: BuildingCategory.TECHNOCRACY,
     baseCosts: { [ResourceType.FUNDS]: 3000, [ResourceType.OPS]: 200 },
-    baseProduction: { [ResourceType.POWER]: 150.0, [ResourceType.FUNDS]: -20.0 }, // 30 -> 150
+    baseProduction: { [ResourceType.POWER]: 150.0, [ResourceType.FUNDS]: -25.0, [ResourceType.BIOMASS]: -2.0 }, // Fuel & Health Cost
     costMultiplier: 1.35,
     icon: 'Zap',
     unlockRequirement: 0, 
@@ -68,7 +68,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     description: '将整台电脑浸泡在绝缘油中。看起来像是一个赛博朋克水族馆。',
     category: BuildingCategory.TECHNOCRACY,
     baseCosts: { [ResourceType.FUNDS]: 4000, [ResourceType.OPS]: 500 },
-    baseProduction: { [ResourceType.OPS]: 80.0, [ResourceType.POWER]: -10.0 }, // 15 -> 80
+    baseProduction: { [ResourceType.OPS]: 60.0, [ResourceType.POWER]: -10.0, [ResourceType.FUNDS]: -2.0 }, // Maintenance
     costMultiplier: 1.3,
     icon: 'Droplets',
     unlockRequirement: 0, 
@@ -80,7 +80,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     description: '现场可编程门阵列。专门为特定算法优化的硬件，比 GPU 更纯粹。',
     category: BuildingCategory.TECHNOCRACY,
     baseCosts: { [ResourceType.FUNDS]: 8000, [ResourceType.CODE]: 1000 },
-    baseProduction: { [ResourceType.FUNDS]: 200.0, [ResourceType.OPS]: 100.0, [ResourceType.POWER]: -80.0 }, // Boosted
+    baseProduction: { [ResourceType.FUNDS]: 150.0, [ResourceType.OPS]: 80.0, [ResourceType.POWER]: -80.0 }, // Power cost
     costMultiplier: 1.4,
     icon: 'Cpu',
     unlockRequirement: 0, 
@@ -92,7 +92,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     description: '不仅是通讯设施。高频微波传输数据，或者...别的。',
     category: BuildingCategory.TECHNOCRACY,
     baseCosts: { [ResourceType.FUNDS]: 15000, [ResourceType.OPS]: 2000 },
-    baseProduction: { [ResourceType.INFO]: 500.0, [ResourceType.MIND_CONTROL]: 1.0, [ResourceType.POWER]: -150.0 }, // 100 -> 500
+    baseProduction: { [ResourceType.INFO]: 800.0, [ResourceType.MIND_CONTROL]: 1.0, [ResourceType.POWER]: -150.0, [ResourceType.CRED]: -2.0 }, // Prod 500 -> 800
     costMultiplier: 1.5,
     icon: 'RadioTower',
     unlockRequirement: 0, 
@@ -104,7 +104,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     description: '它不产生净能量，但它能产生中子辐射，而且非常酷。',
     category: BuildingCategory.TECHNOCRACY,
     baseCosts: { [ResourceType.FUNDS]: 25000, [ResourceType.OPS]: 5000, [ResourceType.POWER]: 2000 },
-    baseProduction: { [ResourceType.TECH_CAPITAL]: 5.0, [ResourceType.OPS]: 300.0, [ResourceType.POWER]: -300.0 }, 
+    baseProduction: { [ResourceType.TECH_CAPITAL]: 5.0, [ResourceType.OPS]: 250.0, [ResourceType.POWER]: -300.0, [ResourceType.BIOMASS]: -5.0 }, // Radiation
     costMultiplier: 1.5,
     icon: 'Atom',
     unlockRequirement: 0, 
@@ -116,7 +116,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     description: '在培养皿中生长的神经元比硅芯片更高效。它们有时候会尖叫。',
     category: BuildingCategory.TECHNOCRACY,
     baseCosts: { [ResourceType.OPS]: 40000, [ResourceType.BIOMASS]: 2000 },
-    baseProduction: { [ResourceType.OPS]: 1000, [ResourceType.CODE]: 50.0, [ResourceType.BIOMASS]: -10.0 }, // 200 -> 1000
+    baseProduction: { [ResourceType.OPS]: 1000, [ResourceType.CODE]: 50.0, [ResourceType.BIOMASS]: -20.0 }, // Feed them
     costMultiplier: 1.6,
     icon: 'Dna',
     unlockRequirement: 0,
@@ -128,7 +128,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     description: '在大脑皮层植入电极。思维即代码，代码即血肉。',
     category: BuildingCategory.TECHNOCRACY,
     baseCosts: { [ResourceType.BIOMASS]: 5000, [ResourceType.CODE]: 20000, [ResourceType.FUNDS]: 50000 },
-    baseProduction: { [ResourceType.CODE]: 200, [ResourceType.MIND_CONTROL]: 5.0, [ResourceType.BIOMASS]: -5.0 }, // 50 -> 200
+    baseProduction: { [ResourceType.CODE]: 200, [ResourceType.MIND_CONTROL]: 5.0, [ResourceType.BIOMASS]: -10.0, [ResourceType.PLEASURE]: -2.0 }, // Pain
     costMultiplier: 1.6,
     icon: 'Brain',
     unlockRequirement: 0, 
@@ -140,7 +140,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     description: '我们在用数学训练一个我们无法控制的黑盒模型。',
     category: BuildingCategory.TECHNOCRACY,
     baseCosts: { [ResourceType.FUNDS]: 100000, [ResourceType.TECH_CAPITAL]: 500 },
-    baseProduction: { [ResourceType.OPS]: 2500, [ResourceType.CODE]: 250, [ResourceType.POWER]: -1000.0 }, // 500 -> 2500
+    baseProduction: { [ResourceType.OPS]: 2500, [ResourceType.CODE]: 250, [ResourceType.POWER]: -1500.0, [ResourceType.INFO]: -100.0 }, // Consumes Data & Power
     costMultiplier: 1.65,
     icon: 'BrainCircuit',
     unlockRequirement: 0, 
@@ -152,7 +152,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     description: '通过从相邻的平行宇宙借用算力来解决优化问题。',
     category: BuildingCategory.TECHNOCRACY,
     baseCosts: { [ResourceType.FUNDS]: 250000, [ResourceType.OPS]: 50000 },
-    baseProduction: { [ResourceType.TECH_CAPITAL]: 20.0, [ResourceType.OPS]: 10000, [ResourceType.POWER]: -2000.0 }, // 2000 -> 10000
+    baseProduction: { [ResourceType.TECH_CAPITAL]: 20.0, [ResourceType.OPS]: 10000, [ResourceType.POWER]: -2500.0 }, 
     costMultiplier: 1.8,
     icon: 'Box',
     unlockRequirement: 0, 
@@ -164,7 +164,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     description: '无损耗存储电流。巨大的磁场会扭曲周围的时间流速。',
     category: BuildingCategory.TECHNOCRACY,
     baseCosts: { [ResourceType.TECH_CAPITAL]: 5000, [ResourceType.FUNDS]: 500000 },
-    baseProduction: { [ResourceType.POWER]: 50000, [ResourceType.OPS]: 2000 }, // 5000 -> 50000
+    baseProduction: { [ResourceType.POWER]: 25000, [ResourceType.OPS]: 1000, [ResourceType.REALITY]: -0.0001 }, // Nerfed 50k -> 25k, Ops 2k -> 1k
     costMultiplier: 1.8,
     icon: 'Circle',
     unlockRequirement: 0, 
@@ -176,7 +176,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     description: '能够自我复制的微型机器。目前处于静止状态...大概。',
     category: BuildingCategory.TECHNOCRACY,
     baseCosts: { [ResourceType.TECH_CAPITAL]: 20000, [ResourceType.CODE]: 500000 },
-    baseProduction: { [ResourceType.OPS]: 50000, [ResourceType.PANIC]: 50.0, [ResourceType.BIOMASS]: -200.0 }, // 10000 -> 50000
+    baseProduction: { [ResourceType.OPS]: 40000, [ResourceType.PANIC]: 50.0, [ResourceType.BIOMASS]: -200.0, [ResourceType.POWER]: -500.0 }, 
     costMultiplier: 2.0,
     icon: 'AlertTriangle',
     unlockRequirement: 0, 
@@ -188,7 +188,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     description: '自我复制的太空探测器。利用小行星带的资源建造副本。',
     category: BuildingCategory.TECHNOCRACY,
     baseCosts: { [ResourceType.OPS]: 2000000, [ResourceType.TECH_CAPITAL]: 50000 },
-    baseProduction: { [ResourceType.OPS]: 200000, [ResourceType.INFO]: 100000 }, // 50k -> 200k
+    baseProduction: { [ResourceType.OPS]: 150000, [ResourceType.INFO]: 100000, [ResourceType.TECH_CAPITAL]: -10.0 }, 
     costMultiplier: 2.2,
     icon: 'Rocket',
     unlockRequirement: 0, 
@@ -200,7 +200,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     description: '遮蔽太阳。所有能量都归我们所有。',
     category: BuildingCategory.TECHNOCRACY,
     baseCosts: { [ResourceType.OPS]: 5000000, [ResourceType.TECH_CAPITAL]: 200000 },
-    baseProduction: { [ResourceType.POWER]: 5000000.0, [ResourceType.OPS]: -20000.0 }, // 100k -> 5M
+    baseProduction: { [ResourceType.POWER]: 5000000.0, [ResourceType.OPS]: -50000.0 }, 
     costMultiplier: 2.5,
     icon: 'Sun',
     unlockRequirement: 0, 
@@ -212,7 +212,7 @@ export const TECHNOCRACY_BUILDINGS: Building[] = [
     description: '代码在提交之前就已经修复了。逆因果版本控制。',
     category: BuildingCategory.TECHNOCRACY,
     baseCosts: { [ResourceType.CODE]: 1000000, [ResourceType.OPS]: 500000 },
-    baseProduction: { [ResourceType.CODE]: 10000.0, [ResourceType.TECH_CAPITAL]: 50.0, [ResourceType.TRUTH]: 0.005 }, // Nerfed to 0.005
+    baseProduction: { [ResourceType.CODE]: 10000.0, [ResourceType.TECH_CAPITAL]: 50.0, [ResourceType.TRUTH]: 0.005, [ResourceType.REALITY]: -0.0005 }, 
     costMultiplier: 2.0,
     icon: 'GitBranch',
     unlockRequirement: 0,

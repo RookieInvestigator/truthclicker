@@ -20,7 +20,7 @@ export const ESOTERIC_BUILDINGS: Building[] = [
     description: '运行TempleOS。在低清画面中聆听神的随机数。',
     category: BuildingCategory.ESOTERIC,
     baseCosts: { [ResourceType.CODE]: 10000, [ResourceType.ANCIENT_WISDOM]: 500 },
-    baseProduction: { [ResourceType.TRUTH]: 0.001, [ResourceType.CODE]: 10.0, [ResourceType.ANCIENT_WISDOM]: 1.0 }, // 0.001 OK
+    baseProduction: { [ResourceType.TRUTH]: 0.001, [ResourceType.CODE]: 10.0, [ResourceType.ANCIENT_WISDOM]: 1.0, [ResourceType.POWER]: -10.0 }, // 0.001 OK
     costMultiplier: 1.6,
     icon: 'Monitor',
     unlockRequirement: 0,
@@ -56,7 +56,7 @@ export const ESOTERIC_BUILDINGS: Building[] = [
     description: '防止世界因为过多的[正概率]滥用而解体。',
     category: BuildingCategory.ESOTERIC,
     baseCosts: { [ResourceType.TECH_CAPITAL]: 500, [ResourceType.OPS]: 20000 },
-    baseProduction: { [ResourceType.REALITY]: 0.0002, [ResourceType.POWER]: -100.0 },
+    baseProduction: { [ResourceType.REALITY]: 0.0002, [ResourceType.POWER]: -100.0, [ResourceType.OPS]: -50.0 },
     costMultiplier: 1.7,
     icon: 'Anchor',
     unlockRequirement: 0, // Reset
@@ -80,7 +80,7 @@ export const ESOTERIC_BUILDINGS: Building[] = [
     description: '从含羞草根皮中提取精神分子。通往其他维度的钥匙。',
     category: BuildingCategory.ESOTERIC,
     baseCosts: { [ResourceType.BIOMASS]: 5000, [ResourceType.FUNDS]: 2000 },
-    baseProduction: { [ResourceType.KNOWLEDGE]: 5.0, [ResourceType.LORE]: 10.0, [ResourceType.BIOMASS]: -50.0, [ResourceType.PLEASURE]: 5.0 },
+    baseProduction: { [ResourceType.KNOWLEDGE]: 5.0, [ResourceType.LORE]: 10.0, [ResourceType.BIOMASS]: -50.0, [ResourceType.PLEASURE]: 5.0, [ResourceType.FUNDS]: -10.0 },
     costMultiplier: 1.5,
     icon: 'FlaskConical',
     unlockRequirement: 0, // Reset
@@ -128,7 +128,7 @@ export const ESOTERIC_BUILDINGS: Building[] = [
     description: '产生一个绝对真实的“真理场”，防止周围的现实结构因过度探索而发生溶解。',
     category: BuildingCategory.ESOTERIC,
     baseCosts: { [ResourceType.TECH_CAPITAL]: 100, [ResourceType.ANCIENT_WISDOM]: 50 },
-    baseProduction: { [ResourceType.REALITY]: 0.0005, [ResourceType.POWER]: -1000.0 }, // Removed TRUTH consumption
+    baseProduction: { [ResourceType.REALITY]: 0.0005, [ResourceType.POWER]: -1000.0, [ResourceType.OPS]: -500.0 }, 
     costMultiplier: 1.6,
     icon: 'Anchor',
     unlockRequirement: 0, // Reset
@@ -140,7 +140,7 @@ export const ESOTERIC_BUILDINGS: Building[] = [
     description: '移除房间氧气。在濒死状态下，你终于看清世界本质。',
     category: BuildingCategory.ESOTERIC,
     baseCosts: { [ResourceType.FUNDS]: 20000, [ResourceType.KNOWLEDGE]: 1000 },
-    baseProduction: { [ResourceType.KNOWLEDGE]: 1000.0, [ResourceType.OXYGEN]: -2000.0, [ResourceType.REALITY]: -0.0001 }, 
+    baseProduction: { [ResourceType.KNOWLEDGE]: 1000.0, [ResourceType.OXYGEN]: -2000.0, [ResourceType.REALITY]: -0.0001, [ResourceType.POWER]: -50.0 }, 
     costMultiplier: 1.7,
     icon: 'Wind',
     unlockRequirement: 0,

@@ -15,16 +15,16 @@ const TruthBoard: React.FC<TruthBoardProps> = ({ gameState }) => {
   // Filter unlocked posts
   const unlockedPosts = useMemo(() => {
       return BOARD_POSTS.filter(post => {
-          // Always show posts with no requirement
-          if (!post.reqTech && !post.minDepth) return true;
+          // Check Tech Requirements
+          const hasReqTech = !post.reqTech || post.reqTech.every(t => gameState.researchedTechs.includes(t));
           
-          // Check Tech
-          const hasTech = !post.reqTech || post.reqTech.every(t => gameState.researchedTechs.includes(t));
-          
+          // Check Hidden Tech
+          const isHidden = post.hideIfTech && post.hideIfTech.some(t => gameState.researchedTechs.includes(t));
+
           // Check Depth
           const hasDepth = !post.minDepth || gameState.depth >= post.minDepth;
 
-          return hasTech && hasDepth;
+          return hasReqTech && !isHidden && hasDepth;
       }).reverse(); // Newest first
   }, [gameState.researchedTechs, gameState.depth]);
 
@@ -81,8 +81,9 @@ const TruthBoard: React.FC<TruthBoardProps> = ({ gameState }) => {
                     
                     // Filter replies based on tech
                     const visibleReplies = post.replies.filter(reply => {
-                        if (!reply.reqTech) return true;
-                        return reply.reqTech.every(t => gameState.researchedTechs.includes(t));
+                        const hasReqTech = !reply.reqTech || reply.reqTech.every(t => gameState.researchedTechs.includes(t));
+                        const isHidden = reply.hideIfTech && reply.hideIfTech.some(t => gameState.researchedTechs.includes(t));
+                        return hasReqTech && !isHidden;
                     });
 
                     return (

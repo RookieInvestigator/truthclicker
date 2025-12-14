@@ -8,6 +8,14 @@ export interface GameSettings {
   showDetailedBatchLogs: boolean; 
 }
 
+export interface AppNotification {
+  id: string;
+  title: string;
+  message: string;
+  type: 'unlock' | 'achievement' | 'alert';
+  timestamp: number;
+}
+
 export interface GameState {
   resources: {
     [key in ResourceType]: number;
@@ -24,6 +32,10 @@ export interface GameState {
   startTime: number;
   depth: number;
   luckBoostEndTime: number; 
+  
+  // New Content Tracking
+  unlockedItemIds: string[]; // Tracks IDs of buildings/posts already notified
+  notifications: AppNotification[]; // Active notifications queue
 }
 
 export enum ResourceType {
@@ -190,6 +202,7 @@ export interface BoardReply {
   image?: string; 
   postNumber: number; // FIXED: Static post number
   reqTech?: string[]; // NEW: Replies can now require tech to be visible
+  hideIfTech?: string[]; // NEW: Replies can now be hidden if tech is present
 }
 
 export interface BoardPost {
@@ -204,5 +217,6 @@ export interface BoardPost {
   postNumber: number; // FIXED: Static post number to prevent jumping
   replies: BoardReply[];
   reqTech?: string[]; 
+  hideIfTech?: string[]; // NEW: Posts can now be hidden if tech is present
   minDepth?: number;
 }

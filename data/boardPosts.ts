@@ -15,7 +15,14 @@ export const BOARD_POSTS: BoardPost[] = [
     content: "欢迎来到 /t/ 版块。\n\n规则：\n1. 这里的讨论被视为虚构，除非它不是。\n2. 不要相信你在 mainstream web 上看到的任何东西。\n3. 挖掘，直到指甲流血。\n\nEnjoy your stay.",
     replies: [
         { id: 'r1', author: 'Anonymous', timestamp: '...', postNumber: 2, content: "第一？" },
-        { id: 'r2', author: 'Anonymous', timestamp: '...', postNumber: 85, content: "这个板块看起来像是某种 ARG 游戏。" },
+        { 
+            id: 'r2', 
+            author: 'Anonymous', 
+            timestamp: '...', 
+            postNumber: 85, 
+            content: "这个板块看起来像是某种 ARG 游戏。",
+            hideIfTech: ['digital_literacy'] // Hides when you wake up
+        },
         { id: 'r3', author: 'Mod_Bot', timestamp: '...', postNumber: 99, content: "系统提示：请勿在该板块讨论现实政治，除非涉及蜥蜴人。", reqTech: ['spam_algorithms'] },
     ]
   },
@@ -28,9 +35,16 @@ export const BOARD_POSTS: BoardPost[] = [
     fileSize: '0KB',
     filename: 'confused.jpg',
     postNumber: 404,
-    content: ">来到贴图版\n>所有图片都变成了莫名其妙的ico\n\n这真的是 2024 年吗？带宽很贵吗？",
+    content: ">来到贴图版\n>贴上去的图片都变成了莫名其妙的ico\n\n这真的是 2024 年吗？带宽很贵吗？",
     replies: [
-        { id: 'r1', author: 'OldGuard', timestamp: '...', postNumber: 405, content: "用你的想象力。或者去升级你的[显卡]。" },
+        { 
+            id: 'r1', 
+            author: 'OldGuard', 
+            timestamp: '...', 
+            postNumber: 405, 
+            content: "用你的想象力。或者去升级你的[显卡]。",
+            hideIfTech: ['steganography'] 
+        },
         { id: 'r2', author: 'Anonymous', timestamp: '...', postNumber: 408, content: ">需要图片来刺激多巴胺\n典型的 Zoomer。文字才是纯粹的信息载体。" },
         { id: 'r3', author: 'Glitcher', timestamp: '...', postNumber: 412, content: "图片都被[逆模因]过滤了。你看到的只是占位符。", reqTech: ['infohazard_containment'] }
     ]
@@ -48,6 +62,14 @@ export const BOARD_POSTS: BoardPost[] = [
     reqTech: ['digital_literacy'],
     replies: [
         { id: 'r1', author: 'Anonymous', timestamp: '...', postNumber: 1025, content: "欢迎来到沙漠，新人。" },
+        { 
+            id: 'r_bluepill', 
+            author: 'Normie', 
+            timestamp: '...', 
+            postNumber: 1028, 
+            content: "去看医生吧，这听起来像是严重的解离症状。",
+            hideIfTech: ['dead_internet_theory'] // Hides when you delve deeper
+        },
         { id: 'r2', author: 'MorpheusFan', timestamp: '...', postNumber: 1030, content: "这只是第一步。等你看到数字背后的实体，你才会真的尿裤子。" },
         { id: 'r3', author: 'TechSupport', timestamp: '...', postNumber: 1042, content: ">看不到手\n典型的渲染延迟。试着刷新你的视觉皮层驱动。", reqTech: ['basic_scripting'] }
     ]
@@ -101,7 +123,7 @@ export const BOARD_POSTS: BoardPost[] = [
     reqTech: ['spam_algorithms'],
     replies: [
         { id: 'r1', author: 'Anonymous', timestamp: '...', postNumber: 4445, content: "FBI, open up." },
-        { id: 'r2', author: 'Anonymous', timestamp: '...', postNumber: 4450, content: "平均真相版。" },
+        { id: 'r2', author: 'Anonymous', timestamp: '...', postNumber: 4450, content: "基于且红丸化。" },
         { id: 'r3', author: 'Bot_Net_Admin', timestamp: '...', postNumber: 4466, content: "别用自己的 IP 发，菜鸟。你需要僵尸网络。", reqTech: ['botnet_architecture'] }
     ]
   },

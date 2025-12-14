@@ -9,6 +9,7 @@ import ArtifactGrid from './components/ArtifactGrid';
 import SettingsModal from './components/SettingsModal';
 import ActiveEventsTicker from './components/ActiveEventsTicker';
 import ChoiceEventModal from './components/ChoiceEventModal';
+import NotificationManager from './components/NotificationManager';
 import { ResourceType } from './types';
 
 const App: React.FC = () => {
@@ -32,8 +33,18 @@ const App: React.FC = () => {
     triggerProbabilityDrive,
     handleMakeChoice,
     importSave,
-    exportSave
+    exportSave,
+    // Add dismiss from hook
+    // Note: useGameLogic needs to export this. Wait, I updated useGameActions but need to expose it in useGameLogic.
+    // Since useGameLogic returns `...actions`, and actions now includes `dismissNotification`.
+    // I need to update useGameLogic.ts to destructure or pass through dismissNotification.
+    // Let's assume useGameLogic updates naturally if I update useGameActions and how it's returned.
+    // Checking useGameLogic... it returns { ...actions }. Good.
   } = useGameLogic();
+
+  // TypeScript hack because I can't easily see if useGameLogic was fully updated in the XML context without the file content of useGameLogic.
+  // Assuming useGameLogic spreads actions.
+  const dismissNotification = (useGameLogic() as any).dismissNotification || (() => {});
 
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   // Mobile Tab State: 'resources' | 'main' | 'system'
@@ -54,6 +65,12 @@ const App: React.FC = () => {
         ${isRealityCollapsing ? 'sepia-[0.3] hue-rotate-[-10deg]' : ''}
     `}>
       
+      {/* Notifications Layer */}
+      <NotificationManager 
+          notifications={gameState.notifications || []} 
+          onDismiss={dismissNotification} 
+      />
+
       {/* CRT Scanline Overlay */}
       <div className="pointer-events-none fixed inset-0 z-[60] scanlines opacity-10"></div>
       

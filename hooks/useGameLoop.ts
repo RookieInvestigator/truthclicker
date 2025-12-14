@@ -1,9 +1,11 @@
 
 import React, { useEffect } from 'react';
-import { GameState, ResourceType, GameEvent } from '../types';
+import { GameState, ResourceType, GameEvent, AppNotification } from '../types';
 import { POSSIBLE_EVENTS } from '../data/events';
 import { CHOICE_EVENTS } from '../data/choiceEvents';
 import { TECHS } from '../data/techs';
+import { BUILDINGS } from '../data/buildings';
+import { BOARD_POSTS } from '../data/boardPosts';
 import { generateArtifact } from '../utils/generator';
 import { TICK_RATE, AUTOSAVE_INTERVAL } from '../constants';
 
@@ -42,6 +44,50 @@ export const useGameLoop = (
                 newRes[ResourceType.OPS] = Math.max(0, newRes[ResourceType.OPS] * 0.99);
                 newRes[ResourceType.FUNDS] = Math.max(0, newRes[ResourceType.FUNDS] * 0.99);
             }
+
+            // --- UNLOCK CHECK SYSTEM ---
+            const newUnlockedIds: string[] = [];
+            const newNotifications: AppNotification[] = [];
+            const safeUnlockedItemIds = prev.unlockedItemIds || [];
+
+            // Check Buildings
+            BUILDINGS.forEach(b => {
+                if (safeUnlockedItemIds.includes(b.id)) return;
+                
+                const isUnlocked = (prev.totalInfoMined >= b.unlockRequirement * 0.5 || b.unlockRequirement === 0) &&
+                                   (!b.requireTech || b.requireTech.every(t => prev.researchedTechs.includes(t)));
+                
+                if (isUnlocked) {
+                    newUnlockedIds.push(b.id);
+                    newNotifications.push({ 
+                        id: `notif_${Date.now()}_${Math.random()}`, 
+                        title: '新节点解锁', 
+                        message: b.name, 
+                        type: 'unlock',
+                        timestamp: now
+                    });
+                }
+            });
+
+            // Check Posts
+            BOARD_POSTS.forEach(p => {
+                if (safeUnlockedItemIds.includes(p.id)) return;
+                
+                const hasReqTech = !p.reqTech || p.reqTech.every(t => prev.researchedTechs.includes(t));
+                const isHidden = p.hideIfTech && p.hideIfTech.some(t => prev.researchedTechs.includes(t));
+                const hasDepth = !p.minDepth || prev.depth >= p.minDepth;
+
+                if (hasReqTech && !isHidden && hasDepth) {
+                    newUnlockedIds.push(p.id);
+                    newNotifications.push({ 
+                        id: `notif_${Date.now()}_${Math.random()}`, 
+                        title: '新情报披露', 
+                        message: p.title, 
+                        type: 'unlock',
+                        timestamp: now
+                    });
+                }
+            });
 
             // Random Events / Artifacts
             let newArtifacts = [...prev.artifacts];
@@ -99,7 +145,11 @@ export const useGameLoop = (
             // Autosave check
             if (now - lastSaveTime.current > AUTOSAVE_INTERVAL) {
                  localStorage.setItem('truth_clicker_save_v2', JSON.stringify({
-                     ...prev, resources: newRes, artifacts: newArtifacts, activeEvents: newActiveEvents
+                     ...prev, 
+                     resources: newRes, 
+                     artifacts: newArtifacts, 
+                     activeEvents: newActiveEvents,
+                     unlockedItemIds: [...safeUnlockedItemIds, ...newUnlockedIds]
                  }));
                  lastSaveTime.current = now;
             }
@@ -110,7 +160,9 @@ export const useGameLoop = (
                 artifacts: newArtifacts,
                 activeEvents: newActiveEvents,
                 pendingChoice: newPendingChoice,
-                depth: prev.depth + (production[ResourceType.INFO] > 0 ? ((production[ResourceType.INFO] as number) * deltaSec * 0.001) : 0)
+                depth: prev.depth + (production[ResourceType.INFO] > 0 ? ((production[ResourceType.INFO] as number) * deltaSec * 0.001) : 0),
+                unlockedItemIds: [...safeUnlockedItemIds, ...newUnlockedIds],
+                notifications: [...(prev.notifications || []), ...newNotifications]
             };
         });
     }, TICK_RATE);

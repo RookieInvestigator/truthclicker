@@ -49,4 +49,7 @@ export const INITIAL_STATE: GameState = {
   startTime: Date.now(),
   depth: 0,
   luckBoostEndTime: 0,
+  
+  unlockedItemIds: [],
+  notifications: [],
 };

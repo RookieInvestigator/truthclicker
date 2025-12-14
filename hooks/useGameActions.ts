@@ -143,8 +143,6 @@ export const useGameActions = (
               const eventDef = CHOICE_EVENTS.find(e => e.id === triggeredEventId);
               if (eventDef) {
                   newPendingChoice = eventDef;
-                  // Optional: Add a log indicating an event was triggered
-                  // addLog(`TRIGGER: ${eventDef.title}`, 'warning'); 
               }
           }
 
@@ -353,6 +351,13 @@ export const useGameActions = (
       });
   }, [addLog, setGameState]);
 
+  const dismissNotification = useCallback((id: string) => {
+      setGameState(prev => ({
+          ...prev,
+          notifications: prev.notifications.filter(n => n.id !== id)
+      }));
+  }, [setGameState]);
+
   return {
     handleManualMine,
     buyBuilding,
@@ -363,6 +368,7 @@ export const useGameActions = (
     toggleSetting,
     triggerRealityFlush,
     triggerProbabilityDrive,
-    handleMakeChoice
+    handleMakeChoice,
+    dismissNotification
   };
 };

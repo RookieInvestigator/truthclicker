@@ -13,12 +13,21 @@ interface SettingsModalProps {
 
 const SettingsModal: React.FC<SettingsModalProps> = ({ settings, onToggle, onClose, onImport, onExport }) => {
   const [importString, setImportString] = useState("");
+  const [exportString, setExportString] = useState("");
   const [showImportInput, setShowImportInput] = useState(false);
+  const [showExportOutput, setShowExportOutput] = useState(false);
   const [copyFeedback, setCopyFeedback] = useState("");
 
-  const handleExport = () => {
+  const handleGenerateExport = () => {
       const data = onExport();
-      navigator.clipboard.writeText(data).then(() => {
+      setExportString(data);
+      setShowExportOutput(true);
+      setShowImportInput(false);
+  };
+
+  const handleCopyExport = () => {
+      if (!exportString) return;
+      navigator.clipboard.writeText(exportString).then(() => {
           setCopyFeedback("已复制到剪贴板!");
           setTimeout(() => setCopyFeedback(""), 2000);
       });
@@ -155,32 +164,58 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ settings, onToggle, onClo
                 
                 <div className="flex gap-2 mb-2">
                     <button 
-                        onClick={handleExport}
-                        className="flex-1 flex items-center justify-center gap-2 p-2 bg-gray-800 hover:bg-gray-700 text-xs font-bold border border-gray-700 rounded transition-colors"
+                        onClick={handleGenerateExport}
+                        className={`flex-1 flex items-center justify-center gap-2 p-2 text-xs font-bold border rounded transition-colors
+                            ${showExportOutput ? 'bg-term-green/20 text-term-green border-term-green/50' : 'bg-gray-800 hover:bg-gray-700 text-gray-300 border-gray-700'}
+                        `}
                     >
                         <Upload size={14} /> 导出存档
                     </button>
                     <button 
-                        onClick={() => setShowImportInput(!showImportInput)}
-                        className="flex-1 flex items-center justify-center gap-2 p-2 bg-gray-800 hover:bg-gray-700 text-xs font-bold border border-gray-700 rounded transition-colors"
+                        onClick={() => {
+                            setShowImportInput(!showImportInput);
+                            setShowExportOutput(false);
+                        }}
+                        className={`flex-1 flex items-center justify-center gap-2 p-2 text-xs font-bold border rounded transition-colors
+                            ${showImportInput ? 'bg-blue-900/30 text-blue-400 border-blue-500/50' : 'bg-gray-800 hover:bg-gray-700 text-gray-300 border-gray-700'}
+                        `}
                     >
                         <Download size={14} /> 导入存档
                     </button>
                 </div>
 
+                {/* EXPORT OUTPUT AREA */}
+                {showExportOutput && (
+                    <div className="animate-in fade-in slide-in-from-top-1 duration-200 space-y-2">
+                        <textarea 
+                            readOnly
+                            value={exportString}
+                            className="w-full h-24 bg-black border border-term-green/30 p-2 text-[10px] font-mono text-term-green mb-1 focus:outline-none resize-none"
+                            onClick={(e) => (e.target as HTMLTextAreaElement).select()}
+                        />
+                        <button 
+                            onClick={handleCopyExport}
+                            className="w-full p-2 text-xs font-bold uppercase rounded flex items-center justify-center gap-2 transition-colors bg-term-green text-black hover:bg-term-green-dim"
+                        >
+                            <Copy size={14} /> 复制到剪贴板
+                        </button>
+                    </div>
+                )}
+
+                {/* IMPORT INPUT AREA */}
                 {showImportInput && (
                     <div className="animate-in fade-in slide-in-from-top-1 duration-200">
                         <textarea 
                             value={importString}
                             onChange={(e) => setImportString(e.target.value)}
                             placeholder="在此粘贴存档数据..."
-                            className="w-full h-24 bg-black border border-gray-700 p-2 text-[10px] font-mono text-gray-300 mb-2 focus:border-term-green focus:outline-none resize-none"
+                            className="w-full h-24 bg-black border border-blue-500/30 p-2 text-[10px] font-mono text-gray-300 mb-2 focus:border-blue-500 focus:outline-none resize-none"
                         />
                         <button 
                             onClick={handleImport}
                             disabled={!importString}
                             className={`w-full p-2 text-xs font-bold uppercase rounded flex items-center justify-center gap-2 transition-colors
-                                ${importString ? 'bg-term-green/20 text-term-green border border-term-green/50 hover:bg-term-green/30' : 'bg-gray-900 text-gray-600 border border-gray-800 cursor-not-allowed'}
+                                ${importString ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-gray-900 text-gray-600 border border-gray-800 cursor-not-allowed'}
                             `}
                         >
                             <Check size={14} /> 确认导入
@@ -198,7 +233,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ settings, onToggle, onClo
         </div>
         
         <div className="p-3 border-t border-term-gray bg-gray-900/30 text-center">
-            <span className="text-[10px] text-gray-600 uppercase tracking-widest">v2.1.0-build-8842</span>
+            <span className="text-[10px] text-gray-600 uppercase tracking-widest">v2.1.2-build-fix</span>
         </div>
       </div>
     </div>

@@ -12,6 +12,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     costMultiplier: 1.2, // 1.15 -> 1.2
     icon: 'Recycle',
     unlockRequirement: 0, 
+    requireTech: ['scavenger_intuition'], // NEW REQUIREMENT
   },
   {
     id: 'mealworm_bin',
@@ -35,6 +36,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     costMultiplier: 1.2,
     icon: 'Bot',
     unlockRequirement: 50, 
+    requireTech: ['crowdsourcing_api'], // NEW REQUIREMENT
   },
   {
     id: 'public_wifi_leech',

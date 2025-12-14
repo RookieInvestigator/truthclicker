@@ -8,6 +8,7 @@ import { BUILDINGS } from '../data/buildings';
 import { BOARD_POSTS } from '../data/boardPosts';
 import { generateArtifact } from '../utils/generator';
 import { TICK_RATE, AUTOSAVE_INTERVAL } from '../constants';
+import { UNIQUE_ARTIFACTS } from '../data/artifacts';
 
 export const useGameLoop = (
     setGameState: React.Dispatch<React.SetStateAction<GameState>>,
@@ -93,6 +94,7 @@ export const useGameLoop = (
             let newArtifacts = [...prev.artifacts];
             let newActiveEvents = prev.activeEvents.filter(e => (now - e.startTime) < e.duration * 1000);
             let newPendingChoice = prev.pendingChoice;
+            let updatedFoundUniqueIds = [...(prev.foundUniqueItemIds || [])];
 
             // Artifact Drop Logic
             let artifactChance = 0.01; // Base chance increased to 1% per tick
@@ -110,10 +112,26 @@ export const useGameLoop = (
             if (Math.random() < artifactChance) {
                 const newArt = generateArtifact(prev.depth, prev.researchedTechs);
                 newArtifacts.push(newArt);
+                
+                // Track discovered unique items
+                const isUnique = UNIQUE_ARTIFACTS.some(u => u.name === newArt.name && u.description === newArt.description); // Simple heuristic or id check
+                // Actually, procedural uniques have random IDs. Real uniques have fixed IDs in UNIQUE_ARTIFACTS but when added via investigateArtifact, they keep them.
+                // NOTE: generateArtifact does NOT return unique artifacts directly usually, they come from investigating hidden loot.
+                // However, let's ensure we track if it happens via events or other means.
+                // Real tracking happens in investigateArtifact mostly.
+                
                 if (prev.settings.showCommonArtifactLogs || newArt.rarity !== 'common') {
                      addLog(`获取物品: ${newArt.name} [${newArt.rarity}]`, 'info');
                 }
             }
+
+            // Sync foundUniqueItemIds with current inventory (just in case)
+            newArtifacts.forEach(art => {
+                const isRealUnique = UNIQUE_ARTIFACTS.find(u => u.id === art.id || (u.name === art.name && u.rarity === art.rarity));
+                if (isRealUnique && !updatedFoundUniqueIds.includes(isRealUnique.id)) {
+                    updatedFoundUniqueIds.push(isRealUnique.id);
+                }
+            });
 
             // Random Events Logic
             if (!prev.settings.disableChoiceEvents && !newPendingChoice) {
@@ -149,7 +167,8 @@ export const useGameLoop = (
                      resources: newRes, 
                      artifacts: newArtifacts, 
                      activeEvents: newActiveEvents,
-                     unlockedItemIds: [...safeUnlockedItemIds, ...newUnlockedIds]
+                     unlockedItemIds: [...safeUnlockedItemIds, ...newUnlockedIds],
+                     foundUniqueItemIds: updatedFoundUniqueIds
                  }));
                  lastSaveTime.current = now;
             }
@@ -162,7 +181,8 @@ export const useGameLoop = (
                 pendingChoice: newPendingChoice,
                 depth: prev.depth + (production[ResourceType.INFO] > 0 ? ((production[ResourceType.INFO] as number) * deltaSec * 0.001) : 0),
                 unlockedItemIds: [...safeUnlockedItemIds, ...newUnlockedIds],
-                notifications: [...(prev.notifications || []), ...newNotifications]
+                notifications: [...(prev.notifications || []), ...newNotifications],
+                foundUniqueItemIds: updatedFoundUniqueIds
             };
         });
     }, TICK_RATE);

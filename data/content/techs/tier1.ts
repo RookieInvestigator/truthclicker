@@ -48,6 +48,20 @@ export const TIER_1_TECHS: Tech[] = [
 
   // --- SURVIVAL ---
   {
+    id: 'crowdsourcing_api',
+    name: '众包 API',
+    description: '连接到全球微任务市场。与其自己动手，不如用廉价的 API 调用剥削第三世界的数字劳工。',
+    tier: 1,
+    category: BuildingCategory.SURVIVAL,
+    costs: { [ResourceType.INFO]: 300, [ResourceType.FUNDS]: 10 },
+    effects: {
+        resourceMultipliers: { [ResourceType.FUNDS]: 0.05 },
+        unlockMessage: '解锁: 机械土耳其脚本'
+    },
+    icon: 'Users',
+    preRequisiteTech: 'scavenger_intuition'
+  },
+  {
     id: 'cardboard_architecture',
     name: '纸板工程学',
     description: '掌握了将废弃纸箱改造成防水隔热庇护所的工程学技巧，这是城市流浪者必备的生存智慧。',

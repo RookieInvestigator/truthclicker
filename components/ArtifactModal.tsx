@@ -2,7 +2,7 @@
 import React from 'react';
 import { Artifact, ResourceType } from '../types';
 import { RESOURCE_INFO } from '../constants';
-import { X, File, FileText, FileImage, FileAudio, FileCode, Microscope, Globe, Database, MessageSquare, Cpu, Radio, Disc, Cat } from 'lucide-react';
+import { X, File, FileText, FileImage, FileAudio, FileCode, Microscope, Globe, Database, MessageSquare, Cpu, Radio, Disc, Cat, BookOpen } from 'lucide-react';
 
 interface ArtifactModalProps {
   artifact: Artifact;
@@ -107,6 +107,18 @@ const ArtifactModal: React.FC<ArtifactModalProps> = ({ artifact, onClose, onRecy
                     {artifact.description}
                 </p>
              </div>
+
+             {/* EXTENDED LORE (History) */}
+             {artifact.history && (
+                 <div className="space-y-1 pt-2">
+                    <label className="text-[10px] text-cyber-purple uppercase font-bold tracking-wider flex items-center gap-1">
+                        <BookOpen size={10} /> Deep Analysis / Lore
+                    </label>
+                    <div className="text-xs text-gray-400 font-mono leading-relaxed bg-gray-900/30 p-3 rounded border border-gray-800/50 italic">
+                        {artifact.history}
+                    </div>
+                 </div>
+             )}
 
              {/* Stats */}
              {artifact.bonusType !== 'none' && (

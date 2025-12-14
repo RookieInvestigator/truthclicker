@@ -18,6 +18,19 @@ export const TIER_0_TECHS: Tech[] = [
     icon: 'Search',
   },
   {
+    id: 'scavenger_intuition',
+    name: '拾荒者直觉',
+    description: '你不再看到垃圾，你看到的是资源。那个纸箱不是废品，那是墙壁。那个易拉罐不是垃圾，那是 0.05 信用点。',
+    tier: 0,
+    category: BuildingCategory.SURVIVAL,
+    costs: { [ResourceType.INFO]: 25 }, 
+    effects: { 
+        unlockMessage: '解锁: 废品回收跑腿'
+    },
+    icon: 'Trash2', 
+    preRequisiteTech: 'digital_literacy',
+  },
+  {
     id: 'caffeine_dependence',
     name: '化学兴奋剂依赖',
     description: '咖啡因、尼古丁、牛磺酸。只要心脏还在跳，挖掘就不能停。',

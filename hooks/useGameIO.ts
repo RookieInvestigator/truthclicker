@@ -50,7 +50,12 @@ export const useGameIO = (
 
   const exportSave = useCallback(() => {
       try {
-          return btoa(JSON.stringify(gameState));
+          const json = JSON.stringify(gameState);
+          // Encode Unicode correctly for base64
+          return btoa(encodeURIComponent(json).replace(/%([0-9A-F]{2})/g,
+              function toSolidBytes(match, p1) {
+                  return String.fromCharCode(parseInt(p1, 16));
+          }));
       } catch (e) {
           console.error("Export failed", e);
           return "";
@@ -59,7 +64,11 @@ export const useGameIO = (
 
   const importSave = useCallback((saveData: string) => {
       try {
-          const decoded = atob(saveData);
+          // Decode Unicode correctly from base64
+          const decoded = decodeURIComponent(atob(saveData).split('').map(function(c) {
+              return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+          }).join(''));
+
           const parsed = JSON.parse(decoded);
           
           if (!parsed.resources) {

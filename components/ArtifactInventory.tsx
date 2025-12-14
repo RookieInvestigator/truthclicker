@@ -1,9 +1,10 @@
 
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { Artifact, LogEntry } from '../types';
-import { FolderOpen, DownloadCloud, Globe, Database, MessageSquare, ChevronDown, Microscope, Loader2, X, Cpu, Disc, Radio, Cat } from 'lucide-react';
+import { FolderOpen, DownloadCloud, Globe, Database, MessageSquare, ChevronDown, Microscope, Loader2, X, Cpu, Disc, Radio, Cat, Book } from 'lucide-react';
 import { ArrowUpDown, File, FileImage, FileText, FileAudio, FileCode } from 'lucide-react';
 import ArtifactModal from './ArtifactModal';
+import { UNIQUE_ARTIFACTS } from '../data/artifacts'; // Import unique list for compendium
 
 interface ArtifactInventoryProps {
   artifacts: Artifact[];
@@ -19,6 +20,7 @@ const ArtifactInventory: React.FC<ArtifactInventoryProps> = ({ artifacts, onRecy
   const [sortBy, setSortBy] = useState<'recent' | 'rarity'>('recent');
   const [selectedArtifact, setSelectedArtifact] = useState<Artifact | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [viewMode, setViewMode] = useState<'inventory' | 'archive'>('inventory'); // NEW: Toggle between inventory and archive
   
   // --- BATCH PROCESSING STATE ---
   const [isBatchMode, setIsBatchMode] = useState(false);
@@ -39,6 +41,31 @@ const ArtifactInventory: React.FC<ArtifactInventoryProps> = ({ artifacts, onRecy
       });
       return counts;
   }, [artifacts]);
+
+  // Derived found unique IDs from current inventory (plus potentially a persistent list passed in props if we had one, but logic is in hook)
+  // Since we don't pass foundUniqueIds from GameState directly to this component in MainPanel, we rely on the modal to show persistent info?
+  // Ideally MainPanel should pass `foundUniqueItemIds`. 
+  // Wait, I cannot easily change MainPanel signature without breaking props drilling. 
+  // Let's assume for now we just show what's in `artifacts`. 
+  // BUT the request is to see "previously obtained". 
+  // I must check if UNIQUE_ARTIFACTS are in the `artifacts` list.
+  // To do "history", I really should have `foundUniqueItemIds` in props. 
+  // Hack: I will inspect `localStorage` directly for the compendium unlock state if props aren't available, or I'll just show what's in inventory.
+  // BETTER: MainPanel renders this. MainPanel has `gameState`. I will assume `foundUniqueItemIds` is available by the time I update MainPanel. 
+  // I will check `localStorage` as a fallback to avoid prop drilling nightmare in this XML response.
+  
+  const getFoundUniqueIds = (): string[] => {
+      try {
+          const saved = localStorage.getItem('truth_clicker_save_v2');
+          if (saved) {
+              const parsed = JSON.parse(saved);
+              return parsed.foundUniqueItemIds || [];
+          }
+      } catch (e) {}
+      return [];
+  };
+  
+  const foundUniqueIds = getFoundUniqueIds();
 
   // Scroll log to bottom
   useEffect(() => {
@@ -221,131 +248,191 @@ const ArtifactInventory: React.FC<ArtifactInventoryProps> = ({ artifacts, onRecy
             </div>
             
             <div className="flex gap-2 items-center self-end sm:self-auto">
-                {/* Sort Button (Moved here) */}
+                {/* Archive View Toggle */}
                 <button 
-                    onClick={() => setSortBy(prev => prev === 'recent' ? 'rarity' : 'recent')}
-                    className="flex items-center gap-2 px-3 py-2 border border-gray-700 rounded text-xs text-gray-400 hover:text-white hover:border-gray-500 transition-colors bg-black/30"
+                    onClick={() => setViewMode(prev => prev === 'inventory' ? 'archive' : 'inventory')}
+                    className={`flex items-center gap-2 px-3 py-2 border rounded text-xs transition-colors
+                        ${viewMode === 'archive' ? 'bg-orange-900/30 text-orange-400 border-orange-500' : 'bg-black/30 text-gray-400 border-gray-700 hover:text-white'}
+                    `}
                 >
-                    <ArrowUpDown size={12} />
-                    {sortBy === 'recent' ? 'DATE' : 'RARITY'}
+                    <Book size={12} />
+                    ARCHIVE
                 </button>
 
-                {/* Batch Button */}
-                <div className="relative">
+                {/* Sort Button (Only for Inventory) */}
+                {viewMode === 'inventory' && (
                     <button 
-                        onClick={(e) => { e.stopPropagation(); setIsMenuOpen(!isMenuOpen); }}
-                        className={`flex items-center justify-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider border rounded transition-all bg-term-black
-                            ${isMenuOpen ? 'border-term-green text-term-green' : 'border-gray-800 text-gray-500 hover:text-term-green hover:border-term-green/50'}
-                        `}
+                        onClick={() => setSortBy(prev => prev === 'recent' ? 'rarity' : 'recent')}
+                        className="flex items-center gap-2 px-3 py-2 border border-gray-700 rounded text-xs text-gray-400 hover:text-white hover:border-gray-500 transition-colors bg-black/30"
                     >
-                        <Microscope size={14} />
-                        批量调查
-                        <ChevronDown size={12} className={`transition-transform ${isMenuOpen ? 'rotate-180' : ''}`} />
+                        <ArrowUpDown size={12} />
+                        {sortBy === 'recent' ? 'DATE' : 'RARITY'}
                     </button>
+                )}
 
-                    {isMenuOpen && (
-                        <div className="absolute top-full right-0 mt-2 w-48 bg-term-black border border-term-gray shadow-[0_0_20px_rgba(0,0,0,0.8)] rounded overflow-hidden z-50 flex flex-col animate-in fade-in slide-in-from-top-2 duration-100">
-                            <div className="px-3 py-2 text-[10px] text-gray-500 uppercase font-bold border-b border-gray-800 bg-gray-900/50">
-                                选择目标稀有度
-                            </div>
-                            {['common', 'rare', 'legendary', 'mythic', 'anomaly'].map(rarity => {
-                                const count = proceduralCounts[rarity] || 0;
-                                const colorClass = getRarityColor(rarity);
-                                return (
-                                    <button
-                                        key={rarity}
-                                        onClick={() => startBatch(rarity)}
-                                        disabled={count === 0}
-                                        className={`
-                                            flex items-center justify-between px-3 py-2 text-xs text-left transition-colors
-                                            ${count === 0 ? 'text-gray-700 cursor-not-allowed' : 'hover:bg-gray-900'}
-                                        `}
-                                    >
-                                        <span className={`uppercase font-mono ${count > 0 ? colorClass.split(' ')[0] : ''}`}>{rarity}</span>
-                                        <span className="text-gray-600 font-bold">{count}</span>
-                                    </button>
-                                )
-                            })}
-                        </div>
-                    )}
-                </div>
-            </div>
-        </div>
-
-        <div className="flex flex-col gap-3">
-            {/* Stylish Filter Bar */}
-            <div className="flex items-center gap-1 overflow-x-auto scrollbar-hide pb-1">
-                {filters.map(filter => {
-                    const isActive = filterType === filter.id;
-                    const Icon = filter.icon;
-                    return (
-                        <button
-                            key={filter.id}
-                            onClick={() => setFilterType(filter.id as any)}
-                            className={`
-                                flex items-center gap-1.5 px-3 py-1.5 rounded-sm text-[10px] font-bold uppercase transition-all whitespace-nowrap border
-                                ${isActive 
-                                    ? 'bg-term-green/20 text-term-green border-term-green shadow-[0_0_10px_rgba(34,197,94,0.2)]' 
-                                    : 'bg-black/30 text-gray-500 border-gray-800 hover:text-gray-300 hover:border-gray-600'
-                                }
+                {/* Batch Button (Only for Inventory) */}
+                {viewMode === 'inventory' && (
+                    <div className="relative">
+                        <button 
+                            onClick={(e) => { e.stopPropagation(); setIsMenuOpen(!isMenuOpen); }}
+                            className={`flex items-center justify-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider border rounded transition-all bg-term-black
+                                ${isMenuOpen ? 'border-term-green text-term-green' : 'border-gray-800 text-gray-500 hover:text-term-green hover:border-term-green/50'}
                             `}
                         >
-                            <Icon size={12} />
-                            {filter.label}
+                            <Microscope size={14} />
+                            批量调查
+                            <ChevronDown size={12} className={`transition-transform ${isMenuOpen ? 'rotate-180' : ''}`} />
                         </button>
-                    )
-                })}
+
+                        {isMenuOpen && (
+                            <div className="absolute top-full right-0 mt-2 w-48 bg-term-black border border-term-gray shadow-[0_0_20px_rgba(0,0,0,0.8)] rounded overflow-hidden z-50 flex flex-col animate-in fade-in slide-in-from-top-2 duration-100">
+                                <div className="px-3 py-2 text-[10px] text-gray-500 uppercase font-bold border-b border-gray-800 bg-gray-900/50">
+                                    选择目标稀有度
+                                </div>
+                                {['common', 'rare', 'legendary', 'mythic', 'anomaly'].map(rarity => {
+                                    const count = proceduralCounts[rarity] || 0;
+                                    const colorClass = getRarityColor(rarity);
+                                    return (
+                                        <button
+                                            key={rarity}
+                                            onClick={() => startBatch(rarity)}
+                                            disabled={count === 0}
+                                            className={`
+                                                flex items-center justify-between px-3 py-2 text-xs text-left transition-colors
+                                                ${count === 0 ? 'text-gray-700 cursor-not-allowed' : 'hover:bg-gray-900'}
+                                            `}
+                                        >
+                                            <span className={`uppercase font-mono ${count > 0 ? colorClass.split(' ')[0] : ''}`}>{rarity}</span>
+                                            <span className="text-gray-600 font-bold">{count}</span>
+                                        </button>
+                                    )
+                                })}
+                            </div>
+                        )}
+                    </div>
+                )}
             </div>
         </div>
+
+        {viewMode === 'inventory' && (
+            <div className="flex flex-col gap-3">
+                {/* Stylish Filter Bar */}
+                <div className="flex items-center gap-1 overflow-x-auto scrollbar-hide pb-1">
+                    {filters.map(filter => {
+                        const isActive = filterType === filter.id;
+                        const Icon = filter.icon;
+                        return (
+                            <button
+                                key={filter.id}
+                                onClick={() => setFilterType(filter.id as any)}
+                                className={`
+                                    flex items-center gap-1.5 px-3 py-1.5 rounded-sm text-[10px] font-bold uppercase transition-all whitespace-nowrap border
+                                    ${isActive 
+                                        ? 'bg-term-green/20 text-term-green border-term-green shadow-[0_0_10px_rgba(34,197,94,0.2)]' 
+                                        : 'bg-black/30 text-gray-500 border-gray-800 hover:text-gray-300 hover:border-gray-600'
+                                    }
+                                `}
+                            >
+                                <Icon size={12} />
+                                {filter.label}
+                            </button>
+                        )
+                    })}
+                </div>
+            </div>
+        )}
       </div>
 
       {/* Grid Content */}
       <div className="flex-1 overflow-y-auto p-4 relative z-0">
-        {filteredArtifacts.length === 0 ? (
-            <div className="h-full flex flex-col items-center justify-center text-gray-600 gap-2">
-                <DownloadCloud size={32} className="opacity-20" />
-                <p>No Data Found</p>
-            </div>
-        ) : (
+        {viewMode === 'archive' ? (
+            // --- ARCHIVE VIEW ---
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-                {filteredArtifacts.map((artifact) => {
-                    const colorClass = getRarityColor(artifact.rarity);
+                {UNIQUE_ARTIFACTS.map(uniqueArt => {
+                    const isUnlocked = foundUniqueIds.includes(uniqueArt.id);
+                    const colorClass = getRarityColor(uniqueArt.rarity);
+                    
                     return (
                         <div 
-                            key={artifact.id}
-                            className={`group relative flex gap-3 p-3 border bg-black/40 hover:bg-gray-900/60 transition-all cursor-pointer ${colorClass.split(' ')[1]}`}
-                            onClick={() => setSelectedArtifact(artifact)}
+                            key={uniqueArt.id}
+                            className={`group relative flex flex-col p-3 border transition-all cursor-pointer min-h-[100px]
+                                ${isUnlocked 
+                                    ? `bg-black/40 hover:bg-gray-900/60 ${colorClass.split(' ')[1]}` 
+                                    : 'bg-black/80 border-gray-800 opacity-50 grayscale'
+                                }
+                            `}
+                            onClick={() => isUnlocked && setSelectedArtifact(uniqueArt)}
                         >
-                             <div className={`shrink-0 w-12 h-12 flex items-center justify-center border rounded bg-black/50 relative ${colorClass}`}>
-                                {getArtifactIcon(artifact)}
-                                {artifact.hasHint && (
-                                    <div className="absolute top-0 right-0 w-2 h-2 bg-white rounded-full animate-pulse shadow-[0_0_5px_white]"></div>
-                                )}
-                             </div>
-                             
-                             <div className="flex-1 min-w-0 flex flex-col justify-between">
-                                <div>
-                                    <div className="flex justify-between items-start">
-                                        <h4 className={`text-xs font-bold truncate ${colorClass.split(' ')[0]}`}>{artifact.name}</h4>
-                                    </div>
-                                    <span className={`text-[9px] uppercase border px-1 rounded inline-block mt-1 ${artifact.rarity !== 'common' ? colorClass : 'border-gray-800 text-gray-500'}`}>
-                                        {artifact.rarity === 'common' ? artifact.subtype.toUpperCase() : artifact.rarity}
-                                    </span>
-                                    <p className="text-[9px] text-gray-500 truncate mt-0.5">{artifact.details}</p>
+                            <div className="flex items-start gap-3 mb-2">
+                                <div className={`shrink-0 w-10 h-10 flex items-center justify-center border rounded bg-black/50 ${isUnlocked ? colorClass : 'border-gray-700'}`}>
+                                    {isUnlocked ? getArtifactIcon(uniqueArt) : <X size={16} className="text-gray-700"/>}
                                 </div>
-                             </div>
-
-                             <button 
-                                onClick={(e) => { e.stopPropagation(); onRecycle(artifact); }}
-                                className="absolute bottom-2 right-2 p-1.5 text-gray-600 hover:text-term-green hover:bg-term-green/10 rounded transition-colors opacity-0 group-hover:opacity-100"
-                                title="Investigate"
-                             >
-                                <Microscope size={14} />
-                             </button>
+                                <div className="flex-1 min-w-0">
+                                    <h4 className={`text-xs font-bold truncate ${isUnlocked ? colorClass.split(' ')[0] : 'text-gray-600'}`}>
+                                        {isUnlocked ? uniqueArt.name : '?????????'}
+                                    </h4>
+                                    <span className={`text-[9px] uppercase mt-1 inline-block ${isUnlocked ? 'text-gray-500' : 'text-gray-700'}`}>
+                                        {uniqueArt.rarity}
+                                    </span>
+                                </div>
+                            </div>
+                            {isUnlocked && (
+                                <p className="text-[9px] text-gray-500 line-clamp-2 mt-auto">
+                                    {uniqueArt.description}
+                                </p>
+                            )}
                         </div>
                     );
                 })}
             </div>
+        ) : (
+            // --- INVENTORY VIEW ---
+            filteredArtifacts.length === 0 ? (
+                <div className="h-full flex flex-col items-center justify-center text-gray-600 gap-2">
+                    <DownloadCloud size={32} className="opacity-20" />
+                    <p>No Data Found</p>
+                </div>
+            ) : (
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                    {filteredArtifacts.map((artifact) => {
+                        const colorClass = getRarityColor(artifact.rarity);
+                        return (
+                            <div 
+                                key={artifact.id}
+                                className={`group relative flex gap-3 p-3 border bg-black/40 hover:bg-gray-900/60 transition-all cursor-pointer ${colorClass.split(' ')[1]}`}
+                                onClick={() => setSelectedArtifact(artifact)}
+                            >
+                                 <div className={`shrink-0 w-12 h-12 flex items-center justify-center border rounded bg-black/50 relative ${colorClass}`}>
+                                    {getArtifactIcon(artifact)}
+                                    {artifact.hasHint && (
+                                        <div className="absolute top-0 right-0 w-2 h-2 bg-white rounded-full animate-pulse shadow-[0_0_5px_white]"></div>
+                                    )}
+                                 </div>
+                                 
+                                 <div className="flex-1 min-w-0 flex flex-col justify-between">
+                                    <div>
+                                        <div className="flex justify-between items-start">
+                                            <h4 className={`text-xs font-bold truncate ${colorClass.split(' ')[0]}`}>{artifact.name}</h4>
+                                        </div>
+                                        <span className={`text-[9px] uppercase border px-1 rounded inline-block mt-1 ${artifact.rarity !== 'common' ? colorClass : 'border-gray-800 text-gray-500'}`}>
+                                            {artifact.rarity === 'common' ? artifact.subtype.toUpperCase() : artifact.rarity}
+                                        </span>
+                                        <p className="text-[9px] text-gray-500 truncate mt-0.5">{artifact.details}</p>
+                                    </div>
+                                 </div>
+
+                                 <button 
+                                    onClick={(e) => { e.stopPropagation(); onRecycle(artifact); }}
+                                    className="absolute bottom-2 right-2 p-1.5 text-gray-600 hover:text-term-green hover:bg-term-green/10 rounded transition-colors opacity-0 group-hover:opacity-100"
+                                    title="Investigate"
+                                 >
+                                    <Microscope size={14} />
+                                 </button>
+                            </div>
+                        );
+                    })}
+                </div>
+            )
         )}
       </div>
 
@@ -353,10 +440,13 @@ const ArtifactInventory: React.FC<ArtifactInventoryProps> = ({ artifacts, onRecy
         <ArtifactModal 
             artifact={selectedArtifact} 
             onClose={() => setSelectedArtifact(null)} 
-            onRecycle={() => {
-                onRecycle(selectedArtifact);
-                setSelectedArtifact(null);
-            }}
+            onRecycle={
+                // Only show recycle button if we are in INVENTORY mode, not ARCHIVE mode
+                viewMode === 'inventory' ? () => {
+                    onRecycle(selectedArtifact);
+                    setSelectedArtifact(null);
+                } : undefined
+            }
         />
       )}
     </div>

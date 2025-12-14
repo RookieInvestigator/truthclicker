@@ -35,6 +35,7 @@ export interface GameState {
   
   // New Content Tracking
   unlockedItemIds: string[]; // Tracks IDs of buildings/posts already notified
+  foundUniqueItemIds: string[]; // NEW: Tracks history of all unique items ever found
   notifications: AppNotification[]; // Active notifications queue
 }
 
@@ -140,6 +141,7 @@ export interface Artifact {
   name: string;
   description: string;
   flavorText: string; 
+  history?: string; // NEW: Extended lore for unique items
   category: BuildingCategory;
   rarity: 'common' | 'rare' | 'legendary' | 'mythic' | 'cursed' | 'anomaly';
   isProcedural?: boolean; 

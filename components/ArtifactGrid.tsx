@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Artifact } from '../types';
-import ArtifactModal from './ArtifactModal';
+import UniversalDetailsModal from './UniversalDetailsModal';
 import { File, FileText, FileImage, FileAudio, FileCode, Disc, ArrowRight, Download, Globe, Database, MessageSquare, Cpu, Radio, Cat } from 'lucide-react';
 
 interface ArtifactGridProps {
@@ -97,13 +97,15 @@ const ArtifactGrid: React.FC<ArtifactGridProps> = ({ collected, limit, onViewAll
       </div>
 
       {selectedArtifact && (
-        <ArtifactModal 
-          artifact={selectedArtifact} 
+        <UniversalDetailsModal 
+          item={selectedArtifact} 
+          type="artifact"
           onClose={() => setSelectedArtifact(null)}
-          onRecycle={onRecycle ? () => {
+          onAction={onRecycle ? () => {
               onRecycle(selectedArtifact);
               setSelectedArtifact(null);
           } : undefined}
+          actionLabel="INVESTIGATE"
         />
       )}
     </>

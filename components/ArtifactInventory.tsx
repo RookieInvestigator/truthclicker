@@ -3,8 +3,8 @@ import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { Artifact, LogEntry } from '../types';
 import { FolderOpen, DownloadCloud, Globe, Database, MessageSquare, ChevronDown, Microscope, Loader2, X, Cpu, Disc, Radio, Cat, Book } from 'lucide-react';
 import { ArrowUpDown, File, FileImage, FileText, FileAudio, FileCode } from 'lucide-react';
-import ArtifactModal from './ArtifactModal';
-import { UNIQUE_ARTIFACTS } from '../data/artifacts'; // Import unique list for compendium
+import UniversalDetailsModal from './UniversalDetailsModal'; // CHANGED
+import { UNIQUE_ARTIFACTS } from '../data/artifacts'; 
 
 interface ArtifactInventoryProps {
   artifacts: Artifact[];
@@ -15,12 +15,11 @@ interface ArtifactInventoryProps {
 }
 
 const ArtifactInventory: React.FC<ArtifactInventoryProps> = ({ artifacts, onRecycle, onLog, detailedLogsEnabled }) => {
-  // Update filter type definition
   const [filterType, setFilterType] = useState<'all' | 'file' | 'bookmark' | 'hardware' | 'media' | 'creature' | 'signal'>('all');
   const [sortBy, setSortBy] = useState<'recent' | 'rarity'>('recent');
   const [selectedArtifact, setSelectedArtifact] = useState<Artifact | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [viewMode, setViewMode] = useState<'inventory' | 'archive'>('inventory'); // NEW: Toggle between inventory and archive
+  const [viewMode, setViewMode] = useState<'inventory' | 'archive'>('inventory'); 
   
   // --- BATCH PROCESSING STATE ---
   const [isBatchMode, setIsBatchMode] = useState(false);
@@ -42,18 +41,6 @@ const ArtifactInventory: React.FC<ArtifactInventoryProps> = ({ artifacts, onRecy
       return counts;
   }, [artifacts]);
 
-  // Derived found unique IDs from current inventory (plus potentially a persistent list passed in props if we had one, but logic is in hook)
-  // Since we don't pass foundUniqueIds from GameState directly to this component in MainPanel, we rely on the modal to show persistent info?
-  // Ideally MainPanel should pass `foundUniqueItemIds`. 
-  // Wait, I cannot easily change MainPanel signature without breaking props drilling. 
-  // Let's assume for now we just show what's in `artifacts`. 
-  // BUT the request is to see "previously obtained". 
-  // I must check if UNIQUE_ARTIFACTS are in the `artifacts` list.
-  // To do "history", I really should have `foundUniqueItemIds` in props. 
-  // Hack: I will inspect `localStorage` directly for the compendium unlock state if props aren't available, or I'll just show what's in inventory.
-  // BETTER: MainPanel renders this. MainPanel has `gameState`. I will assume `foundUniqueItemIds` is available by the time I update MainPanel. 
-  // I will check `localStorage` as a fallback to avoid prop drilling nightmare in this XML response.
-  
   const getFoundUniqueIds = (): string[] => {
       try {
           const saved = localStorage.getItem('truth_clicker_save_v2');
@@ -437,16 +424,18 @@ const ArtifactInventory: React.FC<ArtifactInventoryProps> = ({ artifacts, onRecy
       </div>
 
       {selectedArtifact && (
-        <ArtifactModal 
-            artifact={selectedArtifact} 
+        <UniversalDetailsModal 
+            item={selectedArtifact} 
+            type="artifact"
             onClose={() => setSelectedArtifact(null)} 
-            onRecycle={
+            onAction={
                 // Only show recycle button if we are in INVENTORY mode, not ARCHIVE mode
                 viewMode === 'inventory' ? () => {
                     onRecycle(selectedArtifact);
                     setSelectedArtifact(null);
                 } : undefined
             }
+            actionLabel="INVESTIGATE"
         />
       )}
     </div>

@@ -1,16 +1,16 @@
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useCallback } from 'react';
 import { GameState, ResourceType, Artifact, BuildingCategory, LogEntry, Building, Tech } from '../types';
 import { BUILDINGS } from '../data/buildings';
 import { TECHS } from '../data/techs';
 import { BOARD_POSTS } from '../data/boardPosts';
 import { CATEGORY_CONFIG, RESOURCE_INFO } from '../constants';
-import { Grid, FlaskConical, FolderOpen, CheckSquare, Square, ChevronDown, ChevronRight, Maximize2, Minimize2, Filter, XCircle, MessageSquare, Sparkles } from 'lucide-react';
+import { Grid, FlaskConical, FolderOpen, CheckSquare, Square, ChevronDown, ChevronRight, Maximize2, Minimize2, Filter, XCircle, MessageSquare, Sparkles, Check } from 'lucide-react';
 import * as Icons from 'lucide-react';
 import BuildingCard from './BuildingRow';
 import TechCard from './TechRow';
 import ArtifactInventory from './ArtifactInventory';
-import DetailsModal from './DetailsModal';
+import UniversalDetailsModal from './UniversalDetailsModal'; // CHANGED
 import TruthBoard from './TruthBoard';
 
 interface MainPanelProps {
@@ -22,7 +22,7 @@ interface MainPanelProps {
   onRecycleArtifactsByRarity: (rarity: string) => void;
   globalCostReduction: number;
   addGlobalLog: (msg: string, type?: LogEntry['type']) => void;
-  markAsSeen: (ids: string[]) => void; // New prop
+  markAsSeen: (ids: string[]) => void; 
 }
 
 const MainPanel: React.FC<MainPanelProps> = ({ 
@@ -45,6 +45,64 @@ const MainPanel: React.FC<MainPanelProps> = ({
   const [selectedDetailItem, setSelectedDetailItem] = useState<Building | Tech | null>(null);
   const [selectedDetailType, setSelectedDetailType] = useState<'building' | 'tech'>('building');
 
+  // --- LONG PRESS LOGIC ---
+  const longPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const isLongPress = useRef(false);
+
+  const newBuildingIds = useMemo(() => {
+      return BUILDINGS.filter(b => {
+          const isUnlocked = (gameState.totalInfoMined >= b.unlockRequirement * 0.5 || b.unlockRequirement === 0) &&
+                             (!b.requireTech || b.requireTech.every(t => gameState.researchedTechs.includes(t)));
+          return isUnlocked && !gameState.seenItemIds.includes(b.id);
+      }).map(b => b.id);
+  }, [gameState.totalInfoMined, gameState.researchedTechs, gameState.seenItemIds]);
+
+  const newTechIds = useMemo(() => {
+      return TECHS.filter(t => {
+          const isUnlocked = !t.preRequisiteTech || gameState.researchedTechs.includes(t.preRequisiteTech);
+          const isResearched = gameState.researchedTechs.includes(t.id);
+          return isUnlocked && !isResearched && !gameState.seenItemIds.includes(t.id);
+      }).map(t => t.id);
+  }, [gameState.researchedTechs, gameState.seenItemIds]);
+
+  const newPostIds = useMemo(() => {
+      return BOARD_POSTS.filter(p => {
+          const hasReqTech = !p.reqTech || p.reqTech.every(t => gameState.researchedTechs.includes(t));
+          const isHidden = p.hideIfTech && p.hideIfTech.some(t => gameState.researchedTechs.includes(t));
+          const hasDepth = !p.minDepth || gameState.depth >= p.minDepth;
+          return hasReqTech && !isHidden && hasDepth && !gameState.seenItemIds.includes(p.id);
+      }).map(p => p.id);
+  }, [gameState.researchedTechs, gameState.depth, gameState.seenItemIds]);
+
+  const handleTouchStart = (tab: typeof activeTab) => {
+      isLongPress.current = false;
+      longPressTimer.current = setTimeout(() => {
+          isLongPress.current = true;
+          // Trigger Mark All As Seen for this tab
+          if (tab === 'nodes' && newBuildingIds.length > 0) {
+              markAsSeen(newBuildingIds);
+              addGlobalLog("已清除节点通知", "info");
+          } else if (tab === 'research' && newTechIds.length > 0) {
+              markAsSeen(newTechIds);
+              addGlobalLog("已清除科技通知", "info");
+          } else if (tab === 'board' && newPostIds.length > 0) {
+              markAsSeen(newPostIds);
+              addGlobalLog("已清除版块通知", "info");
+          }
+      }, 800); // 800ms for long press
+  };
+
+  const handleTouchEnd = (tab: typeof activeTab) => {
+      if (longPressTimer.current) {
+          clearTimeout(longPressTimer.current);
+          longPressTimer.current = null;
+      }
+      // If it wasn't a long press, switch tabs
+      if (!isLongPress.current) {
+          setActiveTab(tab);
+      }
+  };
+
   const toggleCategory = (cat: string) => {
       setCollapsedCategories(prev => ({ ...prev, [cat]: !prev[cat] }));
   };
@@ -59,45 +117,7 @@ const MainPanel: React.FC<MainPanelProps> = ({
       markAsSeen([item.id]);
   };
 
-  // Resources available for filtering - Now includes ALL resources
   const filterableResources = Object.values(ResourceType);
-
-  // --- UNREAD BADGE CALCULATIONS ---
-  // Helper: Item is "New" if it is in unlockedItemIds BUT NOT in seenItemIds
-  // Also, for buildings/techs, they might not be in unlockedItemIds if they are starter items or unlocked by default logic (though logic usually pushes them)
-  // Let's rely on the definition: Is it visible/unlocked? If yes, is it in seenItemIds?
-  // NOTE: unlockedItemIds is pushed by useGameLoop notifications.
-  
-  const newBuildingCount = useMemo(() => {
-      return BUILDINGS.filter(b => {
-          const isUnlocked = (gameState.totalInfoMined >= b.unlockRequirement * 0.5 || b.unlockRequirement === 0) &&
-                             (!b.requireTech || b.requireTech.every(t => gameState.researchedTechs.includes(t)));
-          if (!isUnlocked) return false;
-          return !gameState.seenItemIds.includes(b.id);
-      }).length;
-  }, [gameState.totalInfoMined, gameState.researchedTechs, gameState.seenItemIds]);
-
-  const newTechCount = useMemo(() => {
-      return TECHS.filter(t => {
-          const isUnlocked = !t.preRequisiteTech || gameState.researchedTechs.includes(t.preRequisiteTech);
-          // Also hide if already researched? Usually "New" implies available to research.
-          const isResearched = gameState.researchedTechs.includes(t.id);
-          if (isResearched || !isUnlocked) return false;
-          return !gameState.seenItemIds.includes(t.id);
-      }).length;
-  }, [gameState.researchedTechs, gameState.seenItemIds]);
-
-  const newPostCount = useMemo(() => {
-      return BOARD_POSTS.filter(p => {
-          const hasReqTech = !p.reqTech || p.reqTech.every(t => gameState.researchedTechs.includes(t));
-          const isHidden = p.hideIfTech && p.hideIfTech.some(t => gameState.researchedTechs.includes(t));
-          const hasDepth = !p.minDepth || gameState.depth >= p.minDepth;
-          
-          if (!hasReqTech || isHidden || !hasDepth) return false;
-          return !gameState.seenItemIds.includes(p.id);
-      }).length;
-  }, [gameState.researchedTechs, gameState.depth, gameState.seenItemIds]);
-
 
   return (
     <section className="flex-1 flex flex-col bg-term-black min-w-0 h-full overflow-hidden relative">
@@ -106,32 +126,45 @@ const MainPanel: React.FC<MainPanelProps> = ({
              style={{ backgroundImage: `linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px)`, backgroundSize: '40px 40px' }}
         ></div>
 
-        {/* Tabs */}
-        <div className="flex border-b border-term-gray bg-black/80 z-30 shrink-0 relative backdrop-blur-sm">
+        {/* Tabs with Long Press Handlers */}
+        <div className="flex border-b border-term-gray bg-black/80 z-30 shrink-0 relative backdrop-blur-sm select-none">
+            {/* NODES TAB */}
             <button 
-                onClick={() => setActiveTab('nodes')}
+                onMouseDown={() => handleTouchStart('nodes')}
+                onMouseUp={() => handleTouchEnd('nodes')}
+                onMouseLeave={() => { if(longPressTimer.current) clearTimeout(longPressTimer.current); }}
+                onTouchStart={() => handleTouchStart('nodes')}
+                onTouchEnd={() => handleTouchEnd('nodes')}
                 className={`flex-1 py-3 text-xs font-bold flex items-center justify-center gap-2 transition-all relative overflow-hidden group
                     ${activeTab === 'nodes' ? 'text-term-green' : 'text-gray-500 hover:text-gray-300'}`}
             >
                 <div className="relative">
                     <Grid size={16} className={activeTab === 'nodes' ? 'text-term-green' : 'opacity-70'} />
-                    {newBuildingCount > 0 && <div className="absolute -top-1 -right-2 w-2 h-2 bg-term-green rounded-full animate-pulse"></div>}
+                    {newBuildingIds.length > 0 && <div className="absolute -top-1 -right-2 w-2 h-2 bg-term-green rounded-full animate-pulse"></div>}
                 </div>
                 <span className="hidden sm:inline">节点</span>
                 {activeTab === 'nodes' && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-term-green shadow-[0_0_10px_rgba(34,197,94,0.5)]"></div>}
             </button>
+
+            {/* RESEARCH TAB */}
             <button 
-                onClick={() => setActiveTab('research')}
+                onMouseDown={() => handleTouchStart('research')}
+                onMouseUp={() => handleTouchEnd('research')}
+                onMouseLeave={() => { if(longPressTimer.current) clearTimeout(longPressTimer.current); }}
+                onTouchStart={() => handleTouchStart('research')}
+                onTouchEnd={() => handleTouchEnd('research')}
                 className={`flex-1 py-3 text-xs font-bold flex items-center justify-center gap-2 transition-all relative overflow-hidden group
                     ${activeTab === 'research' ? 'text-blue-400' : 'text-gray-500 hover:text-gray-300'}`}
             >
                 <div className="relative">
                     <FlaskConical size={16} className={activeTab === 'research' ? 'text-blue-400' : 'opacity-70'} />
-                    {newTechCount > 0 && <div className="absolute -top-1 -right-2 w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>}
+                    {newTechIds.length > 0 && <div className="absolute -top-1 -right-2 w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>}
                 </div>
                 <span className="hidden sm:inline">科技</span>
                 {activeTab === 'research' && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-400 shadow-[0_0_10px_rgba(96,165,250,0.5)]"></div>}
             </button>
+
+            {/* INVENTORY TAB (Standard Click) */}
             <button 
                 onClick={() => setActiveTab('inventory')}
                 className={`flex-1 py-3 text-xs font-bold flex items-center justify-center gap-2 transition-all relative overflow-hidden group
@@ -141,14 +174,20 @@ const MainPanel: React.FC<MainPanelProps> = ({
                 <span className="hidden sm:inline">仓库</span>
                 {activeTab === 'inventory' && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-cyber-purple shadow-[0_0_10px_rgba(168,85,247,0.5)]"></div>}
             </button>
+
+            {/* BOARD TAB */}
             <button 
-                onClick={() => setActiveTab('board')}
+                onMouseDown={() => handleTouchStart('board')}
+                onMouseUp={() => handleTouchEnd('board')}
+                onMouseLeave={() => { if(longPressTimer.current) clearTimeout(longPressTimer.current); }}
+                onTouchStart={() => handleTouchStart('board')}
+                onTouchEnd={() => handleTouchEnd('board')}
                 className={`flex-1 py-3 text-xs font-bold flex items-center justify-center gap-2 transition-all relative overflow-hidden group
                     ${activeTab === 'board' ? 'text-orange-500' : 'text-gray-500 hover:text-gray-300'}`}
             >
                 <div className="relative">
                     <MessageSquare size={16} className={activeTab === 'board' ? 'text-orange-500' : 'opacity-70'} />
-                    {newPostCount > 0 && <div className="absolute -top-1 -right-2 w-2 h-2 bg-term-green rounded-full animate-pulse"></div>}
+                    {newPostIds.length > 0 && <div className="absolute -top-1 -right-2 w-2 h-2 bg-term-green rounded-full animate-pulse"></div>}
                 </div>
                 <span className="hidden sm:inline">真相版</span>
                 {activeTab === 'board' && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-orange-500 shadow-[0_0_10px_rgba(249,115,22,0.5)]"></div>}
@@ -291,7 +330,6 @@ const MainPanel: React.FC<MainPanelProps> = ({
                                                 if (gameState.resources[res] < cost) canAfford = false;
                                             });
 
-                                            // Special check for negative production cost
                                             if (building.baseProduction) {
                                                 for (const [res, amount] of Object.entries(building.baseProduction)) {
                                                     if (amount < 0 && gameState.resources[res as ResourceType] <= 0) {
@@ -435,9 +473,9 @@ const MainPanel: React.FC<MainPanelProps> = ({
             )}
         </div>
 
-        {/* DETAILS MODAL */}
+        {/* UNIVERSAL DETAILS MODAL */}
         {selectedDetailItem && (
-            <DetailsModal 
+            <UniversalDetailsModal 
                 item={selectedDetailItem}
                 type={selectedDetailType}
                 onClose={() => setSelectedDetailItem(null)}

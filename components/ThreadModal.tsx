@@ -1,7 +1,7 @@
 
 import React, { useMemo, useEffect, useRef } from 'react';
 import { BoardPost } from '../types';
-import { X, CornerDownRight, ArrowLeft } from 'lucide-react';
+import { X, CornerDownRight, ArrowLeft, ImageOff } from 'lucide-react';
 
 interface ThreadModalProps {
   post: BoardPost;
@@ -103,9 +103,12 @@ const ThreadModal: React.FC<ThreadModalProps> = ({ post, onClose, researchedTech
                         File: <span className="text-[#34345C] hover:text-red-400 hover:underline cursor-pointer">{post.filename}</span> 
                         <span className="opacity-70 ml-1">({post.fileSize})</span>
                     </div>
-                    <div className="w-[200px] h-[200px] bg-black border border-gray-700 p-2 overflow-hidden flex flex-col relative">
-                        <div className="text-[9px] text-term-green/60 font-mono leading-tight break-words whitespace-pre-wrap h-full overflow-hidden">
-                            <span className="text-[8px] opacity-40 block mb-1 font-bold">[VISION_MODEL_V2]</span>
+                    <div 
+                        className="w-[200px] h-[200px] bg-[#1a1a1b] border border-dashed border-gray-600 flex flex-col items-center justify-center p-4 text-center"
+                        title={post.imageDescription}
+                    >
+                        <ImageOff className="text-gray-600 mb-2" size={32} />
+                        <div className="text-[10px] text-gray-500 font-mono leading-tight break-words max-h-full overflow-hidden opacity-60">
                             {post.imageDescription || "IMAGE_MISSING"}
                         </div>
                     </div>
@@ -120,7 +123,7 @@ const ThreadModal: React.FC<ThreadModalProps> = ({ post, onClose, researchedTech
                         <span className="text-gray-500 mr-2">{post.timestamp}</span>
                         <span className="text-gray-500 cursor-pointer hover:text-red-400 mr-2">No.{post.postNumber}</span>
                     </div>
-                    <div className="text-[#ccc] text-[15px] leading-relaxed font-normal">
+                    <div className="text-[#ccc] text-sm leading-relaxed font-normal">
                         {renderContent(post.content)}
                     </div>
                 </div>
@@ -153,16 +156,17 @@ const ThreadModal: React.FC<ThreadModalProps> = ({ post, onClose, researchedTech
                                         <div className="text-[9px] text-gray-500 truncate w-[80px] mb-0.5">
                                             {reply.image}
                                         </div>
-                                        <div className="w-[80px] h-[80px] bg-black border border-gray-700 p-1 overflow-hidden relative">
-                                            <div className="text-[7px] text-term-green/50 font-mono leading-tight h-full overflow-hidden">
-                                                {reply.imageDescription || "IMG_ERR"}
-                                            </div>
+                                        <div 
+                                            className="w-[80px] h-[80px] bg-[#1a1a1b] border border-dashed border-gray-600 flex items-center justify-center p-1"
+                                            title={reply.imageDescription}
+                                        >
+                                            <ImageOff className="text-gray-600 opacity-50" size={16} />
                                         </div>
                                     </div>
                                 )}
 
                                 {/* Reply Content */}
-                                <div className="text-[14px] leading-relaxed min-w-0">
+                                <div className="text-sm leading-relaxed min-w-0">
                                     {renderContent(reply.content)}
                                 </div>
                             </div>

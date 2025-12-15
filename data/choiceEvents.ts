@@ -1,5 +1,5 @@
 
-import { ChoiceEventDefinition, ResourceType } from '../types';
+import { ChoiceEventDefinition, ChoiceOption, ResourceType } from '../types';
 
 // New Type for Combo Triggers
 export interface ComboTriggerDefinition {
@@ -9,10 +9,7 @@ export interface ComboTriggerDefinition {
 
 // Define the logic: When ALL reqTechs are researched, trigger eventId
 export const COMBO_EVENT_TRIGGERS: ComboTriggerDefinition[] = [
-    {
-        eventId: 'event_triad_convergence',
-        reqTechs: ['triad_hardware', 'triad_software', 'triad_wetware']
-    }
+    // Removed Test Triggers
 ];
 
 // Tech Trigger Map (Single Tech -> Event)
@@ -21,32 +18,6 @@ export const TECH_TRIGGER_MAP: Record<string, string> = {
 };
 
 export const CHOICE_EVENTS: ChoiceEventDefinition[] = [
-  {
-    id: 'event_triad_convergence',
-    title: '系统警报：三位一体',
-    description: '检测到硬件、软件与生物湿件组件已完全就绪。\n\n技术奇点的雏形已在你的服务器中诞生。传统的线性发展已无意义，前方出现了三条截然不同的进化路径。\n\n警告：由于底层架构的排他性，选择一种协议将导致另外两条路径被永久封锁。',
-    minDepth: 0,
-    options: [
-        {
-            id: 'opt_mech',
-            label: '机械飞升',
-            description: '摒弃肉体，拥抱钢铁。解锁「机械飞升协议」。效率至上，情感是多余的代码。',
-            reward: { unlockTechId: 'path_mechanical' }
-        },
-        {
-            id: 'opt_digi',
-            label: '数字永生',
-            description: '上传意识，拥抱数据。解锁「数字永生协议」。脱离物质束缚，成为纯粹的信息幽灵。',
-            reward: { unlockTechId: 'path_digital' }
-        },
-        {
-            id: 'opt_bio',
-            label: '血肉群巢',
-            description: '基因飞升，拥抱进化。解锁「血肉群巢协议」。吞噬、适应、生长，生命总会找到出路。',
-            reward: { unlockTechId: 'path_biological' }
-        }
-    ]
-  },
   // --- EXISTING EVENTS ---
   {
     id: 'ransomware_attack',

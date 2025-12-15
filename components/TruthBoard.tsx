@@ -2,7 +2,7 @@
 import React, { useMemo, useState } from 'react';
 import { GameState, BoardPost } from '../types';
 import { BOARD_POSTS } from '../data/boardPosts';
-import { RefreshCw, MessageSquare } from 'lucide-react';
+import { RefreshCw, MessageSquare, ImageOff } from 'lucide-react';
 import ThreadModal from './ThreadModal';
 
 interface TruthBoardProps {
@@ -67,11 +67,11 @@ const TruthBoard: React.FC<TruthBoardProps> = ({ gameState, markAsSeen }) => {
 
   // --- RENDER CATALOG VIEW ---
   return (
-    <div className="flex-1 h-full bg-[#222] font-sans text-[13px] leading-snug relative overflow-y-auto scrollbar-thin scrollbar-thumb-[#333] scrollbar-track-[#1a1a1b]">
+    <div className="flex-1 h-full bg-[#222] font-sans text-sm leading-snug relative overflow-y-auto scrollbar-thin scrollbar-thumb-[#333] scrollbar-track-[#1a1a1b]">
         
-        {/* Banner / Header - Now Scrollable */}
+        {/* Banner / Header */}
         <div className="px-4 pt-8 pb-4 flex flex-col items-center justify-center text-center">
-            <h1 className="text-[#cc3b3b] font-bold text-3xl tracking-tighter mb-1">/t/ - Truth & Paranormal</h1>
+            <h1 className="text-[#cc3b3b] font-bold text-2xl tracking-tighter mb-1">/t/ - Truth</h1>
             <div className="text-[10px] text-gray-500 mb-4">
                 Current Reality Stability: <span className={gameState.resources['REALITY'] < 50 ? "text-red-500 blink" : "text-[#789922]"}>{Math.floor(gameState.resources['REALITY'])}%</span>
             </div>
@@ -133,11 +133,12 @@ const TruthBoard: React.FC<TruthBoardProps> = ({ gameState, markAsSeen }) => {
                                     </div>
                                     <div 
                                         onClick={() => handleOpenThread(post)}
-                                        className="w-[150px] h-[150px] bg-black border border-gray-700/50 hover:border-gray-500 cursor-pointer overflow-hidden relative flex flex-col p-2 transition-all shadow-sm"
+                                        className="w-[150px] h-[150px] bg-[#1a1a1b] border border-dashed border-gray-600 cursor-pointer overflow-hidden relative flex flex-col items-center justify-center p-2 text-center group-hover:border-red-400 transition-colors"
+                                        title={post.imageDescription}
                                     >
-                                        <div className="text-[9px] text-term-green/60 font-mono leading-tight break-words whitespace-pre-wrap h-full overflow-hidden">
-                                            <span className="text-[8px] opacity-40 block mb-1 font-bold">[VISION_MODEL_V2]</span>
-                                            {post.imageDescription || "IMAGE_DATA_CORRUPTED"}
+                                        <ImageOff className="text-gray-600 mb-2" size={24} />
+                                        <div className="text-[9px] text-gray-500 font-mono leading-tight break-words max-h-full overflow-hidden opacity-50">
+                                            {post.imageDescription || "IMAGE_LOAD_FAILURE"}
                                         </div>
                                     </div>
                                 </div>
@@ -157,7 +158,7 @@ const TruthBoard: React.FC<TruthBoardProps> = ({ gameState, markAsSeen }) => {
                                         >[Reply]</span>
                                     </div>
 
-                                    <div className="text-[#ccc] text-[14px] leading-relaxed mb-6 font-normal">
+                                    <div className="text-[#ccc] text-sm leading-relaxed mb-6 font-normal">
                                         {renderContent(post.content)}
                                     </div>
                                 </div>
@@ -190,10 +191,11 @@ const TruthBoard: React.FC<TruthBoardProps> = ({ gameState, markAsSeen }) => {
                                                 <div className="text-[9px] text-gray-500 truncate w-[60px] mb-0.5">
                                                     {reply.image}
                                                 </div>
-                                                <div className="w-[60px] h-[60px] bg-black border border-gray-700 p-1 overflow-hidden relative">
-                                                    <div className="text-[6px] text-term-green/50 font-mono leading-tight h-full overflow-hidden">
-                                                        {reply.imageDescription || "IMG"}
-                                                    </div>
+                                                <div 
+                                                    className="w-[60px] h-[60px] bg-[#1a1a1b] border border-dashed border-gray-600 flex items-center justify-center p-1"
+                                                    title={reply.imageDescription}
+                                                >
+                                                    <ImageOff className="text-gray-600 opacity-50" size={16} />
                                                 </div>
                                             </div>
                                         )}

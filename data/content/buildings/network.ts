@@ -101,6 +101,7 @@ export const NETWORK_BUILDINGS: Building[] = [
     id: 'spam_bot_swarm', 
     name: '垃圾邮件机器人',
     description: '不知疲倦地发送“尼日利亚王子”的问候。现在它们更加猖獗了。',
+    longDescription: '它们不需要休息，不需要薪水，甚至不需要意义。它们存在的唯一目的即繁殖信息。\n\n如同蝗虫过境，这些脚本吞噬着宝贵的带宽，并在经过的每一处留下关于延长寿命、继承遗产和廉价药物的荒诞谎言。这是纯粹的熵增，是互联网这一复杂巨系统必然产生的排泄物。',
     category: BuildingCategory.NETWORK,
     baseCosts: { [ResourceType.CODE]: 200, [ResourceType.INFO]: 1500 }, // Info cost 500 -> 1500
     baseProduction: { [ResourceType.SPAM]: 300.0, [ResourceType.FUNDS]: 2.0 }, 

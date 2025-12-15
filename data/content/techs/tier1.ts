@@ -7,6 +7,7 @@ export const TIER_1_TECHS: Tech[] = [
     id: 'doomscrolling',
     name: '末日滚动',
     description: '拇指滑动屏幕的速度早已超越了思维，这是一种数字时代特有的、刻在潜意识里的条件反射。',
+    longDescription: '阿扎·拉斯金在发明无限滚动机制时，或许未曾预料到它会成为吞噬人类时间的黑洞。他在多年后表达了悔意，称其为“行为可卡因”。\n\n这种设计剥夺了大脑的停止信号。底部消失了，翻页的动作被取消了，只剩下拇指机械般的抽搐。每一条令人焦虑的新闻都是多巴胺的微量注射。我们不停下滑，期待着下一个能够解释世界崩塌的真相，得到的却只有更多的混乱。',
     tier: 1,
     category: BuildingCategory.NETWORK,
     costs: { [ResourceType.INFO]: 400 },
@@ -21,6 +22,7 @@ export const TIER_1_TECHS: Tech[] = [
     id: 'spam_algorithms', 
     name: '垃圾邮件算法',
     description: '通过向网络洪水般倾泻无意义的垃圾数据，制造混乱的噪音来完美掩盖你真实的数字踪迹。',
+    longDescription: '弗朗西斯·E·戴克（Francis E. Dec）在20世纪疯狂地邮寄关于“黑帮电脑神”的疯言疯语，他被视为垃圾邮件的精神始祖。\n\n我们继承了他的遗产。语言不再是交流的工具，它变成了阻塞通道的泥沙。通过算法生成的语无伦次的长句，我们让所有的过滤器过载，让每一条有价值的信息都淹没在机械精神分裂的呓语海洋中。',
     tier: 1,
     category: BuildingCategory.NETWORK,
     costs: { [ResourceType.INFO]: 600 }, 
@@ -49,14 +51,15 @@ export const TIER_1_TECHS: Tech[] = [
   // --- SURVIVAL ---
   {
     id: 'crowdsourcing_api',
-    name: '众包 API',
-    description: '连接到全球微任务市场。与其自己动手，不如用廉价的 API 调用剥削第三世界的数字劳工。',
+    name: '人工智慧任务 (HIT)',
+    description: '将人类大脑降级为处理验证码和图像标记的生物组件，这是比硅基芯片更廉价的处理器。',
+    longDescription: '18世纪的“土耳其行棋傀儡”震惊了欧洲，那是号称能自动下棋的机械奇迹。实际上，那只是一个精巧的骗局，齿轮之下蜷缩着一名人类棋手。\n\n今天，我们重建了这个骗局。所谓的“人工智能”黑箱里，不存在神奇的魔法代码，只有成千上万名廉价劳工。他们日夜不休地标记数据，用血肉之躯填补算法无法跨越的最后这几微米鸿沟。',
     tier: 1,
     category: BuildingCategory.SURVIVAL,
     costs: { [ResourceType.INFO]: 300, [ResourceType.FUNDS]: 10 },
     effects: {
         resourceMultipliers: { [ResourceType.FUNDS]: 0.05 },
-        unlockMessage: '解锁: 机械土耳其脚本'
+        unlockMessage: '解锁: 机械土耳其BOT'
     },
     icon: 'Users',
     preRequisiteTech: 'scavenger_intuition'
@@ -80,7 +83,8 @@ export const TIER_1_TECHS: Tech[] = [
   {
     id: 'urban_entomology',
     name: '城市昆虫学',
-    description: '利用黄粉虫高效降解不可回收的泡沫塑料，并将其转化为在末日废土中至关重要的蛋白质来源。',
+    description: '“你会吃虫子，并且你会感到快乐。”这是达沃斯论坛上的精英们为底辺阶级规划的完美未来。',
+    longDescription: '这是一种被精心包装为“环保”和“可持续”的阶级羞辱。当真正的牛肉成为万亿富翁私人掩体里的奢侈品，几丁质糊状物便成了普罗大众唯一的蛋白质来源。\n\n我们学会了在公寓的衣柜里养殖蟑螂和黄粉虫，把它们视为微型牲畜。闭上眼睛，嚼碎它们的外骨骼，告诉自己这是虾肉。这既是生存的智慧，也是新自由主义噩梦的最终形态。',
     tier: 1,
     category: BuildingCategory.SURVIVAL,
     costs: { [ResourceType.INFO]: 350, [ResourceType.CARDBOARD]: 20 },

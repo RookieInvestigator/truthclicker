@@ -17,7 +17,8 @@ export const SURVIVAL_BUILDINGS: Building[] = [
   {
     id: 'mealworm_bin',
     name: '黄粉虫饲养箱',
-    description: '用切碎的废纸箱作为垫材。这些昆虫将纤维素转化为蛋白质。',
+    description: '听听那成千上万只脚摩擦纸板的声音。将快递盒转化为黑色胶状蛋白质块。',
+    longDescription: '这就像是《雪国列车》尾车厢里的蛋白质块生产线，只不过规模缩小到了你的床底。你喂给它们废弃的亚马逊快递盒，它们回报你半透明的凝胶状蛋白质。虽然口感令人作呕，但这种高效的能量转化率将是你在未来大崩溃后活下去的唯一保障。别去想它们活着时的样子。',
     category: BuildingCategory.SURVIVAL,
     baseCosts: { [ResourceType.FUNDS]: 50, [ResourceType.CARDBOARD]: 20 },
     baseProduction: { [ResourceType.BIOMASS]: 2.0, [ResourceType.CARDBOARD]: -0.5 }, 
@@ -28,8 +29,9 @@ export const SURVIVAL_BUILDINGS: Building[] = [
   },
   {
     id: 'mechanical_turk_bot',
-    name: '机械土耳其脚本',
-    description: '自动接单系统，完成需人类智能的微任务。电子血汗工厂。',
+    name: '机械土耳其BOT',
+    description: '通过接单系统，完成需人类智能的微任务。',
+    longDescription: '一个建立在光纤之上的工厂。我们编写脚本自动接取那些需要人类认知的微任务，然后将其分发给不知名的点击工。\n\n他们教导自动驾驶汽车识别红绿灯，教导聊天机器人识别讽刺。当机器表现出智慧的光芒时，那其实是无数人类灵魂被磨碎后燃烧的余烬。',
     category: BuildingCategory.SURVIVAL,
     baseCosts: { [ResourceType.INFO]: 150, [ResourceType.FUNDS]: 20 }, 
     baseProduction: { [ResourceType.FUNDS]: 1.2, [ResourceType.OPS]: 0.1 }, 

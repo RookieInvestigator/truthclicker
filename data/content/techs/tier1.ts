@@ -51,7 +51,7 @@ export const TIER_1_TECHS: Tech[] = [
   // --- SURVIVAL ---
   {
     id: 'crowdsourcing_api',
-    name: '人工智慧任务 (HIT)',
+    name: '人工智慧任务',
     description: '将人类大脑降级为处理验证码和图像标记的生物组件，这是比硅基芯片更廉价的处理器。',
     longDescription: '18世纪的“土耳其行棋傀儡”震惊了欧洲，那是号称能自动下棋的机械奇迹。实际上，那只是一个精巧的骗局，齿轮之下蜷缩着一名人类棋手。\n\n今天，我们重建了这个骗局。所谓的“人工智能”黑箱里，不存在神奇的魔法代码，只有成千上万名廉价劳工。他们日夜不休地标记数据，用血肉之躯填补算法无法跨越的最后这几微米鸿沟。',
     tier: 1,
@@ -67,7 +67,8 @@ export const TIER_1_TECHS: Tech[] = [
   {
     id: 'cardboard_architecture',
     name: '纸板工程学',
-    description: '掌握了将废弃纸箱改造成防水隔热庇护所的工程学技巧，这是城市流浪者必备的生存智慧。',
+    description: '现代社会的表皮是褐色的瓦楞纸。这是物流网络蜕下的死皮，也是最廉价的建筑材料。',
+    longDescription: '看看你的门廊，看看垃圾箱。消费主义的每一次高潮都伴随着纸板的尸体。如果你买了一根牙签，他们会用一个能装下微波炉的箱子寄给你。这是全球物流链条中最荒谬的冗余，是过度包装的纪念碑。\n\n只要有足够的胶带，这些“垃圾”就是无限的乐高积木。你可以在客厅里堆叠出一个迷宫，一个物理意义上的兔子洞。钻进去，蜷缩在瓦楞纸的波浪结构中。那里没有 WiFi 信号，没有广告推送，只有纸浆的霉味和某种原始的安全感。',
     tier: 1,
     category: BuildingCategory.SURVIVAL,
     costs: { [ResourceType.CARDBOARD]: 50, [ResourceType.INFO]: 200 },
@@ -75,7 +76,7 @@ export const TIER_1_TECHS: Tech[] = [
         globalCostReduction: 0.05,
         resourceMultipliers: { [ResourceType.CARDBOARD]: 0.2 },
         recycleEfficiency: 0.1,
-        unlockMessage: '解锁: 健身车发电机 / 定点拾荒'
+        unlockMessage: '解锁: 纸板静音发电机 / 逆向物流追踪'
     },
     icon: 'Package',
     preRequisiteTech: 'digital_literacy'
@@ -159,7 +160,7 @@ export const TIER_1_TECHS: Tech[] = [
   {
     id: 'forum_culture',
     name: '论坛潜规则',
-    description: '深谙网络社区的潜规则和黑话，懂得在发言前先潜水观察，以免因不懂表情包语法而被原住民围攻。',
+    description: '深谙网络社区的潜规则和黑话，懂得在发言前先潜水观察，以免因不懂语法而被原住民围攻。',
     tier: 1,
     category: BuildingCategory.INTERNET_CULTURE,
     costs: { [ResourceType.INFO]: 500 },

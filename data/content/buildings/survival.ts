@@ -18,7 +18,7 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     id: 'mealworm_bin',
     name: '黄粉虫饲养箱',
     description: '听听那成千上万只脚摩擦纸板的声音。将快递盒转化为黑色胶状蛋白质块。',
-    longDescription: '这就像是《雪国列车》尾车厢里的蛋白质块生产线，只不过规模缩小到了你的床底。你喂给它们废弃的亚马逊快递盒，它们回报你半透明的凝胶状蛋白质。虽然口感令人作呕，但这种高效的能量转化率将是你在未来大崩溃后活下去的唯一保障。别去想它们活着时的样子。',
+    longDescription: '这就像是《雪国列车》尾车厢里的蛋白质块生产线，只不过规模缩小到了你的床底。你喂给它们废弃的亚马逊快递盒，它们回报你半透明的凝胶状蛋白质。虽然口感令人作呕，但这种高效的能量转化率是你在大崩溃后活下去的唯一保障。别去想它们活着时的样子。',
     category: BuildingCategory.SURVIVAL,
     baseCosts: { [ResourceType.FUNDS]: 50, [ResourceType.CARDBOARD]: 20 },
     baseProduction: { [ResourceType.BIOMASS]: 2.0, [ResourceType.CARDBOARD]: -0.5 }, 
@@ -30,8 +30,8 @@ export const SURVIVAL_BUILDINGS: Building[] = [
   {
     id: 'mechanical_turk_bot',
     name: '机械土耳其BOT',
-    description: '通过接单系统，完成需人类智能的微任务。',
-    longDescription: '一个建立在光纤之上的工厂。我们编写脚本自动接取那些需要人类认知的微任务，然后将其分发给不知名的点击工。\n\n他们教导自动驾驶汽车识别红绿灯，教导聊天机器人识别讽刺。当机器表现出智慧的光芒时，那其实是无数人类灵魂被磨碎后燃烧的余烬。',
+    description: '自动接单系统，完成需人类智能的微任务。',
+    longDescription: '这是一个建立在光纤之上的数字工厂。我们编写脚本自动接取那些需要人类认知的微任务，然后将其分发给不知名的点击工。\n\n他们教导自动驾驶汽车识别红绿灯，教导聊天机器人识别讽刺。当机器表现出智慧的光芒时，那其实是无数人类灵魂被磨碎后燃烧的余烬。',
     category: BuildingCategory.SURVIVAL,
     baseCosts: { [ResourceType.INFO]: 150, [ResourceType.FUNDS]: 20 }, 
     baseProduction: { [ResourceType.FUNDS]: 1.2, [ResourceType.OPS]: 0.1 }, 
@@ -54,8 +54,9 @@ export const SURVIVAL_BUILDINGS: Building[] = [
   },
   {
     id: 'bike_generator', 
-    name: '健身车发电机',
-    description: '将动能转化为电能。虽然效率低下，但这能让你在停电时保持在线。',
+    name: '纸板静音发电机',
+    description: '用蛋托和瓦楞纸板构建的隔音仓，包裹着一台改装自行车发电机。',
+    longDescription: '真正的生存不是发出噪音，而是消失。普通的动能发电机会发出嗡嗡声，引来邻居的投诉和房东的驱逐。\n\n利用纸板工程学，你构建了一个符合声学原理的多层静音结构。你在里面踩动踏板，像一只在法拉第笼里奔跑的仓鼠。外面听不到声音，也检测不到热量。这是用汗水换取的、完全隐形的每一瓦特。',
     category: BuildingCategory.SURVIVAL,
     baseCosts: { [ResourceType.FUNDS]: 200, [ResourceType.CARDBOARD]: 50 }, 
     baseProduction: { [ResourceType.POWER]: 3.0, [ResourceType.BIOMASS]: -0.5 }, // Consumes Biomass (User Energy)
@@ -66,8 +67,9 @@ export const SURVIVAL_BUILDINGS: Building[] = [
   },
   {
     id: 'dumpster_diving_route', 
-    name: '定点拾荒路线',
-    description: '收集电子垃圾和人们以此遮蔽思想的材料。你知道哪里有最好的垃圾。',
+    name: '逆向物流追踪',
+    description: '不再盲目翻找垃圾。通过分析纸箱上的条形码追踪高价值废弃物。',
+    longDescription: '每一个纸箱上的标签都是一条面包屑。UPC 代码、物流追踪号、仓库分拣码——它们揭示了物品的流向。\n\n你不再像乞丐一样随机翻找，你像特工一样截获情报。你知道哪家科技公司周三处理服务器，你知道哪个富人区在进行断舍离。瓦楞纸箱构成的地下网络比光纤网络更诚实，它从不撒谎，只展示被遗弃的真相。',
     category: BuildingCategory.SURVIVAL,
     baseCosts: { [ResourceType.INFO]: 500, [ResourceType.FUNDS]: 50 }, 
     baseProduction: { [ResourceType.CARDBOARD]: 1.5, [ResourceType.FUNDS]: 1.2, [ResourceType.OPS]: 0.5, [ResourceType.TINFOIL]: 0.5 },

@@ -1,9 +1,10 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Achievement } from '../types';
-import { Trophy, X, Lock, CheckCircle, Terminal, Hash, FileCheck, ShieldAlert } from 'lucide-react';
+import { Trophy, X, Lock, CheckCircle, FileCheck } from 'lucide-react';
 import * as Icons from 'lucide-react';
+import UniversalDetailsModal from './UniversalDetailsModal';
 
 interface AchievementModalProps {
   achievements: Achievement[];
@@ -12,6 +13,7 @@ interface AchievementModalProps {
 }
 
 const AchievementModal: React.FC<AchievementModalProps> = ({ achievements, unlockedIds, onClose }) => {
+  const [selectedAchievement, setSelectedAchievement] = useState<Achievement | null>(null);
   
   // Sort achievements: Unlocked first, then by ID
   const sortedAchievements = [...achievements].sort((a, b) => {
@@ -63,12 +65,16 @@ const AchievementModal: React.FC<AchievementModalProps> = ({ achievements, unloc
                     const Icon = (Icons as any)[ach.icon] || Trophy;
 
                     return (
-                        <div key={ach.id} className={`
-                            relative flex items-start gap-3 p-3 border transition-all overflow-hidden group
-                            ${isUnlocked 
-                                ? 'bg-gray-900/30 border-blue-900/50 hover:border-blue-500/50 hover:bg-gray-900/50' 
-                                : 'bg-black border-gray-800 opacity-60'}
-                        `}>
+                        <div 
+                            key={ach.id} 
+                            onClick={() => setSelectedAchievement(ach)}
+                            className={`
+                                relative flex items-start gap-3 p-3 border transition-all overflow-hidden group cursor-pointer
+                                ${isUnlocked 
+                                    ? 'bg-gray-900/30 border-blue-900/50 hover:border-blue-500/50 hover:bg-gray-900/50' 
+                                    : 'bg-black border-gray-800 opacity-60 hover:opacity-80 hover:border-gray-700'}
+                            `}
+                        >
                             {/* Icon Box */}
                             <div className={`
                                 w-10 h-10 flex items-center justify-center shrink-0 border
@@ -103,6 +109,15 @@ const AchievementModal: React.FC<AchievementModalProps> = ({ achievements, unloc
         </div>
 
       </div>
+
+      {selectedAchievement && (
+          <UniversalDetailsModal 
+              item={selectedAchievement}
+              type="achievement"
+              isLocked={!unlockedIds.includes(selectedAchievement.id)}
+              onClose={() => setSelectedAchievement(null)}
+          />
+      )}
     </div>,
     document.body
   );

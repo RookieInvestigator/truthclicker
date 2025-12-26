@@ -1,24 +1,25 @@
 
 import React from 'react';
 import { createPortal } from 'react-dom';
-import { Building, Tech, Artifact, ResourceType } from '../types';
+import { Building, Tech, Artifact, Achievement, ResourceType } from '../types';
 import { RESOURCE_INFO, CATEGORY_CONFIG } from '../constants';
 import * as Icons from 'lucide-react';
 import { 
     X, Terminal, Database, FileCode, BookOpen, Cpu, 
     Zap, Activity, Shield, Box, ArrowUpRight, 
-    Microscope, Globe, Disc, Radio, Cat, MessageSquare, File
+    Microscope, Globe, Disc, Radio, Cat, MessageSquare, File, Trophy, Lock, CheckCircle
 } from 'lucide-react';
 
 interface UniversalDetailsModalProps {
-  item: Building | Tech | Artifact;
-  type: 'building' | 'tech' | 'artifact';
+  item: Building | Tech | Artifact | Achievement;
+  type: 'building' | 'tech' | 'artifact' | 'achievement';
   onClose: () => void;
   onAction?: () => void;
   actionLabel?: string;
+  isLocked?: boolean; // Optional prop to indicate lock state for achievements
 }
 
-const UniversalDetailsModal: React.FC<UniversalDetailsModalProps> = ({ item, type, onClose, onAction, actionLabel }) => {
+const UniversalDetailsModal: React.FC<UniversalDetailsModalProps> = ({ item, type, onClose, onAction, actionLabel, isLocked }) => {
   
   // --- HELPERS ---
 
@@ -32,6 +33,10 @@ const UniversalDetailsModal: React.FC<UniversalDetailsModalProps> = ({ item, typ
               case 'anomaly': return 'text-white border-white shadow-white/50';
               default: return 'text-term-green border-term-green shadow-term-green/20';
           }
+      }
+      if (type === 'achievement') {
+          if (isLocked) return 'text-gray-500 border-gray-700 shadow-none';
+          return 'text-blue-400 border-blue-500 shadow-blue-500/20';
       }
       // Tech & Building use Category Colors
       const catColor = CATEGORY_CONFIG[(item as Building | Tech).category]?.color || 'text-gray-500 border-gray-500';
@@ -54,6 +59,10 @@ const UniversalDetailsModal: React.FC<UniversalDetailsModalProps> = ({ item, typ
           if (lower.endsWith('.log')) return MessageSquare;
           return File;
       }
+      if (type === 'achievement') {
+          if (isLocked) return Lock;
+          return (Icons as any)[(item as Achievement).icon] || Trophy;
+      }
       return (Icons as any)[(item as Building | Tech).icon] || Box;
   };
 
@@ -65,6 +74,18 @@ const UniversalDetailsModal: React.FC<UniversalDetailsModalProps> = ({ item, typ
   // --- CONTENT RENDERERS ---
 
   const renderStats = () => {
+      if (type === 'achievement') {
+          return (
+              <div className={`p-3 rounded border bg-black/40 ${borderColor} h-full flex flex-col justify-center gap-2`}>
+                  <div className="text-[9px] uppercase font-bold opacity-60">Status</div>
+                  <div className={`text-sm font-mono font-bold flex items-center gap-2 ${isLocked ? 'text-gray-500' : 'text-term-green'}`}>
+                      {isLocked ? <Lock size={14} /> : <CheckCircle size={14} />}
+                      {isLocked ? 'LOCKED / UNKNOWN' : 'ACQUIRED'}
+                  </div>
+              </div>
+          );
+      }
+
       if (type === 'artifact') {
           const art = item as Artifact;
           if (art.bonusType === 'none') return null;
@@ -159,8 +180,8 @@ const UniversalDetailsModal: React.FC<UniversalDetailsModalProps> = ({ item, typ
   };
 
   const renderCosts = () => {
-      // Artifacts generally don't show costs here unless we wanted to show sell value, skipping for now
-      if (type === 'artifact') return null;
+      // Artifacts and Achievements generally don't show costs here
+      if (type === 'artifact' || type === 'achievement') return null;
 
       const costs = type === 'building' ? (item as Building).baseCosts : (item as Tech).costs;
       
@@ -182,6 +203,15 @@ const UniversalDetailsModal: React.FC<UniversalDetailsModalProps> = ({ item, typ
   };
 
   const getSubHeader = () => {
+      if (type === 'achievement') {
+          return (
+              <div className="flex gap-2 mt-1">
+                  <span className={`text-[10px] uppercase font-bold px-1.5 py-0.5 rounded border bg-black/50 ${borderColor} ${textColor}`}>
+                      Record
+                  </span>
+              </div>
+          );
+      }
       if (type === 'artifact') {
           const art = item as Artifact;
           return (
@@ -213,6 +243,7 @@ const UniversalDetailsModal: React.FC<UniversalDetailsModalProps> = ({ item, typ
   };
 
   const getLoreText = () => {
+      if (type === 'achievement') return (item as Achievement).description;
       if (type === 'artifact') return (item as Artifact).history || (item as Artifact).description;
       return (item as Building | Tech).longDescription;
   };
@@ -235,7 +266,7 @@ const UniversalDetailsModal: React.FC<UniversalDetailsModalProps> = ({ item, typ
                 {/* Titles */}
                 <div>
                     <h2 className={`text-xl md:text-2xl font-bold font-mono tracking-tight leading-none text-gray-100`}>
-                        {item.name}
+                        {isLocked && type === 'achievement' ? '???' : item.name}
                     </h2>
                     {getSubHeader()}
                     <div className="text-[10px] font-mono text-gray-600 mt-2 flex items-center gap-2">
@@ -255,7 +286,7 @@ const UniversalDetailsModal: React.FC<UniversalDetailsModalProps> = ({ item, typ
             
             {/* Description / Short Text */}
             <div className="text-sm text-gray-400 font-mono leading-relaxed border-l-2 border-gray-800 pl-4">
-                {item.description}
+                {type === 'achievement' && isLocked ? '此记录尚未被验证。' : item.description}
             </div>
 
             {/* Lore / History (Moved Above Stats) */}
@@ -268,7 +299,7 @@ const UniversalDetailsModal: React.FC<UniversalDetailsModalProps> = ({ item, typ
                     <Database size={14} className="text-gray-500" /> Decrypted Archive
                 </div>
                 
-                <div className="text-sm text-gray-300 font-mono leading-7 whitespace-pre-wrap relative z-10 selection:bg-gray-700 selection:text-white">
+                <div className={`text-sm font-mono leading-7 whitespace-pre-wrap relative z-10 selection:bg-gray-700 selection:text-white ${isLocked ? 'blur-sm select-none' : 'text-gray-300'}`}>
                     {getLoreText() ? getLoreText() : (
                         <span className="italic text-gray-600 opacity-50">
                             [ No additional data available in the archives. ]
@@ -288,13 +319,13 @@ const UniversalDetailsModal: React.FC<UniversalDetailsModalProps> = ({ item, typ
                 <div className="flex items-center gap-2 text-[9px] font-bold text-gray-600 uppercase tracking-widest mb-2 opacity-80">
                     <Activity size={10} /> Technical Specifications
                 </div>
-                <div className={`grid grid-cols-1 ${type !== 'artifact' ? 'md:grid-cols-2' : ''} gap-3`}>
+                <div className={`grid grid-cols-1 ${type !== 'artifact' && type !== 'achievement' ? 'md:grid-cols-2' : ''} gap-3`}>
                     {/* LEFT: Stats */}
                     <div>
                         {renderStats()}
                     </div>
                     {/* RIGHT: Costs (If applicable) */}
-                    {type !== 'artifact' && (
+                    {type !== 'artifact' && type !== 'achievement' && (
                         <div>
                             {renderCosts()}
                         </div>

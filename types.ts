@@ -47,6 +47,10 @@ export interface Achievement {
   id: string;
   name: string;
   description: string;
+  // Enhanced Lore
+  longDescription?: string; 
+  flavorText?: string;
+  
   icon: string;
   isUnlocked: boolean;
   condition: (state: GameState) => boolean;

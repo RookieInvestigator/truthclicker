@@ -243,10 +243,16 @@ const UniversalDetailsModal: React.FC<UniversalDetailsModalProps> = ({ item, typ
   };
 
   const getLoreText = () => {
-      if (type === 'achievement') return (item as Achievement).description;
+      if (type === 'achievement') return (item as Achievement).longDescription || (item as Achievement).description;
       if (type === 'artifact') return (item as Artifact).history || (item as Artifact).description;
       return (item as Building | Tech).longDescription;
   };
+
+  const getFlavorText = () => {
+      if (type === 'achievement') return (item as Achievement).flavorText;
+      if (type === 'artifact') return (item as Artifact).flavorText;
+      return undefined;
+  }
 
   return createPortal(
     <div className="fixed inset-0 z-[1050] flex items-center justify-center bg-black/95 backdrop-blur-md p-4 animate-in fade-in zoom-in duration-200" onClick={onClose}>
@@ -307,9 +313,9 @@ const UniversalDetailsModal: React.FC<UniversalDetailsModalProps> = ({ item, typ
                     )}
                 </div>
                 
-                {type === 'artifact' && (item as Artifact).flavorText && (
+                {getFlavorText() && (
                     <div className="mt-6 pt-4 border-t border-gray-800/30 text-xs text-gray-500 font-mono italic flex justify-end opacity-70">
-                        "{ (item as Artifact).flavorText }"
+                        "{ getFlavorText() }"
                     </div>
                 )}
             </div>

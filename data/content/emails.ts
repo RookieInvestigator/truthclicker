@@ -1,5 +1,5 @@
 
-import { Email, ResourceType } from '../../../types';
+import { Email, ResourceType } from '../../types';
 
 export const INITIAL_EMAILS: Email[] = [
     {

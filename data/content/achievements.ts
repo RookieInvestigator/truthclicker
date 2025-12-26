@@ -1,5 +1,5 @@
 
-import { Achievement, ResourceType, GameState } from '../../../types';
+import { Achievement, ResourceType, GameState } from '../../types';
 
 export const ACHIEVEMENTS: Achievement[] = [
     {

@@ -64,4 +64,5 @@ export const INITIAL_STATE: GameState = {
   emails: INITIAL_EMAILS,
   stocks: INITIAL_STOCKS,
   achievements: [],
+  flags: [], // NEW: Initialize Flag System
 };

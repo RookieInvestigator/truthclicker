@@ -88,6 +88,7 @@ export interface GameState {
   emails: Email[];
   stocks: { [id: string]: Stock };
   achievements: string[]; // List of unlocked achievement IDs
+  flags: string[]; // NEW: Universal Flag System for complex conditions
 }
 
 export enum ResourceType {
@@ -178,6 +179,7 @@ export interface Tech {
   name: string;
   description: string;
   longDescription?: string; // New field for detailed lore
+  flavorText?: string;
   tier: number; 
   costs: { [key in ResourceType]?: number };
   effects: TechEffects;
@@ -239,6 +241,7 @@ export interface ChoiceOption {
     buildingId?: string; 
     unlockPostId?: string; 
     unlockTechId?: string; // NEW: Unlocks a specific technology directly
+    setFlag?: string; // NEW: Sets a persistent flag in GameState
   };
 }
 

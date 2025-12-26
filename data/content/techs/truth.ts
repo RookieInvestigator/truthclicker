@@ -86,7 +86,7 @@ export const TRUTH_TECHS: Tech[] = [
         unlockMessage: '超越轮回'
     },
     icon: 'RotateCw',
-    preRequisiteTech: 'entropy_reversal'
+    preRequisiteTech: 'poincare_recurrence'
   },
   {
     id: 'developer_console',

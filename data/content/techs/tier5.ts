@@ -180,6 +180,53 @@ export const TIER_5_TECHS: Tech[] = [
     preRequisiteTech: 'biohacking_basics'
   },
 
+  // --- NEW ARCHIVE TECHS (ANCIENT TEXT RECOVERY) ---
+  {
+    id: 'epic_cycle_reindexing',
+    name: '史诗循环重索引',
+    description: '荷马六音步诗行并非单纯的艺术，而是一种高容错的纠错编码。通过分析现存文本的统计学异常，我们能逆向推导缺失的章节。',
+    longDescription: '口述传统是一种早期的区块链技术，通过韵律和重复来防止数据在代际传承中损坏。失落的《库普利亚》并没有消失，它只是变成了噪音，分散在千年的文化碎片中。我们编写算法来重新编译这些噪音，直到青铜时代的操作系统重新启动。',
+    tier: 5,
+    category: BuildingCategory.HISTORY,
+    costs: { [ResourceType.ANCIENT_WISDOM]: 500, [ResourceType.LORE]: 10000, [ResourceType.CODE]: 50000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.STORY]: 0.3 },
+        unlockMessage: '解锁: 荷马史诗重编译器'
+    },
+    icon: 'BookOpen',
+    preRequisiteTech: 'aklo_language'
+  },
+  {
+    id: 'virtual_unwrapping',
+    name: '虚拟展开技术',
+    description: '利用相位衬度X射线断层扫描技术，在不触碰实体的情况下，将卷曲、碳化的纸莎草卷在数字空间中展开并读取。',
+    longDescription: '这就像是在不切开大脑的情况下读取思维。赫库兰尼姆的卷轴被火山碎屑流瞬间碳化，变成了易碎的黑炭。我们不再试图物理展开它们，而是映射其内部微米级的碳密度变化。墨水虽然消失了，但它留下的重力微扰依然存在。我们在阅读三维的灰烬。',
+    tier: 5,
+    category: BuildingCategory.TECHNOCRACY,
+    costs: { [ResourceType.OPS]: 100000, [ResourceType.TECH_CAPITAL]: 2000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.KNOWLEDGE]: 0.25 },
+        unlockMessage: '解锁: 赫库兰尼姆 AI'
+    },
+    icon: 'Scan',
+    preRequisiteTech: '5d_optical_storage'
+  },
+  {
+    id: 'spectral_archaeology',
+    name: '光谱考古学',
+    description: '过去从未被真正删除，只是被覆盖了。利用高光谱成像技术穿透羊皮纸的表层，寻找被中世纪僧侣刮除的异端真理。',
+    longDescription: '每一张羊皮纸都是一个犯罪现场。中世纪的文盲僧侣为了抄写祷告文，刮掉了阿基米德的数学论文。但铁胆墨水中的金属离子已经渗入了纤维深处。我们用不同波长的光轰击纸张，让那些被压抑了千年的理性幽灵重新显形。',
+    tier: 5,
+    category: BuildingCategory.ARCHIVE,
+    costs: { [ResourceType.INFO]: 200000, [ResourceType.LORE]: 5000 },
+    effects: {
+        resourceMultipliers: { [ResourceType.ANCIENT_WISDOM]: 0.2 },
+        unlockMessage: '解锁: 重写本光谱仪'
+    },
+    icon: 'Layers',
+    preRequisiteTech: 'ocr_basics'
+  },
+
   // --- FOLKLORE EXPANSION ---
   {
     id: 'noclipping_physics',
@@ -345,5 +392,20 @@ export const TIER_5_TECHS: Tech[] = [
     },
     icon: 'Dices',
     preRequisiteTech: 'holy_c_compiler'
+  },
+  {
+    id: 'intent_driven_topology',
+    name: '心理地理漂移',
+    description: '城市并非钢筋混凝土的丛林，而是固化的意识形态。通过“漂移”，我们重写街道的句法。',
+    longDescription: '居伊·德堡称其为“漂移”：一种通过快速经过各种环境来研究心理地理学的技术。这不需要量子计算机，只需要一双磨损的靴子和一种拒绝回家的顽固。\n\n当你不再为了“通勤”或“消费”而移动，而仅仅是顺应潜意识的吸引在城市路网中做布朗运动时，你就撕开了日常生活的景观帷幕。随机漫游不是算法，它是肉体对线性时间的越狱。',
+    tier: 5,
+    category: BuildingCategory.ESOTERIC,
+    costs: { [ResourceType.KNOWLEDGE]: 5000, [ResourceType.PROBABILITY]: 200 },
+    effects: {
+        resourceMultipliers: { [ResourceType.CLUE]: 0.3 },
+        unlockMessage: '解锁: 概率盲点观测台'
+    },
+    icon: 'MapPin', 
+    preRequisiteTech: 'quantum_randonauting'
   }
 ];

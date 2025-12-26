@@ -486,6 +486,15 @@ export const useGameActions = (
               }
           }
 
+          // --- UPDATE FLAGS ---
+          const newFlags = [...(prev.flags || [])];
+          if (option.reward.setFlag) {
+              if (!newFlags.includes(option.reward.setFlag)) {
+                  newFlags.push(option.reward.setFlag);
+                  // Optional: Log flag set if needed, but usually kept hidden
+              }
+          }
+
           return {
               ...prev,
               resources: newRes,
@@ -493,6 +502,7 @@ export const useGameActions = (
               buildings: newBuildings,
               eventUnlockedPosts: newEventUnlockedPosts,
               researchedTechs: newResearchedTechs,
+              flags: newFlags, // Save updated flags
               pendingChoice: null
           };
       });

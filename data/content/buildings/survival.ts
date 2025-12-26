@@ -184,6 +184,6 @@ export const SURVIVAL_BUILDINGS: Building[] = [
     costMultiplier: 1.8,
     icon: 'Shield',
     unlockRequirement: 0, 
-    requireTech: ['post_scarcity_protocol'],
+    requireTech: ['santa_claus_machine'],
   }
 ];

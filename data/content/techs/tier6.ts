@@ -21,6 +21,8 @@ export const TIER_6_TECHS: Tech[] = [
     id: 'psychotronic_generators', 
     name: '精神电子发生器',
     description: '建造出能实现精神与物质相互转化的设备，既能将意念增幅为物理能量，也能将电流转化为纯粹的精神控制波。',
+    longDescription: '笛卡尔的身心二元论在这里彻底破产。我们复兴了罗伯特·帕夫利塔在冷战时期的被遗忘图纸，利用特定的几何形态捕捉生物场。如今我们已经建造出了意识的工业化转换接口。现在，我们可以将一座城市的集体焦虑整流为高压电，或者反过来，将“服从”的指令调制进 60Hz 的交流电嗡嗡声中。当思想不再被禁锢于头骨，而是在铜线中自由流淌时，自由意志就变成了一个电气工程学问题。',
+    flavorText: "思想只是带有偏见的电压。",
     tier: 6,
     category: BuildingCategory.ESOTERIC,
     costs: { [ResourceType.MIND_CONTROL]: 25000, [ResourceType.POWER]: 1200000 }, 

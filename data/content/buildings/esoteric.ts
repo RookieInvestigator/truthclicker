@@ -145,5 +145,18 @@ export const ESOTERIC_BUILDINGS: Building[] = [
     icon: 'Wind',
     unlockRequirement: 0,
     requireTech: ['oxygen_toxicity'],
+  },
+  {
+    id: 'probability_blindspot_observatory',
+    name: '概率盲点观测台',
+    description: '建在两座写字楼夹缝中的违章建筑。那里是地图上的空白，也是自由的飞地。',
+    longDescription: '城市规划者痛恨这种地方：死胡同的尽头、立交桥下的阴影、被围栏隔开的“无用空间”。这些是资本主义消化系统的盲肠。\n\n因为没有商业价值，所以那里没有监控，没有广告，甚至物理法则也变得松懈。我们在这里建立据点。不需要服务器，只需要一把折叠椅。在这里，你可以用一块鹅卵石换取一个秘密，或者在墙角的霉斑中解读出明天的彩票号码。',
+    category: BuildingCategory.ESOTERIC,
+    baseCosts: { [ResourceType.FUNDS]: 20000, [ResourceType.PROBABILITY]: 50, [ResourceType.OPS]: 5000 },
+    baseProduction: { [ResourceType.PROBABILITY]: 0.5, [ResourceType.CLUE]: 2.0, [ResourceType.REALITY]: -0.0002 },
+    costMultiplier: 1.5,
+    icon: 'Eye',
+    unlockRequirement: 0,
+    requireTech: ['intent_driven_topology']
   }
 ];

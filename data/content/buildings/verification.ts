@@ -172,7 +172,7 @@ export const VERIFICATION_BUILDINGS: Building[] = [
   },
   {
     id: 'geoguessr_pro',
-    name: '地理定位专家',
+    name: '地理定位专家系统',
     description: '通过照片背景中的电线杆形状确定拍摄地点。',
     category: BuildingCategory.VERIFICATION,
     baseCosts: { [ResourceType.CLUE]: 100, [ResourceType.INFO]: 12000 }, // Cost 5000 -> 12000

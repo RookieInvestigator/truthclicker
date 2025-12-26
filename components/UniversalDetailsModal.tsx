@@ -251,6 +251,7 @@ const UniversalDetailsModal: React.FC<UniversalDetailsModalProps> = ({ item, typ
   const getFlavorText = () => {
       if (type === 'achievement') return (item as Achievement).flavorText;
       if (type === 'artifact') return (item as Artifact).flavorText;
+      if (type === 'tech') return (item as Tech).flavorText;
       return undefined;
   }
 

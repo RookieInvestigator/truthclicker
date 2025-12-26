@@ -204,7 +204,7 @@ export const NETWORK_BUILDINGS: Building[] = [
     costMultiplier: 1.5,
     icon: 'Activity',
     unlockRequirement: 0,
-    requireTech: ['ansible_network'],
+    requireTech: ['tachyonic_antitelephone'],
   },
   {
     id: 'neuromorphic_internet',

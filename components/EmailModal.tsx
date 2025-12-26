@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Email, ResourceType } from '../types';
 import { Mail, Trash2, ArrowRight, Download, X } from 'lucide-react';
 import { RESOURCE_INFO } from '../constants';
@@ -22,7 +23,7 @@ const EmailModal: React.FC<EmailModalProps> = ({ emails, onClose, onRead, onClai
       if (!email.isRead) onRead(email.id);
   };
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-in fade-in zoom-in duration-200" onClick={onClose}>
       <div className="bg-term-black border border-term-gray w-full max-w-3xl h-[600px] flex rounded-sm shadow-2xl overflow-hidden" onClick={e => e.stopPropagation()}>
         
@@ -126,7 +127,8 @@ const EmailModal: React.FC<EmailModalProps> = ({ emails, onClose, onRead, onClai
         </div>
 
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 

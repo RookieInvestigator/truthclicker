@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { createPortal } from 'react-dom';
 import { Achievement } from '../types';
 import { Trophy, X, Lock } from 'lucide-react';
 import * as Icons from 'lucide-react';
@@ -11,7 +12,7 @@ interface AchievementModalProps {
 }
 
 const AchievementModal: React.FC<AchievementModalProps> = ({ achievements, unlockedIds, onClose }) => {
-  return (
+  return createPortal(
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-in fade-in zoom-in duration-200" onClick={onClose}>
       <div className="bg-term-black border border-term-gray w-full max-w-2xl max-h-[80vh] flex flex-col rounded-sm shadow-2xl overflow-hidden" onClick={e => e.stopPropagation()}>
         
@@ -59,7 +60,8 @@ const AchievementModal: React.FC<AchievementModalProps> = ({ achievements, unloc
         </div>
 
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 

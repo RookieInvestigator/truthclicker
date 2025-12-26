@@ -30,7 +30,6 @@ export const useGameActions = (
     });
   }, [calculateClickPower, setGameState]);
 
-  // --- DEBUG CHEAT (NEW) ---
   const debugCheat = useCallback(() => {
       setGameState(prev => ({
           ...prev,
@@ -57,6 +56,93 @@ export const useGameActions = (
           return { ...prev, seenItemIds: newSeen };
       });
   }, [setGameState]);
+
+  // --- NEW: EMAIL ACTIONS ---
+  const markEmailRead = useCallback((id: string) => {
+      setGameState(prev => ({
+          ...prev,
+          emails: prev.emails.map(e => e.id === id ? { ...e, isRead: true } : e)
+      }));
+  }, [setGameState]);
+
+  const claimEmailReward = useCallback((id: string) => {
+      setGameState(prev => {
+          const email = prev.emails.find(e => e.id === id);
+          if (!email || !email.rewards || email.isClaimed) return prev;
+
+          const newRes = { ...prev.resources };
+          Object.entries(email.rewards).forEach(([res, val]) => {
+              newRes[res as ResourceType] += val;
+          });
+
+          addLog(`附件领取: 从邮件 [${email.subject}] 获得物资`, 'success');
+
+          return {
+              ...prev,
+              resources: newRes,
+              emails: prev.emails.map(e => e.id === id ? { ...e, isClaimed: true } : e)
+          };
+      });
+  }, [setGameState, addLog]);
+
+  const deleteEmail = useCallback((id: string) => {
+      setGameState(prev => ({
+          ...prev,
+          emails: prev.emails.filter(e => e.id !== id)
+      }));
+  }, [setGameState]);
+
+  // --- NEW: STOCK ACTIONS ---
+  const buyStock = useCallback((stockId: string, amount: number) => {
+      setGameState(prev => {
+          const stock = prev.stocks[stockId];
+          if (!stock) return prev;
+          
+          const totalCost = stock.currentPrice * amount;
+          if (prev.resources[ResourceType.FUNDS] < totalCost) {
+              addLog(`资金不足: 无法购买 ${amount} x ${stock.symbol}`, 'warning');
+              return prev;
+          }
+
+          addLog(`交易执行: 买入 ${amount} ${stock.symbol} @ ${stock.currentPrice.toFixed(2)}`, 'info');
+
+          return {
+              ...prev,
+              resources: {
+                  ...prev.resources,
+                  [ResourceType.FUNDS]: prev.resources[ResourceType.FUNDS] - totalCost
+              },
+              stocks: {
+                  ...prev.stocks,
+                  [stockId]: { ...stock, owned: stock.owned + amount }
+              }
+          };
+      });
+  }, [setGameState, addLog]);
+
+  const sellStock = useCallback((stockId: string, amount: number) => {
+      setGameState(prev => {
+          const stock = prev.stocks[stockId];
+          if (!stock) return prev;
+          
+          if (stock.owned < amount) return prev;
+
+          const totalValue = stock.currentPrice * amount;
+          addLog(`交易执行: 卖出 ${amount} ${stock.symbol} @ ${stock.currentPrice.toFixed(2)}`, 'success');
+
+          return {
+              ...prev,
+              resources: {
+                  ...prev.resources,
+                  [ResourceType.FUNDS]: prev.resources[ResourceType.FUNDS] + totalValue
+              },
+              stocks: {
+                  ...prev.stocks,
+                  [stockId]: { ...stock, owned: stock.owned - amount }
+              }
+          };
+      });
+  }, [setGameState, addLog]);
 
   const buyBuilding = useCallback((id: string) => {
     markAsSeen([id]);
@@ -168,14 +254,12 @@ export const useGameActions = (
               addLog(tech.effects.unlockMessage, 'rare');
           }
 
-          // Update Researched List
           const newResearchedTechs = [...prev.researchedTechs, id];
           let newPendingChoice = prev.pendingChoice;
 
-          // --- COMBO TRIGGER LOGIC (UPDATED) ---
           COMBO_EVENT_TRIGGERS.forEach(combo => {
               const hasAllReqs = combo.reqTechs.every(t => newResearchedTechs.includes(t));
-              const isRelevantUpdate = combo.reqTechs.includes(id); // Only trigger if the CURRENT tech is part of the combo
+              const isRelevantUpdate = combo.reqTechs.includes(id); 
               
               if (hasAllReqs && isRelevantUpdate && !prev.settings.disableChoiceEvents) {
                    const eventDef = CHOICE_EVENTS.find(e => e.id === combo.eventId);
@@ -186,7 +270,6 @@ export const useGameActions = (
               }
           });
 
-          // --- SINGLE TECH TRIGGER LOGIC ---
           const triggeredEventId = TECH_TRIGGER_MAP[id];
           if (triggeredEventId && !prev.settings.disableChoiceEvents && !newPendingChoice) {
               const eventDef = CHOICE_EVENTS.find(e => e.id === triggeredEventId);
@@ -204,7 +287,6 @@ export const useGameActions = (
       });
   }, [addLog, setGameState, markAsSeen]);
 
-  // --- MANUAL CHECK FOR MISSED EVENTS (NEW) ---
   const checkMissingEvents = useCallback(() => {
       setGameState(prev => {
           let newPendingChoice = prev.pendingChoice;
@@ -212,11 +294,7 @@ export const useGameActions = (
 
           if (!newPendingChoice && !prev.settings.disableChoiceEvents) {
               COMBO_EVENT_TRIGGERS.forEach(combo => {
-                  // Do we have all required techs?
                   const hasAllReqs = combo.reqTechs.every(t => prev.researchedTechs.includes(t));
-                  
-                  // Do we ALREADY have the outcome? (This prevents re-triggering if already completed)
-                  // We check if the event options unlock any techs that we ALREADY have.
                   const eventDef = CHOICE_EVENTS.find(e => e.id === combo.eventId);
                   let alreadyCompleted = false;
                   if (eventDef) {
@@ -371,7 +449,6 @@ export const useGameActions = (
               });
           }
           
-          // Trigger Event
           let newEvents = [...prev.activeEvents];
           if (option.reward.triggerEventId) {
               const evtDef = POSSIBLE_EVENTS.find(e => e.id === option.reward.triggerEventId);
@@ -382,14 +459,12 @@ export const useGameActions = (
               }
           }
 
-          // Building reward
           const newBuildings = { ...prev.buildings };
           if (option.reward.buildingId) {
              newBuildings[option.reward.buildingId] = (newBuildings[option.reward.buildingId] || 0) + 1;
              addLog(`Acquired: ${BUILDINGS.find(b=>b.id===option.reward.buildingId)?.name}`, 'success');
           }
 
-          // Post Unlock Reward
           const newEventUnlockedPosts = [...(prev.eventUnlockedPosts || [])];
           if (option.reward.unlockPostId) {
               if (!newEventUnlockedPosts.includes(option.reward.unlockPostId)) {
@@ -398,7 +473,6 @@ export const useGameActions = (
               }
           }
 
-          // Tech Unlock Reward
           const newResearchedTechs = [...prev.researchedTechs];
           if (option.reward.unlockTechId) {
               if (!newResearchedTechs.includes(option.reward.unlockTechId)) {
@@ -445,6 +519,12 @@ export const useGameActions = (
     dismissNotification,
     markAsSeen,
     checkMissingEvents,
-    debugCheat // Exported
+    debugCheat,
+    // New
+    markEmailRead,
+    claimEmailReward,
+    deleteEmail,
+    buyStock,
+    sellStock
   };
 };

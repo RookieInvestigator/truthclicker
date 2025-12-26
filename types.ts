@@ -16,6 +16,45 @@ export interface AppNotification {
   timestamp: number;
 }
 
+// --- NEW SYSTEMS TYPES ---
+
+export interface Email {
+  id: string;
+  sender: string;
+  subject: string;
+  body: string;
+  timestamp: number;
+  isRead: boolean;
+  rewards?: { [key in ResourceType]?: number };
+  isClaimed?: boolean;
+  reqTech?: string[]; // Condition to trigger reception
+}
+
+export interface Stock {
+  id: string; // e.g. 'FLAT', 'ALIEN'
+  symbol: string;
+  name: string;
+  description: string;
+  basePrice: number;
+  currentPrice: number;
+  owned: number;
+  history: number[]; // Last 20 ticks for graph
+  volatility: number; // How much it fluctuates
+  correlation?: ResourceType; // If this resource production is high, stock goes up
+}
+
+export interface Achievement {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  isUnlocked: boolean;
+  condition: (state: GameState) => boolean;
+  unlockDate?: number;
+}
+
+// -------------------------
+
 export interface GameState {
   resources: {
     [key in ResourceType]: number;
@@ -40,6 +79,11 @@ export interface GameState {
   foundUniqueItemIds: string[]; // Tracks history of all unique items ever found
   eventUnlockedPosts: string[]; // NEW: Tracks posts unlocked via choice events
   notifications: AppNotification[]; // Active notifications queue
+
+  // --- NEW SYSTEMS STATE ---
+  emails: Email[];
+  stocks: { [id: string]: Stock };
+  achievements: string[]; // List of unlocked achievement IDs
 }
 
 export enum ResourceType {

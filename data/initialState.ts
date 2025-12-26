@@ -1,5 +1,7 @@
 
 import { GameState, ResourceType } from '../types';
+import { INITIAL_EMAILS } from './content/emails';
+import { INITIAL_STOCKS } from './content/stocks';
 
 export const INITIAL_STATE: GameState = {
   resources: {
@@ -31,7 +33,7 @@ export const INITIAL_STATE: GameState = {
     [ResourceType.CLUE]: 0,
     [ResourceType.KNOWLEDGE]: 0,
     [ResourceType.TRUTH]: 0,
-    [ResourceType.DEJAVU]: 0, // NEW
+    [ResourceType.DEJAVU]: 0,
   },
   totalInfoMined: 0,
   buildings: {},
@@ -48,13 +50,18 @@ export const INITIAL_STATE: GameState = {
     showDetailedBatchLogs: false,
   },
   startTime: Date.now(),
-  lastSaveTime: Date.now(), // Initialize with current time
+  lastSaveTime: Date.now(),
   depth: 0,
   luckBoostEndTime: 0,
   
   unlockedItemIds: [],
   seenItemIds: [], 
   foundUniqueItemIds: [], 
-  eventUnlockedPosts: [], // NEW
+  eventUnlockedPosts: [], 
   notifications: [],
+
+  // --- NEW SYSTEMS INITIALIZATION ---
+  emails: INITIAL_EMAILS,
+  stocks: INITIAL_STOCKS,
+  achievements: [],
 };

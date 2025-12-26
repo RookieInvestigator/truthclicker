@@ -10,11 +10,10 @@ import SettingsModal from './components/SettingsModal';
 import ActiveEventsTicker from './components/ActiveEventsTicker';
 import ChoiceEventModal from './components/ChoiceEventModal';
 import OfflineModal from './components/OfflineModal'; 
-import WelcomeScreen from './components/WelcomeScreen'; // NEW
+import WelcomeScreen from './components/WelcomeScreen'; 
 import { ResourceType } from './types';
 
 const App: React.FC = () => {
-  // New State for Welcome Screen
   const [hasStarted, setHasStarted] = useState(false);
 
   const {
@@ -44,17 +43,21 @@ const App: React.FC = () => {
     debugCheat, 
     offlineEarnings,
     clearOfflineEarnings,
+    // New
+    markEmailRead,
+    claimEmailReward,
+    deleteEmail,
+    buyStock,
+    sellStock
   } = useGameLogic();
 
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  // Mobile Tab State: 'resources' | 'main' | 'system'
   const [mobileTab, setMobileTab] = useState<'resources' | 'main' | 'system'>('main');
 
   const productionRates = calculateTotalProduction(gameState);
   const clickPower = calculateClickPower();
   const costReduction = calculateGlobalCostReduction();
 
-  // Reality Effects Logic
   const reality = gameState.resources[ResourceType.REALITY];
   const isRealityCollapsing = reality <= 0;
   const isRealityLow = reality > 0 && reality < 30;
@@ -62,20 +65,15 @@ const App: React.FC = () => {
 
   return (
     <>
-      {/* Welcome Screen Overlay - Rendered if not started */}
       {!hasStarted && <WelcomeScreen onStart={() => setHasStarted(true)} />}
 
       <div className={`flex flex-col h-screen bg-term-black text-gray-300 font-mono overflow-hidden transition-all duration-1000 relative selection:bg-term-green selection:text-black
           ${isRealityCollapsing ? 'sepia-[0.3] hue-rotate-[-10deg]' : ''}
       `}>
         
-        {/* CRT Scanline Overlay */}
         <div className="pointer-events-none fixed inset-0 z-[60] scanlines opacity-10"></div>
-        
-        {/* Vignette Overlay */}
         <div className="pointer-events-none fixed inset-0 z-[50] bg-[radial-gradient(circle_at_center,transparent_50%,rgba(0,0,0,0.4)_100%)]"></div>
 
-        {/* REALITY OVERLAYS */}
         {isRealityCollapsing && (
             <div className="pointer-events-none fixed inset-0 z-50 bg-red-900/10 mix-blend-overlay animate-pulse"></div>
         )}
@@ -91,9 +89,7 @@ const App: React.FC = () => {
             <div className="pointer-events-none fixed inset-0 z-50 shadow-[inset_0_0_50px_rgba(34,197,94,0.05)] transition-opacity duration-1000"></div>
         )}
 
-        {/* Header */}
         <header className="h-10 border-b border-term-gray/60 flex items-center justify-between px-3 bg-black z-20 shrink-0 select-none relative shadow-[0_2px_10px_rgba(0,0,0,0.5)]">
-          {/* Logo Section */}
           <div className="flex items-center gap-2 shrink-0 mr-4">
             <div className={`
               relative flex items-center justify-center w-6 h-6 rounded border bg-term-green/5 
@@ -109,15 +105,11 @@ const App: React.FC = () => {
             </div>
           </div>
           
-          {/* Center: Event Ticker */}
           <div className="flex-1 max-w-2xl mx-auto h-full flex items-center overflow-hidden relative border-x border-gray-900 bg-black/50">
                <ActiveEventsTicker events={gameState.activeEvents} />
           </div>
 
-          {/* Right: Controls */}
           <div className="flex items-center gap-3 shrink-0 w-auto justify-end ml-4">
-            
-            {/* Depth Meter */}
             <div className="hidden md:flex items-center gap-2 px-2 py-1 rounded-sm bg-gray-900 border border-gray-800 text-[10px] font-mono group hover:border-cyber-purple/50 transition-colors">
               <div className="flex items-center gap-1 text-cyber-purple/80">
                   <Radio size={10} className="animate-pulse" />
@@ -129,7 +121,6 @@ const App: React.FC = () => {
             
             <div className="h-4 w-px bg-gray-800 hidden sm:block"></div>
 
-            {/* System Menu */}
             <div className="flex items-center gap-1">
                 <button 
                   onClick={debugCheat}
@@ -166,10 +157,8 @@ const App: React.FC = () => {
           </div>
         </header>
 
-        {/* Main Layout */}
         <div className="flex-1 flex overflow-hidden relative z-0 pb-14 md:pb-0">
           
-          {/* Left Column: Resources (Visible on Mobile if tab is 'resources', always on Desktop) */}
           <div className={`
               flex-col bg-term-black min-w-[240px] overflow-hidden
               ${mobileTab === 'resources' ? 'flex w-full absolute inset-0 z-20' : 'hidden'} 
@@ -184,11 +173,19 @@ const App: React.FC = () => {
                   onTriggerRealityFlush={triggerRealityFlush} 
                   onTriggerProbabilityDrive={triggerProbabilityDrive} 
                   researchedTechs={gameState.researchedTechs} 
-                  luckBoostEndTime={gameState.luckBoostEndTime} 
+                  luckBoostEndTime={gameState.luckBoostEndTime}
+                  // New System Props
+                  emails={gameState.emails}
+                  stocks={gameState.stocks}
+                  achievements={gameState.achievements}
+                  onMarkEmailRead={markEmailRead}
+                  onClaimEmail={claimEmailReward}
+                  onDeleteEmail={deleteEmail}
+                  onBuyStock={buyStock}
+                  onSellStock={sellStock}
               />
           </div>
 
-          {/* Center Column: Main Game Area (Visible on Mobile if tab is 'main', always on Desktop) */}
           <div className={`
               flex-col bg-term-black min-w-0 overflow-hidden
               ${mobileTab === 'main' ? 'flex w-full absolute inset-0 z-20' : 'hidden'}
@@ -207,7 +204,6 @@ const App: React.FC = () => {
               />
           </div>
 
-          {/* Right Column: Logs & Artifacts (Visible on Mobile if tab is 'system', always on Desktop) */}
           <section className={`
               flex-col min-w-[240px] bg-term-black overflow-hidden
               ${mobileTab === 'system' ? 'flex w-full absolute inset-0 z-20' : 'hidden'}
@@ -227,7 +223,6 @@ const App: React.FC = () => {
 
         </div>
 
-        {/* Mobile Bottom Navigation */}
         <nav className="md:hidden h-14 bg-term-black border-t border-term-gray flex items-center justify-around fixed bottom-0 left-0 right-0 z-50 px-2 pb-safe">
           <button 
               onClick={() => setMobileTab('resources')}
@@ -254,7 +249,6 @@ const App: React.FC = () => {
           </button>
         </nav>
 
-        {/* Modals */}
         {isSettingsOpen && (
           <SettingsModal 
               settings={gameState.settings} 
@@ -269,7 +263,6 @@ const App: React.FC = () => {
           />
         )}
 
-        {/* Choice Event Popup */}
         {gameState.pendingChoice && (
           <ChoiceEventModal 
               event={gameState.pendingChoice}
@@ -278,7 +271,6 @@ const App: React.FC = () => {
           />
         )}
 
-        {/* Offline Earnings Popup - Only show if game has started */}
         {hasStarted && offlineEarnings && (
           <OfflineModal 
               time={offlineEarnings.time}

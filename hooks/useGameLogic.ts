@@ -146,6 +146,14 @@ export const useGameLogic = () => {
     markAsSeen: actions.markAsSeen,
     checkMissingEvents: actions.checkMissingEvents,
     debugCheat: actions.debugCheat, // Exposed
+    
+    // New System Actions
+    markEmailRead: actions.markEmailRead,
+    claimEmailReward: actions.claimEmailReward,
+    deleteEmail: actions.deleteEmail,
+    buyStock: actions.buyStock,
+    sellStock: actions.sellStock,
+
     // IO
     saveGame,
     resetGame,

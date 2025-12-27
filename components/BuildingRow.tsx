@@ -70,18 +70,29 @@ const BuildingCard: React.FC<BuildingCardProps> = ({ building, count, canAfford,
 
       {/* Header Area */}
       <div className="flex justify-between items-start p-3 border-b border-white/5 bg-white/5">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 w-full">
             <div className={`
                 relative w-9 h-9 flex items-center justify-center border rounded-sm shrink-0 bg-black/50
                 ${canAfford ? categoryColor : 'border-gray-700 text-gray-500'}
             `}>
                 <IconComponent size={18} />
             </div>
-            <div className="flex flex-col min-w-0">
-                <div className="flex items-center gap-2">
-                    <h3 className={`font-bold font-mono text-xs leading-tight truncate ${canAfford ? 'text-gray-100' : 'text-gray-500'}`}>
-                        {building.name}
-                    </h3>
+            
+            <div className="flex flex-col min-w-0 flex-1">
+                <div className="flex items-start justify-between mr-1">
+                    {/* Render Title: Split Location/Action if available */}
+                    {building.location && building.action ? (
+                        <div className="flex flex-col items-start gap-0.5">
+                            <span className="text-[9px] text-gray-500 font-bold uppercase tracking-wider leading-none">{building.location}</span>
+                            <h3 className={`font-bold font-mono text-xs leading-tight truncate ${canAfford ? 'text-gray-100' : 'text-gray-500'}`}>
+                                {building.action}
+                            </h3>
+                        </div>
+                    ) : (
+                        <h3 className={`font-bold font-mono text-xs leading-tight truncate ${canAfford ? 'text-gray-100' : 'text-gray-500'}`}>
+                            {building.name}
+                        </h3>
+                    )}
                     
                     {/* Info Button */}
                     <button
@@ -89,13 +100,13 @@ const BuildingCard: React.FC<BuildingCardProps> = ({ building, count, canAfford,
                             e.stopPropagation();
                             if (onViewDetails) onViewDetails();
                         }}
-                        className="text-gray-600 hover:text-blue-400 transition-colors opacity-50 hover:opacity-100"
+                        className="text-gray-600 hover:text-blue-400 transition-colors opacity-50 hover:opacity-100 p-0.5"
                         title="查看详细信息"
                     >
                         <Info size={12} />
                     </button>
                 </div>
-                <span className="text-[9px] text-gray-500 font-mono mt-0.5">
+                <span className="text-[9px] text-gray-500 font-mono mt-1">
                     数量 <span className={count > 0 ? "text-term-green" : ""}>{count}</span>
                 </span>
             </div>
@@ -107,7 +118,7 @@ const BuildingCard: React.FC<BuildingCardProps> = ({ building, count, canAfford,
                     e.stopPropagation();
                     onSell();
                 }}
-                className="opacity-0 group-hover:opacity-100 transition-opacity p-1 text-gray-600 hover:text-red-400 hover:bg-red-900/20 rounded"
+                className="opacity-0 group-hover:opacity-100 transition-opacity p-1 text-gray-600 hover:text-red-400 hover:bg-red-900/20 rounded absolute top-2 right-2"
                 title="拆除 (50% 返还)"
             >
                 <MinusCircle size={14} />

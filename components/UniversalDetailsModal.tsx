@@ -255,6 +255,25 @@ const UniversalDetailsModal: React.FC<UniversalDetailsModalProps> = ({ item, typ
       return undefined;
   }
 
+  // --- NAME RENDERING LOGIC ---
+  const renderName = () => {
+      if (isLocked && type === 'achievement') return '???';
+      
+      // If it's a building and has split fields, render them nicely
+      if (type === 'building') {
+          const b = item as Building;
+          if (b.location && b.action) {
+              return (
+                  <div className="flex flex-col items-start leading-tight">
+                      <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider mb-1">{b.location}</span>
+                      <span>{b.action}</span>
+                  </div>
+              );
+          }
+      }
+      return item.name;
+  };
+
   return createPortal(
     <div className="fixed inset-0 z-[1050] flex items-center justify-center bg-black/95 backdrop-blur-md p-4 animate-in fade-in zoom-in duration-200" onClick={onClose}>
       <div 
@@ -272,8 +291,8 @@ const UniversalDetailsModal: React.FC<UniversalDetailsModalProps> = ({ item, typ
                 
                 {/* Titles */}
                 <div>
-                    <h2 className={`text-xl md:text-2xl font-bold font-mono tracking-tight leading-none text-gray-100`}>
-                        {isLocked && type === 'achievement' ? '???' : item.name}
+                    <h2 className={`text-xl md:text-2xl font-bold font-mono tracking-tight text-gray-100`}>
+                        {renderName()}
                     </h2>
                     {getSubHeader()}
                     <div className="text-[10px] font-mono text-gray-600 mt-2 flex items-center gap-2">

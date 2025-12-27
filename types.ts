@@ -151,6 +151,8 @@ export enum BuildingCategory {
 export interface Building {
   id: string;
   name: string;
+  location?: string; // NEW: The "Where" (e.g. "Point Pleasant")
+  action?: string;   // NEW: The "What" (e.g. "Set Lure")
   description: string;
   longDescription?: string; // New field for detailed lore
   category: BuildingCategory;

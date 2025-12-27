@@ -86,10 +86,10 @@ const MainPanel: React.FC<MainPanelProps> = ({
           // Trigger Mark All As Seen for this tab
           if (tab === 'nodes' && newBuildingIds.length > 0) {
               markAsSeen(newBuildingIds);
-              addGlobalLog("已清除节点通知", "info");
+              addGlobalLog("已清除任务通知", "info");
           } else if (tab === 'research' && newTechIds.length > 0) {
               markAsSeen(newTechIds);
-              addGlobalLog("已清除科技通知", "info");
+              addGlobalLog("已清除认知通知", "info");
           } else if (tab === 'board' && newPostIds.length > 0) {
               markAsSeen(newPostIds);
               addGlobalLog("已清除版块通知", "info");
@@ -147,7 +147,7 @@ const MainPanel: React.FC<MainPanelProps> = ({
                     <Grid size={16} className={activeTab === 'nodes' ? 'text-term-green' : 'opacity-70'} />
                     {newBuildingIds.length > 0 && <div className="absolute -top-1 -right-2 w-2 h-2 bg-term-green rounded-full animate-pulse"></div>}
                 </div>
-                <span className="hidden sm:inline">节点</span>
+                <span className="hidden sm:inline">任务</span>
                 {activeTab === 'nodes' && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-term-green shadow-[0_0_10px_rgba(34,197,94,0.5)]"></div>}
             </button>
 
@@ -165,7 +165,7 @@ const MainPanel: React.FC<MainPanelProps> = ({
                     <FlaskConical size={16} className={activeTab === 'research' ? 'text-blue-400' : 'opacity-70'} />
                     {newTechIds.length > 0 && <div className="absolute -top-1 -right-2 w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>}
                 </div>
-                <span className="hidden sm:inline">科技</span>
+                <span className="hidden sm:inline">认知</span>
                 {activeTab === 'research' && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-400 shadow-[0_0_10px_rgba(96,165,250,0.5)]"></div>}
             </button>
 
@@ -448,7 +448,7 @@ const MainPanel: React.FC<MainPanelProps> = ({
                                         
                                         {visibleTechs.length === 0 && !hideResearched && !showNewTechOnly && (
                                             <div className="col-span-full py-4 text-center text-xs text-gray-600 border border-dashed border-gray-800 rounded">
-                                                待解锁前置科技...
+                                                待解锁前置认知...
                                             </div>
                                         )}
                                     </div>

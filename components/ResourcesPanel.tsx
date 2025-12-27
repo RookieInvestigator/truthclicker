@@ -99,7 +99,7 @@ const ResourcesPanel: React.FC<ExtendedResourcesPanelProps> = ({
             <button 
                 onClick={onMine}
                 className="
-                    group relative w-full h-16 rounded border border-term-gray bg-black
+                    group relative w-full h-20 rounded border border-term-gray bg-black
                     flex items-center justify-between px-4 overflow-hidden
                     hover:border-term-green hover:shadow-[0_0_15px_rgba(34,197,94,0.15)]
                     active:scale-[0.98] transition-all duration-100
@@ -110,7 +110,7 @@ const ResourcesPanel: React.FC<ExtendedResourcesPanelProps> = ({
                         <Search size={18} className="text-gray-400 group-hover:text-term-green" />
                     </div>
                     <div className="flex flex-col items-start">
-                        <span className="text-xs font-bold text-gray-300 group-hover:text-white tracking-wider">数据挖掘</span>
+                        <span className="text-sm font-bold text-gray-300 group-hover:text-white tracking-wider">浏览新网页</span>
                         <span className="text-[9px] text-gray-500 font-mono">Click_Op</span>
                     </div>
                 </div>

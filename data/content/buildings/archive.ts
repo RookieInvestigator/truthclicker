@@ -30,7 +30,7 @@ export const ARCHIVE_BUILDINGS: Building[] = [
     id: 'homeric_recompiler',
     name: '荷马史诗重编译器',
     description: '特洛伊木马不是病毒，而是一个物理容器。重组失落的史诗循环。',
-    longDescription: '我们熟知的《伊利亚特》和《奥德赛》只是完整源代码的碎片。通过语言学统计算法和地中海海底的声纳扫描，我们正在重组失落的《库普利亚》、《埃塞俄比亚人》和《小伊利亚特》。这些文本揭示了特洛伊战争不仅仅是一场关于海伦的争夺，它是青铜时代晚期文明崩溃的黑匣子记录。在这里，诸神不是隐喻，那是上一轮文明的管理员在进行服务器回滚操作。',
+    longDescription: '我们熟知的《伊利亚特》和《奥德赛》只是完整源代码的碎片。通过语言学统计算法和地中海海底的声纳扫描，我们正在重组失落的《库普利亚》、《埃塞俄比亚人》和《小伊利亚特》。这些文本揭示了特洛伊战争除了关于海伦的争夺外的部分，是青铜时代晚期文明崩溃的黑匣子记录。',
     category: BuildingCategory.ARCHIVE,
     baseCosts: { [ResourceType.INFO]: 5000, [ResourceType.LORE]: 500 },
     baseProduction: { [ResourceType.ANCIENT_WISDOM]: 0.5, [ResourceType.LORE]: 2.0, [ResourceType.STORY]: 1.0 },
